@@ -578,6 +578,7 @@ We can specify the digits using the optional argument `digits`:
 41943.digits(base=16, digits="0123456789ABCDEF")
 ```
 
+(fast_powering)=
 ## Fast Powering
 
 +++

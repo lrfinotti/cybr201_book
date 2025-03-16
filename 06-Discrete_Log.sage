@@ -15,7 +15,7 @@
 
 # %% [markdown]
 # ---
-# numbering: true
+# numbering: false
 # ---
 #
 # # The Discrete Log Problem
@@ -74,6 +74,20 @@ Mod(3, 8)^2
 # More generally, a discrete log is any kind of log (meaning, situations where we are asking for powers) where the results are integers.  We will mostly work for discrete logs in $\Z/m\Z$, although later we will talk about discrete logs in finite fields and elliptic curves.
 
 # %% [markdown]
+# ### Properties
+#
+# The discrete log has similar properties to the regular log:
+#
+# :::{prf:property} Discrete Log Properties
+# :label: pr-dl
+# :numbered: true
+#
+# 1) If $\log_g(a)$ and $\log_g(b)$ both exist, then $\log_g(ab)$ also exists and $\boxed{\log_g(ab) = \log_g(a) + \log_g(b)}$.
+#
+# 2) If $\log_g(a)$ exists and $k$ is a positive integer, then $\log_g(a^k)$ also exists and $\boxed{\log_g(a^k) = k \cdot log_g(a)}$.
+# :::
+
+# %% [markdown]
 # ## Computing the Discrete Log
 
 # %% [markdown]
@@ -89,10 +103,10 @@ Mod(3, 8)^2
 # For instance, in $\Z/31\Z$, we have that $17$ is a primitive root.  Here are the powers of $17$, in order:
 #
 # :::{table} Powers of $17$ in $\Z/31\Z$
-# :width: 200px
+# :widths: grid
 # :enumerated: false
 #
-# | $k$ | $17^k$ |   | $k$ | $17^k$ |   | $k$ | $17^k$ |
+# | $k$ |  $7^k$ |   | $k$ | $17^k$ |   | $k$ | $17^k$ |
 # |----:|:-------|---|----:|:-------|---|----:|:-------|
 # |   0 | 1      |   |  10 | 25     |   |  20 | 5      |
 # |   1 | 17     |   |  11 | 22     |   |  21 | 23     |
@@ -110,3 +124,11 @@ Mod(3, 8)^2
 
 # %%
 list_plot([power_mod(17, x, 31) for x in range(30)])
+
+# %% [markdown]
+# :::{prf:definition} The Discrete Log Problem
+# :label: def-dlp
+# :numbered: true
+#
+# We call the (computationally intensive) problem of computing a discrete log $\log_g(a)$, i.e., finding a power $x$ (in $\Z/|a|\Z$) such that $g^x = a$ in $\Z/m\Z$, the *discrete log problem (DLP)*.
+# :::

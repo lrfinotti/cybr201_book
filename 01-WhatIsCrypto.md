@@ -1010,7 +1010,7 @@ As we will see, text can be made into a single (very large) number, and so one c
 
 But even if there are ways to make Caesar Ciphers more secure, it has a crucial flaw: it is a [symmetric-key cipher](https://en.wikipedia.org/wiki/Symmetric-key_algorithm), meaning anyone who knows how to encrypt a message, also knows how to decrypt any message using this cipher.
 
-Therefore, if Alice wants to send Bob a secrete message, they first have to agree on the Caesar Cipher they will use.  For instance, Alice can send Bob the key (the permutation being used) or a [decoder ring](https://en.wikipedia.org/wiki/Secret_decoder_ring) to Bob, before sending him her secret message.  But, if Eve can intercept the decoder ring before Bob gets it, she then can make a copy, send the ring to Bob, and be able to then decipher any message using the cipher.
+Therefore, if Bob wants to send Alice a secrete message, they first have to agree on the Caesar Cipher they will use.  For instance, Bob can send Alice the key (the permutation being used) or a [decoder ring](https://en.wikipedia.org/wiki/Secret_decoder_ring) before sending her his secret message.  But, if Eve can intercept the decoder ring before Alice gets it, she then can make a copy, send the ring to Alice, and be able to then decipher any message using the cipher.
 
 In the same way, imagine that every time you needed to make a payment online, the vendor needed to send you the encryption key for you to send your credit card number.  Can you be sure the key was not intercepted by some malicious party that then could decode your credit card number transmitted to the vendor?
 
