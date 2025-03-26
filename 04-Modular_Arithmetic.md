@@ -267,7 +267,7 @@ An integer $a$ is invertible modulo $m$ if, and only if, $\gcd(a, m) = 1$.  In o
 $$
 ax \equiv 1 \pmod{m}
 $$
-has a solution (with $x$ *integer) if, and only if, $\gcd(a, m) = 1$.
+has a solution (with $x$ *integer*) if, and only if, $\gcd(a, m) = 1$.
 :::
 
 This is not hard to see.

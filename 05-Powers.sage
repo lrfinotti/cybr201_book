@@ -193,7 +193,7 @@ else:
 # :label: th-flt
 # :numbered: true
 #
-# If $p$ is prime and $p \not \mid a$, then $a^{p-1} = 1$ in $\Z/p\Z$ (i.e., $a^{p-1} \equiv 1 \pmod{p}$).
+# If $p$ is prime and $p \nmid a$, then $a^{p-1} = 1$ in $\Z/p\Z$ (i.e., $a^{p-1} \equiv 1 \pmod{p}$).
 # :::
 #
 # This follows from Euler's Theorem since, when $p$ is prime, we have that  $\varphi(p) = p-1$  and $\gcd(a, p) = 1$ if, and only if, $p \not\mid a$.
@@ -290,6 +290,62 @@ Mod(3, 11).multiplicative_order()
 
 # %%
 Mod(3, 11).order()
+
+# %% [markdown]
+# ### Orders of Powers
+#
+# Remember that if $g$ is a primitive root of $\mathbb{F}_p$, then all elements of $\mathbb{F}_p^{\times}$ are powers of $g$.  We already know that $|g| = p-1$, being a primitive roots, so it is often useful to know what is the order of a power of $g$.  Or, more generally:
+#
+# :::{prf:proposition} Order of a Power
+# :label: pr-order_power
+# :numbered: true
+#
+# Let $a \in (\Z/m\Z)^{\times}$ with $|a| = n$.  Then, we have that
+# $$
+# |a^k| = \frac{n}{\gcd(n, k)}.
+# $$
+# :::
+#
+# It is not too hard to give a mathematical proof of this fact.  Note that if $d = \gcd(n, k)$, the $d$ divides both $n$ and $k$, so both $n/d$ and $k/d$ are *integers*.  So, we have that
+# \begin{align*}
+#   (a^k)^{n/d} &= a^{(kn)/d} && \text{[properties of exponents]} \\
+#   &= a^{n \cdot k/d} \\
+#   &= (a^n)^{k/d} && \text{[since $k/d$ is an integer!]} \\
+#   &= 1^{k/d} && \text{[since $n=|a|$]} \\
+#   &= 1.
+# \end{align*}
+# Then, by [](#pr-power_one), we have that $|a^k|$ *divides* $n/d$.  But we are still left to prove that this power, $n/d$, is the *smallest* power of $a^k$ that gives $1$.
+#
+# This is not too hard either, but for the sake of brevity, let's just check it with many random tests in Sage:
+
+# %%
+# bounds for the modulus
+min_m = 30
+max_m = 10^6
+
+# number of tests
+number_tries = 10^4
+
+for _ in range(number_tries):
+    # find random m
+    m = randint(min_m, max_m)
+
+    # find random *unit* a
+    a = randint(2, m - 1)
+    while gcd(a, m) != 1:
+        # if not unit, try again!
+        a = randint(2, m - 1)
+
+    n = Mod(a, m).multiplicative_order()
+    k = randint(1, euler_phi(m) - 1)
+    d = gcd(n, k)
+
+    # check!
+    if (Mod(a, m)^k).multiplicative_order() != n // d:
+        print(f"Fails for {m = }, {a = }, and {k = }.")
+        break
+else:
+    print("It seems to work!")
 
 # %% [markdown]
 # ### Computing Successive Powers
@@ -448,7 +504,7 @@ for i in [1, 3, 5, 7]:
 # %% [markdown]
 # You might have heard that computers use *binary numbers*, meaning, numbers in *base $2$*.  Therefore, we use only two digits, $0$ and $1$.  The reason is due to how computers work.  Very roughly speaking, primitive computers involved a series of switches, which could be either on, represented by $1$, or off, represented by $0$:
 #
-# ```{figure} switch.jpg
+# ```{figure} ./images/switch.jpg
 # :alt: switch
 # :align: center
 # :width: 200px
@@ -557,6 +613,7 @@ divmod(1, 8)
 41943.digits(base=16, digits="0123456789ABCDEF")
 
 # %% [markdown]
+# (fast_powering)=
 # ## Fast Powering
 
 # %% [markdown]

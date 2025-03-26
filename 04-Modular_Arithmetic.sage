@@ -257,7 +257,7 @@ for m in xsrange(2, 21):
 # $$
 # ax \equiv 1 \pmod{m}
 # $$
-# has a solution (with $x$ *integer) if, and only if, $\gcd(a, m) = 1$.
+# has a solution (with $x$ *integer*) if, and only if, $\gcd(a, m) = 1$.
 # :::
 #
 # This is not hard to see.

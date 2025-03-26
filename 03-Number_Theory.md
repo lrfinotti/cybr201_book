@@ -804,7 +804,11 @@ The last divisor (or the last non-zero remainder) is the GCD, so $\gcd(1{,}027, 
 gcd(1027, 349)
 ```
 
+:::{admonition} Homework
+:class: note
+
 In your homework you will automate this process, i.e., implement the Euclidean Algorithm as a function.
+:::
 
 +++
 
@@ -1236,7 +1240,7 @@ This indeed gives us the same $u$ and $v$ as above!
 
 +++
 
-Here is the actual extended Euclidean Algorithm (which you will implement in your Homework!):
+Here is the actual extended Euclidean Algorithm:
 
 :::{prf:algorithm} Extended Euclidean Algorithm
 :label: al-eea
@@ -1258,6 +1262,12 @@ To compute the GCD of `a` and `b` and `u` and `v` such that `gcd(a, b) = a * u +
     * `x` is the GCD of `a` and `b`;
     * `u1` is the required `u`;
     * `(x - a * u1) // b` is the required `v`.
+:::
+
+:::{admonition} Homework
+:class: note
+
+You will implement this algorithm in your homework.
 :::
 
 +++
@@ -1533,7 +1543,11 @@ Of course, it is the same solution we found before.  (We just started at a diffe
 
 +++
 
+:::{admonition} Homework
+:class: note
+
 In your homework, you will automate this process: you will write a function that given a particular solution $(u_0, v_0)$, it finds the one with the least positive $u$.
+:::
 
 You can do it as above: have two cases, depending on whether $u_0$ is positive or negative.  But there is a clever way to find this smallest positive $u$ directly using *long division*!  Can you find it?
 
