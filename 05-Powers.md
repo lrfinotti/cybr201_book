@@ -130,7 +130,7 @@ That is, again, because the exponent must be in $\Z$, and not in $\Z/4\Z$.  But 
 :label: pr-power_eq_1
 :numbered: true
 
-Let $a$ in $\Z/m/Z$ and suppose that $k$ is a *positive* integer such that $a^k = 1$.  Then, if $r \equiv s \pmod{k}$ (so, modulo $k$, *and not $n$*!), then $a^r = a^s$.  Therefore, we can reduce exponents modulo $k$ (and not $m$).
+Let $a$ in $\Z/m\Z$ and suppose that $k$ is a *positive* integer such that $a^k = 1$.  Then, if $r \equiv s \pmod{k}$ (so, modulo $k$, *and not $n$*!), then $a^r = a^s$.  Therefore, we can reduce exponents modulo $k$ (and not $m$).
 :::
 
 Let's see some examples: we have that in $\Z/7\Z$ that $3^6 = 1$.
@@ -362,6 +362,7 @@ else:
     print("It seems to work!")
 ```
 
+(successive_powers)=
 ### Computing Successive Powers
 
 +++
@@ -670,7 +671,7 @@ To compute $g^N$, where $g$ is in $\Z/m\Z$:
 
 1) Write $N$ in base $2$, i.e.,
    $$N = N_0 + N_1 \cdot 2 + N_2 \cdot 2^2 + \cdots N_r 2^r$$
-   with $N_i \in \{0, 1\}$.  (Note that $r = \lfloor \log_2(N) \rfloor + 1$, where $\lfloor x \rfloor$ is just rounding down $x$ to the largest integer less than or equal to $x$, the so called *floor function*.)
+   with $N_i \in \{0, 1\}$.  (Note that $r = \lfloor \log_2(N) \rfloor$, where $\lfloor x \rfloor$ is just rounding down $x$ to the largest integer less than or equal to $x$, the so called *floor function*.)
 2) Compute all powers, *reducing modulo $m$ at every step!*:
    \begin{align*}
     a_0 &\equiv g && \pmod{m} \\
@@ -680,7 +681,7 @@ To compute $g^N$, where $g$ is in $\Z/m\Z$:
    &\;\;\vdots \\
    a_r &\equiv a_{r-1}^2 \equiv g^{2^r} &&\pmod{m}.
    \end{align*}
-   (Note that this gives a total of $r$ products, one for each squaring
+   (Note that this gives a total of $r$ products, one for each squaring.)
 3) Now we have
    \begin{align*}
     g^N &= g^{N_0 + N_1 \cdot 2 + N_2 \cdot 2^2 + \cdots N_r 2^r} \\
@@ -690,7 +691,7 @@ To compute $g^N$, where $g$ is in $\Z/m\Z$:
    (Note that the powers of $N_i$ do not require extra products, since if $N_i$ is $0$, the factor $a^{N_i} = 1$ and can be simply skipped, and if $N_i=1$, then $a_i^{N_i} = a_i$.  Hence, this last step requires *at most* another $r$ products.)
 :::
 
-Therefore, with this method, we can compute $g^N$ in at most $2 r = 2 \cdot \lfloor \log_2(N) \rfloor + 2$ products.
+Therefore, with this method, we can compute $g^N$ in at most $2 r = 2 \cdot \lfloor \log_2(N) \rfloor$ products.
 
 ```{warning}
 In the second step above, it is *very* important the we compute $g^{{2^k}}$ by squaring the previously computer $g^{2^{k-1}}$ (as I do below), and not directly, as in `g^(2^k)`.

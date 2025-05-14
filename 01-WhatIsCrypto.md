@@ -1014,4 +1014,6 @@ Therefore, if Bob wants to send Alice a secrete message, they first have to agre
 
 In the same way, imagine that every time you needed to make a payment online, the vendor needed to send you the encryption key for you to send your credit card number.  Can you be sure the key was not intercepted by some malicious party that then could decode your credit card number transmitted to the vendor?
 
-Therefore, there is a clear need for a [public key cryptosystem](https://en.wikipedia.org/wiki/Public-key_cryptography), in which the encryption method is known by *all*, but knowing how to encrypt does not automatically imply that you can also decrypt.
+Therefore, there is a clear need for a [public-key cryptosystem](https://en.wikipedia.org/wiki/Public-key_cryptography), in which the encryption method is known by *all*, but knowing how to encrypt does not automatically imply that you can also decrypt.
+
+The

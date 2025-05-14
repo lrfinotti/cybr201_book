@@ -1,0 +1,9 @@
+# In _config.yml
+title: A Practical and Computational Introduction to Mathematical Cryptography
+author: Luís Finotti
+execute:
+  execute_notebooks: force
+
+# Add a bibtex file so that we can create citations
+bibtex_bibfiles:
+  - ref.bib

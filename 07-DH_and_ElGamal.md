@@ -48,6 +48,7 @@ Of course, the real question is how can we create such a system.  Most of the na
 
 +++
 
+(DH_key_exchange)=
 ## The Diffie-Hellman Key Exchange
 
 If you have a symmetric cryptosystem, you are faced with the problem of sharing the encryption/decryption key.  [Whitfield Diffie](https://en.wikipedia.org/wiki/Whitfield_Diffie) and [Martin Hellman](https://en.wikipedia.org/wiki/Martin_Hellman) proposed in 1976 a clever method to do so, based on the discrete log problem (DLP).  Here is how it goes:
@@ -114,7 +115,6 @@ $$
 Hence, in either case $a^2$ gives us an element of order $q$.
 
 So, we have, when $p = 2q$, to find an element of order $q$ we simply take an random element $a$ between $2$ and $p-2$, and square it, i.e., we take $g = a^2$.
-
 
 +++
 
@@ -190,7 +190,7 @@ B = g^b
 B
 ```
 
-+++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "104692"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "94363"}, "metadata": {}}}]}
++++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "12600"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "167370"}, "metadata": {}}}]}
 
 So, now Alice sends Bob $A$, i.e., {eval}`A`, and Bob sends Alice $B$, i.e., {eval}`B`, while keeping $a$ and $b$ for themselves.
 
@@ -259,6 +259,7 @@ A great advantage of a public setup step, as step 1 of the Diffie-Hellman Key Ex
 
 +++
 
+(sec-elgamal)=
 ## The ElGamal Public-Key Cryptosystem
 
 +++
@@ -278,7 +279,7 @@ We will now describe the cryptosystem, but observe that, for now, we shall assum
 
 1) **Set up:** Choose and publish large prime $p$ and element $g \in \F_p$ of large prime order.
 2) **Key Creation:** Alice chooses a *private* key $a \in \{1, 2, 3, \ldots, p-2\}$ and publishes $A = g^a$ (in $\F_p$).
-3) **Encryption:** To encrypt the message $m$ (a numbers between $1$ and $p-1$), Bob chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use), computes $c_1 = g^k$, and $c_2=mA^k$ (both in $\F_p$), and sends the pair $(c_1, c_2)$ to Alice.  (This pair is the encrypted message.)
+3) **Encryption:** To encrypt the message $m$ (a numbers between $1$ and $p-1$), Bob chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use) $k$, computes $c_1 = g^k$, and $c_2=mA^k$ (both in $\F_p$), and sends the pair $(c_1, c_2)$ to Alice.  (This pair is the encrypted message.)
 4) **Decryption:** To decrypt $(c_1, c_2)$ sent by Bob, Alice, using her private key $a$, computes $(c_1^a)^{-1} \cdot c_2$ (in $\F_p$).  This last expression is equal to the message $m$.
 
 
@@ -370,8 +371,6 @@ c1, c2 = encrypted_message  # Alice reads c1 and c2 from encrypted message recei
 (c1^a)^(-1) * c2
 ```
 
-+++
-
 :::{admonition} Homework
 :class: note
 As usual, you will implement these steps more generally in your homework.
@@ -389,3 +388,310 @@ Also note that in the encryption process, Bob should use an ephemeral private ke
   &= m \cdot \frac{m'}{m} \\
   &= m'.
 \end{align*}
+
++++
+
+## Encrypting Text and Large Numbers
+
++++
+
+(sec:converting_text)=
+## Converting Text
+
+The ElGamal cryptosystem, as well as others we will learn, encode *numbers*.  But in practice, we often need to encode *text*.  Therefore, we need a way to convert text to numbers and vice-versa.  One way is to again use the corresponding [ASCII](https://en.wikipedia.org/wiki/ASCII) value of a character.
+
+:::{table} ASCII Table
+:align: center
+:widths: auto
+:width: 100 %
+:name: tb-ascii
+
+| Decimal Value | Character                    |   | Decimal Value | Character |   | Decimal Value | Character |   | Decimal Value | Character |
+|--------------:|:-----------------------------|---|--------------:|:----------|---|--------------:|:----------|---|--------------:|:----------|
+|             0 | NUL (null)                   |   |            32 | SPACE     |   |            64 | @         |   |            96 | `         |
+|             1 | SOH (start of heading)       |   |            33 | !         |   |            65 | A         |   |            97 | a         |
+|             2 | STX (start of text)          |   |            34 | "         |   |            66 | B         |   |            98 | b         |
+|             3 | ETX (end of text)            |   |            35 | #         |   |            67 | C         |   |            99 | c         |
+|             4 | EOT (end of transmission)    |   |            36 | $         |   |            68 | D         |   |           100 | d         |
+|             5 | ENQ (enquiry)                |   |            37 | %         |   |            69 | E         |   |           101 | e         |
+|             6 | ACK (acknowledge)            |   |            38 | &         |   |            70 | F         |   |           102 | f         |
+|             7 | BEL (bell)                   |   |            39 | '         |   |            71 | G         |   |           103 | g         |
+|             8 | BS  (backspace)              |   |            40 | (         |   |            72 | H         |   |           104 | h         |
+|             9 | TAB (horizontal tab)         |   |            41 | )         |   |            73 | I         |   |           105 | i         |
+|            10 | LF  (NL line feed, new line) |   |            42 | *         |   |            74 | J         |   |           106 | j         |
+|            11 | VT  (vertical tab)           |   |            43 | +         |   |            75 | K         |   |           107 | k         |
+|            12 | FF  (NP form feed, new page) |   |            44 | ,         |   |            76 | L         |   |           108 | l         |
+|            13 | CR  (carriage return)        |   |            45 | -         |   |            77 | M         |   |           109 | m         |
+|            14 | SO  (shift out)              |   |            46 | .         |   |            78 | N         |   |           110 | n         |
+|            15 | SI  (shift in)               |   |            47 | /         |   |            79 | O         |   |           111 | o         |
+|            16 | DLE (data link escape)       |   |            48 | 0         |   |            80 | P         |   |           112 | p         |
+|            17 | DC1 (device control 1)       |   |            49 | 1         |   |            81 | Q         |   |           113 | q         |
+|            18 | DC2 (device control 2)       |   |            50 | 2         |   |            82 | R         |   |           114 | r         |
+|            19 | DC3 (device control 3)       |   |            51 | 3         |   |            83 | S         |   |           115 | s         |
+|            20 | DC4 (device control 4)       |   |            52 | 4         |   |            84 | T         |   |           116 | t         |
+|            21 | NAK (negative acknowledge)   |   |            53 | 5         |   |            85 | U         |   |           117 | u         |
+|            22 | SYN (synchronous idle)       |   |            54 | 6         |   |            86 | V         |   |           118 | v         |
+|            23 | ETB (end of trans. block)    |   |            55 | 7         |   |            87 | W         |   |           119 | w         |
+|            24 | CAN (cancel)                 |   |            56 | 8         |   |            88 | X         |   |           120 | x         |
+|            25 | EM  (end of medium)          |   |            57 | 9         |   |            89 | Y         |   |           121 | y         |
+|            26 | SUB (substitute)             |   |            58 | :         |   |            90 | Z         |   |           122 | z         |
+|            27 | ESC (escape)                 |   |            59 | ;         |   |            91 | [         |   |           123 | {         |
+|            28 | FS  (file separator)         |   |            60 | <         |   |            92 | \         |   |           124 |           |
+|            29 | GS  (group separator)        |   |            61 | =         |   |            93 | ]         |   |           125 | }         |
+|            30 | RS  (record separator)       |   |            62 | >         |   |            94 | ^         |   |           126 | ~         |
+|            31 | US  (unit separator)         |   |            63 | ?         |   |            95 | _         |   |           127 | DEL       |
+:::
+
+
+Remember that Python/Sage has functions for conversions:
+
+* `ord`: takes a character (as a string) and returns the ASCII value of a character;
+* `chr`: takes a numerical value (integer between 0 and 127) and return the character corresponding to that value in ASCII.
+
+### Example
+
+As an example, say you want to convert the text `cat` to a number to encode.  Each character in a number between $0$ and $127$, as we can see from the table.  We have:
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+ord('c'), ord('a'), ord('t')
+```
+
+We now need to put these individual numbers together into a single number *in a unique and reversible way*.  One idea is to use the numbers obtained to build a number in base $128$:
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+m = 99 + 97 * 128 + 116 * 128^2
+m
+```
+
+We can then use ElGamal (or another cryptosystem) to encode this number!
+
+Now when Alice decodes the encoded number, she will get this $m$ back and needs to recover the text from it.  For that, she looks at its digits in base $128$, and use these digits to get the characters back:
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+v = 1913059.digits(base=128)
+v
+```
+
+Then, she converts the "digits" (numbers between $0$ and $127$) back to characters using `chr`:
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+chr(99) + chr(97) + chr(116)
+```
+
+### Smaller Base
+
+This works fine, but for longer text the corresponding number might get very large.  One can make them considerably smaller by working in base $26$, since we have only $26$ letters.  (We could work in base $27$, if we wanted to keep spaces as well, but let's keep it simple here).  So, we can convert any text we need to encode to lower case (with the string method `.lower()`), remove all characters but lower case letters, and then subtract $97$ (the ASCII value of `a`) from the ASCII value of each character left.  Then, we put them together in base $26$.  For example, for the word `cat` again:
+
+```{code-cell} ipython3
+ord('c') - 97, ord('a') - 97, ord('t') - 97
+```
+
+We put it in base $26$:
+
+```{code-cell} ipython3
+m = 2 + 0 * 26 + 19 * 26^2
+m
+```
+
+Again, we can encrypt this number and Alice can decode in a similar way, but remembering to add $97$ to the digits in base $26$ to get the characters back:
+
+```{code-cell} ipython3
+v = 12846.digits(base=26)
+v
+```
+
+Then, she converts the "digits" (numbers between $0$ and $127$) back to characters using `chr`:
+
+```{code-cell} ipython3
+chr(2 + 97) + chr(0 + 97) + chr(19 + 97)
+```
+
+### Functions
+
+Now, let's write these conversions as functions.  We will have a parameter `small` that allow us to choose base $26$ (with `small=True`) or base $128$ (with `small=False`).
+
+Now, let's make these into functions:
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+def string2number(string, small=True):
+    """
+    Converts a string to its numerical representation in either base 26 (lowercase letters only) or
+    in base 128 (using full ASCII characters).
+
+    INPUT:
+      * string: string to be converted to a number;
+      * small: if True, use base 26, if False, use base 128.
+
+    OUTPUT:
+    An intger obtained by using the numerical values of the characters as digits in the corresponding
+    base.
+    """
+    # find appropriate base
+    # difference is the value to be subtracted of the ASCII value
+    if small:
+        base = 26
+        difference = 97
+        # lower case only in base 26
+        string = string.lower()
+    else:
+        base = 128
+        difference = 0
+
+    res = 0  # final result
+    factor = 1  # power of the base
+    for char in string:  # we can loop over a string!
+        digit = ord(char) - difference  # digit
+        # skip the rest if base 26 and character is invalid
+        if small and (digit < 0 or digit > 25):
+            continue
+        res += digit * factor
+        factor *= base
+    return res
+```
+
+Now decoding:
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+def number2string(number, small=True):
+    """
+    Converts a number to its string representation in either base 26 (lowercase letters only) or
+    in base 128 (using full ASCII characters).
+
+    INPUT:
+      * number: integer to be converted to a string;
+      * small: if True, use base 26, if False, use base 128.
+
+    OUTPUT:
+    A string obtained by using the digits in the corresponding base as the numerical values for the characters.
+    """
+    res = ""
+    if small:
+        base = 26
+        difference = 97
+    else:
+        base = 128
+        difference = 0
+
+    return "".join(chr(x + difference) for x in number.digits(base))
+```
+
+So, if we want to convert "Luis is the best professor ever!", we do:
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+string2number("Luis is the best professor ever!")
+```
+
+To recover the original:
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+number2string(4069000240540552872126375355100619523)
+```
+
+Or, using full ASCII:
+
+```{code-cell} ipython3
+string2number("Luis is the best professor ever!", small=False)
+```
+
+```{code-cell} ipython3
+number2string(7139509106217299707736390611080077508851787183905427399303772142284, small=False)
+```
+
+## Encrypting Large Numbers
+
+In the ElGamal cryptosystem, and others we will soon learn, the numbers to be encrypted are in $\Z/m\Z$ for some modulus $m$.  A problem arises when we try to convert a number larger than this $m$, as we cannot distinguish in $\Z/m\Z$ a number $n$ from $n + km$ for any integer $k$.
+
+For instance, let's say that we want to encrypt `Luis is the best professor ever!` using $p = 24{,}778{,}948{,}499$ (for $\F_p$).  Then, as we can see from the values above, even using base $26$, the numerical values for this message are too large!  (This prime is way too small to be safe for encryption, but it illustrates the point.)
+
+So if were working modulo this $p$, the numerical value would be changed when reducing modulo $p$:
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+p = 24778948499
+n = string2number("Luis is the best professor ever!")
+print(f"The original number is {n}, but modulo p it is {n % p}.")
+```
+
+In $\F_p$ the original number would be lost, and we would only have its reduction.  But decoding this reduction gives us gibberish:
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+number2string(n % p)
+```
+
+How do we fix this issue when the number we are trying to encrypt is larger than the modulus?  We break the number in smaller parts and encrypt each part!
+
+We do that by writing the number in the base $m$, where $m$ is the modulus!
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+v = n.digits(base=p)
+v
+```
+
+We must encrypt each one of those digits separately, using ElGamal (or whichever) cryptosystem.  Bob then sends a *tuple* of messages, the digits of the original encrypted, and then Alice decrypts each one individually and put them back together using base $m$.
+
+```{code-cell} ipython3
+base = p
+res = sum(digit * base^i for i, digit in enumerate(v))
+res, number2string(res)
+```
+
+Or, computing consecutive powers more efficiently:
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+base = p
+res = 0
+factor = 1
+for digit in v:
+    res += digit * factor
+    factor *= base
+res, number2string(res)
+```
+
+(In this case the last method is not strictly necessary, as the numbers are small, but it is good to get used thinking on the best general way to perform a computation.)

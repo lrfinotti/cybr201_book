@@ -1,0 +1,21 @@
+# In _toc.yml
+format: jb-book
+root: 00-Intro
+chapters:
+- file: 01-WhatIsCrypto
+- file: 02-Python
+- file: 03-Number_Theory
+- file: 04-Modular_Arithmetic
+- file: 05-Powers
+- file: 06-Discrete_Log
+- file: 07-DH_and_ElGamal
+- file: 08-Computing_DL
+- file: 09-CRT_Bezout
+- file: 10-Improving_DL
+- file: 11-RSA
+- file: 12-Primality
+- file: 13-Factorization
+- file: 14-Square_Roots
+- file: 15-Quad_Sieve_Index_Calc
+- file: 16-Digital_Signatures
+- file: 17-Elliptic_Curves
