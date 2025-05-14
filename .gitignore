@@ -1,3 +1,5 @@
 /.ipynb_checkpoints/
 *.ipynb
 *.sage
+/0016-Digita_Signatures.md
+*.md
