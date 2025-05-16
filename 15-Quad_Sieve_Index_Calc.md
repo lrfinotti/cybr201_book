@@ -12,15 +12,9 @@ kernelspec:
   language: sage
 ---
 
----
-math:
-  '\F': '\mathbb{F}'
-  '\Fpt': '\F_p^{\times}'
----
+# Quadratic Sieve and Index Calculus
 
 +++
-
-# Quadratic Sieve and Index Calculus
 
 In this chapter we introduce two of the more effective (and mathematically sophisticated) tools for attacks at the ElGamal and RSA Cryptosystems.
 
@@ -69,46 +63,46 @@ Given a list of numbers $2, 3, 4, \ldots , n$ and some $B > 0$, the following pr
 
 Here is an example for finding $3$-smooth numbers up to $19$.
 
-$$
+```{math}
 \begin{array}{ccccccccccccccccc}
 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19
 \end{array}
-$$
+```
 
 We start $p = 2$ and divide all multiples of $2$ by $2$:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrrrrr}
 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 \\
 {\color{red} 1} & 3 & {\color{red} 2} & 5 & {\color{red} 3} & 7 & {\color{red} 4} & 9 & {\color{red} 5} & 11 & {\color{red} 6} & 13 & {\color{red} 7} & 15 & {\color{red} 8} & 17 & {\color{red} 9} & 19 \\
 \end{array}
-$$
+```
 
 Now, we divide all numbers in positions corresponding to multiples of $2^2$ by $2$:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrrrrr}
 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 \\
 1 & 3 & 2 & 5 & 3 & 7 & 4 & 9 & 5 & 11 & 6 & 13 & 7 & 15 & 8 & 17 & 9 & 19 \\
 1 & 3 & {\color{red} 1} & 5 & 3 & 7 & {\color{red} 2} & 9 & 5 & 11 & {\color{red} 3} & 13 & 7 & 15 & {\color{red} 4} & 17 & 9 & 19 \\
 \end{array}
-$$
+```
 
 
 Now, we divide all numbers in positions corresponding to multiples of $2^3$ by $2$:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrrrrr}
 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 \\
 1 & 3 & 2 & 5 & 3 & 7 & 4 & 9 &  5 & 11 &  6 & 13 &  7 & 15 &  8 & 17 &  9 & 19 \\
 1 & 3 & 1 & 5 & 3 & 7 & 2 & 9 &  5 & 11 &  3 & 13 &  7 & 15 &  4 & 17 &  9 & 19 \\
 1 & 3 & 1 & 5 & 3 & 7 & {\color{red} 1} & 9 &  5 & 11 &  3 & 13 &  7 & 15 &  {\color{red} 2} & 17 &  9 & 19 \\
 \end{array}
-$$
+```
 
 Now, we divide all numbers in positions corresponding to multiples of $2^3$ by $2$:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrrrrr}
 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 \\
 1 & 3 & 2 & 5 & 3 & 7 & 4 & 9 &  5 & 11 &  6 & 13 &  7 & 15 &  8 & 17 &  9 & 19 \\
@@ -116,11 +110,11 @@ $$
 1 & 3 & 1 & 5 & 3 & 7 & 1 & 9 &  5 & 11 &  3 & 13 &  7 & 15 &  2 & 17 &  9 & 19 \\
 1 & 3 & 1 & 5 & 3 & 7 & 1 & 9 &  5 & 11 &  3 & 13 &  7 & 15 &  {\color{red} 1} & 17 &  9 & 19 \\
 \end{array}
-$$
+```
 
 Since $2^4 = 32 > 19$, we set $p$ to the next element on the list different from $1$, so $3$ in this case:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrrrrr}
 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 \\
 1 & 3 & 2 & 5 & 3 & 7 & 4 & 9 &  5 & 11 &  6 & 13 &  7 & 15 &  8 & 17 &  9 & 19 \\
@@ -128,11 +122,11 @@ $$
 1 & 3 & 1 & 5 & 3 & 7 & 1 & 9 &  5 & 11 &  3 & 13 &  7 & 15 &  2 & 17 &  9 & 19 \\
 1 & {\color{blue} 3} & 1 & 5 & 3 & 7 & 1 & 9 &  5 & 11 &  3 & 13 &  7 & 15 &  1 & 17 &  9 & 19 \\
 \end{array}
-$$
+```
 
 We then repeat the process for $p=3$, dividing terms in positions corresponding to $3$, and then $3^2$, by $3$:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrrrrr}
 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 \\
 1 & 3 & 2 & 5 & 3 & 7 & 4 & 9 &  5 & 11 &  6 & 13 &  7 & 15 &  8 & 17 &  9 & 19 \\
@@ -142,11 +136,11 @@ $$
 1 & {\color{red} 1} & 1 & 5 & {\color{red} 1} & 7 & 1 & {\color{red} 3} &  5 & 11 &  {\color{red} 1} & 13 &  7 &  {\color{red} 5} &  1 & 17 &  {\color{red} 3} & 19 \\
 1 & 1 & 1 & 5 & 1 & 7 & 1 & {\color{red} 1} &  5 & 11 &  1 & 13 &  7 &  5 &  1 & 17 & {\color{red} 1} & 19 \\
 \end{array}
-$$
+```
 
 Now, the next $p$ would be the next number different from $1$, so $5$, but $5 > B = 3$, so we stop, and return the numbers from the original list (top row) corresponding to $1$'s in the new one (bottom row):
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrrrrr}
 {\color{green} 2} & {\color{green} 3} & {\color{green} 4} & 5 & {\color{green} 6} & 7 & {\color{green} 8} & {\color{green} 9} & 10 & 11 & {\color{green} 12} & 13 & 14 & 15 & {\color{green} 16} & 17 & {\color{green} 18} & 19 \\
 1 & 3 & 2 & 5 & 3 & 7 & 4 & 9 &  5 & 11 &  6 & 13 &  7 & 15 &  8 & 17 &  9 & 19 \\
@@ -156,7 +150,7 @@ $$
 1 & 1 & 1 & 5 & 1 & 7 & 1 & 3 &  5 & 11 &  1 & 13 &  7 &  5 &  1 & 17 &  3 & 19 \\
 {\color{green} 1} & {\color{green} 1} & {\color{green} 1} & 5 & {\color{green} 1} & 7 & {\color{green} 1} & {\color{green} 1} &  5 & 11 &  {\color{green} 1} & 13 &  7 &  5 &  {\color{green} 1} & 17 & {\color{green} 1} & 19 \\
 \end{array}
-$$
+```
 
 Therefore, the $3$-smooth numbers less than or equal to $19$ are: $2, 3, 4, 6, 8, 9, 12, 16, 18$.
 
@@ -223,17 +217,17 @@ Given $B>0$, the *factor base of $B$* is the set of primes less than or equal to
 :::
 
 To find $B$-smooth number in $F(a), F(a+1), \ldots , F(b)$, for each $p$ in the factor base of $B$, we look for $t \in \{ a, a+1 , \ldots , b \}$ such that
-$$
+```{math}
 F(t) \equiv 0 \pmod{p}, \quad \text{i.e.,} \quad t^2 \equiv N \pmod{p}.
-$$
+```
 This means that $N$ is a square modulo $p$.  Fortunately, we have seen how to do this, for instance, we can use [Quadratic Reciprocity](./14-Square_Roots.md#sec-quad_rec).  If $N$ is not square modulo $p$, we move to the next prime.
 
 Note that if $p \mid N$, then we found a prime factor and are done.  So, let's assume that $p \nmid N$.  Then, if $N$ is a square modulo $p$, we get either two square roots, when $p$ is odd, or four, when $p=2$, assuming that $p \nmid N$.  If $c$ is a square root of $N$, i.e., $c^2 \equiv N \pmod{p}$, then $F(c), F(c + p), F(c + 2p), \ldots$ are all divisible by $p$ (i.e., congruent to $0$ modulo $p$).  Then, as with consecutive numbers, we sieve through the list by dividing each every $p$ terms of our list by $p$.  More precisely, if $c_p$ is the smallest integer in $a, a+1, a+2, \ldots, b$ such that $c_p \equiv c \pmod{p}$, then we divide $F(c_p), F(c_p+p), F(c_p + 2p) \ldots$ by $p$.
 
 But we need to also divide the terms that are divisible by higher powers of $p$.  For that, we can use [Hensel's Lemma](./14-Square_Roots.md#sec-hl) to solve
-$$
+```{math}
 t^2 \equiv N \pmod{p^k}, \text{ for $k=1, 2, 3, \ldots $.}
-$$
+```
 
 +++
 
@@ -303,30 +297,30 @@ def F(t):
 list(range(a, b + 1))
 ```
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrr}
 33 & 34 &  35 &  36 &  37 &  38 &  39 &  40 &  41 &  42 &  43 &  44 &  45 &   46 \\
 \hline
 16 & 83 & 152 & 223 & 296 & 371 & 448 & 527 & 608 & 691 & 776 & 863 & 952 & 1043
 \end{array}
-$$
+```
 
 +++
 
 We start with $p=2$.  Since $N$ is odd, we have that $F(t)$ is even whenever $t$ is odd.  Or, we have that the square root of $N$ modulo $2$ is $1$, so any $t \equiv 1 \mod{2}$ is such that $F(t) \equiv 0 \pmod{2}$ and can be divided by $2$.  Moreover that is the *only* square root modulo $2$.
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
 33 & 34 &  35 &  36 &  37 &  38 &  39 &  40 &  41 &  42 &  43 &  44 &  45 &   46 \\
 \hline
 16 & 83 & 152 & 223 & 296 & 371 & 448 & 527 & 608 & 691 & 776 & 863 & 952 & 1043 \\
  {\color{red} 8} & 83 &  {\color{red} 76} & 223 & {\color{red} 148} & 371 & {\color{red} 224} & 527 & {\color{red} 304} & 691 & {\color{red} 388} & 863 & {\color{red} 476} & 1043
 \end{array}
-$$
+```
 
 Now, we see if $N$ has a square root modulo $4$.  But $N \equiv 1 \pmod{4}$, so we have two square roots modulo $4$: $t \equiv 1, 3 \pmod{4}$.  We have that $33 \equiv 1 \pmod{4}$ and $35 \equiv 3 \pmod{4}$.  We now divide $F(33), F(37), F(41), \ldots , F(45)$ and $F(35), F(39), F(43), \ldots F(43)$ by $2$:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
 33 & 34 &  35 &  36 &  37 &  38 &  39 &  40 &  41 &  42 &  43 &  44 &  45 &   46 \\
 \hline
@@ -334,12 +328,12 @@ $$
  8 & 83 &  76 & 223 & 148 & 371 & 224 & 527 & 304 & 691 & 388 & 863 & 476 & 1043 \\
  {\color{red} 4} & 83 &  {\color{red} 38} & 223 &  {\color{red} 74} & 371 & {\color{red} 112} & 527 & {\color{red} 152} & 691 & {\color{red} 194} & 863 & {\color{red} 238} & 1043
 \end{array}
-$$
+```
 
 Moving on to $2^3$, we have that $N \equiv 1 \pmod{8}$, so we have $4$ square roots modulo $8$: $1$, $3$, $5$, and $7$.  This means that again, we can divide every other element of the list of $F(t)$'s by $2$:
 
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
 33 & 34 &  35 &  36 &  37 &  38 &  39 &  40 &  41 &  42 &  43 &  44 &  45 &   46 \\
 \hline
@@ -348,7 +342,7 @@ $$
  4 & 83 &  38 & 223 &  74 & 371 & 112 & 527 & 152 & 691 & 194 & 863 & 238 & 1043 \\
  {\color{red} 2} & 83 &  {\color{red} 19} & 223 &  {\color{red} 37} & 371 &  {\color{red} 56} & 527 &  {\color{red} 76} & 691 &  {\color{red} 97} & 863 & {\color{red} 119} & 1043
 \end{array}
-$$
+```
 
 Modulo $2^4 = 16$ we also know that we have $4$ square roots, since $N \equiv 1 \pmod{8}$.  Now we apply Hensel's Lemma to compute these.  We find them to be $1$, $7$, $9$, $15$.
 
@@ -358,7 +352,7 @@ Modulo $2^4 = 16$ we also know that we have $4$ square roots, since $N \equiv 1 
 4) There is no element in $\{ 33, 34, 35, \ldots, 46 \}$ congruent to $15$ modulo $16$ is $45$, so there is no other element to divide by $2$.
 
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
 33 & 34 &  35 &  36 &  37 &  38 &  39 &  40 &  41 &  42 &  43 &  44 &  45 &   46 \\
 \hline
@@ -368,12 +362,12 @@ $$
  2 & 83 &  19 & 223 &  37 & 371 &  56 & 527 &  76 & 691 &  97 & 863 & 119 & 1043 \\
  {\color{red} 1} & 83 &  19 & 223 &  37 & 371 &  {\color{red} 28} & 527 &  {\color{red} 38} & 691 &  97 & 863 & 119 & 1043
 \end{array}
-$$
+```
 
 
 The square roots of $N$ modulo $2^5 = 32$ (using Hensel's Lemma again) are $7$, $9$, $23$, $25$.  In $ \{ 33, 34, \ldots, 46 \}$, only $39 \equiv 7 \pmod{32}$ and $41 \equiv 9 \pmod{32}$, so we can divide the corresponding numbers by $2$:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
 33 & 34 &  35 &  36 &  37 &  38 &  39 &  40 &  41 &  42 &  43 &  44 &  45 &   46 \\
 \hline
@@ -384,11 +378,11 @@ $$
  1 & 83 &  19 & 223 &  37 & 371 &  28 & 527 &  38 & 691 &  97 & 863 & 119 & 1043 \\
  1 & 83 &  19 & 223 &  37 & 371 &  {\color{red} 14} & 527 &  {\color{red} 19} & 691 &  97 & 863 & 119 & 1043
 \end{array}
-$$
+```
 
 The square roots modulo $2^6 = 64$ are $7$, $25$, $39$, and $57$.  This only gives $39$ in our list, so we divide the corresponding number by $2$:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
 33 & 34 &  35 &  36 &  37 &  38 &  39 &  40 &  41 &  42 &  43 &  44 &  45 &   46 \\
 \hline
@@ -400,13 +394,13 @@ $$
  1 & 83 &  19 & 223 &  37 & 371 &  14 & 527 &  19 & 691 &  97 & 863 & 119 & 1043 \\
  1 & 83 &  19 & 223 &  37 & 371 &   {\color{red} 7} & 527 &  19 & 691 &  97 & 863 & 119 & 1043
 \end{array}
-$$
+```
 
 The square roots modulo $2^7 = 128$ are $7$, $57$, $71$, and $121$, but no number in our list is congruent to any of these modulo $128$, so we move on to the next prime, $p=3$.
 
 We have that $N \equiv 2 \pmod{3}$, and hence not a square.  So, we move to $p=5$.  But $N \equiv 3 \pmod{5}$, also not a square.  We then try $7$, and $N \equiv 2 \pmod{7}$, which *is* a square!  The square roots are $3$ and $4$.  The numbers in our list which are congruent to $3$ modulo $7$ are $38$ and $45$, and the ones congruent to $4$ are $39$ and $46$.  We divide the corresponding numbers in our list by $7$:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
 33 & 34 &  35 &  36 &  37 &  38 &  39 &  40 &  41 &  42 &  43 &  44 &  45 &   46 \\
 \hline
@@ -419,11 +413,11 @@ $$
  1 & 83 &  19 & 223 &  37 & 371 &   7 & 527 &  19 & 691 &  97 & 863 & 119 & 1043 \\
  1 & 83 &  19 & 223 &  37 &  {\color{red} 53} &   {\color{red} 1} & 527 &  19 & 691 &  97 & 863 &  {\color{red} 17} &  {\color{red} 149}
 \end{array}
-$$
+```
 
 Now, using Hensel's Lemma, we have that $17$ and $32$ are square roots modulo $7^2 = 49$, but we have no elements in our list congruent to those, so we move to the next prime, $p = 11$.  But $N$ is not a square modulo $11$, nor modulo $13$, but it is modulo $17$.  The square roots modulo $17$ are $6$ and $11$.  The only elements congruent to $6$ modulo $17$ in our list is $40$ and the only one congruent to $11$ is $45$.  We divide the corresponding numbers:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
 33 & 34 &  35 &  36 &  37 &  38 &  39 &  40 &  41 &  42 &  43 &  44 &  45 &   46 \\
 \hline
@@ -437,12 +431,12 @@ $$
  1 & 83 &  19 & 223 &  37 &  53 &   1 & 527 &  19 & 691 &  97 & 863 &  17 &  149 \\
  1 & 83 &  19 & 223 &  37 &  53 &   1 &  {\color{red} 31} &  19 & 691 &  97 & 863 &   {\color{red} 1} &  149
 \end{array}
-$$
+```
 
 The square roots modulo $17^2$ are $28$ and $261$, but neither has representatives in our list.  So, we move on to our next, and last, prime, $p=19$.  $N$ is a square modulo $19$, with roots $3$ and $16$.  This gives only $41$ and $35$, and we divide the corresponding elements in our list by $19$:
 
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
 33 & 34 &  35 &  36 &  37 &  38 &  39 &  40 &  41 &  42 &  43 &  44 &  45 &   46 \\
 \hline
@@ -457,11 +451,11 @@ $$
  1 & 83 &  19 & 223 &  37 &  53 &   1 &  31 &  19 & 691 &  97 & 863 &   1 &  149 \\
  1 & 83 &   {\color{red} 1} & 223 &  37 &  53 &   1 &  31 &   {\color{red} 1} & 691 &  97 & 863 &   1 &  149
 \end{array}
-$$
+```
 
 To find the the list of $a$'s which are such that the reduction modulo $N$ of $a^2$ are $19$-smooth, we take the numbers corresponding to the numbers ending with $1$:
 
-$$
+```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
 {\color{blue} 33} & 34 &  {\color{blue} 35} &  36 &  37 &  38 &  {\color{blue} 39} &  40 &  {\color{blue} 41} &  42 &  43 &  44 &  {\color{blue} 45} &   46 \\
 \hline
@@ -476,10 +470,11 @@ $$
  1 & 83 &  19 & 223 &  37 &  53 &   1 &  31 &  19 & 691 &  97 & 863 &   1 &  149 \\
  {\color{blue} 1} & 83 &   {\color{blue} 1} & 223 &  37 &  53 &   {\color{blue} 1} &  31 &   {\color{blue} 1} & 691 &  97 & 863 &   {\color{blue} 1} &  149
 \end{array}
-$$
+```
 
 
 Hence, we have the following $a$'s: $33, 35, 39, 41, 45$; and their corresponding $19$-smooth $c$'s (their squares reduced modulo $N$): $16, 152, 448, 608, 952$:
+```{math}
 \begin{align*}
 33^2 &\equiv 16 = 2^4 \pmod{1073}, \\
 35^2 &\equiv 152 = 2^3 \cdot 19 \pmod{1073}, \\
@@ -487,15 +482,16 @@ Hence, we have the following $a$'s: $33, 35, 39, 41, 45$; and their correspondin
 41^2 &\equiv 608 = 2^5 \cdot 19 \pmod{1073}, \\
 45^2 &\equiv 952 = 2^3 \cdot 7 \cdot 17 \pmod{1073}.
 \end{align*}
+```
 
 We can now do the process of elimination.  In this case, for instance, we have:
-$$
+```{math}
 (35 \cdot 41)^2 \equiv (2^4 \cdot 19)^2 \pmod{1073}.
-$$
+```
 We then compute
-$$
+```{math}
 \gcd(1073, 35 \cdot 41 - 2^4 \cdot 19) = 29.
-$$
+```
 And indeed, $29$ is a factor of $1073$:
 
 ```{code-cell} ipython3
@@ -522,38 +518,38 @@ Here we introduce the most efficient method to solve the *Discrete Log Problem* 
 :label: def-dlp
 :numbered: true
 
-We call the (computationally intensive) problem of computing a discrete log $\log_g(a)$, i.e., finding a power $x$ (in $\Z/|a|\Z$) such that $g^x = a$ in $\Z/m\Z$, the *discrete log problem (DLP)*.
+We call the (computationally intensive) problem of computing a discrete log $\log_g(a)$, i.e., finding a power $x$ (in $\mathbb{Z}/|a|\mathbb{Z}$) such that $g^x = a$ in $\mathbb{Z}/m\mathbb{Z}$, the *discrete log problem (DLP)*.
 :::
 
-As in the context of the ElGamal cryptosystem, we take the modulus $m$ to be a prime $p$ and the base $g$ to be a primitive root in $\F_p$.   Suppose we want then to compute $\log_g(h)$, i.e., find a power $x$ such that $g^x = h$ in $\F_p$.
+As in the context of the ElGamal cryptosystem, we take the modulus $m$ to be a prime $p$ and the base $g$ to be a primitive root in $\mathbb{F}_p$.   Suppose we want then to compute $\log_g(h)$, i.e., find a power $x$ such that $g^x = h$ in $\mathbb{F}_p$.
 
 +++
 
 ### General Computation
 
 The idea is the following: let $B$ be a positive number and $\ell_1, \ell_2, \ldots , \ell_n$ be all primes less than or equal to $B$.  Then, we solve (with a method to be described below):
-$$
+```{math}
 \log_g(\ell_1), \quad \text{for $i=1, 2, \ldots, n$.}
-$$
-Then, we compute $h \cdot g^{-k}$ (in $\F_p$) for $k=0, 1, 2, \ldots$ until the result is $B$-smooth.  This has to eventually happen, since these values will run over all elements of $\Fpt$.  So, we have:
-$$
+```
+Then, we compute $h \cdot g^{-k}$ (in $\mathbb{F}_p$) for $k=0, 1, 2, \ldots$ until the result is $B$-smooth.  This has to eventually happen, since these values will run over all elements of $\mathbb{F}^{\times}$.  So, we have:
+```{math}
 h \cdot g^{k} = \ell_1^{r_1} \cdot \ell_2^{r_2} \cdots \ell_n^{r_n}
-$$
+```
 for some positive integers $r_1, r_2, \ldots , r_n$.
 
 Taking $\log_g$ on the left-side, we get
-$$
+```{math}
 \log_g(h \cdot g^{-k}) = \log_g(h) + \log_{g}(g^{-k}) = \log_g(h) - k,
-$$
+```
 while the log of the right-side is
-$$
+```{math}
 \log_g(\ell_1^{r_1} \cdot \ell_2^{r_2} \cdots \ell_n^{r_n}) = \log_g(\ell_1^{r_1}) + \log_g(\ell_2^{r_2}) + \cdots + \log_g(\ell_n^{r_n}) = r_1 \log_g(\ell_1) + r_2\log_g(\ell_2) + \cdots + r_n \log_g(\ell_n).
-$$
+```
 Putting these last two equations together, we get:
-$$
+```{math}
 \label{eq-index-calc1}
 \log_g(h) = k + r_1 \log_g(\ell_1) + r_2\log_g(\ell_2) + \cdots + r_n \log_g(\ell_n).
-$$
+```
 On the left we have what we want to compute, while on the right all terms are known!
 
 +++
@@ -574,7 +570,7 @@ g = Mod(10, p)
 g.multiplicative_order() == p - 1
 ```
 
-Let's then find the discrete log base $g = 10$ of $h = 1205$ in $\F_{32051}$.
+Let's then find the discrete log base $g = 10$ of $h = 1205$ in $\mathbb{F}_{32051}$.
 
 ```{code-cell} ipython3
 h = Mod(1205, p)
@@ -674,31 +670,37 @@ You will implement this algorithm in your homework.
 
 So, how can we efficiently compute $\log_g(\ell_1), \log_g(\ell_2), \ldots, \log_g(\ell_n)$?
 
-The idea is to choose some *random* exponents $a \in \Z/(p-1)\Z$ and compute $g^{a}$.  If the result is $B$-smooth, we save it in a list, if not, we discard it and try another random $a$.  We repeat this process until we have enough $B$-smooth powers of $g$.  We need at least $\pi(B)$ (i.e., the number of primes less than $B$, which we denoted by $n$ here) distinct powers of $g$.
+The idea is to choose some *random* exponents $a \in \mathbb{Z}/(p-1)\mathbb{Z}$ and compute $g^{a}$.  If the result is $B$-smooth, we save it in a list, if not, we discard it and try another random $a$.  We repeat this process until we have enough $B$-smooth powers of $g$.  We need at least $\pi(B)$ (i.e., the number of primes less than $B$, which we denoted by $n$ here) distinct powers of $g$.
 
 So, assume that we have powers $a_1, a_2, \ldots, a_m$ (for some $m \geq n = \pi(B)$), with $g^{a_i}$ $B$-smooth, say:
+```{math}
 \begin{align*}
 g^{a_1} &= \ell_1^{r_{1,1}} \cdot \ell_2^{r_{1,2}} \cdots \ell_n^{r_{1,n}} \\
 g^{a_2} &= \ell_1^{r_{2,1}} \cdot \ell_2^{r_{2,2}} \cdots \ell_n^{r_{2,n}} \\
 & \;\; \vdots \\
 g^{a_m} &= \ell_1^{r_{m,1}} \cdot \ell_2^{r_{m,2}} \cdots \ell_n^{r_{m,n}}
 \end{align*}
+```
 
 Taking $\log_g$, we obtain
+```{math}
 \begin{align*}
 a_1 &= r_{1,1} \log_g(\ell_1) + r_{1,2} \log_g(\ell_2) + r_{1,n} \log_g(\ell_n) \\
 a_2 &= r_{2,1} \log_g(\ell_1) + r_{2,2} \log_g(\ell_2) + r_{2,n} \log_g(\ell_n) \\
 & \;\; \vdots \\
 a_m &= r_{m,1} \log_g(\ell_1) + r_{m,2} \log_g(\ell_2) + r_{m,n} \log_g(\ell_n)
 \end{align*}
+```
 
 Note that all the $a_i$'s and $r_{i,j}$'s are known, and we are trying to find the $\log_g(\ell_j)$'s.  These should be then the solution of the system
+```{math}
 \begin{align*}
 a_1 &= r_{1,1} x_1 + r_{1,2} x_2 + r_{1,n} x_n \\
 a_2 &= r_{2,1} x_1 + r_{2,2} x_2 + r_{2,n} x_n \\
 & \;\; \vdots \\
 a_m &= r_{m,1} x_1 + r_{m,2} x_2 + r_{m,n} x_n
 \end{align*}
+```
 with $x_j$ found being $\log_g(\ell_j)$.  So, we just need to solve this system!
 
 :::{admonition} Homework
@@ -709,18 +711,20 @@ In your homework you will write the code to obtain the *matrix of coefficients* 
 :::
 
 
-But there is a problem: the coefficients (since they are all exponents) are in $\Z/(p-1)\Z$, which is not a *field* (like the real numbers or $\F_p$), so this process is not as straight forward.  It still can be done.  Here is the (vague) idea:
+But there is a problem: the coefficients (since they are all exponents) are in $\mathbb{Z}/(p-1)\mathbb{Z}$, which is not a *field* (like the real numbers or $\mathbb{F}_p$), so this process is not as straight forward.  It still can be done.  Here is the (vague) idea:
 
-1) For each prime factor $q$ of $p-1$, we solve the system modulo $q$ (i.e., in the field $\F_q$, where our methods for solving systems work well).
+1) For each prime factor $q$ of $p-1$, we solve the system modulo $q$ (i.e., in the field $\mathbb{F}_q$, where our methods for solving systems work well).
 2) If $q^s$ is the largest power of $q$ dividing $p-1$, then we "lift" the solution we've found (modulo $q$) to a solution modulo $q^n$.  (The method to do this is similar to Hensel's Lemma.)
 3) We use the *Chinese Remainder Theorem* to "patch" these solutions to a solution modulo $p-1$.  More precisely, if $p-1 = q_1^{s_1} q_2^{s_2} \cdots q_t^{s_t}$, and if we've obtained $x_i \equiv b_{i,j} \pmod{q_j^{s_j}}$ for $j = 1, 2, \ldots, t$, solving
+```{math}
 \begin{align*}
 x_i &\equiv b_{i,1} \pmod{q_1^{s_1}} \\
 x_i &\equiv b_{i,2} \pmod{q_2^{s_2}} \\
 & \;\; \vdots \\
 x_i &\equiv b_{i,t} \pmod{q_t^{s_t}}
 \end{align*}
-(with the Chinese Remainder Theorem) we obtain the solution $\log_g(\ell_i)$ (in $\Z/(p-1)\Z$).
+```
+(with the Chinese Remainder Theorem) we obtain the solution $\log_g(\ell_i)$ (in $\mathbb{Z}/(p-1)\mathbb{Z}$).
 
 
 :::{important}
@@ -731,5 +735,5 @@ Step 1 might be difficult!  So, with ElGamal we want $p-1$ to not have small pri
 
 :::{note}
 
-One can generalize the discrete log and ElGamal cryptosystem by replacing $\Fpt$ with an arbitrary [group](https://en.wikipedia.org/wiki/Group_(mathematics)).  (We will talk a little more about groups later.)  While our previous methods for computing the discrete log (e.g., [*Shanks Babystep-Giantstep*](./08-Computing_DL.md#sec-bsgs), [*Pohlig-Hellman*](./Improving_DL.md#sec-pohlig-hellman)) generalize for arbitrary groups, this index calculus algorithm (introduced here) does *not*.  Since it is the faster than the previous methods, to make ElGamal more secure, one can use different groups instead of $\Fpt$.
+One can generalize the discrete log and ElGamal cryptosystem by replacing $\mathbb{F}^{\times}$ with an arbitrary [group](https://en.wikipedia.org/wiki/Group_(mathematics)).  (We will talk a little more about groups later.)  While our previous methods for computing the discrete log (e.g., [*Shanks Babystep-Giantstep*](./08-Computing_DL.md#sec-bsgs), [*Pohlig-Hellman*](./Improving_DL.md#sec-pohlig-hellman)) generalize for arbitrary groups, this index calculus algorithm (introduced here) does *not*.  Since it is the faster than the previous methods, to make ElGamal more secure, one can use different groups instead of $\mathbb{F}^{\times}$.
 :::

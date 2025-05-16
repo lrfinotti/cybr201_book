@@ -1,12 +1,13 @@
 # ---
 # jupyter:
 #   jupytext:
+#     default_lexer: ipython3
 #     formats: ipynb,sage:percent,md:myst
 #     text_representation:
 #       extension: .sage
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.16.7
+#       jupytext_version: 1.17.1
 #   kernelspec:
 #     display_name: SageMath 10.5
 #     language: sage
@@ -24,9 +25,9 @@
 #
 # :::{prf:definition}
 # Let $a$, $b$, and $m$ be integers, with $m > 1$.  We say that $a$ is *congruent* to $b$ *modulo* $m$ if $m \mid (a - b)$.  We can denote it by:
-# $$
+# ```{math}
 # a \equiv b \pmod{m}.
-# $$
+# ```
 # In this case, $m$ is called the *modulus*.
 # :::
 #
@@ -34,8 +35,14 @@
 #
 #
 # **Examples:**
-# 1) Is $43$ congruent $11$ modulo $8$?  We just check if $8$ divides $43-11 = 32$.  Since it does, the answer is *yes*:$$43 \equiv 11 \pmod{8}.$$
-# 2) Is $-21$ congruent to $50$ modulo $11$?  We just check if $11$ divides $-21 - 50 = -71$.  Since it doesn't, the answer is *no*: $$-21 \not\equiv 50 \pmod{11}.$$
+# 1) Is $43$ congruent $11$ modulo $8$?  We just check if $8$ divides $43-11 = 32$.  Since it does, the answer is *yes*:
+# ```{math}
+# 43 \equiv 11 \pmod{8}.
+# ```
+# 2) Is $-21$ congruent to $50$ modulo $11$?  We just check if $11$ divides $-21 - 50 = -71$.  Since it doesn't, the answer is *no*:
+# ```{math}
+# -21 \not\equiv 50 \pmod{11}.
+# ```
 # 3) Is $2{,}694{,}540$ congruent to $412{,}004{,}939$ module $3{,}544$?  Well, this is hard to do by hand, but easy with Sage:
 
 # %%
@@ -74,6 +81,7 @@ a, b, m =  2694540, 412004939, 3544
 # %% [markdown]
 # These last three facts are very important.  They say we can break the set of all integers in $m$ pieces, depending on the remainder of the division by $m$.  More concretely, for $m=5$, every integer is congruent to one, and only one, among $0$, $1$, $2$, $3$, and $4$ (the possible remainders of the division by $5$):
 #
+# ```{math}
 # \begin{align*}
 # \cdots -15 \equiv -10 \equiv -5 \equiv {\color{red} 0} \equiv 5 \equiv 10 \equiv 15 \equiv \cdots \pmod{5}\\
 # \cdots -14 \equiv -9 \equiv -4 \equiv {\color{red} 1} \equiv 6 \equiv 11 \equiv 16 \equiv \cdots \pmod{5}\\
@@ -81,6 +89,7 @@ a, b, m =  2694540, 412004939, 3544
 # \cdots -12 \equiv -7 \equiv -2 \equiv {\color{red} 3} \equiv 8 \equiv 13 \equiv 18 \equiv \cdots \pmod{5}\\
 # \cdots -11 \equiv -6 \equiv -1 \equiv {\color{red} 4} \equiv 9 \equiv 14 \equiv 19 \equiv \cdots \pmod{5}
 # \end{align*}
+# ```
 
 # %% [markdown]
 # So, we often call the remainder of $a$ when divided by $m$ the *residue* modulo $m$.  Most calculators have a "MOD" button to compute this residue/remainder.  In Python/Sage we have `%`.
@@ -96,16 +105,18 @@ a, b, m =  2694540, 412004939, 3544
 #
 # :::{prf:theorem}
 # Let $m$ be an integer greater than $1$ and suppose that
-# $$
+# ```{math}
 # a_1 \equiv a_2 \pmod{m} \quad \text{and} \quad b_1 \equiv b_2 \pmod{m}.
-# $$
+# ```
 # Then
+# ```{math}
 # \begin{align*}
 # a_1 + b_1 &\equiv a_2 + b_2 &&\pmod{m}, \\
 # a_1 - b_1 &\equiv a_2 - b_2 &&\pmod{m}, \\
 # a_1 \cdot b_1 &\equiv a_2 \cdot b_2 &&\pmod{m}, \\
 # a_1^k &\equiv a_2^k &&\pmod{m} \quad \text{for any positive integer $k$.}
 # \end{align*}
+# ```
 # :::
 #
 #
@@ -114,22 +125,23 @@ a, b, m =  2694540, 412004939, 3544
 # %% [markdown]
 # :::{prf:example}
 # What is the remainder of
-# $$
+# ```{math}
 # 5647438438 \cdot 85948594584 - 7548376839
-# $$
+# ```
 # when divided by $5$?
 # :::
 #
 # We could compute this huge number, then do the long division to find the remainder.  But note that asking for the remainder modulo $5$ is the same to ask for a number between $0$ and $4$ congruent to the number:
 #
-# $$
+# ```{math}
 # 5647438438 \cdot 85948594584 - 7548376839 \equiv \, ??? \pmod{5}.
-# $$
+# ```
 #
 # The idea now is that the theorem above allows us to replace each of the three large numbers by smaller numbers congruent to them modulo $5$, making the computation much simpler!  As we've seen above, we can replace them by their residues modulo $5$ (i.e., their remainders when divided by $5$), so numbers between $0$ and $4$.
 #
 # Of course, we could just ask Sage for their residues, but we can in fact compute residues modulo $5$ quite easily using the Theorem and the fact that $10 \equiv 0 \pmod{5}$.  For example, let's find the residue of the first number modulo $5$:
 #
+# ```{math}
 # \begin{align*}
 # 5647438438 &= 5647438430 + 8 \\
 # &= 564743843 \cdot {\color{red} 10}  + 8 \\
@@ -139,38 +151,48 @@ a, b, m =  2694540, 412004939, 3544
 # &\equiv {\color{red} 0} + 3 && \text{(since $5 \equiv 0 \pmod{5}$)} \\
 # &= 3 \pmod{5}
 # \end{align*}
+# ```
 #
 # The same idea shows that a *positive* number is always congruent to its *last digit* modulo $5$!  So, we have:
+# ```{math}
 # \begin{align*}
 # 8594859458{\color{blue} 4} &\equiv {\color{blue} 4} \pmod{5},\\
 # 754837683{\color{blue} 9} & \equiv {\color{blue} 9} = {\color{red} 5} + 4 \equiv {\color{red} 0} + 4 = 4 \pmod{5}.
 # \end{align*}
+# ```
 #
 # So, we have:
+# ```{math}
 # \begin{align*}
 # {\color{red} 5647438438} &\equiv {\color{red} 3} \pmod{5}, \\
 # {\color{blue} 85948594584} &\equiv {\color{blue} 4} \pmod{5},\\
 # {\color{green} 7548376839} & \equiv {\color{green} 4} \pmod{5}.
 # \end{align*}
+# ```
 #
 # Now, using the theorem, we can do:
 #
+# ```{math}
 # \begin{align*}
 # {\color{red} 5647438438}  \cdot {\color{blue} 85948594584} - {\color{green} 7548376839}
 # &\equiv {\color{red} 3} \cdot {\color{blue} 4} - {\color{green} 4} \\
 # &\equiv 8 = {\color{orange} 5} + 3 \\
 # &\equiv {\color{orange} 0} + 3 = \boxed{3}  \pmod{5}
 # \end{align*}
+# ```
 #
 # So, the remainder is $3$!
 
 # %% [markdown]
-# *Example:* What is the remainder of $13^{1{,}000{,}000{,}000}$ when divided by $7$?
+# ```{prf:example}
+#
+# What is the remainder of $13^{1{,}000{,}000{,}000}$ when divided by $7$?
+# ```
 #
 # We can again think in terms of congruences and we are asking for a number between $0$ and $6$ congruent to $13^{1{,}000{,}000{,}000}$ modulo $7$. And again, by the Theorem, we can replace $13$ by its residue modulo $7$ in a congruence, and clearly $13 = 7 \cdot 1 + 6$, so we have
-# $$
+# ```{math}
 # 13^{1{,}000{,}000{,}000} \equiv 6^{1{,}000{,}000{,}000} \pmod{7}.
-# $$
+# ```
 # The problem is that, although much better, the number of the right is still *humongous*, too large even for computers!
 #
 # ```{warning}
@@ -179,12 +201,14 @@ a, b, m =  2694540, 412004939, 3544
 #
 # So, for now, we can use a different trick.  Note that $6 \equiv -1 \pmod{7}$, and so we have:
 #
+# ```{math}
 # \begin{align*}
 # 13^{1{,}000{,}000{,}000}
 # &\equiv 6^{1{,}000{,}000{,}000} \\
 # &\equiv (-1)^{1{,}000{,}000{,}000} \\
 # &= \boxed{1} \pmod{7}.
 # \end{align*}
+# ```
 
 # %% [markdown]
 # ## Inverses Modulo $m$
@@ -254,33 +278,33 @@ for m in xsrange(2, 21):
 # :numbered: true
 #
 # An integer $a$ is invertible modulo $m$ if, and only if, $\gcd(a, m) = 1$.  In other words,
-# $$
+# ```{math}
 # ax \equiv 1 \pmod{m}
-# $$
+# ```
 # has a solution (with $x$ *integer*) if, and only if, $\gcd(a, m) = 1$.
 # :::
 #
 # This is not hard to see.
 #
 # First, suppose that $\gcd(a, m) = 1$.  (We want to show that $a$ has an inverse modulo $m$.)  By Bezout's Lemma, we have that there are integers $u$ and $v$ such that
-# $$
+# ```{math}
 # 1 = au + mv.
-# $$
+# ```
 # But then, since $m \equiv 0 \pmod{m}$, we have that
-# $$
+# ```{math}
 # 1 \equiv au + mv  \equiv au + 0 = au \pmod{m}.
-# $$
+# ```
 # So, the $u$ found by the Extended Euclidean Algorithm is the inverse of $a$!
 
 # %% [markdown]
 # Now, assume that $a$ has an inverse $b$ modulo $m$.  (We want to show that $\gcd(a, m)=1$.)  This means that
-# $$
+# ```{math}
 # ab \equiv 1 \pmod{m},
-# $$
+# ```
 # which means that there is some integer $k$ such that
-# $$
+# ```{math}
 # ab = 1 + km, \qquad \text{or} \qquad ab - mk = 1.
-# $$
+# ```
 # Now, let $d = \gcd(a,m)$.  Then:
 #
 # 1) $d$ divides $a$ and $m$ (it is a common divisor); so
@@ -309,9 +333,9 @@ xgcd(35, 131)
 
 # %% [markdown]
 # The GCD (first output) is $1$, so it *is* invertible.  It also tells us that
-# $$
+# ```{math}
 # 1 = 35 \cdot 15 + 131 (-4)
-# $$
+# ```
 # (careful with the order of the output!), so $15$ is the inverse.  Indeed:
 
 # %%
@@ -322,9 +346,9 @@ xgcd(35, 131)
 
 # %% [markdown]
 # Given an integer $m > 1$, we can create a new set:
-# $$
-# \Z / m\Z = \{0, 1, 2, \ldots, (m-1)\}
-# $$
+# ```{math}
+# \mathbb{Z} / m\mathbb{Z} = \{0, 1, 2, \ldots, (m-1)\}
+# ```
 # where *congruences become equalities*!
 #
 # :::{warning}
@@ -333,13 +357,14 @@ xgcd(35, 131)
 # :::
 #
 # To differentiate these elements from the actual integers, often times authors use an over bar for the elements of this set, as in
-# $$
-# \Z / m\Z = \{\bar{0}, \bar{1}, \bar{2}, \ldots, \overline{m-1}\}
-# $$
+# ```{math}
+# \mathbb{Z} / m\mathbb{Z} = \{\bar{0}, \bar{1}, \bar{2}, \ldots, \overline{m-1}\}
+# ```
 # But, we will not use the bars here.  We just have to be aware of the context.
 #
-# So, while in $\Z$ we had
+# So, while in $\mathbb{Z}$ we had
 #
+# ```{math}
 # \begin{align*}
 # \cdots -15 \equiv -10 \equiv -5 \equiv {\color{red} 0} \equiv 5 \equiv 10 \equiv 15 \equiv \cdots \pmod{5}\\
 # \cdots -14 \equiv -9 \equiv -4 \equiv {\color{red} 1} \equiv 6 \equiv 11 \equiv 16 \equiv \cdots \pmod{5}\\
@@ -347,9 +372,11 @@ xgcd(35, 131)
 # \cdots -12 \equiv -7 \equiv -2 \equiv {\color{red} 3} \equiv 8 \equiv 13 \equiv 18 \equiv \cdots \pmod{5}\\
 # \cdots -11 \equiv -6 \equiv -1 \equiv {\color{red} 4} \equiv 9 \equiv 14 \equiv 19 \equiv \cdots \pmod{5}
 # \end{align*}
+# ```
 #
-# in $\Z/5\Z = \{0, 1, 2, 3, 4\}$, we have:
+# in $\mathbb{Z}/5\mathbb{Z} = \{0, 1, 2, 3, 4\}$, we have:
 #
+# ```{math}
 # \begin{align*}
 # \cdots -15 = -10 = -5 = {\color{red} 0} = 5 = 10 = 15 = \cdots \\
 # \cdots -14 = -9 = -4 = {\color{red} 1} = 6 = 11 = 16 = \cdots \\
@@ -357,60 +384,63 @@ xgcd(35, 131)
 # \cdots -12 = -7 = -2 = {\color{red} 3} = 8 = 13 = 18 = \cdots \\
 # \cdots -11 = -6 = -1 = {\color{red} 4} = 9 = 14 = 19 = \cdots
 # \end{align*}
+# ```
 #
-# So, one can say that $6 \in \Z/5\Z$, but in this new set, we have that $6 = 1$ (since $6 \equiv 1 \pmod{5}$).
+# So, one can say that $6 \in \mathbb{Z}/5\mathbb{Z}$, but in this new set, we have that $6 = 1$ (since $6 \equiv 1 \pmod{5}$).
 #
 #
-# In this set, by our previous theorem that allows us to replace elements by elements congruent to it in congruences, we can *add*, *subtract*, and *multiply* elements.  But, again, with congruences becoming equality.  For instance, still in $\Z/5\Z$, we have:
+# In this set, by our previous theorem that allows us to replace elements by elements congruent to it in congruences, we can *add*, *subtract*, and *multiply* elements.  But, again, with congruences becoming equality.  For instance, still in $\mathbb{Z}/5\mathbb{Z}$, we have:
 #
+# ```{math}
 # \begin{align*}
 # 3 + 4 &= 7 = \boxed{2}, \\
 # 3 - 4 &= -1 = \boxed{4}, \\
 # 3 \cdot 4 &= 12 = \boxed{2}.
 # \end{align*}
+# ```
 #
 # Although saying that $3 + 4 = 7$ is technically correct, we usually want to give the result in the range $\{0, 1, 2, 3, 4\}$ (when $m=5$), so it is better to say $3 + 4 = 2$.
 #
-# This last observation makes clear the fact that the elements of $\Z/5\Z$ are *not integers*, as it is not true for integers that $3 + 4 = 2$.
+# This last observation makes clear the fact that the elements of $\mathbb{Z}/5\mathbb{Z}$ are *not integers*, as it is not true for integers that $3 + 4 = 2$.
 #
 # :::{important}
 #
-# If $m$ and $n$ are two different moduli, then $\Z/m\Z$ and $\Z/n\Z$ are *unrelated*, meaning that they live in different universes and do not relate to each other!
+# If $m$ and $n$ are two different moduli, then $\mathbb{Z}/m\mathbb{Z}$ and $\mathbb{Z}/n\mathbb{Z}$ are *unrelated*, meaning that they live in different universes and do not relate to each other!
 # :::
 #
-# To make this clear, one might think that since $\Z/3\Z = \{0, 1, 2\}$ and $\Z/4\Z = \{0, 1, 2, 3\}$, then $\Z/3\Z$ is contained in $\Z/4\Z$.  But *this is not the case*!  For instance, their $1$'s are not the same.  In $\Z/3\Z$ we have that $1 + 1 + 1 = 3 = 0$, while in $\Z/4\Z$ we have that $1 + 1 + 1 = 3 \neq 0$.
+# To make this clear, one might think that since $\mathbb{Z}/3\mathbb{Z} = \{0, 1, 2\}$ and $\mathbb{Z}/4\mathbb{Z} = \{0, 1, 2, 3\}$, then $\mathbb{Z}/3\mathbb{Z}$ is contained in $\mathbb{Z}/4\mathbb{Z}$.  But *this is not the case*!  For instance, their $1$'s are not the same.  In $\mathbb{Z}/3\mathbb{Z}$ we have that $1 + 1 + 1 = 3 = 0$, while in $\mathbb{Z}/4\mathbb{Z}$ we have that $1 + 1 + 1 = 3 \neq 0$.
 #
 # :::{note}
 #
-# 1) The title of this section is "The *Ring* of Integers Modulo $m$".  The world [ring](https://en.wikipedia.org/wiki/Ring_(mathematics)) comes from [Abstract Algebra](https://en.wikipedia.org/wiki/Abstract_algebra) and essentially says that we can add, subtract, and multiply elements of $\Z/m\Z$ with some of the expected properties for these operations.
-# 2) Many texts use $\Z_m$ for $\Z/m\Z$, since it is quicker to write.  But is ambiguous, as $\Z_p$ (for $p$ prime) is often used for [$p$-adic numbers](https://en.wikipedia.org/wiki/P-adic_number).  The notation $\Z/m\Z$ is universally understood.
+# 1) The title of this section is "The *Ring* of Integers Modulo $m$".  The world [ring](https://en.wikipedia.org/wiki/Ring_(mathematics)) comes from [Abstract Algebra](https://en.wikipedia.org/wiki/Abstract_algebra) and essentially says that we can add, subtract, and multiply elements of $\mathbb{Z}/m\mathbb{Z}$ with some of the expected properties for these operations.
+# 2) Many texts use $\mathbb{Z}_m$ for $\mathbb{Z}/m\mathbb{Z}$, since it is quicker to write.  But is ambiguous, as $\mathbb{Z}_p$ (for $p$ prime) is often used for [$p$-adic numbers](https://en.wikipedia.org/wiki/P-adic_number).  The notation $\mathbb{Z}/m\mathbb{Z}$ is universally understood.
 # :::
 #
 # :::{prf:definition} Notation
 # :label: def-fp
 # :numbered: true
 #
-# If $p$ is a prime number, then we might write $\mathbb{F}_p$ for $\Z/p\Z$.  That is because when $p$ is prime (and only in that case), the ring $\Z/p\Z$ is a [field](https://en.wikipedia.org/wiki/Field_(mathematics)) with $p$ elements.
+# If $p$ is a prime number, then we might write $\mathbb{F}_p$ for $\mathbb{Z}/p\mathbb{Z}$.  That is because when $p$ is prime (and only in that case), the ring $\mathbb{Z}/p\mathbb{Z}$ is a [field](https://en.wikipedia.org/wiki/Field_(mathematics)) with $p$ elements.
 # :::
 
 # %% [markdown]
-# ### $\Z/m\Z$ in Sage
+# ### $\mathbb{Z}/m\mathbb{Z}$ in Sage
 
 # %% [markdown]
-# Fortunately, Sage allows us to create and use this set/ring $\Z/m\Z$, with either `Integers(m)`, `IntegerModRing(m)` or `Zmod(m)`.
+# Fortunately, Sage allows us to create and use this set/ring $\mathbb{Z}/m\mathbb{Z}$, with either `Integers(m)`, `IntegerModRing(m)` or `Zmod(m)`.
 
 # %%
 Zmod?
 
 # %% [markdown]
-# So, let's create $\Z/5\Z$ and save it in `Z5`:
+# So, let's create $\mathbb{Z}/5\mathbb{Z}$ and save it in `Z5`:
 
 # %%
 Z5 = Zmod(5)
 Z5
 
 # %% [markdown]
-# So, to convert an integer `n` to an element of $\Z/5\Z$, we can do `Z5(n)`.  For example:
+# So, to convert an integer `n` to an element of $\mathbb{Z}/5\mathbb{Z}$, we can do `Z5(n)`.  For example:
 
 # %%
 print(3 + 4)
@@ -431,13 +461,13 @@ parent(1)
 parent(Z5(1))
 
 # %% [markdown]
-# Note that when we convert an element to $\Z/5\Z$, Sage automatically reduces it modulo $5$ as well:
+# Note that when we convert an element to $\mathbb{Z}/5\mathbb{Z}$, Sage automatically reduces it modulo $5$ as well:
 
 # %%
 Z5(12)
 
 # %% [markdown]
-# Another way to create an element of $\Z/5\Z$ without creating the ring first is using `Mod`:
+# Another way to create an element of $\mathbb{Z}/5\mathbb{Z}$ without creating the ring first is using `Mod`:
 
 # %%
 Mod(2, 5)
@@ -466,25 +496,25 @@ Mod(3, 5) * Mod(4, 5)
 Mod(1, 3) == Mod(1, 4)
 
 # %% [markdown]
-# ## Multiplication by $\Z$
+# ## Multiplication by $\mathbb{Z}$
 
 # %% [markdown]
-# If $k$ is a positive integer and $a$ is an element of $\Z/m\Z$, we can write $k \cdot a$, by which we mean
-# $$
+# If $k$ is a positive integer and $a$ is an element of $\mathbb{Z}/m\mathbb{Z}$, we can write $k \cdot a$, by which we mean
+# ```{math}
 # k \cdot a = \underbrace{a + a + \cdots a}_{\text{$k$ summands of $a$}}.
-# $$
-# So, it is simply a shortcut.  (Note that the addition is the addition of $\Z/m\Z$.)
+# ```
+# So, it is simply a shortcut.  (Note that the addition is the addition of $\mathbb{Z}/m\mathbb{Z}$.)
 #
 # Now, we also define
-# $$
+# ```{math}
 # 0 \cdot a = 0
-# $$
-# for any $a$ in $\Z/mZ$.  **Note:** The $0$ on left is the one from $\Z$, which the one on the right is the one from $\Z/mZ$.
+# ```
+# for any $a$ in $\mathbb{Z}/mZ$.  **Note:** The $0$ on left is the one from $\mathbb{Z}$, which the one on the right is the one from $\mathbb{Z}/mZ$.
 #
 # If $k$ is a positive integer, we further define
-# $$
+# ```{math}
 # (-k) \cdot a = \underbrace{(-a) + (-a) + \cdots + (-a)}_{\text{$k$ summands of $-a$}}.
-# $$
+# ```
 
 # %% [markdown]
 # Sage can handle that:
@@ -493,10 +523,10 @@ Mod(1, 3) == Mod(1, 4)
 3 * Mod(5, 7)
 
 # %% [markdown]
-# Indeed, if $3 \in \Z$ and $5 \in \Z/7\Z$, then:
-# $$
+# Indeed, if $3 \in \mathbb{Z}$ and $5 \in \mathbb{Z}/7\mathbb{Z}$, then:
+# ```{math}
 # 3 \cdot 5 = 5 + 5 + 5 = 15 = 1.
-# $$
+# ```
 #
 # Also:
 
@@ -504,13 +534,13 @@ Mod(1, 3) == Mod(1, 4)
 -3 * Mod(5, 7)
 
 # %% [markdown]
-# Indeed, if $-3 \in \Z$ and $5 \in \Z/7\Z$, then:
-# $$
+# Indeed, if $-3 \in \mathbb{Z}$ and $5 \in \mathbb{Z}/7\mathbb{Z}$, then:
+# ```{math}
 # (-3) \cdot 5 = (-5) + (-5) + (-5) = 2 + 2 + 2 = 6.
-# $$
+# ```
 
 # %% [markdown]
-# **Note:** In the end, multiplying $a$ and $b$ when $a \in \Z$ and $b \in \Z/m\Z$ is the same as multiplying both elements as if they were in $\Z/mZ$.  So, we don't have to worry about it:
+# **Note:** In the end, multiplying $a$ and $b$ when $a \in \mathbb{Z}$ and $b \in \mathbb{Z}/m\mathbb{Z}$ is the same as multiplying both elements as if they were in $\mathbb{Z}/mZ$.  So, we don't have to worry about it:
 
 # %%
 Mod(3, 7) * Mod(5, 7) == 3 * Mod(5, 7)
@@ -522,32 +552,32 @@ Mod(-3, 7) * Mod(5, 7) == -3 * Mod(5, 7)
 # ## Exponents
 
 # %% [markdown]
-# Similar to how we have shortcut to add an element of $\Z/m\Z$ to itself many times over (as in $k \cdot a$) we also have shortcut to multiplying: for any *positive* integer $k$, we let:
-# $$
+# Similar to how we have shortcut to add an element of $\mathbb{Z}/m\mathbb{Z}$ to itself many times over (as in $k \cdot a$) we also have shortcut to multiplying: for any *positive* integer $k$, we let:
+# ```{math}
 # a^k = \underbrace{a \cdot a \cdots a}_{\text{$k$ factors of $a$}}.
-# $$
+# ```
 # Note that this means that $a^1 = a$ (for any $a$) and we extend the definition with
-# $$
-# a^0 = 1 \qquad \text{for any $a \in \Z/m\Z$.}
-# $$
+# ```{math}
+# a^0 = 1 \qquad \text{for any $a \in \mathbb{Z}/m\mathbb{Z}$.}
+# ```
 #
 # :::{warning}
 #
 # Unlike with multiplication, *we cannot replace the exponent $k$ with an integer modulo $m$*!
 # :::
 #
-# For instance, in $\Z/4\Z$, we have that $4 =0$, but while
-# $$
+# For instance, in $\mathbb{Z}/4\mathbb{Z}$, we have that $4 =0$, but while
+# ```{math}
 # 2^ 0 = 1,
-# $$
+# ```
 # but
-# $$
+# ```{math}
 # 2^4 = 2 \cdot 2 \cdot 2 \cdot 2 = 16 = 4 \cdot 4 = 0 \cdot 0 = 0,
-# $$
+# ```
 # and hence
-# $$
+# ```{math}
 # 2^0 \neq 2^4.
-# $$
+# ```
 #
 # The exponents do have familiar properties, though:
 #
@@ -555,7 +585,7 @@ Mod(-3, 7) * Mod(5, 7) == -3 * Mod(5, 7)
 # :label: pr-exp
 # :numbered: true
 #
-# Let $m$ be an integer greater than one, $a$ and $b$ be in $\Z/m\Z$ and $x$ and $y$ be *positive* integers.  Then:
+# Let $m$ be an integer greater than one, $a$ and $b$ be in $\mathbb{Z}/m\mathbb{Z}$ and $x$ and $y$ be *positive* integers.  Then:
 #
 # 1) $a^x \cdot a^y = a^{x + y}$,
 # 2) $\left( a^x \right)^y = a^{x \cdot y}$,
@@ -574,7 +604,7 @@ Mod(32, 101)^84938493
 # %% [markdown]
 # :::{important}
 #
-# In computations, you should *always* first convert an integer to $\Z/m\Z$ and then compute the power, *never the other way around*!
+# In computations, you should *always* first convert an integer to $\mathbb{Z}/m\mathbb{Z}$ and then compute the power, *never the other way around*!
 # :::
 #
 # We will see some reasons for the that below, but here is an illustration:
@@ -592,9 +622,9 @@ Mod(32^84938493, 101)
 #
 # Similarly, remember our computation that
 #
-# $$
+# ```{math}
 # 5647438438 \cdot 85948594584 - 7548376839 \equiv 3 \pmod{5}.
-# $$
+# ```
 #
 # Like doing it by hand, is much better to first reduce modulo $5$ and then perform the operations:
 
@@ -613,25 +643,25 @@ Mod(a * b - c, m)
 Mod(a, m) * Mod(b, m) - Mod(c, m)
 
 # %% [markdown]
-# ## The Group of Units of $\Z/m\Z$
+# ## The Group of Units of $\mathbb{Z}/m\mathbb{Z}$
 
 # %% [markdown]
 # As we've seen before, if $\gcd(a, m) = 1$, then there is some integer $b$ such that $ab \equiv 1 \pmod{m}$, and this is $b$ is unique *modulo $m$*, meaning that if $ab' \equiv 1 \pmod{m}$ as well, then $b \equiv b' \pmod{m}$.
 #
-# We can now translate this to $\Z/m\Z$: if $a \in \Z/m\Z$ and $\gcd(a, m)=1$, then there is a *unique* $b$ in $\Z/m\Z$ such that $ab=1$.  (In this case, $ab=ab'=1$ means that $b=b'$.)  In this case, we say that $a$ is *invertible* in $\Z/m\Z$ or a *unit* of $\Z/m\Z$, and $b$ is its inverse.  We denote this inverse of $a$ by $a^{-1}$.
+# We can now translate this to $\mathbb{Z}/m\mathbb{Z}$: if $a \in \mathbb{Z}/m\mathbb{Z}$ and $\gcd(a, m)=1$, then there is a *unique* $b$ in $\mathbb{Z}/m\mathbb{Z}$ such that $ab=1$.  (In this case, $ab=ab'=1$ means that $b=b'$.)  In this case, we say that $a$ is *invertible* in $\mathbb{Z}/m\mathbb{Z}$ or a *unit* of $\mathbb{Z}/m\mathbb{Z}$, and $b$ is its inverse.  We denote this inverse of $a$ by $a^{-1}$.
 #
-# Moreover, if $\gcd(a, m) \neq 1$, then there is no $b \in \Z/m\Z$ such that $ab = 1$.  (In this case, $a$ is *not* a unit.)
+# Moreover, if $\gcd(a, m) \neq 1$, then there is no $b \in \mathbb{Z}/m\mathbb{Z}$ such that $ab = 1$.  (In this case, $a$ is *not* a unit.)
 #
-# We denote the set of all units (or all invertible elements) of $\Z/m\Z$ by $(\Z/m\Z)^{\times}$.  So,
-# $$
-# (\Z/m\Z)^{\times} = \{ a \in \Z/m\Z \; : \; \gcd(a, m) = 1 \}.
-# $$
+# We denote the set of all units (or all invertible elements) of $\mathbb{Z}/m\mathbb{Z}$ by $(\mathbb{Z}/m\mathbb{Z})^{\times}$.  So,
+# ```{math}
+# (\mathbb{Z}/m\mathbb{Z})^{\times} = \{ a \in \mathbb{Z}/m\mathbb{Z} \; : \; \gcd(a, m) = 1 \}.
+# ```
 #
-# (We read the "$:$" as "such that".  The left part is read as "the set of all elements $a$ in $\Z/m\Z$ such that $\gcd(a, m)=1$".)
+# (We read the "$:$" as "such that".  The left part is read as "the set of all elements $a$ in $\mathbb{Z}/m\mathbb{Z}$ such that $\gcd(a, m)=1$".)
 #
 # :::{note}
 #
-# The title of this section is "The Group of Units of $\Z/m\Z$" and, again, the term [group](https://en.wikipedia.org/wiki/Group_(mathematics)) comes from Abstract Algebra.  We might talk more about groups later!
+# The title of this section is "The Group of Units of $\mathbb{Z}/m\mathbb{Z}$" and, again, the term [group](https://en.wikipedia.org/wiki/Group_(mathematics)) comes from Abstract Algebra.  We might talk more about groups later!
 # :::
 
 # %% [markdown]
@@ -639,12 +669,12 @@ Mod(a, m) * Mod(b, m) - Mod(c, m)
 # :label: pr-unity
 # :numbered: true
 #
-# Here are some basic properties of $(\Z/m\Z)^{\times}$ (that in fact show it is a group) of the product:
+# Here are some basic properties of $(\mathbb{Z}/m\mathbb{Z})^{\times}$ (that in fact show it is a group) of the product:
 #
-# 1) $1 \in (\Z/m\Z)^{\times}$;
-# 2) if $a, b \in (\Z/m\Z)^{\times}$, then $a \cdot b \in (\Z/m\Z)^{\times}$;
-# 3) if $a \in (\Z/m\Z)^{\times}$, then $a^{-1}$ exists and is in $(\Z/m\Z)^{\times}$ as well;
-# 4) if $a, b, c \in (\Z/m\Z)^{\times}$, then $a \cdot (b \cdot c) = (a \cdot b) \cdot c$.
+# 1) $1 \in (\mathbb{Z}/m\mathbb{Z})^{\times}$;
+# 2) if $a, b \in (\mathbb{Z}/m\mathbb{Z})^{\times}$, then $a \cdot b \in (\mathbb{Z}/m\mathbb{Z})^{\times}$;
+# 3) if $a \in (\mathbb{Z}/m\mathbb{Z})^{\times}$, then $a^{-1}$ exists and is in $(\mathbb{Z}/m\mathbb{Z})^{\times}$ as well;
+# 4) if $a, b, c \in (\mathbb{Z}/m\mathbb{Z})^{\times}$, then $a \cdot (b \cdot c) = (a \cdot b) \cdot c$.
 # :::
 
 # %% [markdown]
@@ -666,7 +696,7 @@ Mod(60, 101) * Mod(32, 101)
 inverse_mod(32, 101)
 
 # %% [markdown]
-# But note that unlike the previous example, which gives us an element of $\Z/101\Z$, the latter gives us an *integer*!
+# But note that unlike the previous example, which gives us an element of $\mathbb{Z}/101\mathbb{Z}$, the latter gives us an *integer*!
 
 # %%
 parent(Mod(32, 101)^(-1))
@@ -695,7 +725,7 @@ a = Mod(2, 6)
 a.is_unit()
 
 # %% [markdown]
-# Sage can also give us the whole set of units.  Remembering the `Z5` is `Zmod(5)` meaning $\Z/5\Z$ we have:
+# Sage can also give us the whole set of units.  Remembering the `Z5` is `Zmod(5)` meaning $\mathbb{Z}/5\mathbb{Z}$ we have:
 
 # %%
 Z5.unit_group()
@@ -709,7 +739,7 @@ set(Z5.unit_group())
 # %% [markdown]
 # What is `f`?
 #
-# This is a related to some algebraic properties of the group of units, but we can "translate" is back to $\Z/5\Z$:
+# This is a related to some algebraic properties of the group of units, but we can "translate" is back to $\mathbb{Z}/5\mathbb{Z}$:
 
 # %%
 {Z5(x) for x in Z5.unit_group()}

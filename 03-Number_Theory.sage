@@ -1,12 +1,13 @@
 # ---
 # jupyter:
 #   jupytext:
+#     default_lexer: ipython3
 #     formats: ipynb,sage:percent,md:myst
 #     text_representation:
 #       extension: .sage
 #       format_name: percent
 #       format_version: '1.3'
-#       jupytext_version: 1.16.7
+#       jupytext_version: 1.17.1
 #   kernelspec:
 #     display_name: SageMath 10.5
 #     language: sage
@@ -17,13 +18,13 @@
 # # Number Theory
 
 # %% [markdown]
-# ## What is Number Theory
+# ## What is Number Theory?
 
 # %% [markdown]
 # [Number Theory](https://en.wikipedia.org/wiki/Number_theory), to put it very simply, is the study of integers, i.e., the set
-# $$
+# ```{math}
 # \mathbb{Z} = \{\ldots -3, -2, -1, 0, 1, 2, 3, \ldots\}.
-# $$
+# ```
 # It is one of the oldest branches of mathematics.  In particular, *prime numbers* (as we will discuss below) have a central role in Number Theory.
 #
 # For a long time it was an area of with little concrete applications.  [G. H. Hardy](https://en.wikipedia.org/wiki/G._H._Hardy), a very famous number theorist, once called Number Theory "useless".
@@ -82,9 +83,9 @@ a - 4*b
 
 # %% [markdown]
 # Ah-ha!  Since $34$ is less than $37$, we have that the remainder is $34$ and the quotient is $4$.  So, we have
-# $$
+# ```{math}
 # 182 = 37 \cdot \underbrace{4}_{\text{quotient}} + \underbrace{34}_{\text{remainder}}.
-# $$
+# ```
 
 # %% [markdown]
 # Let's automate this process:
@@ -141,9 +142,9 @@ a + 5*b
 
 # %% [markdown]
 # Since $3$ is our first non-negative number, it is the remainder, and $-5$ (note the *negative*) is the quotient:
-# $$
+# ```{math}
 # -182 = 37 \cdot \underbrace{(-5)}_{\text{quotient}} + \underbrace{3}_{\text{remainder}}.
-# $$
+# ```
 
 # %% [markdown]
 # In principle $b$ could also be negative, but let's not bother with that case, as it is rather unusual.  So, lets automate the process for negative and positive dividends in a single function:
@@ -306,9 +307,10 @@ prime_test(3 * 10^7 + 1)
 # If $n = a \cdot b$, with $a$ and $b$ integers greater than $1$ (and hence also smaller than $n$), what can we say about the size of the *smallest* factor, say $a$?  (Note that we allow $a = b$.)
 #
 # If $a > \sqrt{n}$, then also $b > \sqrt{n}$, and so
-# $$
+# ```{math}
 # n = a \cdot b < \sqrt{n} \cdot \sqrt{n} = n,
-# $$
+# ```
+#
 # i.e., $n < n$, which is impossible!  Therefore, we must have that, if $n$ is composite, then the smallest divisor *must be* less than or equal to $\sqrt{n}$!
 #
 # Therefore, we only need to test for divisors up to $\sqrt{n}$.  If none is found up to there, then $n$ must be prime.
@@ -369,7 +371,7 @@ prime_test_2(3 * 10^7 + 1)
 # %% [markdown]
 # Suppose we want to know if $101$ is prime.  We start with a list of all integer between $2$ and $101$ both inclusive:
 #
-# $$
+# ```{math}
 # \begin{array}{rrrrrrrrrr}
 # 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\
 # 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 \\
@@ -382,12 +384,12 @@ prime_test_2(3 * 10^7 + 1)
 # 82 & 83 & 84 & 85 & 86 & 87 & 88 & 89 & 90 & 91 \\
 # 92 & 93 & 94 & 95 & 96 & 97 & 98 & 99 & 100 & 101
 # \end{array}
-# $$
+# ```
 
 # %% [markdown]
 # We know that $2$ is prime and we can then cross all multiples of $2$ from the list, which we can do without division, by just crossing every other element:
 #
-# $$
+# ```{math}
 # \begin{array}{rrrrrrrrrr}
 # {\color{red} 2} & 3 & {\color{gray} \cancel{4}} & 5 & {\color{gray} \cancel{6}} & 7 & {\color{gray} \cancel{8}} & 9 & {\color{gray} \cancel{10}} & 11 \\
 # {\color{gray} \cancel{12}} & 13 & {\color{gray} \cancel{14}} & 15 & {\color{gray} \cancel{16}} & 17 & {\color{gray} \cancel{18}} & 19 & {\color{gray} \cancel{20}} & 21 \\
@@ -400,12 +402,12 @@ prime_test_2(3 * 10^7 + 1)
 # {\color{gray} \cancel{82}} & 83 & {\color{gray} \cancel{84}} & 85 & {\color{gray} \cancel{86}} & 87 & {\color{gray} \cancel{88}} & 89 & {\color{gray} \cancel{90}} & 91 \\
 # {\color{gray} \cancel{92}} & 93 & {\color{gray} \cancel{94}} & 95 & {\color{gray} \cancel{96}} & 97 & {\color{gray} \cancel{98}} & 99 & {\color{gray} \cancel{100}} & 101
 # \end{array}
-# $$
+# ```
 
 # %% [markdown]
 # Then, we are sure that the next non-crossed out element is also prime, in this case, $3$.  And again, we can cross out all its multiples, by jumping with a step size of $3$:
 #
-# $$
+# ```{math}
 # \begin{array}{rrrrrrrrrr}
 # {\color{red} 2} & {\color{red}3 } & {\color{gray} \cancel{4}} & 5 & {\color{gray} \cancel{6}} & 7 & {\color{gray} \cancel{8}} & {\color{gray} \cancel{9}} & {\color{gray} \cancel{10}} & 11 \\
 # {\color{gray} \cancel{12}} & 13 & {\color{gray} \cancel{14}} & {\color{gray} \cancel{15}} & {\color{gray} \cancel{16}} & 17 & {\color{gray} \cancel{18}} & 19 & {\color{gray} \cancel{20}} & {\color{gray} \cancel{21}} \\
@@ -418,12 +420,12 @@ prime_test_2(3 * 10^7 + 1)
 # {\color{gray} \cancel{82}} & 83 & {\color{gray} \cancel{84}} & 85 & {\color{gray} \cancel{86}} & {\color{gray} \cancel{87}} & {\color{gray} \cancel{88}} & 89 & {\color{gray} \cancel{90}} & 91 \\
 # {\color{gray} \cancel{92}} & {\color{gray} \cancel{93}} & {\color{gray} \cancel{94}} & 95 & {\color{gray} \cancel{96}} & 97 & {\color{gray} \cancel{98}} & {\color{gray} \cancel{99}} & {\color{gray} \cancel{100}} & 101
 # \end{array}
-# $$
+# ```
 
 # %% [markdown]
 # Now we repeat!  The next non-crossed out element, namely $5$ is prime, and we cross out all its multiples:
 #
-# $$
+# ```{math}
 # \begin{array}{rrrrrrrrrr}
 # {\color{red} 2} & {\color{red}3 } & {\color{gray} \cancel{4}} & {\color{red} 5} & {\color{gray} \cancel{6}} & 7 & {\color{gray} \cancel{8}} & {\color{gray} \cancel{9}} & {\color{gray} \cancel{10}} & 11 \\
 # {\color{gray} \cancel{12}} & 13 & {\color{gray} \cancel{14}} & {\color{gray} \cancel{15}} & {\color{gray} \cancel{16}} & 17 & {\color{gray} \cancel{18}} & 19 & {\color{gray} \cancel{20}} & {\color{gray} \cancel{21}} \\
@@ -436,12 +438,12 @@ prime_test_2(3 * 10^7 + 1)
 # {\color{gray} \cancel{82}} & 83 & {\color{gray} \cancel{84}} & {\color{gray} \cancel{85}} & {\color{gray} \cancel{86}} & {\color{gray} \cancel{87}} & {\color{gray} \cancel{88}} & 89 & {\color{gray} \cancel{90}} & 91 \\
 # {\color{gray} \cancel{92}} & {\color{gray} \cancel{93}} & {\color{gray} \cancel{94}} & {\color{gray} \cancel{95}} & {\color{gray} \cancel{96}} & 97 & {\color{gray} \cancel{98}} & {\color{gray} \cancel{99}} & {\color{gray} \cancel{100}} & 101
 # \end{array}
-# $$
+# ```
 
 # %% [markdown]
 # Then repeat for $7$:
 #
-# $$
+# ```{math}
 # \begin{array}{rrrrrrrrrr}
 # {\color{red} 2} & {\color{red}3 } & {\color{gray} \cancel{4}} & {\color{red} 5} & {\color{gray} \cancel{6}} & {\color{red} 7} & {\color{gray} \cancel{8}} & {\color{gray} \cancel{9}} & {\color{gray} \cancel{10}} & 11 \\
 # {\color{gray} \cancel{12}} & 13 & {\color{gray} \cancel{14}} & {\color{gray} \cancel{15}} & {\color{gray} \cancel{16}} & 17 & {\color{gray} \cancel{18}} & 19 & {\color{gray} \cancel{20}} & {\color{gray} \cancel{21}} \\
@@ -454,12 +456,12 @@ prime_test_2(3 * 10^7 + 1)
 # {\color{gray} \cancel{82}} & 83 & {\color{gray} \cancel{84}} & {\color{gray} \cancel{85}} & {\color{gray} \cancel{86}} & {\color{gray} \cancel{87}} & {\color{gray} \cancel{88}} & 89 & {\color{gray} \cancel{90}} & {\color{gray} \cancel{91}} \\
 # {\color{gray} \cancel{92}} & {\color{gray} \cancel{93}} & {\color{gray} \cancel{94}} & {\color{gray} \cancel{95}} & {\color{gray} \cancel{96}} & 97 & {\color{gray} \cancel{98}} & {\color{gray} \cancel{99}} & {\color{gray} \cancel{100}} & 101
 # \end{array}
-# $$
+# ```
 
 # %% [markdown]
 # But now, the next non-crossed out number is $11$ which is larger than $\sqrt{101}$ and we can stop!  *Every* non-crossed out element is actually prime:
 #
-# $$
+# ```{math}
 # \begin{array}{rrrrrrrrrr}
 # {\color{red} 2} & {\color{red}3 } & {\color{gray} \cancel{4}} & {\color{red} 5} & {\color{gray} \cancel{6}} & {\color{red} 7} & {\color{gray} \cancel{8}} & {\color{gray} \cancel{9}} & {\color{gray} \cancel{10}} & {\color{red} 11} \\
 # {\color{gray} \cancel{12}} & {\color{red} 13} & {\color{gray} \cancel{14}} & {\color{gray} \cancel{15}} & {\color{gray} \cancel{16}} & {\color{red} 17} & {\color{gray} \cancel{18}} & {\color{red} 19} & {\color{gray} \cancel{20}} & {\color{gray} \cancel{21}} \\
@@ -472,7 +474,7 @@ prime_test_2(3 * 10^7 + 1)
 # {\color{gray} \cancel{82}} & {\color{red} 83} & {\color{gray} \cancel{84}} & {\color{gray} \cancel{85}} & {\color{gray} \cancel{86}} & {\color{gray} \cancel{87}} & {\color{gray} \cancel{88}} & {\color{red} 89} & {\color{gray} \cancel{90}} & {\color{gray} \cancel{91}} \\
 # {\color{gray} \cancel{92}} & {\color{gray} \cancel{93}} & {\color{gray} \cancel{94}} & {\color{gray} \cancel{95}} & {\color{gray} \cancel{96}} & {\color{red} 97} & {\color{gray} \cancel{98}} & {\color{gray} \cancel{99}} & {\color{gray} \cancel{100}} & {\color{red} 101}
 # \end{array}
-# $$
+# ```
 
 # %% [markdown]
 # So, the list of primes less than or equal to $101$ is: $2$, $3$, $5$, $7$, $11$, $13$, $17$, ...  Let's check with Sage's `prime_range`:
@@ -572,11 +574,13 @@ test_1 == test_2
 #
 # A first naive method to compute the GCD is to find the divisors of both numbers and take the largest common one.  For instance, say we want $\gcd(12, 15)$.  We have
 #
+# ```{math}
 # \begin{align*}
 # \text{positive divisors of $12$} &= \{1, 2, 3, 4, 6, 12\},\\
 # \text{positive divisors of $15$} &= \{1, 3, 5, 15\},\\
 # \text{common divisors} &= \{1, \boxed{3}\}
 # \end{align*}
+# ```
 #
 #
 # But the process of finding all these divisors might take a while.  Here is a second (still naive) approach.  We can simply start testing:
@@ -606,23 +610,27 @@ test_1 == test_2
 # We have the following:
 #
 # **Theorem:** We have that $d$ divides both $a$ and $b$ *if, and only if*, $d$ also divides both $a$ and $b - a$.  This implies that
-# $$
+# ```{math}
 # \{\text{common divisors of $a$ and $b$}\} = \{\text{common divisors of $a$ and $b - a$}\},
-# $$
+# ```
 # and hence $\boxed{\gcd(a, b) = \gcd(a, b-a)}$.
 #
 # <br>
 #
 # Here is a quick idea of why that is true: say $d \mid a, b$.  Then $a/d$ and $b/d$ are integers.  So,
-# $$
+#
+# ```{math}
 # \frac{b - a}{d} = \frac{b}{d} - \frac{a}{d},
-# $$
+# ```
+#
 # a difference of integers, and so an integers as well, and hence $d \mid (b -a)$.
 #
 # And, if $d \mid a, (b-a)$, then $a/d$ and $(b-a)/d$ are both integers, and thus
-# $$
+#
+# ```{math}
 # \frac{b}{d} = \frac{(b-a) + a}{d} = \frac{b-a}{d} + \frac{a}{d},
-# $$
+# ```
+#
 # a sum of integers, and so an integer too, and therefore $d \mid b$.
 
 # %% [markdown]
@@ -644,12 +652,13 @@ else:  # no break
 
 # %% [markdown]
 # But how does that help?  Say that we need to compute the $\gcd(12, 15)$ again.  Well, we have
-# $$
+# ```{math}
 # \gcd(12, 15) = \gcd(12, 15-12) = \gcd(12, 3).
-# $$
+# ```
 # Here, since we know $3 \mid 12$, we could already see that $\gcd(12, 15) = \gcd(12, 3) = 3$!  But, let's pretend we did not notice that.  *We can repeat the idea!*  Replace the larger number by its difference with the smaller.
 #
 # So, we can do:
+# ```{math}
 # \begin{align*}
 # \gcd(12, 15) &= \gcd(12, 3)\\
 # &= \gcd(9, 3) \\
@@ -657,11 +666,13 @@ else:  # no break
 # &= \gcd(3, 3)\\
 # &= \gcd(0, 3) = \boxed{3}.
 # \end{align*}
+# ```
 #
 # This last line follows from $\gcd(a, 0) = a$ when $a>0$.  *We did not perform a single division*, only subtractions.
 
 # %% [markdown]
 # Let's do a larger example, say $\gcd(159, 48)$:
+# ```{math}
 # \begin{align*}
 # \gcd(159, 48) & = \gcd(159 - 48, 48) = \gcd(111, 48) \\
 # &= \gcd(111 - 48, 48) = \gcd(63, 48) \\
@@ -675,44 +686,46 @@ else:  # no break
 # &= \gcd(3, 3) \\
 # &= \gcd(0, 3) = \boxed{3}.
 # \end{align*}
+# ```
 
 # %% [markdown]
 # This already works well, but note that by repeating the idea:
-# $$
+# ```{math}
 # \gcd(a, b) = \gcd(a, b-a) = \gcd(a, b - 2a) = \gcd(a, b - 3a) = \cdots
-# $$
+# ```
 # Hence, when we had $\gcd(12, 3)$ we could subract $4 \cdot 3 = 12$ form $12$ to get $\gcd(0, 3) = 3$ above.
 #
 # More generally, if we do the long division $a = bq + r$ (with $0 \leq r \leq b$), then
-# $$
+# ```{math}
 # \gcd(a, b) = \gcd(a - qb, b) = \gcd(r, b)  \quad \text{and $r < b$}.
-# $$
+# ```
 
 # %% [markdown]
 # Let's apply this same idea to the steps above:
 #
+# ```{math}
 # \begin{align*}
 # \gcd(159, 48) & = \gcd(159 - 3 \cdot 48, 48) = \gcd(15, 48) && \text{[since $159 = 48 \cdot 3 + 15$]}\\
 # &= \gcd(15, 48 - 3 \cdot 15) = \gcd(15, 3) && \text{[since $48 = 15 \cdot 3 + 3$]}\\
 # &= \gcd(15 - 3 \cdot 5, 3) = \gcd(0, 3) = \boxed{3}.   && \text{[since $15 = 3 \cdot 5 + 0$]}
 # \end{align*}
+# ```
 
 # %% [markdown]
 # This is more efficient!  This process above it called the **Euclidean Algorithm**.  Here are the steps.
 #
-# :::{prf:algorithm} Euclidean Algorithm
+# ```{prf:algorithm} Euclidean Algorithm
 # :label: alg-ea
-# :numbered: false
 #
 # To compute $\gcd(a, b)$:
 #
 # 1) Perform the long division of the larger by the smaller and replace the larger by the remainder.  (This remainder now is smaller than the previous smallest element!)
 # 2) Repeat until you get a remainder of $0$.
 # 3) The GCD is the last divisor (meaning, the last non-zero smallest element).
-#
-# :::
+# ```
 #
 # So, we have a series of long divisions, until we get a remainder of $0$:
+# ```{math}
 # \begin{align*}
 # \gcd(a,b): && a &= b \cdot q_1 + r_1 && (0< r_1 < b) \\
 # \gcd(b,r_1): && b &= r_1 \cdot q_2 + r_2 && (0< r_2 < r_1) \\
@@ -722,6 +735,7 @@ else:  # no break
 # \gcd(r_{n-2},r_{n-1}): && r_{n-2} &= r_{n-1} \cdot q_n + \boxed{r_n} \leftarrow \text{GCD} && (0 < r_n < r_2) \\
 # \gcd(r_{n-1}, r_n): &&  r_{n-1} &= r_n \cdot q_{n+1} + {\color{red} 0}
 # \end{align*}
+# ```
 
 # %% [markdown]
 # So, let's do another example: $\gcd(1{,}027, 349)$:
@@ -760,22 +774,27 @@ else:  # no break
 gcd(1027, 349)
 
 # %% [markdown]
+# :::{admonition} Homework
+# :class: note
+#
 # In your homework you will automate this process, i.e., implement the Euclidean Algorithm as a function.
+# :::
 
 # %% [markdown]
-# ## How Fast Is the Euclidean Algorithm?
+# ## How Fast Is the Euclidean Algorithm
 
 # %% [markdown]
 # Is the Euclidean Algorithm efficient?  It is clear is much better than our naive approaches above.  But how many long divisions do we need to perform?  Let's think of the worst case scenario.  The faster the numbers get smaller, the better.
 #
 # With some (relatively simple math), one can prove that if the  sequence of remainder is $r_1$, $r_2$, $r_3$, ..., then
-# $$
+# ```{math}
 # r_{i+2} < \frac{r_i}{2}, \quad \text{for $i=0,1,2, \ldots$}
-# $$
+# ```
 # This means that after two long divisions, the remainder is *at most* half the size.
 #
 # Hence, we get:
 #
+# ```{math}
 # \begin{align*}
 # r_2 &< r_0/2\\
 # r_4 &< r_2/2  < r_0/4\\
@@ -783,11 +802,12 @@ gcd(1027, 349)
 # r_8 &< r_6/2 < r_4/4 < r_2/ 8 < r_0 / 16\\
 # & \;\; \vdots
 # \end{align*}
+# ```
 #
 # This means that $r_{2k} < \dfrac{r_0}{2^k}$.  Since $2^k$ grows very fast as $k$ increases, $r_{2k}$ gets small very fast.  With a little more math, one can show that
-# $$
+# ```{math}
 # \text{number of long divisions} < 2 \log_2(b) + 2,
-# $$
+# ```
 # where, again, $b$ is the smallest between $a$ and $b$.
 
 # %% [markdown]
@@ -814,32 +834,32 @@ gcd(76497326597236475295264957264957246971641974697326592743619743, 894350982820
 # :numbered: true
 #
 # Let $a$ and $b$ be positive integers.  Then, there are integers $u$ and $v$ (maybe negative), such that:
-# $$
+# ```{math}
 # \gcd(a, b) = au + bv.
-# $$
+# ```
 # :::
 #
 #
 # Let's illustrate it with same examples.
 #
 # We had the $\gcd(12, 15) = 3$, and
-# $$
+# ```{math}
 # 3 = 12 \cdot (-1) + 15 \cdot 1  \quad \text{so, $u=-1$ and $v=1$.}
-# $$
+# ```
 #
 # We had the $\gcd(159, 48) = 3$, and
-# $$
+# ```{math}
 # 3 = 159 \cdot (-3) + 48 \cdot 10  \quad \text{so, $u=-3$ and $v=10$.}
-# $$
+# ```
 
 # %%
 159 * (-3) + 48 * 10
 
 # %% [markdown]
 # We have that $\gcd(1{,}027, 349) = 1$, and
-# $$
+# ```{math}
 # 1  = 1{,}027 \cdot 157 + 349 \cdot (-462), \quad \text{so, $u = 157$ and $v=-462$.}
-# $$
+# ```
 
 # %%
 1027 * 157 + 349 * (-462)
@@ -852,22 +872,26 @@ gcd(76497326597236475295264957264957246971641974697326592743619743, 894350982820
 # :::
 #
 # For example:
+# ```{math}
 # \begin{align*}
 # 3 &= 12 \cdot (-1) + 15 \cdot 1 && \text{($u=-1$, $v=1$)} \\
 # &= 12 \cdot 4 + 15 \cdot (-3) && \text{($u=4$, $v=-3$)} \\
 # &= 12 \cdot -6 + 15 \cdot 5 && \text{($u=-6$, $v=5$)}.
 # \end{align*}
+# ```
 #
 # In fact, there are *infinitely many* possibilities: let $t$ be any integer.  Then
-# $$
+# ```{math}
 # 12 \cdot (-1 + 5t) + 15 \cdot (1 - 4t) = -12 + 60t + 15 - 60t = 15 - 12 = 3.
-# $$
+# ```
 #
 # So,
+# ```{math}
 # \begin{align*}
 # u &= -1 + 5t, \\
 # v &= 1 + 4t,
 # \end{align*}
+# ```
 # work (for $a=15$ and $b=12$) for *any* integer $t$!
 
 # %% [markdown]
@@ -875,25 +899,26 @@ gcd(76497326597236475295264957264957246971641974697326592743619743, 894350982820
 
 # %% [markdown]
 # Suppose we want to find (some pair of) integers $u$ and $v$ such that
-# $$
+# ```{math}
 # \gcd(159, 48) = 159 \cdot {\color{red} u} + 48 \cdot {\color{blue} v}.
-# $$
+# ```
 # We will not even assume that we know $\gcd(159, 48)$: we will compute it *at the same time* we find $u$ and $v$.
 #
 # Here is how we can do it: start with the trivial equalities:
 
 # %% [markdown]
-# $$
+# ```{math}
 # \begin{array}{rcrclcrcl}
 # 159 & = & 159 & \cdot & {\color{red} 1} & + & 48 & \cdot & {\color{blue} 0} \\
 # 48 & = & 159 & \cdot & {\color{red} 0} & + & 48 & \cdot & {\color{blue} 1}
 # \end{array}
-# $$
+# ```
 
 # %% [markdown]
 # Now, we will perform the Euclidean Algorithm described above: we do the long division $149 = 58 \cdot 3 + 15$.  Then we subtract $149 - 3 \cdot 48$, but we will do it with *the whole equations* above:
 
 # %% [markdown]
+# ```{math}
 # \begin{align*}
 # 15 & = 159 - 3 \cdot 48\\
 # &= (159 \cdot 1 + 48 \cdot 0) - 3 \cdot (159 \cdot 0 + 48 \cdot 1) \\
@@ -902,53 +927,54 @@ gcd(76497326597236475295264957264957246971641974697326592743619743, 894350982820
 # &= 159 \cdot (1 - 3 \cdot 0) + 48 \cdot (0 - 3 \cdot 1) \\
 # & 159 \cdot \boxed{1} + 48 \cdot \boxed{-3}
 # \end{align*}
+# ```
 
 # %% [markdown]
 # The key idea is that when we multiply $149 \cdot 0 +  58 \cdot 1$ by $3$, we simply multiply the $0$ and $1$ by $3$ (by the *distributive*, *commutative*, and *associative* laws).  Let's write this more directly as:
 #
-# $$
+# ```{math}
 # \begin{array}{rcrclcrcl}
 # 159 & = & 159 & \cdot & {\color{red} 1} & + & 48 & \cdot & {\color{blue} 0} \\
 # (-3) \cdot 58 & = & 159 & \cdot & {\color{red} (-3) \cdot 0} & + & 48 & \cdot & {\color{blue} (-3) \cdot 1} \\[1ex]
 # \hline
 # 15 & = & 159 &\cdot & {\color{red} 1} & +  & 48 & \cdot & {\color{blue} (-3)}
 # \end{array}
-# $$
+# ```
 #
 # So, now we have the two equations:
 #
-# $$
+# ```{math}
 # \begin{array}{rcrclcrcl}
 # 48 & = & 159 & \cdot & {\color{red} 0} & + & 48 & \cdot & {\color{blue} 1} \\[1ex]
 # 15 & = & 159 &\cdot & {\color{red} 1} & +  & 48 & \cdot & {\color{blue} (-3)}
 # \end{array}
-# $$
+# ```
 #
 # And we can repeat, as with the Euclidean Algorithm: we divide $48 = 15 \cdot 3 + 3$:
 #
-# $$
+# ```{math}
 # \begin{array}{rcrclcrcl}
 # 48 & = & 159 & \cdot & {\color{red} 0} & + & 48 & \cdot & {\color{blue} 1} \\
 # (-3) \cdot 15 & = & 159 &\cdot & {\color{red} (-3) \cdot 1} & +  & 48 & \cdot & {\color{blue} (-3) \cdot (-3)} \\[1ex]
 # \hline
 # 3 & = & 159 &\cdot & {\color{red} (-3)} & +  & 48 & \cdot & {\color{blue} 10}
 # \end{array}
-# $$
+# ```
 #
 # So, now our two equations are:
 #
-# $$
+# ```{math}
 # \begin{array}{rcrclcrcl}
 # 15 & = & 159 &\cdot & {\color{red} 1} & +  & 48 & \cdot & {\color{blue} (-3)} \\
 # 3 & = & 159 &\cdot & {\color{red} (-3)} & +  & 48 & \cdot & {\color{blue} 10}
 # \end{array}
-# $$
+# ```
 #
 # The next step is $15 = 3 \cdot 5 + 0$, so we know that $\gcd(149, 49) = 3$ and our last equation gives us $u$ and $v$:
 #
-# $$
+# ```{math}
 # \underbrace{3}_{=\gcd(159, 48)} = 159 \cdot  {\color{red} \underbrace{(-3)}_{=u}} +  48 \cdot {\color{blue} \underbrace{10}_{=v}}.
-# $$
+# ```
 #
 # These are the same $u$ and $v$ we've checked above!
 
@@ -957,12 +983,12 @@ gcd(76497326597236475295264957264957246971641974697326592743619743, 894350982820
 #
 # Now, we always deal with two equations, so we will use `x` and `y` for the numbers on the left side, and `u1` and `v1` for the first equation and `u2` and `v2` for the second.  When we start, we always have `u1 = 1` and `v1 = 0` and `u2 = 0` and `v2 = 1`:
 #
-# $$
+# ```{math}
 # \begin{array}{rcrclcrcl}
 # \underbrace{1{,}037}_{x} & = & 1{,}037 & \cdot & {\color{red} \underbrace{1}_{u_1}} & + & 349 & \cdot & {\color{blue} \underbrace{0}_{v_1}} \\
 # \underbrace{349}_{y} & = & 1{,}037 & \cdot & {\color{red} \underbrace{0}_{u_2}} & + & 349 & \cdot & {\color{blue} \underbrace{1}_{v_2}}
 # \end{array}
-# $$
+# ```
 
 # %%
 a, b = 1037, 349
@@ -1003,12 +1029,12 @@ u1, v1, u2, v2
 #
 # So, we have:
 #
-# $$
+# ```{math}
 # \begin{array}{rcrclcrcl}
 # \underbrace{349}_{x} & = & 1{,}037 & \cdot & {\color{red} \underbrace{0}_{u_1}} & + & 349 & \cdot & {\color{blue} \underbrace{1}_{v_1}} \\
 # \underbrace{339}_y & = & 1{,}037 & \cdot & {\color{red} \underbrace{1}_{u_2}} & + & 349 & \cdot & {\color{blue} \underbrace{(-2)}_{v_2}}
 # \end{array}
-# $$
+# ```
 
 # %% [markdown]
 # Now, we repeat until we get a remainder of zero:
@@ -1022,12 +1048,12 @@ print(f"{r = }, {x = }, {u1 = }, {v1 = }, {y = }, {u2 = }, {v2 = }")
 # %% [markdown]
 # So:
 #
-# $$
+# ```{math}
 # \begin{array}{rcrclcrcl}
 # \underbrace{339}_x & = & 1{,}037 & \cdot & {\color{red} \underbrace{1}_{u_1}} & + & 349 & \cdot & {\color{blue} \underbrace{(-2)}_{v_1}} \\
 # \underbrace{10}_y & = & 1{,}037 & \cdot & {\color{red} \underbrace{(-1)}_{u_2}} & + & 349 & \cdot & {\color{blue} \underbrace{3}_{v_2}}
 # \end{array}
-# $$
+# ```
 
 # %% [markdown]
 # Repeat, since the remainder was not zero:
@@ -1041,12 +1067,12 @@ print(f"{r = }, {x = }, {u1 = }, {v1 = }, {y = }, {u2 = }, {v2 = }")
 # %% [markdown]
 # Now:
 #
-# $$
+# ```{math}
 # \begin{array}{rcrclcrcl}
 # \underbrace{10}_x & = & 1{,}037 & \cdot & {\color{red} \underbrace{(-1)}_{u_1}} & + & 349 & \cdot & {\color{blue} \underbrace{3}_{v_1}} \\
 # \underbrace{9}_y & = & 1{,}037 & \cdot & {\color{red} \underbrace{34}_{u_2}} & + & 349 & \cdot & {\color{blue} \underbrace{(-101)}_{v_2}}
 # \end{array}
-# $$
+# ```
 
 # %% [markdown]
 # Repeat, since the remainder was not zero:
@@ -1060,12 +1086,12 @@ print(f"{r = }, {x = }, {u1 = }, {v1 = }, {y = }, {u2 = }, {v2 = }")
 # %% [markdown]
 # We have:
 #
-# $$
+# ```{math}
 # \begin{array}{rcrclcrcl}
 # \underbrace{9}_x & = & 1{,}037 & \cdot & {\color{red} \underbrace{34}_{u_1}} & + & 349 & \cdot & {\color{blue} \underbrace{(-101)}_{v_1}} \\
 # \underbrace{1}_y & = & 1{,}037 & \cdot & {\color{red} \underbrace{(-35)}_{u_1}} & + & 349 & \cdot & {\color{blue} \underbrace{104}_{v_1}}
 # \end{array}
-# $$
+# ```
 
 # %% [markdown]
 # Repeat:
@@ -1150,15 +1176,15 @@ print(f"{r = }, {x = }, {u1 = }, {y = }, {u2 = }")
 # %% [markdown]
 # Remainder is $0$, so $\gcd(1{,}037, 349) = 1$ and $u = -35$.  But what is $v$?  Well
 #
-# $$
+# ```{math}
 # \gcd(1{,}037, 349) = 1{,}037 u + 349 v,
-# $$
+# ```
 #
 # so, solving for $v$:
 #
-# $$
+# ```{math}
 # v = \frac{\gcd(1{,}037, 349) - 1{,}037 u }{349}.
-# $$
+# ```
 #
 # So, we get:
 
@@ -1173,7 +1199,7 @@ v
 # ### Summary (Algorithm)
 
 # %% [markdown]
-# Here is the actual extended Euclidean Algorithm (which you will implement in your Homework!):
+# Here is the actual extended Euclidean Algorithm:
 #
 # :::{prf:algorithm} Extended Euclidean Algorithm
 # :label: al-eea
@@ -1196,6 +1222,12 @@ v
 #     * `u1` is the required `u`;
 #     * `(x - a * u1) // b` is the required `v`.
 # :::
+#
+# :::{admonition} Homework
+# :class: note
+#
+# You will implement this algorithm in your homework.
+# :::
 
 # %% [markdown]
 # Of course, Sage has its own function for this, `xgcd`:
@@ -1217,18 +1249,20 @@ xgcd(1037, 349)
 # :numbered: true
 #
 # Let $a$ and $b$ be positive integers, $d$ be their GCD, and $u_0$ and $v_0$ be *some* pair of integers such that
-# $$
+# ```{math}
 # d = a u_0 + b v_0.
-# $$
+# ```
 # Then, $u$ and $v$ are integers such that
-# $$
+# ```{math}
 # d = au + bv
-# $$
+# ```
 # if, and only if,
+# ```{math}
 # \begin{align*}
 # u &= u_0 + k \cdot \frac{b}{d} \\
 # v &= v_0 - k \cdot \frac{a}{d}
 # \end{align*}
+# ```
 # for some integer $k$.
 # :::
 #
@@ -1242,16 +1276,18 @@ xgcd(1037, 349)
 # %% [markdown]
 # Let's understand what this is saying.  Remember that we've found:
 #
-# $$
+# ```{math}
 # \underbrace{3}_{\gcd(159, 48)} = \underbrace{159}_a \cdot  {\color{red} \underbrace{(-3)}_{u_0}} +  \underbrace{48}_b \cdot {\color{blue} \underbrace{10}_{v_0}}.
-# $$
+# ```
 #
 #
 # According to the theorem we can produce infinitely many other solutions.  For instance, using $k=1$, we get
+# ```{math}
 # \begin{align*}
 # u &= -3 + 1 \cdot \frac{48}{3} = 13 \\
 # v &= 10 - 1 \cdot \frac{159}{3} = -43.
 # \end{align*}
+# ```
 #
 # Let's check that they also work:
 
@@ -1278,36 +1314,42 @@ else:  # no break
 
 # %% [markdown]
 # It is actually easy to see why.  If
-# $$
+# ```{math}
 # a u_0 + b v_0 = d,
-# $$
+# ```
 # and
+# ```{math}
 # \begin{align*}
 # u &= u_0 + k \cdot \frac{b}{d}, \\
 # v &= v_0 - k \cdot \frac{a}{d},
 # \end{align*}
+# ```
 # then
+# ```{math}
 # \begin{align*}
 # a u + b v &= a \left(u_0 +  k \cdot \frac{b}{d}\right) + b \left( v_0 - k \cdot \frac{a}{d}\right) \\[1ex]
 # &= a u_0 +  ak \cdot \frac{b}{d} + bv_0 - bk \cdot \frac{a}{d} \\[1ex]
 # &= \underbrace{\left(au_0 + bv_0 \right)}_{d} + k \underbrace{\left( \frac{ab}{d} - \frac{ba}{d} \right)}_{0} \\[1ex]
 # &= d + k \cdot 0 = d.
 # \end{align*}
+# ```
 
 # %% [markdown]
 # On the other hand, the theorems tells us more!  We've just checked that if $u_0$ and $v_0$ give us the GCD, then so do
 #
+# ```{math}
 # \begin{align*}
 # u &= u_0 + k \cdot \frac{b}{d} \\
 # v &= v_0 - k \cdot \frac{a}{d}
 # \end{align*}
+# ```
 #
 # But the theorem tells us that those are *all* the solutions, i.e., every single solution can be obtained by choosing some integer $k$ for the formula.
 #
 # It is not too hard the check that this is true with some algebra, but let's just do a computer check instead.  Note that if $au + bv = d$ with $u$ and $v$ integers, then
-# $$
+# ```{math}
 # v = \frac{d - au}{b} \in \Z,
-# $$
+# ```
 # so $b \mid (d - au)$.  So, to search for solutions, we try integers $u$ in some range, and if $b \mid (d-au)$, then the formula above would gives us $v$.
 
 # %%
@@ -1360,9 +1402,9 @@ else:  # no break
 #
 # For instance, $\gcd(293, 58) = 1$ and
 #
-# $$
+# ```{math}
 # 1 = 293 \cdot \underbrace{(-135)}_{u_0} + 58 \cdot \underbrace{682}_{v_0}
-# $$
+# ```
 
 # %%
 a, b = 293, 58
@@ -1461,7 +1503,11 @@ u, v
 # Of course, it is the same solution we found before.  (We just started at a different initial solution.)
 
 # %% [markdown]
+# :::{admonition} Homework
+# :class: note
+#
 # In your homework, you will automate this process: you will write a function that given a particular solution $(u_0, v_0)$, it finds the one with the least positive $u$.
+# :::
 #
 # You can do it as above: have two cases, depending on whether $u_0$ is positive or negative.  But there is a clever way to find this smallest positive $u$ directly using *long division*!  Can you find it?
 #
@@ -1478,19 +1524,21 @@ u, v
 # :numbered: true
 #
 # Let $n$ be an integers greater than or equal to $2$.  Then, there are primes $p_1 < p_2 < \cdots < p_k$, for some $k \geq 1$ and *positive* integers $e_1, e_2, \ldots, e_k$ such that
-# $$
+# ```{math}
 # n = p_1^{e_1} \cdot  p_2^{e_2} \cdots  \cdot p_k^{e_k}.
-# $$
+# ```
 # Moreover, this representation is *unique*!
 # :::
 #
 #
 # For example,
+# ```{math}
 # \begin{align*}
 # 2{,}024 &= 2^3 \cdot 11 \cdot 23, \\
 # 2{,}025 &= 3^4 \cdot 5^2, \\
 # 2{,}026 &= 2 \cdot 1{,}013.
 # \end{align*}
+# ```
 #
 # Hence, these primes are the *building blocks* for integers.
 #
@@ -1510,17 +1558,17 @@ for year in range(2024, 2027):
 # At first glance, it seems that since the integers are simpler than real numbers, problems involving integers should be easier than problems involving real numbers, but in fact, the opposite is true.  In fact, the real numbers were created to "make things easier", e.g., to add solutions to equations that do not have solutions with integers (or rational numbers), like $x^2 = 2$.
 #
 # As another example, consider finding all *real* solutions of
-# $$
+# ```{math}
 # x^2 + y^2 = z^2.
-# $$
+# ```
 # That is relatively easy: if $z=0$, we only have the solution $(0,0,0)$.  If not, can divide by $z^2$ and get
-# $$
+# ```{math}
 # \left(\frac{x}{z}\right)^2 + \left(\frac{y}{z}\right)^2 = 1,
-# $$
+# ```
 # a point in the unit circle.  So, there is some $\theta \in [0, 2 \pi)$ such that
-# $$
+# ```{math}
 # \frac{x}{z} = \cos(\theta), \qquad \frac{y}{z} = \sin(\theta).
-# $$
+# ```
 # Therefore, all solutions are then $(z \cos(\theta), z \sin(\theta), z)$ for all pairs of $\theta \in [0, 2\pi)$ and real number $z$.
 
 # %% [markdown]

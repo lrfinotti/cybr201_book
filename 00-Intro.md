@@ -18,4 +18,10 @@ kernelspec:
 
 ## About This Book
 
-This book is an introduction to the cryptography.  It is heavily based on {cite}`silverman_crypto`.
+This book is an introduction to the cryptography.  It is heavily based on [An Introduction to Mathematical Cryptography](doi:10.1007/978-1-4939-1711-2), by Jeffrey Hoffstein, Jill Pipher, and Joseph H. Silverman.
+
+[](doi:10.1007/978-1-4939-1711-2), {cite}`silverman_crypto`.
+
+```{code-cell} ipython3
+
+```

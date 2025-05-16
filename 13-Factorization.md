@@ -5,20 +5,12 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.17.0
+    jupytext_version: 1.17.1
 kernelspec:
   name: sage-10.5
   display_name: SageMath 10.5
   language: sage
 ---
-
----
-math:
-  '\F': '\mathbb{F}'
-  '\Fpt': '\F_p^{\times}'
----
-
-+++
 
 # Factorization
 
@@ -96,20 +88,20 @@ Suppose you want to factor $N = pq$, where $p$ and $q$ are very large distinct p
 2) $L = (q - 1)j + k$, for integers $i$ and $k$, with $k \in \{ 1, 2, \ldots, (q-2) \}$, and so $L$ does *not* divide $q-1$.
 
 Then, if $\gcd(a, N) = 1$, i.e., $a$ not divisible by either $p$ or $q$, then, by Fermat's Little Theorem (or Euler's Theorem):
-$$
+```{math}
 a^L = a^{(p-1)i} = \left( a^{p-1} \right)^i \equiv 1^i = 1 \pmod{p}
-$$
+```
 and
-$$
+```{math}
 a^L = a^{(q-1)j + k} = \left( a^{q-1} \right)^j \cdot a^k \equiv 1^j \cdot a^k = a^k \pmod{p}.
-$$
+```
 
 For a randomly chosen $a$ relatively prime to $pq$, we have that the probability that $a^k \not\equiv 1 \pmod{q}$ is high, and in this case we have that $p \mid a^L - 1$ and $q \nmid a^L - 1$, so $\gcd(a^L - 1, N) = \gcd(a^L, pq) = p$.  Using the Euclidean algorithm we can quickly compute this GCD and find $p$.  Dividing $N$ by $p$ we find $q$ and have factored $N$.
 
 So, the question is really how do we find this $L$?  Here is Pollard's observation: if $p - 1$ is a product of *small primes only*, then $p-1$ divides $n!$ for some $n$ "not too large".  Then, if $\gcd(a, p) = 1$, we have that
-$$
+```{math}
 a^{n!} = \left( a^{p-1} \right)^{n!/(p-1)} \equiv 1^{n!/(p-1)} = 1 \pmod{p}
-$$
+```
 (noting that in this case $n!/(p-1)$ is an integer by assumption).
 
 Hoping that $a^{n!} \not\equiv 1 \pmod{q}$, which can happen with a reasonable likelihood, as above, we can reduce $a^{n!}$ modulo $N$, obtaining, say, $r$, and then compute $\gcd(r, N)$.  If it is neither $1$ nor $N$, then this GCD is $p$, one the prime factors, and we can factor $N$.
@@ -132,9 +124,9 @@ Given a composite integer $N$, we want to find a proper factor (i.e., a factor d
 :::
 
 First, observe that in step 3, we are computing $a^{j!}$, as the values of $b$ are:
-$$
+```{math}
 b \leftarrow a = a^{1!}, \quad b \leftarrow b^2 = a^2 = a^{2!}, \quad b \leftarrow b^3 = (a^2)^3 = a^{3!}, \quad b \leftarrow b^4 = (a^{3!})^4 = a^{4!}, \quad \text{etc.}
-$$
+```
 
 
 One can also try to reduce the number of operations: note that of $(p-1)$ divides $n!$, then it divides $m!$ for any $m > n$ (as $n!$ is then a factor of $m!$).  So, instead of computing $\gcd(b-1, N)$ at every step, we can do it at every $k$ steps, reducing the number of operations.  So, we would only compute $\gcd(a^{k!} - 1, N)$, $\gcd(a^{(2k)!} - 1, N)$, $\gcd(a^{(3k)!} - 1, N)$, etc.
@@ -147,18 +139,20 @@ The downside of this approach is that increases the chances that both $p-1$ and 
 
 If we perform the powers in the algorithm using [Fast Powering](./05-Powers.md#al-fast_power) the products in the loop will require, at worst,
 
+```{math}
 \begin{align*}
 (2 \log_2(2) + 2) &+ (2 \log_2(3) + 2) + \cdots + (2 \log_2(B) + 2) \\
 &= 2 (\log_2(2) + \log_2(3) + \cdots + log_2(B)) + 2B - 2 \\
 &= 2 \log_2(B!) + 2B - 2
 \end{align*}
+```
 
 products.  So, indeed, this $B$ cannot be large!
 
 We also need $B$ computations of GCDs, and this will require, in the original algorithm, at most
-$$
+```{math}
 (B-1) \cdot (2 \log_2(N) + 2)
-$$
+```
 long divisions.  If we skip in step-sizes of $k$, as explained above, this number would be divided by $k$.  (But note that $k$ should not be large!)
 
 So, although this is a great improvement in factorization of large numbers (with a prime factor $p$ such that $p-1$ has only small prime factors), it is still a very time consuming algorithm.
@@ -416,7 +410,7 @@ These questions are in fact relevant to *all* modern factorization methods and w
 
 +++
 
-(sec-diff-squares)
+(sec-diff-squares)=
 ## Factorization via Difference of Squares
 
 We start with the following definition:
@@ -429,39 +423,41 @@ An integer $x$ is a *perfect square* if there is another integer $y$ such that $
 :::
 
 Remember from Algebra the factorization
-$$
+```{math}
 x^2 - y^2 = (x-y)(x+y).
-$$
+```
 We use this idea to try to factor a large integer $N$: we can try to find some integer $b$ such that $N + b^2$ is a *perfect square*, i.e., there is another integer $a$ such that $N + b^2 = a^2$.  (Note that this implies that $a > b$.)  If we do, then
-$$
+```{math}
 N = a^2 - bn^2 = (a-b)(a+B).
-$$
+```
 If $a > b + 1$, then $a - b$ is a proper factor!
 
 Moreover, we *cannot* have that $a = b + 1$, as in that case we must have that
+```{math}
 \begin{align*}
 a - b &= 1, \\
 a + b &= N.
 \end{align*}
+```
 Solving this system we get $a = (N+1)/2$ and $b=(N-1)/2$.  But this then implies that
-$$
+```{math}
 N = (a-b)(a+B) = \frac{N^2 - 1}{4} \quad \Longrightarrow  N^2 - 4N - 1 = 0.
-$$
+```
 Using the quadratic formula, this means that
-$$
+```{math}
 N = \frac{4 \pm \sqrt{20}}{2} = 2 \pm \sqrt{5},
-$$
+```
 which is *not an integer*.
 
 Thus, we can try to take some random values for $b$ and then check if $N + b^2$ is a perfect square.  (But how does one do that efficiently?)  But for large $N$, this method likely takes too long.
 
 But here is an idea that can help:  We see choose random $b$ and $k$ and see if $kN + b^2$ is a perfect square, i.e., $kN + b^2 = a^2$, for some integer $a$.  This means that $kN = a^2 - b^2 = (a-b)(a+b)$.  *Often*, either $a-b$ or $a+b$ contains some factor of $N$, and so we compute $\gcd(N, a - b)$ and $\gcd(N, a + b)$, hoping to find a proper factor.
 
-Note that  $kN = a^2 - b^2$ means that $a^2 \equiv b^2 \pmod{N}$, or $a^2 = b^2$ in $\Z/N\Z$.  Moreover, since $a^2 = kN + b^2 > N$, we must have that $a > \lfloor \sqrt{N} \rfloor$.  So, we want
-$$
+Note that  $kN = a^2 - b^2$ means that $a^2 \equiv b^2 \pmod{N}$, or $a^2 = b^2$ in $\mathbb{Z}/N\mathbb{Z}$.  Moreover, since $a^2 = kN + b^2 > N$, we must have that $a > \lfloor \sqrt{N} \rfloor$.  So, we want
+```{math}
 \label{eq-diff_sqrs}
-a^2 = b^2  \quad \text{in $\Z/N\Z$, with $a > \lfloor \sqrt{N} \rfloor$.}
-$$
+a^2 = b^2  \quad \text{in $\mathbb{Z}/N\mathbb{Z}$, with $a > \lfloor \sqrt{N} \rfloor$.}
+```
 But still, finding $a$ and $b$ from [](#eq-diff_sqrs) will likely take too long, so we need a method to make it more efficient.
 
 Here is the general procedure to find $a$ and $b$ as in [](#eq-diff_sqrs):
@@ -472,9 +468,9 @@ Here is the general procedure to find $a$ and $b$ as in [](#eq-diff_sqrs):
 2) **Elimination:**  Take a product of $c_{i_1} c_{i_2} \cdots c_{i_s}$ of *some* of the $c_i$'s such that every prime in the product appears an *even* number of times, i.e., with an even power in the prime factorization, so that $c_{i_1} c_{i_2} \cdots c_{i_s} = b^2$ for some integer $b$.
 
 3) **GCD Computation:** Let $a = a_{i_1} a_{i_2} \cdots a_{i_s}$ (with the same indices, i.e., we take the products of the $a_i$'s corresponding to the $c_i$'s we've used in the Elimination).  Then
-$$
+```{math}
 a^2 = a_{i_1}^2 a_{i_2}^2 \cdots a_{i_s}^2 \equiv c_{i_1} c_{i_2} \cdots c_{i_s} = b^2 \pmod{N},
-$$
+```
 so we compute $\gcd(N, a - b)$.  If this GCD is neither $1$ nor $N$, we've found a factor of $N$.
 
 
@@ -492,9 +488,9 @@ In the *Elimination* process, we will need to *factor* each $c_i$, and that is w
 Now, if we do find $a$ and $b$ such that $a^2 \equiv b^2 \pmod{N}$, how likely is it that $\gcd(N, a-b)$ gives a proper factor of $N$?
 
 The worst case is when $N=pq$, with $p$ and $q$ distinct prime factors (so, $N$ has only two proper factors).  Then,
-$$
+```{math}
 (a-b)(a+b) = a^2 - b^2 = kN = kpq,
-$$
+```
 so $p \mid (a-b)$ or $p \mid (a+b)$ (and possibly dividing both), *with (about) the same probability*.  And note that if $p \mid (a-b)$, and similarly for $q$.  So, there is about a $50\%$ chance that, in this case, $p \mid (a-b)$ and $q \nmid (a-b)$.  And note that if that is the case, then $q \mid (a+b)$, and quite likely $q \nmid (a+b)$, since for the latter to happen, we would need that $p \mid k$, and $k$ should not be that large.  So, we do not need to compute both $\gcd(N, a+b)$ and $\gcd(N, a-b)$: quite likely one gives us a factor if and only if the other does as well.  Since $a-b$ is smaller, we use it instead.
 
 Note that this $50\%$ change of finding a factor when [](#eq-diff_sqrs) is satisfied is quite good, which means we would likely not need to check many pairs $(a, b)$.
@@ -508,56 +504,64 @@ We will discuss the *Relation Building* process in a future section.  The *GCD C
 After we find the $a_i$'s and $c_i$'s (where $c_i$ is the residue module )
 
 Suppose that the *Relation Building* process gave us the following $11$-smooth $c_i$'s:
+```{math}
 \begin{align*}
 c_1 &= 3 \cdot 5^2 \cdot 7^3 \cdot 11, \\
 c_2 &= 3 \cdot 5^5 \cdot \phantom{7^3} \cdot 11, \\
 c_3 &= \phantom {3 \cdot} 5\phantom{^5} \cdot 7\phantom{^3} \cdot 11^3.
 \end{align*}
+```
 
 So, we want to make products of these $c_i$'s that produce an integer that is a perfect square, which is the same as to say that in their prime factorizations, all primes appear with an even power: as
-$$
+```{math}
 x = p_1^{2r_1} p_2^{2r_2} \cdots p_k^{2 r_k} \quad \Longrightarrow x = \left( p_1^{r_1} p_2^{r_2} \cdot p_k^{r_k} \right)^2.
-$$
+```
 
 
 Now, a product of the $c_i$'s can be written as
-$$
+```{math}
 c_1^{v_1} c_2^{v_2} c_3^{v_3}, \qquad \text{where $v_i$ is either $0$ or $1$.}
-$$
+```
 If $v_i = 0$, it means that $c_i$ is *not* a part of the product (it is left out), and if $v_i$ is $1$, then $c_i$ is a factor in the product.  So, collecting the powers, we have that
-$$
+```{math}
 c_1^{v_1} c_2^{v_2} c_3^{v_3} = 3^{v_1 + v_2} \cdot 5^{2v_1 + 5 v_2 + v_3} \cdot 7^{3v_1 + v_3} \cdot 11^{v_1 + v_2 + 3v_3}
-$$
+```
 and we want all the powers of the prime factors to be *even*.
 
 Note that the powers $v_i$ (which can only be $0$ or $1$) are our *unknowns*!  We want to find these $v_i$'s that make the product a perfect square.  So, we want to find $v_i$'s, each either $0$ or $1$, such that
+```{math}
 \begin{align*}
 \phantom{2}v_1 + \phantom{5}v_2 \phantom{+ 3v_3} & \equiv 0 \pmod{2}, \\
 2v_1 + 5v_2 + \phantom{3}v_3 & \equiv 0 \pmod{2}, \\
 3v_1 + \phantom{5v_2 + } \phantom{3}v_3 & \equiv 0 \pmod{2}, \\
 \phantom{2}v_1 + \phantom{5}v_2 + 3v_3 & \equiv 0 \pmod{2}.
 \end{align*}
+```
 
-But, since $v_i$'s are either $0$ or $1$, we can think of this as a system in $\F_2 = \Z/2\Z$, and can then also reduce the coefficients modulo $2$, obtaining the system (in $\F_2$):
+But, since $v_i$'s are either $0$ or $1$, we can think of this as a system in $\mathbb{F}_2 = \mathbb{Z}/2\mathbb{Z}$, and can then also reduce the coefficients modulo $2$, obtaining the system (in $\mathbb{F}_2$):
+```{math}
 \begin{align*}
 v_1 + v_2  \phantom{+ v_3} & =0, \\
 \phantom{v_1 +} v_2 + v_3 & =0, \\
 v_1 + \phantom{v_2 +} v_3 & =0, \\
 v_1 + v_2 + v_3 & =0.
 \end{align*}
-Systems in $\F_2$ are very easy to solve.  We can use the same techniques we use with regular systems (with real numbers as coefficients), but remembering that in $\F_2$ we have that $x = -x$ (as $2$ divides $x - (-x) = 2x$).
+```
+Systems in $\mathbb{F}_2$ are very easy to solve.  We can use the same techniques we use with regular systems (with real numbers as coefficients), but remembering that in $\mathbb{F}_2$ we have that $x = -x$ (as $2$ divides $x - (-x) = 2x$).
 
 So, the first equation gives us that $v_1 = -v_2 = v_2$.  The second gives us that $v_2 = -v_3 = v_3$, so $v_1 = v_2 = v_3$.  Now the fourth equation gives us that
-$$
+```{math}
 0 = v_1 + v_2 + v_3 = v_1 + v_1 + v_1 = 3 v_1 = v_1,
-$$
+```
 and so $v_1 = v_2 = v_3 = 0$.  So, the only way to get even exponents is to have all $v_i$'s equal to $0$, which means we use no $c_i$.  But this does not help us!  We need at least one $v_i$ to be $1$.
 
 This means we need more $c_i$'s, so we go back to *Relation Building* to get more $c_i$'s.  Suppose we get now:
+```{math}
 \begin{align*}
 c_4 &= 3\phantom{^3} \cdot \phantom{5 \cdot 7^2 \cdot} 11^2, \\
 c_5 &= 3^3 \cdot 5 \cdot 7^2.
 \end{align*}
+```
 
 Again, let's add them to sage:
 
@@ -567,38 +571,40 @@ c5 = 3^3 * 5 * 7^2
 ```
 
 So, now we have
-$$
+```{math}
 \label{eq-ex-elimination1}
 c_1^{v_1} c_2^{v_2} c_3^{v_3} c_4^{v_4} c_5^{v_5}= 3^{v_1 + v_2 + v_4 + 3v_5} \cdot 5^{2v_1 + 5 v_2 + v_3 + v_5} \cdot 7^{3v_1 + v_3 + 2v_5} \cdot 11^{v_1 + v_2 + 3v_3 + 2v_4}.
-$$
-Again, we need the exponents to be even, so we set the system in $\F_2$ (already reducing the coefficients odulo $2$) having these exponents as $0$:
+```
+Again, we need the exponents to be even, so we set the system in $\mathbb{F}_2$ (already reducing the coefficients odulo $2$) having these exponents as $0$:
+```{math}
 \begin{align*}
 v_1 + v_2  +\phantom{v_3 +} v_4 + v_5& =0, \\
 \phantom{v_1 +} v_2 + v_3 + \phantom{v_4 +} v_5 & =0, \\
 v_1 + \phantom{v_2 +} v_3 \phantom{+ v_4 + v_5}& =0, \\
 v_1 + v_2 + v_3 \phantom{ + v_4 + v_5}& =0.
 \end{align*}
+```
 
 The third equation gives us that $v_1 = v_3$.  Then, the fourth gives us:
-$$
+```{math}
 0 = v_1 + v_2 + v_3 = 2v_1 + v_2 = v_2,
-$$
+```
 so $v_2 = 0$.  Now, substituting in the second, we get
-$$
+```{math}
 0 = 0 + v_1 + v_5 \qquad ==> \qquad v_5 = v_1,
-$$
+```
 and hence $v_1 = v_3 = v_5$ (and $v_2 = 0$).  Finally, substituting it in the first, we have
-$$
+```{math}
 0 = v_1 + 0 + v_4 + v_1 = 2v_1 + v_4 = v_4,
-$$
+```
 and hence $v_4 = 0$.  So, *all* solutions of the system are of the form $(v_1, 0, v_1, 0, v_1)$, where $v_1$ is either $0$ or $1$.  If we take $v_1 = 0$, then all exponents become zero again, which is pointless, so we choose $v_1 = 1$.  This means that
-$$
+```{math}
 c_1^1 \cdot c_2^0 \cdot c_3^1 \cdot c_4^0 \cdot c_5^1 = c_1 c_3 c_5
-$$
+```
 is a perfect square.  In fact, from [](#eq-ex-elimination1), we have
-$$
+```{math}
 c_1 c_3 c_5 = 3^4 \cdot 5^4 \cdot 7^6 \cdot 11^4 = \left( 3^2 \cdot 5^2 \cdot 7^3 \cdot 11^2 \right)^2.
-$$
+```
 
 +++
 
@@ -612,25 +618,27 @@ list_c = [3 * 5^2 * 7^3 * 11, 3 * 5^5 * 11, 5 * 7 * 11^3]
 
 Now we need to create a [matrix](https://en.wikipedia.org/wiki/Matrix_(mathematics)) for our system.  A matrix is simply a "table" containing the coefficients of the variable for the system.  For example, here is our original system
 
+```{math}
 \begin{align*}
 v_1 + v_2  \phantom{+ v_3} & =0, \\
 \phantom{v_1 +} v_2 + v_3 & =0, \\
 v_1 + \phantom{v_2 +} v_3 & =0, \\
 v_1 + v_2 + v_3 & =0.
 \end{align*}
+```
 
 The corresponding matrix is:
 
-$$
+```{math}
 \begin{bmatrix}
 1 & 1 & 0 \\
 0 & 1 & 1 \\
 1 & 0 & 1 \\
 1 & 1 & 1
 \end{bmatrix}.
-$$
+```
 
-The first column of this matrix contains the coefficients (in $\F_2$) of $v_1$, the second contains the coefficients of $v_2$, and the third the coefficients of $v_3$.
+The first column of this matrix contains the coefficients (in $\mathbb{F}_2$) of $v_1$, the second contains the coefficients of $v_2$, and the third the coefficients of $v_3$.
 
 We can create this matrix in Sage with:
 
@@ -724,7 +732,7 @@ coef_matrix
 
 +++
 
-Note that we are starting with `coef_matrix` that contains the exponents as *integers*, i.e., before being reduced modulo $2$, as it will be useful later.  But now, we can obtain `M` (with entries in $\F_2$):
+Note that we are starting with `coef_matrix` that contains the exponents as *integers*, i.e., before being reduced modulo $2$, as it will be useful later.  But now, we can obtain `M` (with entries in $\mathbb{F}_2$):
 
 ```{code-cell} ipython3
 M = matrix(GF(2), coef_matrix)
@@ -739,9 +747,9 @@ K
 ```
 
 And now, to produce our $b$'s.  Since the solution is $(1, 0, 1, 0)$, we have that
-$$
+```{math}
 b^2 = c_1^1 \cdot c_2^0 \cdot c_3^1 \cdot c_4^0 \cdot c_5^1 = c_1 \cdot c_3 \cdot c_5.
-$$
+```
 So, to get $b$ itself, we need to take a square root:
 
 ```{code-cell} ipython3
@@ -796,13 +804,13 @@ So, this is saying, in terms of matrix multiplications, that
 +++
 
 This means that
-$$
+```{math}
 b^2 = 2^0 \cdot 3^4 \cdot 5^4 \cdot 7^6 \cdot 11^4,
-$$
+```
 and hence
-$$
+```{math}
 b = 2^0 \cdot 3^2 \cdot 5^2 \cdot 7^3 \cdot 11^2.
-$$
+```
 
 So, we can divide these exponents by $2$ to obtain the correct exponents for the prime factors of $b$.
 
@@ -860,10 +868,12 @@ As previously mentioned, [smooth numbers](#def-b_smooth) appear in all modern fa
 :numbered: true
 
 We can break down the integers into $5$-smooth numbers and not $5$-smooth:
+```{math}
 \begin{align*}
 \text{$5$-smooth:} &\quad 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 16, 18, 20, 24, 25, 27, 30, \ldots \\
 \text{not $5$-smooth:} &\quad 7, 11, 13, 14, 17, 19, 21, 22, 23, 26, 28, 29, \ldots
 \end{align*}
+```
 :::
 
 We now introduce a function to count the number of $B$-smooth numbers up to a given bound:
@@ -884,9 +894,9 @@ We also need the following function:
 :numbered: true
 
 We define function $L(x)$, for $x >0$, as
-$$
+```{math}
 L(x) = e^{\sqrt{\log(x) \cdot \log(\log(x))}}.
-$$
+```
 (Remember that $\log(x)$ is the *natural log*, i.e., the log base $e \approx 2.7183$).
 :::
 
@@ -897,9 +907,9 @@ We then have the following technical result:
 :numbered: true
 
 For any real number $c$ with $0 < c < 1$ and for "large" values of $x$, we have
-$$
+```{math}
 \psi(x, L(x)^c) \approx x \cdot L(c)^{- \frac{1}{2c} \cdot (1 + s_x)},
-$$
+```
 where $s_x$ approaches $0$ as $x$ gets large.
 :::
 

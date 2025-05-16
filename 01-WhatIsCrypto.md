@@ -6,7 +6,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.16.7
+    jupytext_version: 1.17.1
 kernelspec:
   display_name: SageMath 10.5
   language: sage
@@ -43,8 +43,8 @@ For instance one might replace every occurrence of A with D, every occurrence of
 
 To distinguish the encoded text from the real one, we will use *lowercase* letters for the unencrypted text and *uppercase* letters for the encrypted text.  So, our "scrambling" might be given by the table below:
 
-:::{table} Example of Caesar Cipher
-:label: tb-cc
+```{table} Example of Caesar Cipher
+:name: tb-cc
 :align: center
 :width: 70%
 
@@ -63,8 +63,7 @@ To distinguish the encoded text from the real one, we will use *lowercase* lette
 |            k | J             |   |            x | K             |
 |            l | G             |   |            y | I             |
 |            m | P             |   |            z | Q             |
-
-:::
+```
 
 +++
 
@@ -90,10 +89,10 @@ G W B L   B L   D   S X F D Y   Y F D U A F X
 So, the encrypted message is `GWBLBLDSXFDYYFDUAFX`.
 
 
-:::{note}
+```{note}
 
 In practice, there might be some extra difficulties.  For instance, my name is actually Luís (with an accent), not Luis.  So, in these situations we might need to replace accented characters by the corresponding plain ones.
-:::
+```
 
 +++
 
@@ -126,7 +125,7 @@ That's a lot!
 
 But, there is a clear weakness to this method: it is susceptible to a *statistical analysis* attack.  One can search for common words as common occurrences.  Here are the [100 most common words in English](https://en.wikipedia.org/wiki/Most_common_words_in_English):
 
-:::{table} 100 Most Common Words in English
+```{table} 100 Most Common Words in English
 :align: center
 :widths: auto
 :width: 100 %
@@ -159,7 +158,7 @@ But, there is a clear weakness to this method: it is susceptible to a *statistic
 |   23 | his  |   |   48 | which |   |   73 | now    |   |   98 | day     |
 |   24 | by   |   |   49 | go    |   |   74 | look   |   |   99 | most    |
 |   25 | from |   |   50 | me    |   |   75 | only   |   |  100 | us      |
-:::
+```
 
 +++
 
@@ -169,7 +168,7 @@ Therefore, in a *reasonably long* text, if XKU is the most frequent sequence of 
 
 One can also look for the most common individual letters.  Here is a table with the average [frequency of letters in English text](https://en.wikipedia.org/wiki/Letter_frequency):
 
-:::{table} Frequency of Letters in English (Alphabetical)
+```{table} Frequency of Letters in English (Alphabetical)
 :align: center
 :widths: auto
 :width: 100 %
@@ -190,13 +189,13 @@ One can also look for the most common individual letters.  Here is a table with 
 |      K | 0.77%     |   |      X | 0.15%     |
 |      L | 4.0%      |   |      Y | 2.0%      |
 |      M | 2.4%      |   |      Z | 0.074%    |
-:::
+```
 
 +++
 
 Here is the same table, but sorted by frequency:
 
-:::{table} Frequency of Letters (by Frequency)
+```{table} Frequency of Letters (by Frequency)
 :align: center
 :widths: auto
 :width: 100 %
@@ -217,13 +216,13 @@ Here is the same table, but sorted by frequency:
 |      L | 4.0%      |   |      X | 0.15%     |
 |      C | 2.8%      |   |      Q | 0.095%    |
 |      U | 2.8%      |   |      Z | 0.074%    |
-:::
+```
 
 +++
 
 And here are the frequencies of the [most frequent *bigrams*](https://en.wikipedia.org/wiki/Bigram) (combinations of two letters) in English text, which allows us t see which letters we expect to appear together.
 
-:::{table} Most Frequent Bigrams
+```{table} Most Frequent Bigrams
 :align: center
 :widths: auto
 :width: 100 %
@@ -245,7 +244,7 @@ And here are the frequencies of the [most frequent *bigrams*](https://en.wikiped
 |     ES | 1.34%     |   |     HA | 0.93%     |   |     EA | 0.69%     |
 |     OR | 1.28%     |   |     AS | 0.87%     |   |     RA | 0.69%     |
 |     TE | 1.20%     |   |     OU | 0.87%     |   |     CE | 0.65%     |
-:::
+```
 
 +++
 
@@ -262,7 +261,7 @@ We need to functions to deal with characters:
 
 Here is the ASCII table of character/values:
 
-:::{table} ASCII Table
+```{table} ASCII Table
 :align: center
 :widths: auto
 :width: 100 %
@@ -302,7 +301,7 @@ Here is the ASCII table of character/values:
 |            29 | GS  (group separator)        |   |            61 | =         |   |            93 | ]         |   |           125 | }         |
 |            30 | RS  (record separator)       |   |            62 | >         |   |            94 | ^         |   |           126 | ~         |
 |            31 | US  (unit separator)         |   |            63 | ?         |   |            95 | _         |   |           127 | DEL       |
-:::
+```
 
 +++
 
@@ -961,7 +960,7 @@ On the other hand, if the subject of the text is known, like in messages transmi
 
 An alternative would be to permute all the *bigrams*, like
 
-:::{table} Example of Bigram Permutation
+```{table} Example of Bigram Permutation
 :align: center
 :widths: auto
 :width: 100 %
@@ -972,7 +971,7 @@ An alternative would be to permute all the *bigrams*, like
 | ab       | YT        |
 | ac       | GG        |
 | ...      | ...       |
-:::
+```
 
 
 

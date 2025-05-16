@@ -12,15 +12,9 @@ kernelspec:
   language: sage
 ---
 
----
-math:
-  '\F': '\mathbb{F}'
-  '\Fpt': '\F_p^{\times}'
----
-
-
-
 # Digital Signatures
+
++++
 
 ## Introduction
 
@@ -52,7 +46,7 @@ One can also create digital signatures to be used with email, so that the person
 
 Another important consideration is the size of the signature.  Most methods will provide a signature of the same size as the document itself.  Although this might not be a problem for short texts, it can be a problem if $D$ is large, e.g., some large piece of software.  Not only it will require a lot of bandwidth to download both the software and its signature, the verification process is also slow.
 
-Signing only a truncated version of $D$ is also dangerous, as malicious code or text can be added to the non-signed part.  But we still need to sign something related to $D$ smaller than itself.  The usual solution is to use a [hash function](https://en.wikipedia.org/wiki/Hash_function).  A hash function $\mathrm{Hash}$ takes a document (of any size) and produce a "hash value" $\mathrm{Hash}(D)$ of a fixed size of bits.  This size is usually relatively small and in practice, and hence often in practice the hash value $\mathrm{Hash}(D)$, for a published hash function $\\mathrm{Hash}$, is signed instead of $D$ itself.  (In other words, Samantha publishes $(D, \mathrm{Hash}(D)^{\mathrm{sig}})$ instead of $(D, D^{\mathrm{sig}})$.)  Then, in the verification process, one first computes $\mathrm{Hash}(D)$ and then verify the signature with this hash value.
+Signing only a truncated version of $D$ is also dangerous, as malicious code or text can be added to the non-signed part.  But we still need to sign something related to $D$ smaller than itself.  The usual solution is to use a [hash function](https://en.wikipedia.org/wiki/Hash_function).  A hash function $\mathrm{Hash}$ takes a document (of any size) and produce a "hash value" $\mathrm{Hash}(D)$ of a fixed size of bits.  This size is usually relatively small and in practice, and hence often in practice the hash value $\mathrm{Hash}(D)$, for a published hash function $\mathrm{Hash}$, is signed instead of $D$ itself.  (In other words, Samantha publishes $(D, \mathrm{Hash}(D)^{\mathrm{sig}})$ instead of $(D, D^{\mathrm{sig}})$.)  Then, in the verification process, one first computes $\mathrm{Hash}(D)$ and then verify the signature with this hash value.
 
 But this has some potential problems.  Since the size of $D$ can be considerably larger than the size of its hash value, its mathematically impossible for the hash values to be unique, meaning that there will be different documents, say $D \neq D'$, with the same hash value, i.e., $\mathrm{Hash}(D) = \mathrm{Hash}(D')$.  This might seem problematic at first, if $\mathrm{Hash}(D) = \mathrm{Hash}(D')$, when we verify the signature of $\mathrm{Hash}(D)$, we cannot be $100\%$ sure that signature is for the document $D$, as $D'$ would produce the same hash value, and would be "verified" with this process.  So, if the malicious party, Eve, can produce a document with the same hash value as the original, then it can be verified using the hash function, and it will be believed that this alternative document was signed by Samantha.
 
@@ -84,9 +78,9 @@ Here is how it would work using the [RSA Cryptosystem](./11-RSA.md#sec-rsa):
 
 
 This works since
-$$
+```{math}
 \left( D^{\mathrm{sig}} \right)^e \equiv \left( D^d \right)^e = D^{de} \equiv D \pmod{N},
-$$
+```
 just like with the RSA cryptosystem.
 
 
@@ -156,20 +150,21 @@ You will implement this process in your homework.
 Similarly, one can also adapt the ElGamal Cryptosystem to produce a digital signature:
 
 1) **Set up:**
-    1) Samantha chooses (or copies) and publishes a large prime $p$ and a primitive root $g \in \Fpt$, i.e., $g$ has order $p-1$.
-    2) Samantha chooses a *private* key $a \in \{1, 2, 3, \ldots, p-2\}$ and publishes $A = g^a$ (in $\F_p$).
+    1) Samantha chooses (or copies) and publishes a large prime $p$ and a primitive root $g \in \mathbb{F}^{\times}$, i.e., $g$ has order $p-1$.
+    2) Samantha chooses a *private* key $a \in \{1, 2, 3, \ldots, p-2\}$ and publishes $A = g^a$ (in $\mathbb{F}_p$).
 2) **Signing:** To sign a document $D$ (a numbers between $2$ and $p-1$):
    1) Samantha chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use) $k$.
    2) Samantha computes
-      - $S_1 = g^k$ in $\F_p$,
-      - $S_2=(D - a S_1)k^{-1}$ in $\Z/(p-1)\Z$.
+      - $S_1 = g^k$ in $\mathbb{F}_p$,
+      - $S_2=(D - a S_1)k^{-1}$ in $\mathbb{Z}/(p-1)\mathbb{Z}$.
    3) Samantha publishes the signature $D^{\mathrm{sig}} = (S_1, S_2)$.
 4) **Verification:** To verify that $(S_1, S_2)$ i a signature for $D$, one checks if
-$$
-A^{S_1} \cdot S_1^{S_2} = g^D \quad \text{(in $\F_p$)}.
-$$
+```{math}
+A^{S_1} \cdot S_1^{S_2} = g^D \quad \text{(in $\mathbb{F}_p$)}.
+```
 
-Let's verify why this works.  We have (in $\F_p$):
+Let's verify why this works.  We have (in $\mathbb{F}_p$):
+```{math}
 \begin{align*}
 A^{S_1} \cdot S_1^{S_2}
 &= (g^a)^{S_1} \cdot S_1^{(D - a S_1)k^{-1}} \\
@@ -179,6 +174,7 @@ A^{S_1} \cdot S_1^{S_2}
 &= g^{aS_1 + D - a S_1} \\
 &= g^D.
 \end{align*}
+```
 
 Again, the security is based in the *Discrete Log Problem*: if Eve can compute $\log_g(A) = a$, she can fake Samantha's signature.  And, at least so far, this is the only known approach to falsify Samantha's signature when using this method.
 
@@ -189,31 +185,31 @@ But, similar to ElGamal's encryption, the problem with this method is that the k
 (sec-dsa)=
 ## Digital Signature Algorithm
 
-One can address the size problem of ElGamal's digital signature by working in a "subgroup" of $\Fpt$.  This the [Digital Signature Algorithm](https://en.wikipedia.org/wiki/Digital_Signature_Algorithm):
+One can address the size problem of ElGamal's digital signature by working in a "subgroup" of $\mathbb{F}^{\times}$.  This the [Digital Signature Algorithm](https://en.wikipedia.org/wiki/Digital_Signature_Algorithm):
 
 1) **Setup:**
    1) Samantha chooses (or copies):
       - $p$ and $q$ primes, with $q \mid (p - 1)$;
-      - $g \in \Fpt$ of order $q$.
-   2) Samantha chooses a private signing key $a$ and computes $A = g^a$ (in $\F_p$).
+      - $g \in \mathbb{F}^{\times}$ of order $q$.
+   2) Samantha chooses a private signing key $a$ and computes $A = g^a$ (in $\mathbb{F}_p$).
    3) Samantha publishes $(p, q, g, A)$.
 2) **Signing:** To sign $D \in \{ 2, 3, \ldots, (q-1) \}$ (note the size!):
    1) Samantha chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use) $k$ with $\gcd(k, q) = 1$.
    2) Samantha computes:
-      - $S_1$ as the reduction of $g^k$ (in $\F_p$) and reduces it modulo $q$,
-      - $S_2 = (D + a S_1)k^{-1}$ in $\F_q$ (and $k^{-1}$ then is the inverse of $k$ in $\F_q$).
+      - $S_1$ as the reduction of $g^k$ (in $\mathbb{F}_p$) and reduces it modulo $q$,
+      - $S_2 = (D + a S_1)k^{-1}$ in $\mathbb{F}_q$ (and $k^{-1}$ then is the inverse of $k$ in $\mathbb{F}_q$).
    3) Samantha publishes the digital signature $D^{\mathrm{sig}}= (S_1, S_2)$.
 3) **Verification:** To verify the signature $(S_1, S_2)$:
    1) One computes:
-      - $V_1 = DS_2^{-1}$ (in $\F_q$),
-      - $V_2 = S_1 S_2^{-1}$ (in $\F_q$).
+      - $V_1 = DS_2^{-1}$ (in $\mathbb{F}_q$),
+      - $V_2 = S_1 S_2^{-1}$ (in $\mathbb{F}_q$).
   2) One checks if $g^{V_1}A^{V_2}$ (in $F_p$) reduced modulo $q$ is equal to $S_1$.
 
 
-Let's see why this works.  First remember that since $g$ has order $q$, then if $x \equiv y \pmod{q}$, then $g^x = g^y$.  Then, in $\F_p$, we have
-$$
+Let's see why this works.  First remember that since $g$ has order $q$, then if $x \equiv y \pmod{q}$, then $g^x = g^y$.  Then, in $\mathbb{F}_p$, we have
+```{math}
 g^{V_1} A^{V_2} = g^{DS_2^{-1}} (g^a)^{S_1 S_2^{-1}} = g^{(D + aS_1)S_2^{-1}} = g^{(D + a S_1)(D + a S_1)^{-1} k} = g^k.
-$$
+```
 Thus, reducing $g^{V_1} A^{V_2}$ modulo $q$, we get the reduction of $g^k$ modulo $q$, which is $S_1$.
 
 Note that the security is also bases on the discrete log problem, as that's how one can find $a$ from $A = g^a$.
@@ -221,25 +217,25 @@ Note that the security is also bases on the discrete log problem, as that's how 
 Here are some remarks about this method:
 
 1) One usually chooses $p$ between $2^{1000}$ and $2^{2000}$ and $q$ between $2^{160}$ and $2^{320}$.  Hence, $q$ is considerably smaller than $p$.
-2) If $x \in \Fpt$ is a primitive root, then we can take $g = x^{(p-1)/q}$.
-3) Since $q \mid (p-1)$, we have that $p \nmid p$.  This means that reducing an integer modulo $q$ is *not* the same as reducing it modulo $p$ and then reducing it modulo $q$.  So, it is essential that we work in $\F_p$ before reducing elements modulo $q$, as in the second step of the verification or computation of $S_1$.
-4) Although $q$ is much smaller than $p$ in practice, the discrete log problem is still in $\Fpt$, so still hard for large $p$.
+2) If $x \in \mathbb{F}^{\times}$ is a primitive root, then we can take $g = x^{(p-1)/q}$.
+3) Since $q \mid (p-1)$, we have that $p \nmid p$.  This means that reducing an integer modulo $q$ is *not* the same as reducing it modulo $p$ and then reducing it modulo $q$.  So, it is essential that we work in $\mathbb{F}_p$ before reducing elements modulo $q$, as in the second step of the verification or computation of $S_1$.
+4) Although $q$ is much smaller than $p$ in practice, the discrete log problem is still in $\mathbb{F}^{\times}$, so still hard for large $p$.
 5) Note that the signature is still about twice the size of the document (i.e., $2q$ versus $q$), but since the security is bases on $p$, it is a lot safer for the given size!
-6) As observed before, one can make it harder to break it by using a different group instead of $\Fpt$, since then one cannot use the index calculus to compute $\log_g(A)$.  We will soon do this, by using *elliptic curves*.  In that case, the best attack is a collision algorithm, such as Shank's Babystep-Giantstep, which is less efficient than the index calculus, making it safer.
+6) As observed before, one can make it harder to break it by using a different group instead of $\mathbb{F}^{\times}$, since then one cannot use the index calculus to compute $\log_g(A)$.  We will soon do this, by using *elliptic curves*.  In that case, the best attack is a collision algorithm, such as Shank's Babystep-Giantstep, which is less efficient than the index calculus, making it safer.
 
 :::{caution}
 
 The random key $k$ cannot be repeated!
 :::
 
-Suppose that Samantha uses the same random key $k$ to sign $D$ and $D'$.  Then, $S_1$ (from the signature of $D$) and $S_1'$ (from the signature of $D'$) are the same, i.e., $S_1 = S_1'$ (in $\F_q$).  Then, the corresponding $S_2$ and $S_2'$ (both in $\F_q$) are the reductions modulo $q$ of $(D - a S_1)k^{-1}$ and $(D' - a S_1)k^{-1}$, respectively.  Then, in $\F_q$, we have
-$$
+Suppose that Samantha uses the same random key $k$ to sign $D$ and $D'$.  Then, $S_1$ (from the signature of $D$) and $S_1'$ (from the signature of $D'$) are the same, i.e., $S_1 = S_1'$ (in $\mathbb{F}_q$).  Then, the corresponding $S_2$ and $S_2'$ (both in $\mathbb{F}_q$) are the reductions modulo $q$ of $(D - a S_1)k^{-1}$ and $(D' - a S_1)k^{-1}$, respectively.  Then, in $\mathbb{F}_q$, we have
+```{math}
 \frac{S_2}{S_2'} = \frac{(D - aS_1)k^{-1}}{(D' - aS_1)k^{-1}} = \frac{D - aS_1}{D' - aS_1}.
-$$
+```
 Cross multiplying and solving for $a$, we get
-$$
+```{math}
 a = \frac{D - D' S_2/S_2'}{1 - S_2/S_2'}.
-$$
+```
 Since all terms on the right-side are known (from the documents and their signatures), Eve can get the secret signing key $a$, and hence falsify Samantha's signature.
 
 +++
@@ -263,7 +259,7 @@ p, q = 1997, 499
 is_prime(p), is_prime(q), (p - 1) % q == 0
 ```
 
-Let's find a primitive root in $\Fpt$.  This is simple using Sage's functions:
+Let's find a primitive root in $\mathbb{F}^{\times}$.  This is simple using Sage's functions:
 
 ```{code-cell} ipython3
 primitive_root = Zmod(p).multiplicative_generator()

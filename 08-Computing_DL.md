@@ -5,17 +5,11 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.16.7
+    jupytext_version: 1.17.1
 kernelspec:
   display_name: SageMath 10.5
   language: sage
   name: sage-10.5
----
-
----
-math:
-  '\F': '\mathbb{F}'
-  '\Fpt': '\F_p^{\times}'
 ---
 
 # Computing Discrete Logs
@@ -27,8 +21,8 @@ Since the security of the Diffie-Hellman key exchange and the ElGamal public-key
 In this chapter we then shall use the following notation:
 
 * $p$ is a large prime number;
-* $g \in \Fpt$ and element of large order, say $N$ (and so $N \mid (p-1)$ by Euler's Theorem);
-* $h \in \Fpt$ such that $g^x = h$ for some $x$ (which can be taken in $\Z/N\Z$);
+* $g \in \mathbb{F}^{\times}$ and element of large order, say $N$ (and so $N \mid (p-1)$ by Euler's Theorem);
+* $h \in \mathbb{F}^{\times}$ such that $g^x = h$ for some $x$ (which can be taken in $\mathbb{Z}/N\mathbb{Z}$);
 
 Hence, we have that the discrete log $\log_g(h)$ exists and is equal to $x$.  Here we deal with the question of how can we find $x$.
 
@@ -37,9 +31,9 @@ Hence, we have that the discrete log $\log_g(h)$ exists and is equal to $x$.  He
 ## Brute Force Computation
 
 The most immediate way to compute this discrete log is by "brute force": we start computing $g^0$, $g^1$, $g^2$, etc., until some power is equal to $h$.  In the worst case scenario, we might have to compute $N-1$ products, as the set
-$$
+```{math}
 \left\{ 1, g, g^2, g^3, \ldots, g^{N-1} \right\}
-$$
+```
 has $N$ distinct elements, since $g$ has order $N$.
 
 When $N$ is very large, this can take a considerable amount of time.  If $N$ is a $2047$-bit integer, meaning that $2^{2046} \leq N < 2^{2047}$, as recommended for Diffie-Hellman and ElGamal, if each product takes one *billionth* of a second, let's see how many millennia it would take for this computation:\
@@ -66,13 +60,13 @@ In 1971, [Daniel Shanks](https://en.wikipedia.org/wiki/Daniel_Shanks) devised a 
 :label: al-bs_gs
 :numbered: true
 
-If $g$ is an element of order $N \geq 2$ in $\Fpt$ for some prime $p$ and $h \in \Fpt$.  Then, to compute $\log_g(h)$ (i.e., to try to find $x$ such that $h = g^x$), we do:
+If $g$ is an element of order $N \geq 2$ in $\mathbb{F}^{\times}$ for some prime $p$ and $h \in \mathbb{F}^{\times}$.  Then, to compute $\log_g(h)$ (i.e., to try to find $x$ such that $h = g^x$), we do:
 
 1) Let $n = \lfloor \sqrt{N} \rfloor + 1$ (so $n > \sqrt{N}$).
-2) Compute the list of elements of $\Fpt$: $\{1, g, g^2, g^3, \ldots ,  g^n\}$ (the *baby-steps*).
+2) Compute the list of elements of $\mathbb{F}^{\times}$: $\{1, g, g^2, g^3, \ldots ,  g^n\}$ (the *baby-steps*).
 3) Compute the inverse $g^{-n}$ of $g^n$ (computed in the previous step).
 4) In a loop, start computing $h, h \cdot g^{-n}, h \cdot h \cdot g^{-2n}, h \cdot g^{-3n}, \ldots, h \cdot g^{-n^2}$ (the *giant-steps*) until one these elements has a match in the list above.
-5) If we get to the last element $h \cdot g^{-n^2}$ and still found no match, then $\log_g(h)$ does not exist.  If we find a match, say $g^i = h \cdot g^{-jn}$, then $\log_g(h) = i + jn$ (in $\Z/m\Z$), i.e., we have that $g^{i+jn} = h$.
+5) If we get to the last element $h \cdot g^{-n^2}$ and still found no match, then $\log_g(h)$ does not exist.  If we find a match, say $g^i = h \cdot g^{-jn}$, then $\log_g(h) = i + jn$ (in $\mathbb{Z}/m\mathbb{Z}$), i.e., we have that $g^{i+jn} = h$.
 :::
 
 +++
@@ -82,11 +76,12 @@ If $g$ is an element of order $N \geq 2$ in $\Fpt$ for some prime $p$ and $h \in
 Let's see why the algorithm works!
 
 First, why do we find a match when $h = g^x$ for some $x$?  With $n = \lfloor \sqrt{N} \rfloor + 1$, whatever $x$ might be, we can perform the long division of $x$ by $n$, getting a quotient $q$ and remainder $r$, i.e., we get
-$$
+```{math}
 x = nq + r, \quad \text{with $0 \leq r < n$.}
-$$
+```
 
 Since $1 \leq x < N$, we have that
+```{math}
 \begin{align*}
 q &= \frac{x-r}{n} \\[2ex]
 &\leq \frac{x}{n} && \text{(since $r \geq 0$)} \\[2ex]
@@ -94,10 +89,11 @@ q &= \frac{x-r}{n} \\[2ex]
 &< \frac{n^2}{n} && \text{(since $n > \sqrt{N}$, so $n^2 > N$)} \\[2ex]
 &= n,
 \end{align*}
+```
 i.e., we have that $q<n$.  Now
-$$
+```{math}
 h = g^x = g^{nq + r} = g^{nq} \cdot g^r \qquad \Longrightarrow \qquad h \cdot g^{-qn} = g^r, \quad \text{with $0 \leq r, q <n$.}
-$$
+```
 Hence, the left-side is one of the elements we compute in our loop and the right-side is our list of powers of $g$.  Even though we do not know $q$ and $r$ (since we do not know $x$), we *do* know that we must get a match!
 
 Now, when we do find a match $g^i = h \cdot g^{-jn}$, we can solve for $h$ and get $g^{i + jn} = h$, so we know that $i + jn$ (reduced modulo $N$) is $\log_g(h)$.
@@ -108,6 +104,7 @@ Now, when we do find a match $g^i = h \cdot g^{-jn}$, we can solve for $h$ and g
 ### Number of Operations
 
 How many multiplications does the Baby-Step/Giant-Step Algorithm need?  To compute our list, we need $n$ multiplications by $g$:
+```{math}
 \begin{align*}
   g &= 1 \cdot g \\
   g^2 &= g \cdot g \\
@@ -115,10 +112,12 @@ How many multiplications does the Baby-Step/Giant-Step Algorithm need?  To compu
   & \;\;\vdots\\
   g^n &= g^{n-1} \cdot g
 \end{align*}
+```
 
 Computing the inverse $g^{n}$ of $g^n$ is fast, since we can use the *Extended Euclidean Algorithm*.
 
 In our loop, we have *at most* another $n$ multiplications by this $g^{-n}$:
+```{math}
 \begin{align*}
   h \cdot g^{-n} &= h \cdot g^{-n} \\
   h \cdot g^{-2n} &= h \cdot g^{-n} \cdot g^{-n} \\
@@ -126,6 +125,7 @@ In our loop, we have *at most* another $n$ multiplications by this $g^{-n}$:
   & \;\;\vdots\\
   h \cdot g^{-n^2} &= g^{-(n-1)n} \cdot g^{-n}
 \end{align*}
+```
 
 So, we've computed at most $2n$ multiplications (and inverted $g^n$).  Another crucial step is finding, in our loop, if some $h \cdot g^{-jn}$ is in the list $\{1, g, g^2, \ldots, g^{n}\}$.  This process involves at most $n$ comparisons for each iteration of our loop, so we would need at most $n^2 \approx N$ comparisons in total.  On the other hand, there are better algorithms for finding matches by sorting the list, which would gives us about $n \cdot \log_2(n)$ comparisons at most.
 
@@ -160,7 +160,7 @@ for _ in range(1, n + 1):
 
 ### Example
 
-Let's compare the brute force and baby-step/giant-step methods in a concrete example.  Let's first find $p$ and $g$: let's take $p=2{,}819$, $N = (p-1) /2 = 1{,}409$ (also prime), and $g = 798$ (in $\Fpt$).
+Let's compare the brute force and baby-step/giant-step methods in a concrete example.  Let's first find $p$ and $g$: let's take $p=2{,}819$, $N = (p-1) /2 = 1{,}409$ (also prime), and $g = 798$ (in $\mathbb{F}^{\times}$).
 
 ```{code-cell} ipython3
 p = 2819
@@ -174,7 +174,7 @@ Let's verify that these work (we should get `True, True`):
 is_prime(p), g.multiplicative_order() == N
 ```
 
-Now, take $h = 1{,}945$ (in $\Fpt$) and let's try to compute $\log_g(h)$.
+Now, take $h = 1{,}945$ (in $\mathbb{F}^{\times}$) and let's try to compute $\log_g(h)$.
 
 ```{code-cell} ipython3
 h = 1945

@@ -3,3 +3,6 @@
 *.sage
 /0016-Digita_Signatures.md
 *.md
+/_build/
+/fix.log
+*.zip

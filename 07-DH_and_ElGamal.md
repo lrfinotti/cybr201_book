@@ -5,17 +5,11 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.16.7
+    jupytext_version: 1.17.1
 kernelspec:
   display_name: SageMath 10.5
   language: sage
   name: sage-10.5
----
-
----
-math:
-  '\F': '\mathbb{F}'
-  '\Fpt': '\F_p^{\times}'
 ---
 
 # The Diffie-Hellman Key Exchange and the ElGamal Cryptosystem
@@ -57,7 +51,7 @@ If you have a symmetric cryptosystem, you are faced with the problem of sharing 
 
 1) A trusted party publishes:
     - a large prime $p$ and
-    - an element $g$ of $\Fpt$ of large *prime* order $q$.  (The order $q$ is also public.)
+    - an element $g$ of $\mathbb{F}^{\times}$ of large *prime* order $q$.  (The order $q$ is also public.)
 2) Alice chooses a *secret* integer $a$, and Bob chooses a *secret* integer $b$.
 3) Alice computes $A = g^a$ and *publicly* sends the result $A$ to Bob.  (So, $A$ is known, but not the exponent $a$ to produce it.)  Similarly, Bob computes $B = g^b$ and *publicly* sends the result $B$ to Alice.
 4) Alice computes $B^a$ and Bob computes $A^b$.  These values are equal and that is their **shared key**.
@@ -76,7 +70,7 @@ The numbers involved are very large in general, so one would have to compute ver
 
 ### Finding $q$ and $g$
 
-How would one find the $g$, with large order $q$ in $\Fpt$?  Let's first think about its order, which we called $q$.  We want it to be as large as possible.  As we've seen in [Proposition %s](./05-Powers.md#pr-power_one) in the previous section, we know that $|g| = q \mid \varphi(p)=p-1$.  Since $p$ is odd, being a prime different from $2$, the largest that $q$ could be is if $p-1 = 2q$.  So, to find the *pair* $p$ and $q$, we look for a $p$ of the desired size, and check if $(p-1)/2$ is also prime.  If so, $q = (p-1)/2$ works.
+How would one find the $g$, with large order $q$ in $\mathbb{F}^{\times}$?  Let's first think about its order, which we called $q$.  We want it to be as large as possible.  As we've seen in [Proposition %s](./05-Powers.md#pr-power_one) in the previous section, we know that $|g| = q \mid \varphi(p)=p-1$.  Since $p$ is odd, being a prime different from $2$, the largest that $q$ could be is if $p-1 = 2q$.  So, to find the *pair* $p$ and $q$, we look for a $p$ of the desired size, and check if $(p-1)/2$ is also prime.  If so, $q = (p-1)/2$ works.
 
 We can do that relatively easy with Sage for primes of reasonable size:
 
@@ -96,22 +90,22 @@ while True:
 print(f"We can take {p = } and {q = }.")
 ```
 
-Now, how do we find $g$, and element of $\Fpt$ of order $q$?
+Now, how do we find $g$, and element of $\mathbb{F}^{\times}$ of order $q$?
 
-If we take a random element of $a$ of $\Fpt$, we know that $|a| \mid p-1 = 2q$.  Since $q$ is prime, the only possible orders for $a$ are $1$ (and only the element $1$ of $\Fpt$ has order $1$), $2$ (and one can show that the only $-1 = p - 1$ has order $2$ in $\Fpt$), $q$, or $2q$.
+If we take a random element of $a$ of $\mathbb{F}^{\times}$, we know that $|a| \mid p-1 = 2q$.  Since $q$ is prime, the only possible orders for $a$ are $1$ (and only the element $1$ of $\mathbb{F}^{\times}$ has order $1$), $2$ (and one can show that the only $-1 = p - 1$ has order $2$ in $\mathbb{F}^{\times}$), $q$, or $2q$.
 
 Now, we can compute $a^2$.  If we get $1$, then $a$ is either $1$ or $p-1$, and we try a different random $a$.  But if $a^2 \neq 1$, then, either $|a| = q$ or $|a|=2q$.
 
 If $|a|=q$, then, by [Proposition %s](./05-Powers.md#pr-order_power), we have that
-$$
+```{math}
 |a^2| = \frac{q}{\gcd(q, 2)} = \frac{q}{1} = q,
-$$
+```
 since $q$ is odd.
 
 If $|a|=2q$, then, by the same result, we have that
-$$
+```{math}
 |a^2| = \frac{2q}{\gcd(2q, 2)} = \frac{2q}{2} = q.
-$$
+```
 Hence, in either case $a^2$ gives us an element of order $q$.
 
 So, we have, when $p = 2q$, to find an element of order $q$ we simply take an random element $a$ between $2$ and $p-2$, and square it, i.e., we take $g = a^2$.
@@ -124,7 +118,7 @@ More generally, when we do not necessarily have that $q = (p-1)/2$, but simply a
 :label: find_g
 :numbered: true
 
-Given primes $p$ and $q$, with $q$ dividing $p-1$, and a random element $a \in \Fpt$, then the probability that $c^{\frac{p-1}{q}}$ has order $q$ is $(q-1)/q$.
+Given primes $p$ and $q$, with $q$ dividing $p-1$, and a random element $a \in \mathbb{F}^{\times}$, then the probability that $c^{\frac{p-1}{q}}$ has order $q$ is $(q-1)/q$.
 :::
 
 :::{admonition} Homework
@@ -149,7 +143,7 @@ while True:
 print(f"We have {p = }, and {q = }.")
 ```
 
-We also need some element $g$ in $\Fpt$ of order $q$.
+We also need some element $g$ in $\mathbb{F}^{\times}$ of order $q$.
 
 ```{code-cell} ipython3
 g = Mod(randint(2, p-2), p)^2
@@ -190,7 +184,7 @@ B = g^b
 B
 ```
 
-+++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "12600"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "167370"}, "metadata": {}}}]}
++++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "184889"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "74913"}, "metadata": {}}}]}
 
 So, now Alice sends Bob $A$, i.e., {eval}`A`, and Bob sends Alice $B$, i.e., {eval}`B`, while keeping $a$ and $b$ for themselves.
 
@@ -220,7 +214,7 @@ How could Eve find the shared key $g^{ab}$ without knowing $a$ and $b$?  In othe
 :label: def-DH
 :numbered: true
 
-We call the *Diffie-Hellman Problem* the problem of being able to break the Diffie-Hellman key exchange, namely: given a prime $p$, $g \in \Fpt$, and $A=g^a$ and $B=g^b$ (without knowing $a$ and $b$ themselves), find $g^{ab}$.
+We call the *Diffie-Hellman Problem* the problem of being able to break the Diffie-Hellman key exchange, namely: given a prime $p$, $g \in \mathbb{F}^{\times}$, and $A=g^a$ and $B=g^b$ (without knowing $a$ and $b$ themselves), find $g^{ab}$.
 :::
 
 
@@ -230,11 +224,11 @@ If she can solve the *discrete log problem*, then she can solve the Diffie-Hellm
 
 ### Security Considerations
 
-Is the Diffie-Hellman Key Exchange secure in general?  If $p$ (from $\Fpt$) and $q = |g|$ are large enough, and $a$ and $b$ are *randomly generated* number between $2$ and $q-1$ (and therefore likely quite large as well), it is *believed* to be secure, because the discrete log and Diffie-Hellman problems are *believed* to be difficult to solve.
+Is the Diffie-Hellman Key Exchange secure in general?  If $p$ (from $\mathbb{F}^{\times}$) and $q = |g|$ are large enough, and $a$ and $b$ are *randomly generated* number between $2$ and $q-1$ (and therefore likely quite large as well), it is *believed* to be secure, because the discrete log and Diffie-Hellman problems are *believed* to be difficult to solve.
 
 :::{note}
 
-In general we want $p$ to have at least $2048$ bits, i.e., we want $p \geq 2^{2047}$ (noting that $2^{2047}$ has $617$ *digits*), and if possible have the prime $q$ to be simply $(p-1)/2$, the largest possible order of an element in $\Fpt$.  This would mean that $q$ would be a $2047$-bit prime.
+In general we want $p$ to have at least $2048$ bits, i.e., we want $p \geq 2^{2047}$ (noting that $2^{2047}$ has $617$ *digits*), and if possible have the prime $q$ to be simply $(p-1)/2$, the largest possible order of an element in $\mathbb{F}^{\times}$.  This would mean that $q$ would be a $2047$-bit prime.
 :::
 
 Choosing $a$ and $b$ randomly is also strongly encouraged, as to avoid numbers that are easier to guess, like birth dates, phone numbers, addresses, etc.
@@ -246,9 +240,9 @@ But note that we have no guarantee that some very clever individual will come up
 +++
 
 Also note that if the order of the element $g$ were not prime, then we can compute $|A| = |g^a|$ and if $|A| \neq |g|$, which is possible when $|g|$ is not prime, then by [](./05-Powers.md#pr-order_power) we know that
-$$
+```{math}
 |A| = \frac{|g|}{\gcd(|g|, a)} \qquad \Longrightarrow \qquad \gcd(|g|, a) = \frac{|g|}{|A|},
-$$
+```
 and hence, since $|g|$ is known, we can find $\gcd(|g|, a)$, a divisor of $a$, giving us some information about Alice's private key $a$.  In particular, one can try to guess it by trying multiples of this found GCD.
 
 +++
@@ -277,13 +271,14 @@ We will now describe the cryptosystem, but observe that, for now, we shall assum
 
 ### Steps for ElGamal Encryption
 
-1) **Set up:** Choose and publish large prime $p$ and element $g \in \F_p$ of large prime order.
-2) **Key Creation:** Alice chooses a *private* key $a \in \{1, 2, 3, \ldots, p-2\}$ and publishes $A = g^a$ (in $\F_p$).
-3) **Encryption:** To encrypt the message $m$ (a numbers between $1$ and $p-1$), Bob chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use) $k$, computes $c_1 = g^k$, and $c_2=mA^k$ (both in $\F_p$), and sends the pair $(c_1, c_2)$ to Alice.  (This pair is the encrypted message.)
-4) **Decryption:** To decrypt $(c_1, c_2)$ sent by Bob, Alice, using her private key $a$, computes $(c_1^a)^{-1} \cdot c_2$ (in $\F_p$).  This last expression is equal to the message $m$.
+1) **Set up:** Choose and publish large prime $p$ and element $g \in \mathbb{F}_p$ of large prime order.
+2) **Key Creation:** Alice chooses a *private* key $a \in \{1, 2, 3, \ldots, p-2\}$ and publishes $A = g^a$ (in $\mathbb{F}_p$).
+3) **Encryption:** To encrypt the message $m$ (a numbers between $1$ and $p-1$), Bob chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use) $k$, computes $c_1 = g^k$, and $c_2=mA^k$ (both in $\mathbb{F}_p$), and sends the pair $(c_1, c_2)$ to Alice.  (This pair is the encrypted message.)
+4) **Decryption:** To decrypt $(c_1, c_2)$ sent by Bob, Alice, using her private key $a$, computes $(c_1^a)^{-1} \cdot c_2$ (in $\mathbb{F}_p$).  This last expression is equal to the message $m$.
 
 
 Let's check that this process works.  We have
+```{math}
 \begin{align*}
   (c_1^a)^{-1} \cdot c_2 &= {\left({\left(g^k\right)}^a\right)}^{-1} \cdot m A^k && \text{(since $c_1 = g^k$, and $c_2=mA^k$)}\\
   &= {\left(g^{ak}\right)}^{-1} \cdot m A^k\\
@@ -292,6 +287,7 @@ Let's check that this process works.  We have
   &= m \cdot (A^k)^{-1} A^k \\
   &= m.
 \end{align*}
+```
 
 +++
 
@@ -382,12 +378,14 @@ As usual, you will implement these steps more generally in your homework.
 Again, as for the Diffie-Hellman key exchange, we need the order of $g$ to be prime, and again, the best possible scenario is when $|g| = (p-1)/2$ and prime.
 
 Also note that in the encryption process, Bob should use an ephemeral private key $k$, meaning that he should randomly generate a new key for each message.  This increases security as if somehow Eve know that some message $m$ was encrypted and $(c_1, c_2)$ was the encrypted message, then she can decrypt any other encrypted message.  Say that Bob encrypts another message $m'$ using $k$ again, and resulting on the encrypted message $(c_1', c_2')$, then Eve can find the new secret message $m'$ by computing $m \cdot c_2'/c_2$, since:
+```{math}
 \begin{align*}
   m \cdot \frac{c_2'}{c_2}
   &= m \cdot \frac{m' \cdot A^k}{m \cdot A^k}  && \text{(since using $k$ again)} \\
   &= m \cdot \frac{m'}{m} \\
   &= m'.
 \end{align*}
+```
 
 +++
 
@@ -631,9 +629,9 @@ number2string(713950910621729970773639061108007750885178718390542739930377214228
 
 ## Encrypting Large Numbers
 
-In the ElGamal cryptosystem, and others we will soon learn, the numbers to be encrypted are in $\Z/m\Z$ for some modulus $m$.  A problem arises when we try to convert a number larger than this $m$, as we cannot distinguish in $\Z/m\Z$ a number $n$ from $n + km$ for any integer $k$.
+In the ElGamal cryptosystem, and others we will soon learn, the numbers to be encrypted are in $\mathbb{Z}/m\mathbb{Z}$ for some modulus $m$.  A problem arises when we try to convert a number larger than this $m$, as we cannot distinguish in $\mathbb{Z}/m\mathbb{Z}$ a number $n$ from $n + km$ for any integer $k$.
 
-For instance, let's say that we want to encrypt `Luis is the best professor ever!` using $p = 24{,}778{,}948{,}499$ (for $\F_p$).  Then, as we can see from the values above, even using base $26$, the numerical values for this message are too large!  (This prime is way too small to be safe for encryption, but it illustrates the point.)
+For instance, let's say that we want to encrypt `Luis is the best professor ever!` using $p = 24{,}778{,}948{,}499$ (for $\mathbb{F}_p$).  Then, as we can see from the values above, even using base $26$, the numerical values for this message are too large!  (This prime is way too small to be safe for encryption, but it illustrates the point.)
 
 So if were working modulo this $p$, the numerical value would be changed when reducing modulo $p$:
 
@@ -647,7 +645,7 @@ n = string2number("Luis is the best professor ever!")
 print(f"The original number is {n}, but modulo p it is {n % p}.")
 ```
 
-In $\F_p$ the original number would be lost, and we would only have its reduction.  But decoding this reduction gives us gibberish:
+In $\mathbb{F}_p$ the original number would be lost, and we would only have its reduction.  But decoding this reduction gives us gibberish:
 
 ```{code-cell} ipython3
 ---

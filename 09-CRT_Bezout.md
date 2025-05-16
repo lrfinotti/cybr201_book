@@ -5,22 +5,16 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.16.7
+    jupytext_version: 1.17.1
 kernelspec:
   display_name: SageMath 10.5
   language: sage
   name: sage-10.5
 ---
 
----
-math:
-  '\F': '\mathbb{F}'
-  '\Fpt': '\F_p^{\times}'
----
+# The Chinese Remainder Theorem and Generalized Bezout's Lemma
 
 +++
-
-# The Chinese Remainder Theorem and Generalized Bezout's Lemma
 
 In this chapter we introduce two mathematical tools to help speed up the computation of discrete logs when the order of the base is not prime: the *Chinese Remainder Theorem* and the *Generalized Extended Euclidean Algorithm*.
 
@@ -29,10 +23,10 @@ In this chapter we introduce two mathematical tools to help speed up the computa
 ## The Chinese Remainder Theorem
 
 In some cases we have algorithms even faster than Shank's Baby-Step/Giant-Step in computing discrete logs.  These depend on $N$ (the order of $g$) *not being prime*, which is one of the reasons we should always use elements of prime order with Diffie-Hellman key exchange and ElGamal cryptosystem.  They way these work is by prime factoring
-$$
+```{math}
 N = p_1^{r_1} p_2^{r_2} \cdots p_k^{r_k}
-$$
-solving discrete logs with elements of order $p_i^{r_i}$, which being a smaller modulus usually are considerably faster, and then "patching" these discrete logs for $i=1, 2, \ldots, k$ into the original discrete log $\log_g(h)$ (in $\Z/N\Z$).
+```
+solving discrete logs with elements of order $p_i^{r_i}$, which being a smaller modulus usually are considerably faster, and then "patching" these discrete logs for $i=1, 2, \ldots, k$ into the original discrete log $\log_g(h)$ (in $\mathbb{Z}/N\mathbb{Z}$).
 
 This last step of patching the discrete logs modulo $p_i^{r_i}$ is done by using the following important result:
 
@@ -68,43 +62,54 @@ We start with the case when $k = 2$.  So, we want to find $x$ such that
   x &\equiv a_1 \pmod{m_1}, \\
   x &\equiv a_2 \pmod{m_2}.
 \end{align*}
-
 ```
 
 Using the *Extended Euclidean Algorithm* we find $u$ and $v$ integers such that $1 = \gcd(m_1, m_2) = um_1 + vm_2$.  Note that this means that:
+```{math}
 \begin{align*}
 vm_2 &= 1 - um_1 \equiv 1 - u \cdot 0 \cdot 0 = 1 \pmod{m_1}, \\
 um_1 &= 1 - vm_2 \equiv 1 - v \cdot 0 \cdot 0 = 1 \pmod{m_2},
 \end{align*}
+```
 i.e.,
+```{math}
 \begin{align*}
 vm_2 &\equiv 1 \pmod{m_1}, \\
 um_1 &\equiv 1\pmod{m_2},
 \end{align*}
+```
 
 
 Then, let $x_0 = a_1vm_2 + a_2um_1$.  Then we have:
+```{math}
 \begin{align*}
   x_0 = a_1vm_2 + a_2um_1 \equiv a_1 \cdot 1 + a_2 \cdot 0 = a_1 \pmod{m_1}, \\
   x_0 = a_1vm_2 + a_2um_1 \equiv a_1 \cdot 0 + a_2 \cdot 1 = a_2 \pmod{m_2},
 \end{align*}
+```
 i.e.,
+```{math}
 \begin{align*}
   x_0 \equiv a_1 \pmod{m_1}, \\
   x_0 \equiv a_2 \pmod{m_2},
 \end{align*}
+```
 and so $x_0$ is a solution to the system [](#eq-crt-2).  Also, clearly, if $x_1 \equiv x_0 \pmod{m}$, where $m = m_1m2$, i.e., $x = x_0 + tm$ for some integer $t$, then
+```{math}
 \begin{align*}
   x_1 \equiv x_0 + tm_1m_2 \equiv x_0 + 0 = x_0 \equiv a_1\pmod{m_1}, \\
   x_1 \equiv x_0 + tm_1m_2 \equiv x_0 + 0 = x_0 \equiv a_2\pmod{m_2},
 \end{align*}
+```
 so $x_1$ is also a solution.  Hence, any $x_1 \equiv x_0 \pmod{m}$ is also a solution of [](#eq-crt-2).
 
 Now, suppose that $x_2$ is some other solution of [](#eq-crt-2).  (We need to show that $x_2 \equiv x_0 \pmod{m}$, i.e., that the solutions above are not missing any particular one.)  Then, since both $x_0$ and $x_1$ satisfy the system we have
+```{math}
 \begin{align*}
   x_2 - x_0 \equiv a_1 - a_1 = 0 \pmod{m_1}, \\
   x_2 - x_0 \equiv a_2 - a_2 = 0 \pmod{m_2}.
 \end{align*}
+```
 
 This means that $m_1$ and $m_2$ both divide $x_2 - x_0$.  *Since $\gcd(m_1, m_2) = 1$*, this means that $m_1m_2 = m$ also divides $x_2 - x_0$, i.e., that $x_2 \equiv x_0 \pmod{m}$.
 
@@ -130,17 +135,19 @@ So, when we have $k$ congruences, as in [](#eq-crt), we can reduce the number of
 
 Then, we proceed: finding the solution modulo $m_1m_2m_3$ for the first two congruences of this new system, say $x \equiv x_1 \pmod{m_1m_2m_3}$, we can reduce again the number of congruences by one, by replacing these congruences by the solution:
 
+```{math}
 \begin{align*}
   x &\equiv x_1 \pmod{m_1m_2m_3}, \\
   x &\equiv a_4 \pmod{m_4}, \\
   &\;\; \vdots \\
   x &\equiv a_k \pmod{m_k},
 \end{align*}
+```
 
 Proceeding this way, we eventually get the single solution we needed:
-$$
+```{math}
 x \equiv x_{k-2} \pmod{m_1m_2 \cdots m_k}.
-$$
+```
 :::
 
 +++
@@ -154,18 +161,20 @@ To summarize the process given in the proof of the CRT, we have two main steps t
 
 To solve
 
+```{math}
 \begin{align*}
   x &\equiv {\color{blue} a_1} \pmod{{\color{blue} m_1}},\\
   x &\equiv {\color{red} a_2} \pmod{{\color{red} m_2}},
 \end{align*}
+```
 when $\gcd(m_1, m_2) = 1$, we first find $u$ and $v$ such that
-$$
+```{math}
 1 = {\color{blue} u \cdot m_1} + {\color{red} v \cdot m_2},
-$$
+```
 (we can use `xgcd` for that!) and then the solution is
-$$
+```{math}
 x \equiv {\color{red} a_2} \cdot {\color{blue} u} \cdot {\color{blue} m_1} + {\color{blue} a_1} \cdot {\color{red} v} \cdot {\color{red} m_2} \pmod{{\color{blue} m_1} {\color{red} m_2}}.
-$$
+```
 
 :::{warning}
 
@@ -179,6 +188,7 @@ Note that the solution requires the use of the Extended Euclidean Algorithm, whi
 #### Reducing Number of Congruences
 
 We use the previous step to reduce the number of congruences, in each step reducing the first two to a single one by finding a solution:
+```{math}
 \begin{align*}
   x &\equiv a_1 \pmod{m_1} \\
   x &\equiv a_2 \pmod{m_2} & x &\equiv x_0 \pmod{m_1m_2}\\
@@ -187,22 +197,25 @@ We use the previous step to reduce the number of congruences, in each step reduc
   &\;\; \vdots & &\;\; \vdots & &\;\; \vdots  \\
   x &\equiv a_k \pmod{m_k} & x &\equiv a_k \pmod{m_k} & x &\equiv a_k \pmod{m_k}
 \end{align*}
+```
 until we get a single solution
-$$
+```{math}
 x \equiv x_{k-2} \pmod{m_1m_2 \cdots m_k}.
-$$
+```
 
 +++
 
 ### Number of Operations
 
 We perform $k-1$ instances of the Extended Euclidean Algorithm.  The argument of the log that appears in the number of long divisions of each depends on the minimum between the two moduli, but *roughly* we can assume that these will be $m_2$, $m_3$, $m_4$. etc.  So, we need about
+```{math}
 \begin{align*}
 (2 \log_2(m_2) + 2) &+ (2 \log_2(m_3) + 2) + \cdot + (2 \log_2(m_k) + 2) \\
 &= 2 (\log_2(m_2) + \log_2(m_3) + \cdots \log_2(m_k)) + 2(k-1) \\
 &= 2 \log_2(m_2 m_3 \cdot m_k) + 2(k-1) \\
 &\approx 2 \log_2(m_1 m_2 \cdots m_k) + 2(k-1)
 \end{align*}
+```
 long divisions.
 
 +++
@@ -211,19 +224,23 @@ long divisions.
 
 Let's solve the system:
 
+```{math}
 \begin{align*}
   x &\equiv 1 \pmod{2}, \\
   x &\equiv 0 \pmod{3}, \\
   x &\equiv 3 \pmod{5}, \\
   x &\equiv 1 \pmod{7}.
 \end{align*}
+```
 
 (Note that the moduli are distinct primes, so certainly pairwise relatively prime, as required.)   We first deal with the first two congruences:
 
+```{math}
 \begin{align*}
   x &\equiv 1 \pmod{2}, \\
   x &\equiv 0 \pmod{3}.
 \end{align*}
+```
 
 We find $u$ and $v$ such that $2u + 3v = 1$.  We can use Sage's `xgcd` for that:
 
@@ -246,19 +263,23 @@ Let's check:
 
 Now we replace the first two congruences with $x \equiv 3 \pmod{6}$, and solve
 
+```{math}
 \begin{align*}
   x &\equiv 3 \pmod{6}, \\
   x &\equiv 3 \pmod{5}, \\
   x &\equiv 1 \pmod{7}.
 \end{align*}
+```
 
 
 Again, we focus on the (new) first pair of congruences:
 
+```{math}
 \begin{align*}
   x &\equiv 3 \pmod{6}, \\
   x &\equiv 3 \pmod{5}.
 \end{align*}
+```
 
 We repeat the same procedure:
 
@@ -276,10 +297,12 @@ Let's check again:
 
 Repeating, we replace the first two congruences by $x \equiv 3 \pmod{30}$:
 
+```{math}
 \begin{align*}
   x &\equiv 3 \pmod{30}, \\
   x &\equiv 1 \pmod{7}.
 \end{align*}
+```
 
 We now have only two left and we solve as before:
 
@@ -542,41 +565,45 @@ We will make even further improvements in some cases, but we need a new result b
 :numbered: true
 
 Let $a_1, a_2, \ldots, a_k$ be integers and $d = \gcd(a_1, a_2, \ldots, a_k)$.  Then, there integers are $r_1, r_2, \ldots, r_k$ such that
-$$
+```{math}
 d = r_1a_1 + r_2a_2 + \cdots + r_ka_k.
-$$
+```
 :::
 
 :::{prf:proof} Proof of the Generalized Bezout's Lemma
 :numbered: false
 
 The idea is to reduce the number of integers inside the GCD until we get only two and can use the Extended Euclidean Algorithm.  The key idea is that
-$$
+```{math}
 \gcd(a_1, a_2, \ldots, a_n) = \gcd( a_{1}, a_{2}, \ldots , a_{n-2}, \gcd(a_{n-1}, a_n)),
-$$
+```
 which has $n-1$ integers inside the GCD, instead of $n$.  This result is not too hard to prove, and we leave it as an exercise for the more mathematically inclined readers.
 
 We will illustrate the proof with $n=4$, to make it more concrete, but the logic on how to expand for all $n$ should be clear.  So, we want to find $ r_{1}, r_{2}, r_3 , r_{4}$ such that
-$$
+```{math}
 d = r_1 a_1 + r_2 a_2 + r_3 a_3 + r_4 a_4.
-$$
+```
 Let $d_3 = \gcd(a_3, a_4)$.  By Bezout's Lemma we have that there are integers $u_3$ and $v_3$ such that
-$$
+```{math}
 d_3 = u_3 a_3 + v_3 a_4.
-$$
+```
 So, we have that $d = \gcd(a_1, a_2, d_3)$, and repeating the argument, we have that $d = \gcd(a_1, \gcd(a_2, d_3))$.  Letting $d_2 = \gcd(a_2, d_3)$, we can use Bezout's Lemma again to find integers $u_2$ $v_2$ such that
+```{math}
 \begin{align*}
 d_2 &= u_2 a_2 + v_2 d_3 \\
 &= u_2 a_2 + v_2 (u_3 a_3 + v_3 a_4) \\
 &= u_2 a_2 + (v_2u_3) a_3 + (v_2 v_3) a_4.
 \end{align*}
+```
 
 We can now use Bezout's Lemma one last time and get integers $u_1$ and $v_1$ such that
+```{math}
 \begin{align*}
 d &= u_1 a_1 + v_1 d_2 \\
 &= u_1 a_1 + v_1 (u_2 a_2 + (v_2u_3) a_3 + (v_2 v_3) a_4) \\
 &= u_1 a_1 + (v_1 u_2) a_2 + (v_1v_2u_3) a_3 + (v_1 v_2 v_3) a_4.
 \end{align*}
+```
 
 So, we can take $r_1 = u_1$, $r_2 = v_1v_2$, $r_3 = v_1v_2u_3$, and $r_4 = v_1 v_2 v_3$.
 
@@ -598,9 +625,9 @@ Here is a more detailed algorithm:
 :numbered: true
 
 Given a list $v = (a_1, a_2, \ldots, a_n)$ of integers, to find $w = ( r_{1}, r_{2}, \ldots , r_{n})$ such that
-$$
+```{math}
 \gcd( a_{1}, a_{2}, \ldots , a_{n}) = r_1 a_1 + r_2 a_3 + \cdots + r_n a_n,
-$$
+```
 we do:
 
 1) Initialize $b \leftarrow a_n$, $w = (1)$, and remove the last element of $v$.
@@ -617,9 +644,9 @@ we do:
 ### Example
 
 As an example, let's find $\gcd(123, 573, 942, 3105)$ and $r_1$, $r_2$, $r_3$, $r_4$ such that
-$$
+```{math}
 \gcd(123, 573, 942, 3105) = r_1 123 + r_2 573 + r_3 942 + r_4 3105.
-$$
+```
 
 So, our input is:
 

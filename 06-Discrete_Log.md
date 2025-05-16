@@ -12,10 +12,6 @@ kernelspec:
   name: sage-10.5
 ---
 
----
-numbering: false
----
-
 # The Discrete Log Problem
 
 +++
@@ -34,9 +30,9 @@ That is essentially all that there is to logs.  On the other hand, it clearly is
 
 +++
 
-Now suppose we have some elements $a, g \in \Z/m\Z$.  One might ask if there is some power $k$ such that $a = g^k$.  Note that is the same question that the logarithm asks: what is the power of $g$ that gives us $a$.  Hence, if $g^k = a$, we write, similar to real numbers, that $k = \log_g(a)$.
+Now suppose we have some elements $a, g \in \mathbb{Z}/m\mathbb{Z}$.  One might ask if there is some power $k$ such that $a = g^k$.  Note that is the same question that the logarithm asks: what is the power of $g$ that gives us $a$.  Hence, if $g^k = a$, we write, similar to real numbers, that $k = \log_g(a)$.
 
-For real numbers we know that if the base $b$ of the log is positive and different from $1$, and $a$ is positive, then $\log_b(a)$ exists, meaning, there is indeed some power of $b$ that gives $a$.  This questions is a bit harder to answer for logs in $\Z/m\Z$.  For instance, in $\Z/8\Z$, no power of $2$ can give you $3$.  There are few ways to check that this is indeed true, but let's do it computationally with Sage.
+For real numbers we know that if the base $b$ of the log is positive and different from $1$, and $a$ is positive, then $\log_b(a)$ exists, meaning, there is indeed some power of $b$ that gives $a$.  This questions is a bit harder to answer for logs in $\mathbb{Z}/m\mathbb{Z}$.  For instance, in $\mathbb{Z}/8\mathbb{Z}$, no power of $2$ can give you $3$.  There are few ways to check that this is indeed true, but let's do it computationally with Sage.
 
 First, how many times do we have to compute these powers?
 
@@ -66,9 +62,9 @@ vscode:
 Mod(2, 8)^4
 ```
 
-Ah, since we got $0$ again, we know that from now on you we will only get zeros, as we can stop.  No power of $2$ will ever give us $3$ in $\Z/8\Z$.  The powers can only give us $1$ (power $0$), $2$ (power $1$), $4$ (power $2$), and $0$ (any power $3$ or larger).  So, in this case we say that $\log_2(3)$ (in $\Z/8\Z$) *does not exist*.
+Ah, since we got $0$ again, we know that from now on you we will only get zeros, as we can stop.  No power of $2$ will ever give us $3$ in $\mathbb{Z}/8\mathbb{Z}$.  The powers can only give us $1$ (power $0$), $2$ (power $1$), $4$ (power $2$), and $0$ (any power $3$ or larger).  So, in this case we say that $\log_2(3)$ (in $\mathbb{Z}/8\mathbb{Z}$) *does not exist*.
 
-As another example, we can see, still in $\Z/8\Z$, that $\log_3(5)$ does not exist, i.e., there is no power of $3$ that gives $5$:
+As another example, we can see, still in $\mathbb{Z}/8\mathbb{Z}$, that $\log_3(5)$ does not exist, i.e., there is no power of $3$ that gives $5$:
 
 ```{code-cell} ipython3
 ---
@@ -82,7 +78,7 @@ Ah, we already have a repetition since $3^0 = 1$, $3^1=3$, and $3^2 = 1$.  So, w
 
 +++
 
-On the other hand, sometimes the discrete log does exist!  A simple one, still in $\Z/8\Z$, is $\log_3(1)$: we have that $3^0 = 1$, so $\log_3(1) = 0$.
+On the other hand, sometimes the discrete log does exist!  A simple one, still in $\mathbb{Z}/8\mathbb{Z}$, is $\log_3(1)$: we have that $3^0 = 1$, so $\log_3(1) = 0$.
 
 But wait!  We also have that $3^2 = 1$.  In fact, any positive *even* integer power of $3$ would give $1$, as we've just seen.  So, which one of these powers is $\log_3(1)$?  Let's postpone the answer for a little while, but we will comme back to this issue.
 
@@ -92,9 +88,9 @@ But wait!  We also have that $3^2 = 1$.  In fact, any positive *even* integer po
 
 +++
 
-We can a log in $\Z/m\Z$ a *discrete log*, as the result is a subset of the *integers*, not the real numbers.  The integers are called *discrete* because its separated from each other by gaps in the real line.  Conversely, the real numbers are *continuous*, since there are not gaps between real numbers (in the real line) that is not filled by real numbers.
+We can a log in $\mathbb{Z}/m\mathbb{Z}$ a *discrete log*, as the result is a subset of the *integers*, not the real numbers.  The integers are called *discrete* because its separated from each other by gaps in the real line.  Conversely, the real numbers are *continuous*, since there are not gaps between real numbers (in the real line) that is not filled by real numbers.
 
-More generally, a discrete log is any kind of log (meaning, situations where we are asking for powers) where the results are integers.  We will mostly work for discrete logs in $\Z/m\Z$, although later we will talk about discrete logs in finite fields and elliptic curves.
+More generally, a discrete log is any kind of log (meaning, situations where we are asking for powers) where the results are integers.  We will mostly work for discrete logs in $\mathbb{Z}/m\mathbb{Z}$, although later we will talk about discrete logs in finite fields and elliptic curves.
 
 +++
 
@@ -117,19 +113,19 @@ The discrete log has similar properties to the regular log:
 
 +++
 
-Again, when trying to compute a discrete log, we are not sure in principle, if it exists or not.  But, there is one case when are sure that it does.  If $g$ is a primitive root of $\Z/m\Z$ and $a$ is a *unit*, then we know that $\log_g(a)$ exists, since every unit is a power of $g$.
+Again, when trying to compute a discrete log, we are not sure in principle, if it exists or not.  But, there is one case when are sure that it does.  If $g$ is a primitive root of $\mathbb{Z}/m\mathbb{Z}$ and $a$ is a *unit*, then we know that $\log_g(a)$ exists, since every unit is a power of $g$.
 
-Moreover, in this case, the question of how we properly define the discrete log, since multiple powers of $g$ can give $a$, is to think of the exponent, and so the values of the discrete log, in $\Z/\varphi(m)\Z$.  This works, since, as we've seen before, we have that $|g| = \varphi(m)$ and hence we can consider the exponents of $g$ modulo $m$.  (More generally, if $g$ is not primitive root, we consider exponents, and so the values of the discrete log, in $/Z/|g|\Z$.)
+Moreover, in this case, the question of how we properly define the discrete log, since multiple powers of $g$ can give $a$, is to think of the exponent, and so the values of the discrete log, in $\mathbb{Z}/\varphi(m)\mathbb{Z}$.  This works, since, as we've seen before, we have that $|g| = \varphi(m)$ and hence we can consider the exponents of $g$ modulo $m$.  (More generally, if $g$ is not primitive root, we consider exponents, and so the values of the discrete log, in $/Z/|g|\mathbb{Z}$.)
 
 The only method we know (at least so far) to compute the discrete log is *brute force*: to compute $\log_g(a)$, we start computing powers of $g$, i.e., $g^0$, $g^1$, $g^2$, etc., until we either get $a$ or get a repeated power, in which case the log does not exist.  This make this computation extremely time consuming if $|g|$ is a really large number, and as we will soon see, we can use this difficulty to create a cryptosystem that is difficult to break.
 
 +++
 
-Note that with the usual log (with real numbers), we have numerical methods that allow us to compute these logs fairly quickly.  But discrete log, although similar in concept, is very different.  If you look at consecutive powers of a single primitive root $g$ in $\Z/m\Z$, they seem to just bounce randomly, making it difficult to predict the value, and hence solve difficult to compute discrete logs.
+Note that with the usual log (with real numbers), we have numerical methods that allow us to compute these logs fairly quickly.  But discrete log, although similar in concept, is very different.  If you look at consecutive powers of a single primitive root $g$ in $\mathbb{Z}/m\mathbb{Z}$, they seem to just bounce randomly, making it difficult to predict the value, and hence solve difficult to compute discrete logs.
 
-For instance, in $\Z/31\Z$, we have that $17$ is a primitive root.  Here are the powers of $17$, in order:
+For instance, in $\mathbb{Z}/31\mathbb{Z}$, we have that $17$ is a primitive root.  Here are the powers of $17$, in order:
 
-:::{table} Powers of $17$ in $\Z/31\Z$
+:::{table} Powers of $17$ in $\mathbb{Z}/31\mathbb{Z}$
 :widths: grid
 :enumerated: false
 
@@ -157,5 +153,5 @@ list_plot([power_mod(17, x, 31) for x in range(30)])
 :label: def-dlp
 :numbered: true
 
-We call the (computationally intensive) problem of computing a discrete log $\log_g(a)$, i.e., finding a power $x$ (in $\Z/|a|\Z$) such that $g^x = a$ in $\Z/m\Z$, the *discrete log problem (DLP)*.
+We call the (computationally intensive) problem of computing a discrete log $\log_g(a)$, i.e., finding a power $x$ (in $\mathbb{Z}/|a|\mathbb{Z}$) such that $g^x = a$ in $\mathbb{Z}/m\mathbb{Z}$, the *discrete log problem (DLP)*.
 :::

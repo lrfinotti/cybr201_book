@@ -5,7 +5,7 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.16.7
+    jupytext_version: 1.17.1
 kernelspec:
   display_name: SageMath 10.5
   language: sage
@@ -81,11 +81,11 @@ for Jupyter notebooks](http://chebe163.caltech.edu/2018w/handouts/intro_to_latex
 
 +++
 
-Here is an example of LaTeX (from calculus): we say that if $f(x)$ is *differentiable* at $x=a$, if the limit
+Here is an example of LaTeX (from calculus): we say that if {math}`f(x)` is *differentiable* at $x=a$, if the limit
 
-$$
+```{math}
 \lim_{x \to a} \frac{f(x) - f(a)}{x-a} = \lim_{\Delta x \to 0} \frac{f(a + \Delta x) -f(a)}{\Delta x}
-$$
+```
 
 exists.  In the case, the value of the limit is called the *derivative* of $f(x)$ at $x=a$, and usually is denoted by $f'(a)$.
 
@@ -136,19 +136,19 @@ As it is usual, the asterisk `*` is used for product.
 +++
 
 We can perform more involved computations.  For instance, to compute
-$$
+```{math}
 3 + \left( \frac{2}{3} - 5 \cdot 7\right),
-$$
+```
 we do:
 
 ```{code-cell} ipython3
 3 + (2 / 3 - 5 * 7)
 ```
 
-:::{warning} Sage versus Python
+```{warning} Sage versus Python
 
  Note that this computation, in Sage, gives us a fraction and not a decimal (usually called a *float* in Python), as in Python.
-:::
+```
 
 
 I will run the same computation using (real/plain) Python by starting the cell with `%%python`:
@@ -207,10 +207,10 @@ The problem for the *function* `n(...)` is that we often use `n` as a variable n
 
 +++
 
-:::{warning} Sage versus Python
+```{warning} Sage versus Python
 
 For *powers* Python uses `**` instead of the more commonly used `^`, which is used by Sage.  (Sage also accepts `**` for powers!)  In Python is used for the logical operator *XOR*, or *"exclusive or"*.  So, if you use `^` instead of `**` Python will not give an error, but it won't compute what you were expecting!
-:::
+```
 
 ```{code-cell} ipython3
 3 ^ 4
@@ -239,7 +239,7 @@ As in any language, there is a specific syntax we must follow.  For instance:
 Here are some of the most basic operations:
 
 
-:::{table} Common Mathematical Operations
+```{table} Common Mathematical Operations
 :align: center
 :widths: auto
 :width: 100 %
@@ -256,7 +256,7 @@ Here are some of the most basic operations:
 | Remainder               | `%`      | `7 % 3`    | `1`       |
 | Exponentiation (Python) | `**`     | `2 ** 0.5` | `1.41421` |
 | Exponentiation (Sage)   | `^`      | `2 ^ 0.5`  | `1.41421` |
-:::
+```
 
 +++
 
@@ -271,9 +271,9 @@ So, the expression:
 ```
 
 represents
-$$
+```{math}
 1 + \left(2 \cdot 3 \cdot 4 \cdot \frac{5}{6^3}\right) + 7 + 8 - 9 + 10 = \frac{158}{9} = 17.5555\ldots,
-$$
+```
 while
 
 ```{code-cell} ipython3
@@ -281,16 +281,16 @@ while
 ```
 
 represents
-$$
+```{math}
 1 + 2 \cdot {\left(3 \cdot 4 \cdot \frac{5}{6}\right)}^3 + 7 + 8 - 9 + 10 = 2017.
-$$
+```
 
 +++
 
-:::{note}
+```{note}
 
 Python would give `2017.0` as the answer.
-:::
+```
 
 +++
 
@@ -326,10 +326,10 @@ All the above functions were present in (plain) Python.  But Sage has many that 
 log(2)
 ```
 
-:::{warning} Sage versus Python
+```{warning} Sage versus Python
 
 Here again we see a difference between Sage and Python.  Sage will not automatically evaluate functions when they do not yield "simple" numerical results, but only simplify when possible.  This makes sure that we do not lose precision.
-:::
+```
 
 We can always the the decimal value/approximation with the `numerical_approx` function:
 
@@ -712,10 +712,10 @@ list(range(6))
 (Technically, `range` gives an object similar to a list, but not quite the same.  Using the function `list` we convert this object to an actual list.  Most often we do *not* need to convert the object to a list in practice, though.)
 
 
-:::{warning}
+```{warning}
 
 Note then that `list(range(n))` gives a list `[0, 1, 2, ..., n - 1]`, so it starts at `0` (and not `1`) and ends at `n - 1`, so `n` itself is *not* included!  (This is huge pitfall when first learning with Python!)
-:::
+```
 
 
 We can also tell where to start the list (if not at 0), by passing two arguments:
@@ -736,10 +736,10 @@ So, we start at exactly the first argument (4 in this case), skip by the third a
 
 +++
 
-:::{warning} Sage versus Python
+```{warning} Sage versus Python
 
 Sage uses a more "flexible" data type for integers than pure Python.  The `range` function gives Python integers.  If we want to obtain Sage integers, we can use `srange` (for Sage range) or `xsrange`.
-:::
+```
 
 
 The former gives a list:
@@ -782,10 +782,10 @@ mixed_list
 
 We can extract elements from a list by position.  But:
 
-:::{attention}
+```{attention}
 
 Sage/Python count **from 0** and not 1.
-:::
+```
 
 So, to extract the first element of `list_of_numbers` we do:
 
@@ -837,10 +837,10 @@ If I want to get a sublist of `list_example` starting at index 3 and ending at i
 list_example[3:7]
 ```
 
-:::{warning}
+```{warning}
 
 **Note we used 7 instead of 6!**  Just like with ranges, we stop *before* the second number.
-:::
+```
 
 If we want to start at the beginning, we can use 0 for the first number, or simply omit it altogether:
 
@@ -870,10 +870,10 @@ So, although wasteful (and not recommended) we could also do:
 list_example[4:len(list_example)]  # all elements from index 4 until the end
 ```
 
-:::{note}
+```{note}
 
 Note that the last valid index of the list is `len(list_example) - 1`, and *not* `len(list_example)`, since, again, we start counting from 0 and not 1.
-:::
+```
 
 +++
 
@@ -915,10 +915,10 @@ list_of_numbers.append(-1)
 list_of_numbers
 ```
 
-:::{warning}
+```{warning}
 
 Note that `append` *changes the original list* and *returns no output*!
-:::
+```
 
 ```{code-cell} ipython3
 new_list = list_of_numbers.append(100)
@@ -1023,10 +1023,10 @@ Conversely, just as we could concatenate strings with `+`, we can concatenate li
 [1, 2, 3] + [4, 5, 6, 7]
 ```
 
-:::{note}
+```{note}
 
 The crucial difference is that **we cannot change a string** (like we can change a list).
-:::
+```
 
 If, for instance, you try
 
@@ -1221,10 +1221,10 @@ french_days
 
 We can test for values with `.values`.
 
-:::{warning}
+```{warning}
 
 Checking for keys is really fast, but for values is pretty slow (relatively speaking).
-:::
+```
 
 ```{code-cell} ipython3
 "lundi" in french_days.values()
@@ -1236,9 +1236,9 @@ Checking for keys is really fast, but for values is pretty slow (relatively spea
 
 Besides lists and dictionaries, we also have *sets* for collections of elements.  Unlike lists, sets have *no order*.  In fact, a set (in math and in Sage/Python) is characterized by its elements, so repetitions of elements make no difference:
 
-$$
+```{math}
 \{1, 1, 2, 2, 2 \} = \{2, 1\}.
-$$
+```
 
 +++
 
@@ -1295,10 +1295,10 @@ my_set = {1, 2, 3}
 5 in my_set
 ```
 
-:::{note}
+```{note}
 
 Checking if something is in a set is *a lot* faster then checking if something is in a list!  So, whenever we are just keeping track of elements and need to check membership, we should use sets, not lists!
-:::
+```
 
 +++
 
@@ -1393,10 +1393,10 @@ for element in set_B:
 
 Python has two reserved names for true and false: `True` and `False`.
 
-:::{attention}
+```{attention}
 
 Note that `True` and `False` *must* be capitalized for Python/Sage to recognize them as booleans!  Using `true` and `false` does not work!
-:::
+```
 
 
 
@@ -1448,10 +1448,10 @@ These can also be combined with `and` and `or`:
 (2 > 3) or (4 > 5)
 ```
 
-:::{warning}
+```{warning}
 
 Note that `or` is *not exclusive* (as usually in common language).
-:::
+```
 
 In a restaurant, if an entree comes with "soup or salad", both is *not* an option.  But in math and computer science, `or` allows both possibilities being true:
 
@@ -1464,7 +1464,7 @@ In a restaurant, if an entree comes with "soup or salad", both is *not* an optio
 We have the following comparison operators:
 
 
-:::{table} Boolean Operations
+```{table} Boolean Operations
 :align: center
 :name: tb-bool_op
 
@@ -1476,13 +1476,13 @@ We have the following comparison operators:
 | `<=`         | Less than or equal to ($\leq$)    |
 | `>`          | Greater than ($>$)                |
 | `>=`         | Greater than or equal to ($\geq$) |
-:::
+```
 
 
-:::{warning}
+```{warning}
 
 Note that since we use `=` to assign values to variables, we need `==` for comparisons.  *It's a common mistake to try to use `=` in a comparison, so be careful!*
-:::
+```
 
 +++
 
@@ -1548,10 +1548,10 @@ But note that capital letters come earlier than all lower case letters:
 "aardvark" < "Zebra"
 ```
 
-:::{tip}
+```{tip}
 
 A common method when we don't care about case in checking for dictionary order, is to use the string method `.lower` for both strings.
-:::
+```
 
 For instance:
 
@@ -1592,7 +1592,7 @@ test_string.islower()
 
 Here some other methods for strings:
 
-:::{table} String Methods
+```{table} String Methods
 :align: center
 :widths: auto
 :width: 100 %
@@ -1605,7 +1605,7 @@ Here some other methods for strings:
 | `is_alnum`   | Checks if all characters are letters and numbers |
 | `is_alpha`   | Checks if all characters are letters             |
 | `is_numeric` | Checks if all characters are numbers             |
-:::
+```
 
 +++
 
@@ -1688,10 +1688,10 @@ if <condition>:
 
 +++
 
-:::{note}
+```{note}
 
 Note the indentation: all code that is indented will run when the condition is true!
-:::
+```
 
 ```{code-cell} ipython3
 water_temp = 110  # in Celsius
@@ -1787,10 +1787,10 @@ but much better to write (and read)!  And it would have been much worse if we ha
 
 +++
 
-:::{warning}
+```{warning}
 
 Also note that if we have overlapping conditions, only the *first* to be met runs!
-:::
+```
 
 For example:
 
@@ -2031,10 +2031,10 @@ for i in range(2, 201, 2):  # note the 201 instead of 200!
 print(total)  # print the result
 ```
 
-:::{hint}
+```{hint}
 
 It's worth observing that `total += i` is a shortcut (and more efficient than) `total = total + i`.
-:::
+```
 
 So we could have done:
 
@@ -2108,10 +2108,10 @@ for day, french_day in french_days.items():
     print(f"{day} in French is {french_day}.")
 ```
 
-:::{warning}
+```{warning}
 
 Although in more recent versions of Python dictionaries keep the order in which the items were added, it is not wise to count on the ordering when looping through dictionaries.
-:::
+```
 
 
 ### Loops with Sage Integers
@@ -2130,10 +2130,10 @@ for x in xsrange(11, 31, 2):
 
 +++
 
-:::{important}
+```{important}
 
 In loops, we should use `xsrange` instead of `srange`, as the former does not create a list (which has to be stored in memory), but outputs the next Sage integer on-demand.
-:::
+```
 
 +++
 
@@ -2285,15 +2285,15 @@ res
 
 The notation for list comprehensions are similar to math notation for sets.  For instance, the set
 
-$$
+```{math}
 \{ x \in \{1, 2, \ldots, 31\} \; : \; \text{$x$ is prime} \}
-$$
+```
 
 is the set
 
-$$
+```{math}
 \{2, 3, 5, 7, 11, 13, 17, 19, 23, 29\}.
-$$
+```
 
 +++
 
@@ -2372,16 +2372,14 @@ for i, prime in enumerate(primes_list):
 
 You are probably familiar with functions in mathematics.  For instance, if $f(x) = x^2$, then $f$ take some number $x$ as its *input* and returns its square $x^2$ as the *output*.  So,
 
-$$
+```{math}
 \begin{align*}
   f(1) &= 1^2 = 1, && \text{(input: $1$, output: $1$)}; \\
   f(2) &= 2^2 = 4, && \text{(input: $2$, output: $4$)}; \\
   f(3) &= 3^2 = 9, && \text{(input: $3$, output: $9$)}; \\
   f(4) &= 4^2 = 16, && \text{(input: $4$, output: $16$)}.
 \end{align*}
-$$
-
-+++
+```
 
 We can do the same in Python:
 
@@ -2758,10 +2756,10 @@ jupyter:
 next_prime(1_000_000)
 ```
 
-:::{hint}
+```{hint}
 
 Note that the `_` between digits of a number are ingonred by Sage/Python.  We can use them to help us see where the decimal commas would be in the number.
-:::
+```
 
 Note that if the number itself is prime, it still checks for the *next* one:
 
@@ -2837,9 +2835,9 @@ sum([p for p in primes(100) if p % 4 == 1])
 ```
 
 This list inside `sum` is constructed similarly to:
-$$
+```{math}
 \{ p \in P \; : \; p \equiv 1 \pmod{4} \}.
-$$
+```
 where $P$ is the set of primes between $2$ and $99$.
 
 +++
@@ -3102,10 +3100,10 @@ a = randint(2, 20)
 a
 ```
 
-:::{warning}
+```{warning}
 
 Note that ``randint(x, y)`` is an integer from ``x`` to ``y`` *inclusive*, so ``y`` is a possible output.
-:::
+```
 
 +++
 
@@ -3182,9 +3180,9 @@ plot3d(cos(x^2 * y), (x, 0, pi), (y, 0, 2*pi))
 
 We can do calculus.  For instance, let's compute the limit:
 
-$$
+```{math}
 \lim_{x \to 0} \frac{\sin(2x)}{\tan(3x)}:
-$$
+```
 
 ```{code-cell} ipython3
 limit(sin(2*x)/tan(3*x), x=0)
@@ -3192,9 +3190,9 @@ limit(sin(2*x)/tan(3*x), x=0)
 
 We can do derivatives, for instance
 
-$$
+```{math}
 \frac{\mathrm{d}}{\mathrm{d}x} \frac{\ln(x^2)}{x+1}:
-$$
+```
 
 ```{code-cell} ipython3
 derivative(ln(x^2)/(x + 1), x)
@@ -3212,16 +3210,19 @@ show(derivative(ln(x^2)/(x+1), x))
 
 We can do indefinite integrals, for instance,
 
-$$
+```{math}
 \int \ln(x) \cdot x \; \mathrm{d}x:
-$$
+```
 
 ```{code-cell} ipython3
 show(integral(ln(x)*x, x))
 ```
 
 Or definite integrals, for instance:
-$$\int_{2}^{10} \ln(x) \cdot x \; \mathrm{d}x:$$
+
+```{math}
+\int_{2}^{10} \ln(x) \cdot x \; \mathrm{d}x:
+```
 
 ```{code-cell} ipython3
 integral(ln(x)*x, (x, 2, 10))
@@ -3235,9 +3236,9 @@ numerical_approx(_)  # _ uses the last output!
 
 When the function is not integrable in elementary terms (no easy anti-derivative) we can use `numerical_integral` to get numerical values for a definite integral.  For instance, for
 
-$$
+```{math}
 \int_1^2 \mathrm{e}^{x^2} \mathrm{d} x:
-$$
+```
 
 ```{code-cell} ipython3
 numerical_integral(exp(x^2), 1, 2)
@@ -3354,9 +3355,9 @@ matrix_b.nullity()
 +++
 
 We can also solve differential equations.  For instance, to solve
-$$
+```{math}
 y' + y  = 1
-$$
+```
 
 (where $y=y(x)$ is a function on $x$ and $y'$ its derivative):
 
@@ -3373,16 +3374,16 @@ desolve(diff(y, x) + y - 1, y, ics=[10, 2])
 ```
 
 Note that it simplifies to
-$$
+```{math}
 y(x) = \mathrm{e}^{10-x} + 1.
-$$
+```
 
 +++
 
 Here is a second order differential equation, for example:
-$$
+```{math}
 y'' - y = x:
-$$
+```
 
 +++
 
@@ -3400,12 +3401,12 @@ Here `_K1` and `_K2` are arbitrary constants.
 +++
 
 The initial conditions must now be for $y(x)$ and $y'(x)$.  If we have
-$$
+```{math}
 \begin{align*}
 y(10) &= 2, \\
 y'(10) &= 1,
 \end{align*}
-$$
+```
 
 then:
 
