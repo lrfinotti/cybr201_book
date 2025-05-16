@@ -39,26 +39,14 @@ First, how many times do we have to compute these powers?
 If we get a repetition, that means that we will start to get the same results as from the first occurrence.  So, let's check our example
 
 ```{code-cell} ipython3
----
-vscode:
-  languageId: sage
----
 Mod(2, 8)^2
 ```
 
 ```{code-cell} ipython3
----
-vscode:
-  languageId: sage
----
 Mod(2, 8)^3
 ```
 
 ```{code-cell} ipython3
----
-vscode:
-  languageId: sage
----
 Mod(2, 8)^4
 ```
 
@@ -67,10 +55,6 @@ Ah, since we got $0$ again, we know that from now on you we will only get zeros,
 As another example, we can see, still in $\mathbb{Z}/8\mathbb{Z}$, that $\log_3(5)$ does not exist, i.e., there is no power of $3$ that gives $5$:
 
 ```{code-cell} ipython3
----
-vscode:
-  languageId: sage
----
 Mod(3, 8)^2
 ```
 
@@ -100,7 +84,7 @@ The discrete log has similar properties to the regular log:
 
 :::{prf:property} Discrete Log Properties
 :label: pr-dl
-:numbered: true
+
 
 1) If $\log_g(a)$ and $\log_g(b)$ both exist, then $\log_g(ab)$ also exists and $\boxed{\log_g(ab) = \log_g(a) + \log_g(b)}$.
 
@@ -127,7 +111,6 @@ For instance, in $\mathbb{Z}/31\mathbb{Z}$, we have that $17$ is a primitive roo
 
 :::{table} Powers of $17$ in $\mathbb{Z}/31\mathbb{Z}$
 :widths: grid
-:enumerated: false
 
 | $k$ |  $7^k$ |   | $k$ | $17^k$ |   | $k$ | $17^k$ |
 |----:|:-------|---|----:|:-------|---|----:|:-------|
@@ -151,7 +134,7 @@ list_plot([power_mod(17, x, 31) for x in range(30)])
 
 :::{prf:definition} The Discrete Log Problem
 :label: def-dlp
-:numbered: true
+
 
 We call the (computationally intensive) problem of computing a discrete log $\log_g(a)$, i.e., finding a power $x$ (in $\mathbb{Z}/|a|\mathbb{Z}$) such that $g^x = a$ in $\mathbb{Z}/m\mathbb{Z}$, the *discrete log problem (DLP)*.
 :::

@@ -58,7 +58,7 @@ In 1971, [Daniel Shanks](https://en.wikipedia.org/wiki/Daniel_Shanks) devised a 
 
 :::{prf:algorithm} Shank's Baby-Step/Giant-Step
 :label: al-bs_gs
-:numbered: true
+
 
 If $g$ is an element of order $N \geq 2$ in $\mathbb{F}^{\times}$ for some prime $p$ and $h \in \mathbb{F}^{\times}$.  Then, to compute $\log_g(h)$ (i.e., to try to find $x$ such that $h = g^x$), we do:
 

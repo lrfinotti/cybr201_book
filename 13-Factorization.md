@@ -110,7 +110,7 @@ Here is a possible procedure:
 
 :::{prf:algorithm} Pollard's $p-1$ Factorization
 :label: al-pollard
-:numbered: true
+
 
 Given a composite integer $N$, we want to find a proper factor (i.e., a factor different from $1$ and $N$) of $N$.
 
@@ -382,7 +382,7 @@ Let's introduce some useful terminology:
 
 :::{prf:definition} $B$-Smooth Numbers
 :label: def-b_smooth
-:numbered: true
+
 
 For some $B >0$, a number $n$ is called *$B$-smooth* if all its prime factors are less than or equal to $B$.
 :::
@@ -417,7 +417,7 @@ We start with the following definition:
 
 :::{prf:definition} Perfect Square
 :label: def-perfect_square
-:numbered: true
+
 
 An integer $x$ is a *perfect square* if there is another integer $y$ such that $x = y^2$.
 :::
@@ -865,7 +865,7 @@ As previously mentioned, [smooth numbers](#def-b_smooth) appear in all modern fa
 
 :::{prf:example} $5$-Smooth Numbers
 :label: ex-5-smooth
-:numbered: true
+
 
 We can break down the integers into $5$-smooth numbers and not $5$-smooth:
 ```{math}
@@ -880,7 +880,7 @@ We now introduce a function to count the number of $B$-smooth numbers up to a gi
 
 :::{prf:definition} Number of Smooth Numbers
 :label: def-n_smooth
-:numbered: true
+
 
 We define $\psi(x, B)$ to be the number of smooth numbers less than or equal to $x$.
 :::
@@ -891,7 +891,7 @@ We also need the following function:
 
 :::{prf:definition} Function $L$
 :label: def-function_L
-:numbered: true
+
 
 We define function $L(x)$, for $x >0$, as
 ```{math}
@@ -904,7 +904,7 @@ We then have the following technical result:
 
 :::{prf:theorem}
 :label: th-psi_L
-:numbered: true
+
 
 For any real number $c$ with $0 < c < 1$ and for "large" values of $x$, we have
 ```{math}
@@ -919,7 +919,7 @@ The theorem above gives us the an idea of how difficult finding that many $B$-sm
 
 :::{prf:theorem}
 :label: th-b_smooth_application
-:numbered: true
+
 
 Let $N$ be a large integer and set $B = L(N)^{\frac{1}{\sqrt{2}}}$.  We expect to check about $B^2 = L(N)^{\sqrt{2}}$ random numbers modulo $N$ to find $\pi(B)$ numbers that are $B$-smooth.  Thus, we expect to check $B^2 = L(N)^{\sqrt{2}}$ random numbers of the form $a^2$ reduce modulo $N$ to be able to factor $N$.
 :::

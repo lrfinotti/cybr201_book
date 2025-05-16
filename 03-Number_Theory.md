@@ -46,7 +46,7 @@ You probably remember long division from school.  You can break an integer as a 
 
 :::{prf:theorem} Long Division
 :label: th-long_division
-:numbered: true
+
 
 Given $a,b \in \mathbb{Z}$, with $b \neq 0$, there is a *unique* pair of integers $(q,r)$ such that $a=bq+r$ and $r \in \{0, 1, 2, \ldots, |b|-1\}$.
 :::
@@ -65,8 +65,8 @@ So, $b$ goes into $a$ exactly $q$ times, with a left-over of $r$.
 
 +++
 
-:::{prf:example} title
-:numbered: false
+:::{prf:example}  Long Division
+:nonumber:
 
 What are the quotient and remainder of $183$ when divided by $37$?
 :::
@@ -267,7 +267,7 @@ If we only want to test for divisibility, we can simply use `a % b` in Sage/Pyth
 +++
 
 :::{prf:definition} Prime
-:numbered: false
+:nonumber:
 
 A positive integer $p$ is *prime* if it is not $1$ and the only positive divisors are $1$ and $p$ itself.  Integers greater than $1$ that are not prime are called *composite*.
 :::
@@ -588,7 +588,7 @@ Given two integers $a$, $b$, the *greatest common divisor (GCD)* of $a$ and $b$,
 
 :::{prf:property} Properties of the GCD
 :label: pr-gcd
-:numbered: true
+
 
 1) Since $1$ divides any integer $a$ (since $a = 1 \cdot a$, and $a$ is an integer), we have that $\boxed{\gcd(1, a) = 1}$ for any integer $a$.
 2) Any integer $a$ divides $0$, since $0 = a \cdot 0$ (and $0$ is an integer).  So, if $a$ is a **positive** integer, then $\boxed{\gcd(a, 0)=a}$.
@@ -597,7 +597,7 @@ Given two integers $a$, $b$, the *greatest common divisor (GCD)* of $a$ and $b$,
 :::
 
 :::{prf:definition} Relatively Prime
-:numbered: false
+:nonumber:
 
 We say that two integers are *relatively prime* if their GCD is $1$.
 :::
@@ -878,7 +878,7 @@ Here is a result that will be quite important to us:
 
 :::{prf:lemma} Bezout's Lemma
 :label: lm-bezout
-:numbered: true
+
 
 Let $a$ and $b$ be positive integers.  Then, there are integers $u$ and $v$ (maybe negative), such that:
 ```{math}
@@ -1265,7 +1265,7 @@ Here is the actual extended Euclidean Algorithm:
 
 :::{prf:algorithm} Extended Euclidean Algorithm
 :label: al-eea
-:numbered: true
+
 
 To compute the GCD of `a` and `b` and `u` and `v` such that `gcd(a, b) = a * u + b * v`:
 
@@ -1311,7 +1311,7 @@ As we've seen above, the $u$ and $v$ from Bezout's Lemma are not unique.  But, w
 
 :::{prf:theorem}
 :label: pr-bezout_mult_sol
-:numbered: true
+
 
 Let $a$ and $b$ be positive integers, $d$ be their GCD, and $u_0$ and $v_0$ be *some* pair of integers such that
 ```{math}
@@ -1594,7 +1594,7 @@ Here is an important fact about primes you might remember from school:
 
 :::{prf:theorem} Fundamental Theorem of Arithmetic (Prime Factorization)
 :label: th-fta
-:numbered: true
+
 
 Let $n$ be an integers greater than or equal to $2$.  Then, there are primes $p_1 < p_2 < \cdots < p_k$, for some $k \geq 1$ and *positive* integers $e_1, e_2, \ldots, e_k$ such that
 ```{math}
@@ -1666,7 +1666,7 @@ A conjecture is a statement believed to be true, but not proven to be true.  In 
 
 :::{prf:conjecture} Goldbach Conjecture
 :label: cj-goldbach
-:numbered: false
+:nonumber:
 
 Every *even* integer greater than or equal to four is a sum of two prime numbers.
 :::
@@ -1715,7 +1715,7 @@ This has been tested up to really huge numbers, so it is believed to be true, bu
 
 :::{prf:definition} Twin Primes
 :label: def-twin_primes
-:numbered: false
+:nonumber:
 
 Two primes are called *twin primes* if they differ by $2$.  This means that, apart from $2$ and $3$, they are as close as possible, since they will both be odd.
 :::

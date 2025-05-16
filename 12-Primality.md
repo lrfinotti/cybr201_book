@@ -25,8 +25,8 @@ The only *know* way to break RSA's security if by factoring $N = pq$, where $p$ 
 Remember that we have:
 
 :::{prf:theorem} Fermat's Little Theorem
-:label: th-flt
-:numbered: true
+:label: th-flt-2
+
 
 If $p$ is prime and $p \nmid a$, then $a^{p-1} = 1$ in $\mathbb{Z}/p\mathbb{Z}$ (i.e., $a^{p-1} \equiv 1 \pmod{p}$).  In particular, for any integer $a$, we have that $a^p = a$ in $\mathbb{Z}/p\mathbb{Z}$.
 :::
@@ -37,7 +37,7 @@ We can use Fermat's Little Theorem try to check if a number is prime or composit
 
 :::{prf:algorithm} Fermat's Little Theorem Compositeness Test
 :label: al-flt
-:numbered: true
+
 
 To test if $n$ is *composite*:
 
@@ -89,7 +89,7 @@ Clearly $561 = 3 \cdot 7 \cdot 11$ is not prime, and yet, we have no witness for
 
 :::{prf:definition} Carmichael Number
 :label: def-carmichael
-:numbered: true
+
 
 A *composite* integer $n > 2$ is a *Carmichael number* if $a^n = a$ in $\mathbb{Z}/n\mathbb{Z}$ for all $a \in \mathbb{Z}$.  (So, $n$ is composite, but there is no witness for its compositeness.)
 :::
@@ -112,7 +112,7 @@ Our previous attempt on primality testing was not successful, but the idea is an
 
 :::{prf:theorem}
 :label: th-mr
-:numbered: true
+
 
 Let $p>2$ be a prime, let $p-1=2^kq$, with $q$ odd, and $a$ an integer not divisible by $p$.  Then, either:
 1) $a^q = 1$ in $\mathbb{Z}/p\mathbb{Z}$, or
@@ -120,11 +120,11 @@ Let $p>2$ be a prime, let $p-1=2^kq$, with $q$ odd, and $a$ an integer not divis
 :::
 
 :::{prf:proof}
-:numbered: false
+:nonumber:
 
 First note that $b^2 = 1$ in $\mathbb{Z}/p\mathbb{Z}$ if and only if $p \mid (b^2 -1) = (b-1)(b+1)$.  Since $p$ is prime, this true if and only if $p$ divides either $b-1$ or $b + 1$, i.e., if and only if $b$ is either $1$ or $-1$ in $\mathbb{Z}/p\mathbb{Z}$.
 
-Since $p$ is prime and $p \nmid a$, we have by [{name}](#th-flt) we know that
+Since $p$ is prime and $p \nmid a$, we have by [{name}](#th-flt-2) we know that
 ```{math}
 \left( a^{2^{k-1}q} \right)^2 =  a^{2^kq} = a^{p-1} = 1 \quad \text{(in $\mathbb{Z}/p\mathbb{Z}$)}.
 ```
@@ -154,7 +154,7 @@ Let's introduce some useful terminology:
 
 :::{prf:definition} Miller-Rabin Witness
 :label: def-mr_witness
-:numbered: true
+
 
 Let $n$ be an odd, positive integer, and write $n = 2^{k}q$, with $q$ odd.  If $a$ is an integer such that
 
@@ -171,7 +171,7 @@ Note that $a$ as above tells us that $n$ is composite, since if it were prime, b
 
 :::{prf:algorithm} Miller-Rabin Compositeness Test
 :label: al-mr
-:numbered: true
+
 
 Let $n > 2$ be a integer (to be testes for compositeness) and $a \in \{ 2, 3 ,\ldots, (n-1) \}$ (a potential witness), which we see as an element of $\mathbb{Z}/n\mathbb{Z}$.
 
@@ -308,7 +308,7 @@ At first glance, this looks a lot like [](#al-flt), in the sense that it can onl
 
 :::{prf:theorem} Miller-Rabin Witnesses
 :label: th-mr_witness
-:numbered: true
+
 
 If $n$ is an odd, composite number, at least three quarters of $a \in \{2, 3, \ldots, (n-1)\}$ are Miller-Rabin witnesses.
 :::
@@ -354,7 +354,7 @@ On the other hand, there is ample numerical and theoretical evidence that it is 
 
 :::{prf:theorem} Deterministic Miller-Rabin
 :label: th-dmr
-:numbered: true
+
 
 If the GRH is true, then every composite, odd $n$ has a Miller-Rabin witness $a$ with $a \leq 2 (\log(n))^2$.
 :::
@@ -374,7 +374,7 @@ So, let's introduce some (standard) notation:
 
 :::{prf:definition} Number of Primes Function
 :label: def-pi
-:numbered: true
+
 
 Let $x$ be a positive real number.  Then, $\pi(x)$ denotes the number of primes less than or equal to $x$.
 :::
@@ -385,7 +385,7 @@ It is really hard to compute $\pi(x)$ exactly and number theorists have dedicate
 
 :::{prf:theorem} Prime Number Theorem
 :label: th-pnt
-:numbered: true
+
 
 We have that
 ```{math}
@@ -397,7 +397,7 @@ We have that
 The theorem above is stated using Calculus, but what is basically says is that, for *very* large numbers $x$ we have that $\dfrac{\pi(x)}{x/\log(x)}$ is (relatively) close to $1$, or, $\pi(x)$ about "close" to $x/\log(x)$.
 
 :::{table} $\pi(x)$ versus $x/\log(x)$ for Large $x$
-:label: tb-pi
+:name: tb-pi
 :align: center
 :width: 70%
 
@@ -427,7 +427,7 @@ For instance, for $N = 10^{12}$, the probability would be about $3.62\%$.  Also,
 
 
 :::{prf:example} Number of Primes between $9 \cdot 10^5$ and $10^6$
-:numbered: true
+
 
 Estimate the number of primes between $9 \cdot 10^5$ and $10^6$.
 :::

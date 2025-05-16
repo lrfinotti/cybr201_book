@@ -1,4 +1,4 @@
----
+ ---
 jupytext:
   formats: ipynb,md:myst,sage:percent
   text_representation:
@@ -116,7 +116,7 @@ More generally, when we do not necessarily have that $q = (p-1)/2$, but simply a
 
 :::{prf:proposition} Finding $g$
 :label: find_g
-:numbered: true
+
 
 Given primes $p$ and $q$, with $q$ dividing $p-1$, and a random element $a \in \mathbb{F}^{\times}$, then the probability that $c^{\frac{p-1}{q}}$ has order $q$ is $(q-1)/q$.
 :::
@@ -212,7 +212,7 @@ How could Eve find the shared key $g^{ab}$ without knowing $a$ and $b$?  In othe
 
 :::{prf:definition} Diffie-Hellman Problem
 :label: def-DH
-:numbered: true
+
 
 We call the *Diffie-Hellman Problem* the problem of being able to break the Diffie-Hellman key exchange, namely: given a prime $p$, $g \in \mathbb{F}^{\times}$, and $A=g^a$ and $B=g^b$ (without knowing $a$ and $b$ themselves), find $g^{ab}$.
 :::
@@ -402,7 +402,7 @@ The ElGamal cryptosystem, as well as others we will learn, encode *numbers*.  Bu
 :align: center
 :widths: auto
 :width: 100 %
-:name: tb-ascii
+:name: tb-ascii-2
 
 | Decimal Value | Character                    |   | Decimal Value | Character |   | Decimal Value | Character |   | Decimal Value | Character |
 |--------------:|:-----------------------------|---|--------------:|:----------|---|--------------:|:----------|---|--------------:|:----------|

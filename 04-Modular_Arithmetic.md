@@ -56,7 +56,7 @@ So, *no*!
 Here are some important remarks about congruences:
 
 :::{prf:remark}
-:enumerated: false
+:nonumber:
 
 1) We have that $a \equiv b \pmod{m}$ if, and only if, we have that $a = b + km$ for some integer $k$.
 
@@ -223,7 +223,7 @@ So, for now, we can use a different trick.  Note that $6 \equiv -1 \pmod{7}$, an
 
 :::{prf:definition} Inverse Modulo $m$
 :label: def-inv
-:numbered: true
+
 
 Let $a$, $b$, and $m$ be integers with $m>1$.  Then we say that $a$ is the *inverse* of $b$ *modulo* $m$ (or that $b$ is the *inverse* of $a$ *modulo* $m$) if $ab \equiv 1 \pmod{m}$.
 :::
@@ -284,7 +284,7 @@ If we pay attention, we will see:
 
 :::{prf:theorem}
 :label: th-inv
-:numbered: true
+
 
 An integer $a$ is invertible modulo $m$ if, and only if, $\gcd(a, m) = 1$.  In other words,
 ```{math}
@@ -333,7 +333,7 @@ But the only positive integer that divides $1$ is $1$ itself, so, $1 = d = \gcd(
 As we can see above, we know how to compute inverses!  We just use the Extended Euclidean Algorithm!
 
 :::{prf:example}
-:numbered: false
+:nonumber:
 
 Is $35$ invertible modulo $131$?  If so, find its inverse.
 :::
@@ -431,7 +431,7 @@ To make this clear, one might think that since $\mathbb{Z}/3\mathbb{Z} = \{0, 1,
 
 :::{prf:definition} Notation
 :label: def-fp
-:numbered: true
+
 
 If $p$ is a prime number, then we might write $\mathbb{F}_p$ for $\mathbb{Z}/p\mathbb{Z}$.  That is because when $p$ is prime (and only in that case), the ring $\mathbb{Z}/p\mathbb{Z}$ is a [field](https://en.wikipedia.org/wiki/Field_(mathematics)) with $p$ elements.
 :::
@@ -607,7 +607,7 @@ The exponents do have familiar properties, though:
 
 :::{prf:property} Properties of Exponents
 :label: pr-exp
-:numbered: true
+
 
 Let $m$ be an integer greater than one, $a$ and $b$ be in $\mathbb{Z}/m\mathbb{Z}$ and $x$ and $y$ be *positive* integers.  Then:
 
@@ -698,7 +698,7 @@ The title of this section is "The Group of Units of $\mathbb{Z}/m\mathbb{Z}$" an
 
 :::{prf:property} Properties of Unities
 :label: pr-unity
-:numbered: true
+
 
 Here are some basic properties of $(\mathbb{Z}/m\mathbb{Z})^{\times}$ (that in fact show it is a group) of the product:
 

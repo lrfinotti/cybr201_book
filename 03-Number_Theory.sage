@@ -45,7 +45,7 @@
 #
 # :::{prf:theorem} Long Division
 # :label: th-long_division
-# :numbered: true
+#
 #
 # Given $a,b \in \mathbb{Z}$, with $b \neq 0$, there is a *unique* pair of integers $(q,r)$ such that $a=bq+r$ and $r \in \{0, 1, 2, \ldots, |b|-1\}$.
 # :::
@@ -62,8 +62,8 @@
 # So, $b$ goes into $a$ exactly $q$ times, with a left-over of $r$.
 
 # %% [markdown]
-# :::{prf:example} title
-# :numbered: false
+# :::{prf:example}  Long Division
+# :nonumber:
 #
 # What are the quotient and remainder of $183$ when divided by $37$?
 # :::
@@ -250,7 +250,7 @@ else:  # runs when for loop ended without break!!!!!
 
 # %% [markdown]
 # :::{prf:definition} Prime
-# :numbered: false
+# :nonumber:
 #
 # A positive integer $p$ is *prime* if it is not $1$ and the only positive divisors are $1$ and $p$ itself.  Integers greater than $1$ that are not prime are called *composite*.
 # :::
@@ -556,7 +556,7 @@ test_1 == test_2
 #
 # :::{prf:property} Properties of the GCD
 # :label: pr-gcd
-# :numbered: true
+#
 #
 # 1) Since $1$ divides any integer $a$ (since $a = 1 \cdot a$, and $a$ is an integer), we have that $\boxed{\gcd(1, a) = 1}$ for any integer $a$.
 # 2) Any integer $a$ divides $0$, since $0 = a \cdot 0$ (and $0$ is an integer).  So, if $a$ is a **positive** integer, then $\boxed{\gcd(a, 0)=a}$.
@@ -565,7 +565,7 @@ test_1 == test_2
 # :::
 #
 # :::{prf:definition} Relatively Prime
-# :numbered: false
+# :nonumber:
 #
 # We say that two integers are *relatively prime* if their GCD is $1$.
 # :::
@@ -831,7 +831,7 @@ gcd(76497326597236475295264957264957246971641974697326592743619743, 894350982820
 #
 # :::{prf:lemma} Bezout's Lemma
 # :label: lm-bezout
-# :numbered: true
+#
 #
 # Let $a$ and $b$ be positive integers.  Then, there are integers $u$ and $v$ (maybe negative), such that:
 # ```{math}
@@ -1203,7 +1203,7 @@ v
 #
 # :::{prf:algorithm} Extended Euclidean Algorithm
 # :label: al-eea
-# :numbered: true
+#
 #
 # To compute the GCD of `a` and `b` and `u` and `v` such that `gcd(a, b) = a * u + b * v`:
 #
@@ -1246,7 +1246,7 @@ xgcd(1037, 349)
 #
 # :::{prf:theorem}
 # :label: pr-bezout_mult_sol
-# :numbered: true
+#
 #
 # Let $a$ and $b$ be positive integers, $d$ be their GCD, and $u_0$ and $v_0$ be *some* pair of integers such that
 # ```{math}
@@ -1521,7 +1521,7 @@ u, v
 #
 # :::{prf:theorem} Fundamental Theorem of Arithmetic (Prime Factorization)
 # :label: th-fta
-# :numbered: true
+#
 #
 # Let $n$ be an integers greater than or equal to $2$.  Then, there are primes $p_1 < p_2 < \cdots < p_k$, for some $k \geq 1$ and *positive* integers $e_1, e_2, \ldots, e_k$ such that
 # ```{math}
@@ -1587,7 +1587,7 @@ for year in range(2024, 2027):
 #
 # :::{prf:conjecture} Goldbach Conjecture
 # :label: cj-goldbach
-# :numbered: false
+# :nonumber:
 #
 # Every *even* integer greater than or equal to four is a sum of two prime numbers.
 # :::
@@ -1634,7 +1634,7 @@ for n in range(4, 101, 2):
 # %% [markdown]
 # :::{prf:definition} Twin Primes
 # :label: def-twin_primes
-# :numbered: false
+# :nonumber:
 #
 # Two primes are called *twin primes* if they differ by $2$.  This means that, apart from $2$ and $3$, they are as close as possible, since they will both be odd.
 # :::

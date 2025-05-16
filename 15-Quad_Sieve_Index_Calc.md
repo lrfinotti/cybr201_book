@@ -43,7 +43,7 @@ Let's start with a simple and intuitive way of finding $B$-smooth numbers in a l
 
 :::{prf:algorithm} Sieving $B$-Smooth Numbers
 :label: al-seive-b-smooth
-:numbered: true
+
 
 Given a list of numbers $2, 3, 4, \ldots , n$ and some $B > 0$, the following procedure finds the list of $B$-smooth numbers in the list.  We refer to the "number in position $k$" in the list following Sage/Python's convention: $2$ is position $0$, $3$ in position $1$, etc.  So, initially, the number $k$ is in position $k-2$.
 
@@ -211,7 +211,7 @@ Before we describe the actual process, we need the following definition:
 
 :::{prf:definition} Factor Base
 :label: def-factor-base
-:numbered: true
+
 
 Given $B>0$, the *factor base of $B$* is the set of primes less than or equal to $B$.
 :::
@@ -237,7 +237,7 @@ Here is the algorithm for relation building:
 
 :::{prf:algorithm} Relation Building
 :label: al-rel-build
-:numbered: true
+
 
 Given an integer $N$ (to be eventually factored), $B>0$, and an upped bound $b$ between $\sqrt{N}$ and $\sqrt{2N}$, we will produce two lists:
 
@@ -515,8 +515,8 @@ You will implement the algorithm in your homework.
 Here we introduce the most efficient method to solve the *Discrete Log Problem* (in the context we introduced here):
 
 :::{prf:definition} The Discrete Log Problem
-:label: def-dlp
-:numbered: true
+:label: def-dlp-2
+
 
 We call the (computationally intensive) problem of computing a discrete log $\log_g(a)$, i.e., finding a power $x$ (in $\mathbb{Z}/|a|\mathbb{Z}$) such that $g^x = a$ in $\mathbb{Z}/m\mathbb{Z}$, the *discrete log problem (DLP)*.
 :::

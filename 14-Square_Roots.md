@@ -26,8 +26,8 @@ We will soon come back to factorization and computation of discrete logs, but be
 First, we need to recall some definitions and results from [](./05-Powers.md).  Recall *Fermat's Little Theorem*:
 
 :::{prf:theorem} Fermat's Little Theorem
-:label: th-flt
-:numbered: true
+:label: th-flt-3
+
 
 If $p$ is prime and $p \nmid a$, then $a^{p-1} = 1$ in $\mathbb{Z}/p\mathbb{Z}$ (i.e., $a^{p-1} \equiv 1 \pmod{p}$).
 :::
@@ -37,8 +37,8 @@ Also, remember that we've seen before that if $p$ is prime and $x \in \mathbb{F}
 Remember also our definition of *primitive root*:
 
 :::{prf:theorem} Primitive Root Theorem
-:label: th-prim_root
-:numbered: true
+:label: th-prim_root-2
+
 
 Let $p$ be a prime.  (Remember then that $\mathbb{F}_p$ is just another way to write $\mathbb{Z}/p\mathbb{Z}$.)  Then, there is an element $g \in \mathbb{F}_p^{\times}$ such that every element of $\mathbb{F}_p^{\times}$ is a power of $g$.  In other words:
 ```{math}
@@ -47,8 +47,8 @@ Let $p$ be a prime.  (Remember then that $\mathbb{F}_p$ is just another way to w
 :::
 
 :::{prf:definition} Primitive Root
-:label: def-prim
-:numbered: true
+:label: def-prim2
+
 
 A $g$ as above is called a *primitive root* of $\mathbb{F}_p$ or a *generator* of $\mathbb{F}_p^{\times}$.
 :::
@@ -56,8 +56,8 @@ A $g$ as above is called a *primitive root* of $\mathbb{F}_p$ or a *generator* o
 We also introduced the *order* of elements in $\mathbb{Z}/m\mathbb{Z}$:
 
 :::{prf:definition} Order of an Element
-:label: def-ord
-:numbered: true
+:label: def-ord2
+
 
 If $a$ is a unit of $\mathbb{Z}/m\mathbb{Z}$, then the *order of $a$*, usually denoted by $|a|$, is the smallest positive power $k$ such that $a^k = 1$.
 :::
@@ -67,16 +67,16 @@ So, the order of a primitive root in $\mathbb{F}_p$ is $p-1$.
 Finally, we have the following results about orders:
 
 :::{prf:proposition}
-:label: pr-power_one
-:numbered: true
+:label: pr_power_one-2
+
 
 Let $a$ be a unit of $\mathbb{Z}/m\mathbb{Z}$. If $a^k = 1$, for some integer $k$, then $|a| \mid k$.  In particular, we always have that $|a| \mid \varphi(m)$.
 :::
 
 
 :::{prf:proposition} Order of a Power
-:label: pr-order_power
-:numbered: true
+:label: pr-order_power-2
+
 
 Let $a \in (\mathbb{Z}/m\mathbb{Z})^{\times}$ with $|a| = n$.  Then, we have that
 ```{math}
@@ -91,14 +91,14 @@ With that, we can show the following result:
 
 :::{prf:proposition} Squares in $\mathbb{F}_p$
 :label: pr-squares-fp
-:numbered: true
+
 
 Let $p$ be an odd prime and $a \in \mathbb{F}_p = \mathbb{Z}/p\mathbb{Z}$, with $a \neq 0$.  Then, we have that $a^{(p-1)/2}$ is either $1$ or $-1$.  The former occurs when $a$ is a square in $\mathbb{F}_p$ (i.e., when there is some $b \in \mathbb{F}_p$ such that $a = b^2$) and the latter when $a$ is *not* a square in $\mathbb{F}_p$.
 :::
 
 
 :::{prf:proof}
-:numbered: false
+:nonumber:
 
 First, by Fermat's Little Theorem, we have that
 ```{math}
@@ -117,7 +117,7 @@ Now, let $g$ be a primitive root of $\mathbb{F}_p$.  If $a = g^k$, where $k$ is 
 \gcd(k \cdot (p-1)/2, p-1) = (p-1)/2.
 ```
 
-Then, by [](#pr-order_power), we have
+Then, by [](#pr-order_power-2), we have
 ```{math}
 |a^{(p-1)/2}| = | g^{k \cdot (p-1)/2} | = \frac{|g|}{\gcd(k \cdot (p-1)/2, |g|)} = \frac{p-1}{\gcd(k \cdot (p-1)/2,  p-1)} = \frac{p-1}{(p-1)/2} = 2.
 ```
@@ -134,7 +134,7 @@ The proof of [](#pr-squares-fp) also shows the following:
 
 :::{prf:proposition}
 :label: pr-squares_gen
-:numbered: true
+
 
 If $g$ is a primitive root in $\mathbb{F}_p$ and $a \in \mathbb{F}^{\times}$, then $a$ is a square if and only if $a = g^k$ with $k$ *even*.  In particular, a random element in $\mathbb{F}^{\times}$ has a $50\%$ chance of being a square.
 :::
@@ -150,7 +150,7 @@ If $g$ is a primitive root in $\mathbb{F}_p$ and $a \in \mathbb{F}^{\times}$, th
 
 :::{prf:definition} Legendre Symbol
 :label: def-legendre
-:numbered: true
+
 
 Let $p$ be a prime and $a$ be an integer.  Then, the *Legendre symbol* of $a$ modulo $p$ is given by
 ```{math}
@@ -172,7 +172,7 @@ If $p$ is an *odd* prime, then, by [](#pr-squares-fp), we could have defined
 
 :::{prf:proposition} Basic Properties of the Legendre Symbol
 :label: pr-basic_prop_legendre
-:numbered: true
+
 Here are some immediate properties of the Legendre Symbol:
 
 1) If $a \equiv a' \pmod{p}$, then clearly $\left(\dfrac{a}{p}\right) = \left(\dfrac{a'}{p}\right)$.
@@ -185,7 +185,7 @@ We also have the following property:
 
 :::{prf:proposition} Multiplicativity of the Legendre Symbol
 :label: pr-legengre-mult
-:numbered: true
+
 
 Let $a, b \in \mathbb{F}^{\times}$.  Then $ab$ is a square in $\mathbb{F}^{\times}$ if and only if either both $a$ and $b$ are squares in $\mathbb{F}^{\times}$ or neither is.  Therefore, we have
 ```{math}
@@ -194,7 +194,7 @@ Let $a, b \in \mathbb{F}^{\times}$.  Then $ab$ is a square in $\mathbb{F}^{\time
 :::
 
 :::{prf:proof}
-:numbered: false
+:nonumber:
 
 This follows from [](pr-squares_ge).  Let $g$ be a primitive root of $\mathbb{F}^{\times}$ and write $a = g^r$, $b = g^s$.  Then, $ab = g^{r+s}$ is a square if and only if $r + s$ is even.  But this happens if and only if either $r$ and $s$ are both even or both odd, i.e., if and only if $a$ and $b$ are both squares or neither is.
 :::
@@ -204,7 +204,7 @@ The following theorem, referred as [Quadratic Reciprocity](https://en.wikipedia.
 
 :::{prf:theorem} Quadratic Reciprocity
 :label: th-qr
-:numbered: true
+
 
 Let $p$ and $q$ be *odd* primes.  Then:
 
@@ -237,7 +237,7 @@ The proof of this theorem is not hard, but beyond the scope of these notes.  (Th
 
 :::{prf:example}
 :label: ex-qr-1
-:numbered: true
+
 
 Is $-250{,}192$ a square modulo the prime $91{,}139$?
 :::
@@ -283,7 +283,7 @@ We often have to factor the top number with this method, as we did in the previo
 
 :::{prf:definition} Jacobi Symbol
 :label: def-js
-:numbered: true
+
 
 Let $a$ and $b$ be integers with $b \geq 2$ and *odd*.  Suppose that the prime factorization of $b$ is given by
 ```{math}
@@ -317,7 +317,7 @@ On the other hand, if the Jacobi symbol $\left(\frac{a}{b}\right) = -1$, it is t
 
 :::{prf:proposition} Basic Properties of the Jacobi Symbol
 :label: pr-js-prop
-:numbered: true
+
 
 Let $a$, $a_1$, $a_2$, $b$, $b_1$, and $b_2$ be integers, with $b$, $b_1$, and $b_2$ odd and greater than $1$.  We then have:
 
@@ -334,7 +334,7 @@ All of these are straight-forward to prove, but we will leave it to the interest
 
 :::{prf:theorem} Quadratic Reciprocity for Jacobi Symbol
 :label: th-qr-jacobi
-:numbered: true
+
 
 Let $a$ and $b$ be *odd* integers greater than one.  Then:
 
@@ -504,7 +504,7 @@ Here is the algorithm used above to find if an integer $a$ is a square modulo a 
 
 :::{prf:algorithm} Quadratic Reciprocity for Square Checking
 :label: al-sqr-qr
-:numbered: true
+
 
 Given an integer $a$ and an *odd* prime $p$, we find if $a$ is a square in $\mathbb{F}_p$.
 
@@ -547,7 +547,7 @@ We start with a definition:
 
 :::{prf:definition} Square Roots Modulo $m$
 :label: def-sqrt_mod_m
-:numbered: true
+
 
 If element $a \in \mathbb{Z}/m\mathbb{Z}$ is square modulo $m$, i.e., if $a = b^2$ modulo $m$, then $b$ is a *square root of $a$* (in $\mathbb{Z}/m\mathbb{Z}$).
 :::
@@ -556,13 +556,13 @@ Note that the number of square roots can vary.  For instance, in $\mathbb{Z}/2\m
 
 :::{prf:proposition} Number of Square Roots Modulo Odd Primes
 :label: pr-n_sqrt_odd_p
-:numbered: true
+
 
 If $p$ is an *odd* prime and $a \in \mathbb{F}^{\times}$ has a square root in $\mathbb{F}_p$, say $a = b^2$, then $a$ has *exactly two* square roots in $\mathbb{F}_p$, namely $b$ and $-b$ (or $p-b$).  Moreover, $0$ has a single square root, namely, $0$ itself.
 :::
 
 :::{prf:proof}
-:numbered: false
+:nonumber:
 
 Clearly we have that $-b$ is also a square root, since
 ```{math}
@@ -581,7 +581,7 @@ Note that square roots in $F_2$ are easy: $0$ and $1$ are their own square roots
 
 But now, if $p$ is an *odd* prime and we know that $\mathbb{F}^{\times}$ is a square in $\mathbb{F}_p$, i.e., $a = b^2$ for some $b \in \mathbb{F}_p$ (e.g., by using [](#pr-sqaures-fp)), how do we find $b$?
 
-If $p \equiv 3 \pmod{4}$, it is relatively easy: we have that $a^{(p+1)/4}$ is a square root!  (Note that since $p \equiv 3 \pmod 4$, we have that $(p+1)/4$ is an *integer*!)  Indeed, if $a = b^2$, then, using [{name}](th-flt)
+If $p \equiv 3 \pmod{4}$, it is relatively easy: we have that $a^{(p+1)/4}$ is a square root!  (Note that since $p \equiv 3 \pmod 4$, we have that $(p+1)/4$ is an *integer*!)  Indeed, if $a = b^2$, then, using [{name}](th-flt-3)
 ```{math}
 \left( a^{(p+1)/4} \right)^2  = a^{(p+1)/2} = \left( b^2 \right)^{(p+1)/2} = b^{p+1} = b^{2 + p-1} = b^2 \cdot b^{p-1} = a \cdot 1 = a.
 ```
@@ -592,7 +592,7 @@ If $p$ is odd and $p \not\equiv 3 \pmod{4}$, then we must have that $p \equiv 1 
 
 :::{prf:algorithm} Tonelli-Shanks Algorithm
 :label: al-TS
-:numbered: true
+
 
 Given a prime $p \equiv 1 \pmod{4}$ and some $a \in \mathbb{F}^{\times}$ that we know to be a square, then to find a square root of $a$ in $\mathbb{F}_p$ (i.e., to find $b \in \mathbb{F}_p$ such that $a=b^2$), we follow:
 
@@ -630,7 +630,7 @@ The Tonelli-Shanks algorithm also works for $p \equiv 3 \pmod{4}$, but the previ
 
 #### Why Does It Work?
 
-Let's verify that the Tonelli-Shanks Algorithm works.  So, let $p$ be an odd prime and $a \in \mathbb{F}^{\times}$ that is a square in $\mathbb{F}_p$.  We then set $p-1 = 2^h \cdot m$, with $m$ odd, $t = a^m$, and $r = a^{(m+1)/2}$.  If $t=1$, then using [{name}](#th-flt), we have
+Let's verify that the Tonelli-Shanks Algorithm works.  So, let $p$ be an odd prime and $a \in \mathbb{F}^{\times}$ that is a square in $\mathbb{F}_p$.  We then set $p-1 = 2^h \cdot m$, with $m$ odd, $t = a^m$, and $r = a^{(m+1)/2}$.  If $t=1$, then using [{name}](#th-flt-3), we have
 ```{math}
 r^2 = \left( a^{(m+1)/2} \right)^2 = a^{m+1} = a^{p-1} = 1.
 ```
@@ -640,7 +640,7 @@ So, suppose now that $t \neq 1$.  This means that $|t| \neq 1$, but what is $|t|
 ```{math}
 t^{2^{h-1}} = (a^m)^{2^{h-1}} = a^{2^{h-1} \cdot m} = a^{(p-1)/2} = 1,
 ```
-Hence, by [](#pr-power_one), we have that $|t| \mid 2^{h-1}$, so $|t| = 2^k$ for some $0 < k \leq h-1$.  We need to find this order, so we compute $t^2, (t^2)^2 = t^4, (t^4)^2 = t^8$, etc., until we get $-1$, as we know that the next power will give us $1$ (and that is the *only* way we can get to $1$).  Hence, the power that gives $-1$ will be $t^{2^{k-1}}$.
+Hence, by [](#pr_power_one-2), we have that $|t| \mid 2^{h-1}$, so $|t| = 2^k$ for some $0 < k \leq h-1$.  We need to find this order, so we compute $t^2, (t^2)^2 = t^4, (t^4)^2 = t^8$, etc., until we get $-1$, as we know that the next power will give us $1$ (and that is the *only* way we can get to $1$).  Hence, the power that gives $-1$ will be $t^{2^{k-1}}$.
 
 Then, we have
 ```{math}
@@ -818,7 +818,7 @@ Now we know how to find if $a$ has a square root in $\mathbb{Z}/p\mathbb{Z}$ and
 
 :::{prf:theorem} Square Roots Module $\mathbb{Z}/p^n\mathbb{Z}$ for $n>1$ and $p$ Odd Prime
 :label: th-hl-sqrt-odd
-:numbered: true
+
 
 Let $p$ be an odd prime, $a$ an integer not divisible by $p$, and suppose that there is some integer $b_k$ such that $b_k^2 \equiv a \pmod{p^k}$ for some $k \geq 1$, i.e., $b_k$ is a square root of $a$ modulo $p^k$.  Then let
 ```{math}
@@ -846,7 +846,7 @@ Hence, if we iterate this process, we can see that if $a$ has a square root modu
 Let's prove the theorem:
 
 :::{prf:proof} Proof of [](#th-hl-sqrt-odd)
-:numbered: false
+:nonumber:
 
 First, note since $p \nmid a$ and $p^k \mid (b_k^2 - a)$, we have that $p \nmid b_k$.  Then, since $p$ is odd, we have that $p \nmid 2b_k$, and hence $\gcd(p^{k+1}, 2b_k) = 1$.  Therefore, there is some integer $c_k$ such that
 ```{math}
@@ -891,7 +891,7 @@ Let's describe now the algorithm that given a square root $b$ of $a$ modulo an o
 
 :::{prf:algorithm} Square Root Modulo Powers of Odd Primes
 :label: al-sqrt-power-p
-:numbered: true
+
 
 Given an odd prime $p$ and integer $a$ not divisible by $p$, a square root of $b$ of $a$ modulo $p$, and some integer $n \geq 1$, we find a square root of $a$ modulo $p^n$:
 
@@ -973,7 +973,7 @@ You will implement this algorithm in your Homework.
 
 :::{prf:proposition} Number of Square Roots Modulo $2^n$
 :label: pr-n-roots-power-2
-:numbered: true
+
 
 Let $a$ be an *odd* integer and $k \geq 3$.
 
@@ -982,7 +982,7 @@ Let $a$ be an *odd* integer and $k \geq 3$.
 :::
 
 :::{prf:proof}
-:numbered: false
+:nonumber:
 
 For the first item, we have that if $b$ is square root module $2^k$, then it is also a square root modulo $8$ since $k \geq 3$.  And we can just check by hand that $1$ the only odd that is a square modulo $8$:
 ```{math}
@@ -1042,7 +1042,7 @@ Here is the equivalent version of [](#th-hl-sqrt-odd):
 
 :::{prf:theorem} Square Roots Module $\mathbb{Z}/2^n\mathbb{Z}$ for $n\geq3$
 :label: th-hl-sqrt-2
-:numbered: true
+
 
 Let $a$ an odd integer and suppose that there is some integer $b_k$ such that $b_k^2 \equiv a \pmod{2^k}$ (so $(b_k^2 - a)/2^k$ is an *integer*) for some $k \geq 3$, i.e., $b_k$ is a square root of $a$ modulo $2^k$.  Then let
 ```{math}
@@ -1063,7 +1063,7 @@ Note that the second part is weaker than for $p$ odd: as we have $b \equiv b_{k+
 :::
 
 :::{prf:proof}
-:numbered: false
+:nonumber:
 
 First, note that since $2^{k-1} \mid \Delta_k$, we have that $2^{k-2} \mid \Delta_k^2$.  Since $k \geq 3$, we have that $2k-2 \geq k + 1$, and we have that $2^{k+1} \mid \Delta_k^2$.  Thus
 ```{math}

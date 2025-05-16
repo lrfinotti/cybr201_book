@@ -22,7 +22,7 @@ kernelspec:
 
 :::{prf:definition} Elliptic Curve
 :label: def-ec
-:numbered: true
+
 
 A curve given by a *Weierstrass equation* of the form
 ```{math}
@@ -332,7 +332,7 @@ In summary:
 
 :::{prf:algorithm} $P + Q$, with $x_1 \neq x_2$
 :label: al-sum-notvert
-:numbered: true
+
 
 Let $P = (x_1, y_1)$ and $Q = (x_2, y_2)$ be points in the elliptic curve given by $y^2 = x^3 + ax + b$, with $x_1 \neq x_2$.  Then, let
 ```{math}
@@ -445,7 +445,7 @@ In summary:
 
 :::{prf:algorithm} $P + P$, with $y_1 \neq 0$
 :label: al-sum-vertnottwo
-:numbered: true
+
 
 Let $P = (x_1, y_1)$ be a point in the elliptic curve given by $y^2 = x^3 + ax + b$, with $y_1 \neq 0$.  Then, let
 ```{math}
@@ -540,7 +540,7 @@ We can now give the complete algorithm for addition of points on an elliptic cur
 
 :::{prf:algorithm} Addition on Elliptic Curve
 :label: al-sum
-:numbered: true
+
 
 Let $P$ and $Q$ be points on an elliptic curve with equation $y^2 = x^3 + ax + b$.  Then:
 1) If $P = \mathcal{O}$, then $P + Q = Q$.
@@ -877,7 +877,7 @@ So, given an elliptic curve $E / \mathbb{F}_p$, who many points do we have in $E
 
 :::{prf:definition} Number of Elements
 :label: def-number_elements
-:numbered: true
+
 
 If $S$ is a set, we denote by $|S|$ the number of elements in $S$.
 :::
@@ -887,8 +887,8 @@ Of course, since there are $p^2$ pairs $(x, y)$ with $x, y \in \mathbb{F}_p$, th
 Before we improve it, remember the following proposition form ()[#14-Square_Roots.md]:
 
 :::{prf:proposition}
-:label: pr-squares_gen
-:numbered: true
+:label: pr-squares_gen-2
+
 
 If $g$ is a primitive root in $\mathbb{F}_p$ and $a \in \mathbb{F}^{\times}$, then $a$ is a square if and only if $a = g^k$ with $k$ *even*.  In particular, a random element in $\mathbb{F}^{\times}$ has a $50\%$ chance of being a square.
 :::
@@ -903,7 +903,7 @@ We don't expect, due to the randomness, that this value will be exact, but relat
 
 :::{prf:theorem} Hasse's Theorem
 :label: th-hasse
-:numbered: true
+
 
 Let $E / \mathbb{F}_p$ be an elliptic curve.  Then,
 ```{math}
@@ -947,7 +947,7 @@ We will soon introduce a cryptosystem and digital signature based on ElGamal and
 
 :::{prf:definition} Elliptic Curve Discrete Log Problem (ECDLP)
 :label: def-ecdlp
-:numbered: true
+
 
 Given and elliptic curve $E/\mathbb{F}_p$ and $P, Q \in E(\mathbb{F}_p)$, the *discrete log of $Q$ base $P$*, denoted by $\log_P(Q)$, is the integer $n$ such that $n \cdot P = Q$.  The *Elliptic Curve Discrete Log Problem (ECDLP)* is how we can compute these logs efficiently.
 :::
@@ -994,7 +994,7 @@ In the previous methods of encryption and digital signatures, we needed to take 
 
 :::{prf:algorithm} Fast Multiplying Algorithm (Successive Doubling)
 :label: al-fast_mult
-:numbered: true
+
 
 To compute $n \cdot P$, where $P$ is a point on an elliptic curve:
 
@@ -1053,7 +1053,7 @@ We will use this idea to simplify multiplications.  We illustrate it with an exa
 
 :::{prf:example} Computing $3545 \cdot P$.
 :label: ex-ternary
-:numbered: true
+
 
 Compute $3545 \cdot P$.
 :::
@@ -1085,7 +1085,7 @@ Here is the actual algorithm:
 
 :::{prf:algorithm} Ternary Expansion
 :label: al:ternary
-:numbered: true
+
 
 Given a list $b$ of length $r$ corresponding to the binary digits of a number, with earlier elements corresponding to lower powers of $2$, we obtain a list $t$ of zeros, ones, and negative ones, corresponding to the ternary expansion (as above) as follows:
 
@@ -1109,7 +1109,7 @@ The following proposition helps us quantify the gains of these methods:
 
 :::{prf:proposition} Ternary Expansion
 :label: pr:ternary_exp
-:numbered: true
+
 
 Let $n$ be a positive integer and $k = \lfloor \log_2(n) \rfloor + 1$.  Then, we can write
 ```{math}

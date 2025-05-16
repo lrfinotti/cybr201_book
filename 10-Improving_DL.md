@@ -30,7 +30,7 @@ Suppose that $g \in \mathbb{F}^{\times}$ such that $g$ has order $q^e$, where $q
 
 :::{prf:definition} Assignment Notation
 :label: not-assignment
-:numbered: true
+
 
 We will use $\leftarrow$, as is customary, to denote *assignment* to a variable.  So, we may write, for instance,
 ```{math}
@@ -43,7 +43,7 @@ With this notation in hand, we can describe the algorithm:
 
 :::{prf:algorithm} Discrete Log for Power of Prime Order
 :label: al-dl-power
-:numbered: true
+
 
 Let $g, h \in \mathbb{F}^{\times}$ such that $|g| = q^e$, where $q$ is some prime and $e \geq 2$.  To compute $\log_g(h)$:
 
@@ -66,7 +66,7 @@ Before we get into it, let's remind ourselves of a couple of results we've seen 
 
 :::{prf:proposition} Properties of Powers
 :label: prop-powers
-:numbered: true
+
 
 If $a$ is a unit in $\mathbb{Z}/n\mathbb{Z}$ of order $m$, then:
 
@@ -302,7 +302,7 @@ We then have the following algorithm:
 
 :::{prf:algorithm} Pohlig-Hellman Algorithm
 :label: al-ph
-:numbered: true
+
 
 Let $g, h \in \mathbb{F}^{\times}$ and suppose that $|g| = N =  q_1^{e_1} q_2^{e_2} \cdots q_k^{e_k}$, with $q_i$'s distinct prime, and $e_i \geq 1$ for $i = 1, 2, \ldots, k$.  To compute $\log_g(h)$:
 

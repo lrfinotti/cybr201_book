@@ -35,7 +35,7 @@ Moreover, the properties of powers we had before for positive exponents also wor
 
 :::{prf:definition} The Euler $\varphi$-Function
 :label: def-euler_phi
-:numbered: true
+
 
  Given a positive integer $m$, we defined the $\varphi(m)$ as the number of elements of $(\mathbb{Z}/m\mathbb{Z})^{\times}$, in other words
 ```{math}
@@ -45,7 +45,7 @@ We also define $\varphi(1)$ as $1$.  This function is called the *Euler $\varphi
 :::
 
 :::{prf:example}
-:numbered: false
+:nonumber:
 
 1) Since $(\mathbb{Z}/5\mathbb{Z})^{\times} = \{1, 2, 3, 4\}$, then $\varphi(5) = 4$.
 2) Since $(\mathbb{Z}/24\mathbb{Z})^{\times} = \{1, 5, 7, 11, 13, 17, 19, 23\}$, then $\varphi(24) = 8$.
@@ -59,7 +59,7 @@ We have:
 
 :::{prf:theorem}
 :label: th-phi_comp
-:numbered: true
+
 
 Let $m$ be a positive integer greater than one and
 ```{math}
@@ -73,7 +73,7 @@ be its prime decomposition.  Then
 
 
 :::{prf:example}
-:numbered: false
+:nonumber:
 
 1) Since $5$ is prime, then $\varphi(5) = (5 - 1) \cdot 5^{1-1}  = 4$.
 2) More generally, for any prime $p$ we have that $\varphi(p) = p-1$.
@@ -128,7 +128,7 @@ That is, again, because the exponent must be in $\mathbb{Z}$, and not in $\mathb
 
 :::{prf:proposition}
 :label: pr-power_eq_1
-:numbered: true
+
 
 Let $a$ in $\mathbb{Z}/m\mathbb{Z}$ and suppose that $k$ is a *positive* integer such that $a^k = 1$.  Then, if $r \equiv s \pmod{k}$ (so, modulo $k$, *and not $n$*!), then $a^r = a^s$.  Therefore, we can reduce exponents modulo $k$ (and not $m$).
 :::
@@ -168,7 +168,7 @@ But, assuming that $a$ *is* a unit, how would we find such $k$.  The answer is g
 
 :::{prf:theorem} Euler's Theorem
 :label: th-euler
-:numbered: true
+
 
 Let $a$ be a unit in $\mathbb{Z}/m\mathbb{Z}$ (i.e., $\gcd(a, m) = 1$).  Then $a^{\varphi(m)} = 1$ in $\mathbb{Z}/m\mathbb{Z}$ (i.e., $a^{\varphi(m)} \equiv 1 \pmod{m}$).  (Here $\varphi$ is the Euler $\varphi$ function.)
 :::
@@ -196,7 +196,7 @@ The particular case when $m$ is a *prime* has a different name:
 
 :::{prf:theorem} Fermat's Little Theorem
 :label: th-flt
-:numbered: true
+
 
 If $p$ is prime and $p \nmid a$, then $a^{p-1} = 1$ in $\mathbb{Z}/p\mathbb{Z}$ (i.e., $a^{p-1} \equiv 1 \pmod{p}$).
 :::
@@ -206,7 +206,7 @@ This follows from Euler's Theorem since, when $p$ is prime, we have that  $\varp
 Let's apply these ideas in an example.
 
 :::{prf:example} title
-:numbered: false
+:nonumber:
 
 What is the remainder of $100324^{657483384}$ when divided by $15$?
 :::
@@ -231,7 +231,7 @@ We have the following definition:
 
 :::{prf:definition} Order of an Element
 :label: def-ord
-:numbered: true
+
 
 If $a$ is a unit of $\mathbb{Z}/m\mathbb{Z}$, then the *order of $a$*, usually denoted by $|a|$, is the smallest positive power $k$ such that $a^k = 1$.
 :::
@@ -242,7 +242,7 @@ We have:
 
 :::{prf:proposition}
 :label: pr-power_one
-:numbered: true
+
 
 Let $a$ be a unit of $\mathbb{Z}/m\mathbb{Z}$. If $a^k = 1$, for some integer $k$, then $|a| \mid k$.  In particular, we always have that $|a| \mid \varphi(m)$.
 :::
@@ -312,7 +312,7 @@ Remember that if $g$ is a primitive root of $\mathbb{F}_p$, then all elements of
 
 :::{prf:proposition} Order of a Power
 :label: pr-order_power
-:numbered: true
+
 
 Let $a \in (\mathbb{Z}/m\mathbb{Z})^{\times}$ with $|a| = n$.  Then, we have that
 ```{math}
@@ -330,7 +330,7 @@ It is not too hard to give a mathematical proof of this fact.  Note that if $d =
   &= 1.
 \end{align*}
 ```
-Then, by [](#pr-power_one), we have that $|a^k|$ *divides* $n/d$.  But we are still left to prove that this power, $n/d$, is the *smallest* power of $a^k$ that gives $1$.
+Then, by {prf:ref}`pr-power_one`, we have that $|a^k|$ *divides* $n/d$.  But we are still left to prove that this power, $n/d$, is the *smallest* power of $a^k$ that gives $1$.
 
 This is not too hard either, but for the sake of brevity, let's just check it with many random tests in Sage:
 
@@ -426,7 +426,7 @@ When the modulus is prime, this set has an interesting (and useful) property:
 
 :::{prf:theorem} Primitive Root Theorem
 :label: th-prim_root
-:numbered: true
+
 
 Let $p$ be a prime.  (Remember then that $\mathbb{F}_p$ is just another way to write $\mathbb{Z}/p\mathbb{Z}$.)  Then, there is an element $g \in \mathbb{F}_p^{\times}$ such that every element of $\mathbb{F}_p^{\times}$ is a power of $g$.  In other words:
 ```{math}
@@ -436,7 +436,7 @@ Let $p$ be a prime.  (Remember then that $\mathbb{F}_p$ is just another way to w
 
 :::{prf:definition} Primitive Root
 :label: def-prim
-:numbered: true
+
 
 A $g$ as above is called a *primitive root* of $\mathbb{F}_p$ or a *generator* of $\mathbb{F}_p^{\times}$.
 :::
@@ -570,7 +570,7 @@ It should be clear by now how we can convert a number in some base to base $10$.
 
 :::{prf:algorithm} Base Change
 :label: al-base
-:numbered: true
+
 
 To convert a positive integer $n$ from base $10$ to base $b$, we perform a series of long divisions by $b$: while the quotient $q_i$ is not zero, we do:
 ```{math}
@@ -679,7 +679,7 @@ But there is a much more efficient way:
 
 :::{prf:algorithm} Fast Powering Algorithm (Successive Squaring)
 :label: al-fast_power
-:numbered: true
+
 
 To compute $g^N$, where $g$ is in $\mathbb{Z}/m\mathbb{Z}$:
 

@@ -32,7 +32,7 @@ This last step of patching the discrete logs modulo $p_i^{r_i}$ is done by using
 
 :::{prf:theorem} Chinese Remainder Theorem (CRT)
 :label: crt
-:numbered: true
+
 
 Let $m_1, m_2, \ldots, m_k$ be pairwise relatively prime moduli (i.e., $\gcd(m_i, m_j) = 1$ if $i \neq j$) and $a_1, a2_, \ldots, a_k$ be integers.  Then the system
 ```{math}
@@ -52,7 +52,7 @@ has a *unique* solution modulo $m = m_1 m_2 \cdots m_k$, meaning that there is a
 Let's see why it is true and how we can find a solution.
 
 :::{prf:proof} Proof of the CRT.
-:numbered: false
+:nonumber:
 
 We start with the case when $k = 2$.  So, we want to find $x$ such that
 ```{math}
@@ -562,7 +562,7 @@ We will make even further improvements in some cases, but we need a new result b
 
 :::{prf:lemma} Generalized Bezout's Lemma
 :label: lm-gen_bezout
-:numbered: true
+
 
 Let $a_1, a_2, \ldots, a_k$ be integers and $d = \gcd(a_1, a_2, \ldots, a_k)$.  Then, there integers are $r_1, r_2, \ldots, r_k$ such that
 ```{math}
@@ -571,7 +571,7 @@ d = r_1a_1 + r_2a_2 + \cdots + r_ka_k.
 :::
 
 :::{prf:proof} Proof of the Generalized Bezout's Lemma
-:numbered: false
+:nonumber:
 
 The idea is to reduce the number of integers inside the GCD until we get only two and can use the Extended Euclidean Algorithm.  The key idea is that
 ```{math}
@@ -622,7 +622,7 @@ Here is a more detailed algorithm:
 
 :::{prf:algorithm} Generalized Extended Euclidean Algorithm
 :label: al-geea
-:numbered: true
+
 
 Given a list $v = (a_1, a_2, \ldots, a_n)$ of integers, to find $w = ( r_{1}, r_{2}, \ldots , r_{n})$ such that
 ```{math}
