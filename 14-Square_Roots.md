@@ -23,7 +23,7 @@ We will soon come back to factorization and computation of discrete logs, but be
 (sec:sqrt_mod_p)=
 ## Squares Module Odd Primes
 
-First, we need to recall some definitions and results from [](./05-Powers.md).  Recall *Fermat's Little Theorem*:
+First, we need to recall some definitions and results from the [chapter on powers](./05-Powers.md).  Recall *Fermat's Little Theorem*:
 
 :::{prf:theorem} Fermat's Little Theorem
 :label: th-flt-3
@@ -117,7 +117,7 @@ Now, let $g$ be a primitive root of $\mathbb{F}_p$.  If $a = g^k$, where $k$ is 
 \gcd(k \cdot (p-1)/2, p-1) = (p-1)/2.
 ```
 
-Then, by [](#pr-order_power-2), we have
+Then, by {prf:ref}`pr-order_power-2`, we have
 ```{math}
 |a^{(p-1)/2}| = | g^{k \cdot (p-1)/2} | = \frac{|g|}{\gcd(k \cdot (p-1)/2, |g|)} = \frac{p-1}{\gcd(k \cdot (p-1)/2,  p-1)} = \frac{p-1}{(p-1)/2} = 2.
 ```
@@ -126,11 +126,11 @@ Since the order is not $1$, it means that $a^{(p-1)/2} \neq 1$, and hence it mus
 
 :::{note}
 
-With [](./05-Powers.md#fast_powering), one can use [](#pr-squares-fp) to relatively quickly decide if an element in $\mathbb{F}^{\times}$ is a square.  But we will see a better method below, using [Quadratic Reciprocity](#sec-quad_rec)
+With [fast powering](./05-Powers.md#fast_powering), one can use {prf:ref}`pr-squares-fp` to relatively quickly decide if an element in $\mathbb{F}^{\times}$ is a square.  But we will see a better method below, using {prf:ref}`Quadratic Reciprocity <sec-quad_rec>`
 :::
 
 
-The proof of [](#pr-squares-fp) also shows the following:
+The proof of {prf:ref}`pr-squares-fp` also shows the following:
 
 :::{prf:proposition}
 :label: pr-squares_gen
@@ -146,7 +146,7 @@ If $g$ is a primitive root in $\mathbb{F}_p$ and $a \in \mathbb{F}^{\times}$, th
 
 ### Legendre Symbol
 
-[](#pr-squares-fp) gives a way to determine if some $a \in \mathbb{F}^{\times}$ is a square.  Here will introduce a more efficient way.  We start with the following definition:
+{prf:ref}`pr-squares-fp` gives a way to determine if some $a \in \mathbb{F}^{\times}$ is a square.  Here will introduce a more efficient way.  We start with the following definition:
 
 :::{prf:definition} Legendre Symbol
 :label: def-legendre
@@ -164,7 +164,7 @@ Let $p$ be a prime and $a$ be an integer.  Then, the *Legendre symbol* of $a$ mo
 
 :::{note}
 
-If $p$ is an *odd* prime, then, by [](#pr-squares-fp), we could have defined
+If $p$ is an *odd* prime, then, by {prf:ref}`pr-squares-fp`, we could have defined
 ```{math}
 \left(\frac{a}{p}\right) = a^{(p-1)/2} \quad \text{(computed in $\mathbb{F}_p$).}
 ```
@@ -196,11 +196,11 @@ Let $a, b \in \mathbb{F}^{\times}$.  Then $ab$ is a square in $\mathbb{F}^{\time
 :::{prf:proof}
 :nonumber:
 
-This follows from [](pr-squares_ge).  Let $g$ be a primitive root of $\mathbb{F}^{\times}$ and write $a = g^r$, $b = g^s$.  Then, $ab = g^{r+s}$ is a square if and only if $r + s$ is even.  But this happens if and only if either $r$ and $s$ are both even or both odd, i.e., if and only if $a$ and $b$ are both squares or neither is.
+This follows from {prf:ref}`pr-squares_ge`.  Let $g$ be a primitive root of $\mathbb{F}^{\times}$ and write $a = g^r$, $b = g^s$.  Then, $ab = g^{r+s}$ is a square if and only if $r + s$ is even.  But this happens if and only if either $r$ and $s$ are both even or both odd, i.e., if and only if $a$ and $b$ are both squares or neither is.
 :::
 
 
-The following theorem, referred as [Quadratic Reciprocity](https://en.wikipedia.org/wiki/Quadratic_reciprocity), is a very important result in Number Theory.  It was proved by [C.F. Gaus](https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss) in 1798.
+The following theorem, referred as [Quadratic Reciprocity](https://en.wikipedia.org/wiki/Quadratic_reciprocity), is a very important result in Number Theory.  It was proved by [C.F. Gauss](https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss) in 1798.
 
 :::{prf:theorem} Quadratic Reciprocity
 :label: th-qr
@@ -330,7 +330,7 @@ Let $a$, $a_1$, $a_2$, $b$, $b_1$, and $b_2$ be integers, with $b$, $b_1$, and $
 4) $\left(\dfrac{a}{b_1b_2}\right) = \left(\dfrac{a}{b_1}\right) \cdot \left(\dfrac{a}{b_2}\right)$.
 :::
 
-All of these are straight-forward to prove, but we will leave it to the interested reader to try to do it on their own.  But, what makes it useful is the fact that [](th-qr) can be extended to the Jacobi symbol:
+All of these are straight-forward to prove, but we will leave it to the interested reader to try to do it on their own.  But, what makes it useful is the fact that {prf:ref}`th-qr` can be extended to the Jacobi symbol:
 
 :::{prf:theorem} Quadratic Reciprocity for Jacobi Symbol
 :label: th-qr-jacobi
@@ -365,10 +365,10 @@ Let $a$ and $b$ be *odd* integers greater than one.  Then:
 
 :::{note}
 
-Note that [](#th-qr-jacobi) is exactly the same as [](#th-qr) with all instances of $p$ replaced by $a$ and all instances of $q$ replaced by $b$.
+Note that {prf:ref}`th-qr-jacobi` is exactly the same as {prf:ref}`th-qr` with all instances of $p$ replaced by $a$ and all instances of $q$ replaced by $b$.
 :::
 
-The proof of [](#th-qr-jacobi) just requires [](#def-js) and repeated use of [](#th-qr), and thus is again left to the reader as an exercise.
+The proof of {prf:ref}`th-qr-jacobi` just requires {prf:ref}`def-js` and repeated use of {prf:ref}`th-qr`, and thus is again left to the reader as an exercise.
 
 +++
 
@@ -418,7 +418,7 @@ So, we have
 \left(\frac{a}{p}\right) = 1 \cdot \left(\frac{24495}{p}\right) = \left(\frac{24495}{p}\right).
 ```
 
-We know "flip", using [](#th-qr-jacobi), but we need to know the residues modulo $4$.  But since $p \equiv 1 \pmod{8}$, we have that $p \equiv 1 \pmod{4}$.
+We know "flip", using {prf:ref}`th-qr-jacobi`, but we need to know the residues modulo $4$.  But since $p \equiv 1 \pmod{8}$, we have that $p \equiv 1 \pmod{4}$.
 
 ```{code-cell} ipython3
 p % 4
@@ -579,9 +579,9 @@ Note that square roots in $F_2$ are easy: $0$ and $1$ are their own square roots
 
 ### Computing Square Roots
 
-But now, if $p$ is an *odd* prime and we know that $\mathbb{F}^{\times}$ is a square in $\mathbb{F}_p$, i.e., $a = b^2$ for some $b \in \mathbb{F}_p$ (e.g., by using [](#pr-sqaures-fp)), how do we find $b$?
+But now, if $p$ is an *odd* prime and we know that $\mathbb{F}^{\times}$ is a square in $\mathbb{F}_p$, i.e., $a = b^2$ for some $b \in \mathbb{F}_p$ (e.g., by using {prf:ref}`pr-sqaures-fp`), how do we find $b$?
 
-If $p \equiv 3 \pmod{4}$, it is relatively easy: we have that $a^{(p+1)/4}$ is a square root!  (Note that since $p \equiv 3 \pmod 4$, we have that $(p+1)/4$ is an *integer*!)  Indeed, if $a = b^2$, then, using [{name}](th-flt-3)
+If $p \equiv 3 \pmod{4}$, it is relatively easy: we have that $a^{(p+1)/4}$ is a square root!  (Note that since $p \equiv 3 \pmod 4$, we have that $(p+1)/4$ is an *integer*!)  Indeed, if $a = b^2$, then, using {prf:ref}`Fermat's Little Theorem <th-flt-3>`
 ```{math}
 \left( a^{(p+1)/4} \right)^2  = a^{(p+1)/2} = \left( b^2 \right)^{(p+1)/2} = b^{p+1} = b^{2 + p-1} = b^2 \cdot b^{p-1} = a \cdot 1 = a.
 ```
@@ -598,7 +598,7 @@ Given a prime $p \equiv 1 \pmod{4}$ and some $a \in \mathbb{F}^{\times}$ that we
 
 1) *Initialization*:
     1) Find integers $h$ and $m$ such that $p-1=2^h \cdot m$, with $m$ odd.  (We can use `h = valuation(p - 1, 2)` in Sage.)
-    2) Find some $c \in \mathbb{F}^{\times}$ that is *not* a square in $\mathbb{F}_p$.  This can be done by taking a random elements and testing if it is a square.  We can use [Quadratic Reciprocity](#sec-quad_rec) for testing.  Since the odds of picking a non-square is $50\%$, we should quickly find $c$.
+    2) Find some $c \in \mathbb{F}^{\times}$ that is *not* a square in $\mathbb{F}_p$.  This can be done by taking a random elements and testing if it is a square.  We can use {prf:ref}`Quadratic Reciprocity <sec-quad_rec>` for testing.  Since the odds of picking a non-square is $50\%$, we should quickly find $c$.
     3) Set
     ```{math}
         \begin{align*}
@@ -630,17 +630,17 @@ The Tonelli-Shanks algorithm also works for $p \equiv 3 \pmod{4}$, but the previ
 
 #### Why Does It Work?
 
-Let's verify that the Tonelli-Shanks Algorithm works.  So, let $p$ be an odd prime and $a \in \mathbb{F}^{\times}$ that is a square in $\mathbb{F}_p$.  We then set $p-1 = 2^h \cdot m$, with $m$ odd, $t = a^m$, and $r = a^{(m+1)/2}$.  If $t=1$, then using [{name}](#th-flt-3), we have
+Let's verify that the Tonelli-Shanks Algorithm works.  So, let $p$ be an odd prime and $a \in \mathbb{F}^{\times}$ that is a square in $\mathbb{F}_p$.  We then set $p-1 = 2^h \cdot m$, with $m$ odd, $t = a^m$, and $r = a^{(m+1)/2}$.  If $t=1$, then using {prf:ref}`Fermat's Little Theorem <th-flt-3>`, we have
 ```{math}
 r^2 = \left( a^{(m+1)/2} \right)^2 = a^{m+1} = a^{p-1} = 1.
 ```
 Hence, $r$ is a square root of $a$ as needed.
 
-So, suppose now that $t \neq 1$.  This means that $|t| \neq 1$, but what is $|t|$?  Since $p-1 = 2^h \cdot m$ and using [](#pr-squares-fp), we have that
+So, suppose now that $t \neq 1$.  This means that $|t| \neq 1$, but what is $|t|$?  Since $p-1 = 2^h \cdot m$ and using {prf:ref}`pr-squares-fp`, we have that
 ```{math}
 t^{2^{h-1}} = (a^m)^{2^{h-1}} = a^{2^{h-1} \cdot m} = a^{(p-1)/2} = 1,
 ```
-Hence, by [](#pr_power_one-2), we have that $|t| \mid 2^{h-1}$, so $|t| = 2^k$ for some $0 < k \leq h-1$.  We need to find this order, so we compute $t^2, (t^2)^2 = t^4, (t^4)^2 = t^8$, etc., until we get $-1$, as we know that the next power will give us $1$ (and that is the *only* way we can get to $1$).  Hence, the power that gives $-1$ will be $t^{2^{k-1}}$.
+Hence, by {prf:ref}`pr_power_one-2`, we have that $|t| \mid 2^{h-1}$, so $|t| = 2^k$ for some $0 < k \leq h-1$.  We need to find this order, so we compute $t^2, (t^2)^2 = t^4, (t^4)^2 = t^8$, etc., until we get $-1$, as we know that the next power will give us $1$ (and that is the *only* way we can get to $1$).  Hence, the power that gives $-1$ will be $t^{2^{k-1}}$.
 
 Then, we have
 ```{math}
@@ -667,14 +667,14 @@ Then, we have
 ```{math}
 (r')^2 = d^2 \cdot r^2 = d^2 \cdot a \cdot t = (d^2 \cdot t) \cdot a = t' \cdot a.
 ```
-Thus, it $t' = 1$, then $r'$ is a square root of $a$ and needed.  Moreover, by [](#pr-squares-fp), we have
+Thus, it $t' = 1$, then $r'$ is a square root of $a$ and needed.  Moreover, by {prf:ref}`pr-squares-fp`, we have
 \begin{align}
 (t')^{2^{k-1}} &= (d^2 \cdot t)^{2^{k-1}} = d^{2^k} \cdot t^{2^{k-1}} \\
 &= \left( \left( c^m \right)^{2^{h - k - 1}} \right)^{2^k} \cdot (-1) = - \left( c^m \right)^{2^{h-1}}\\
 &= -c^{2^{h-1}m} = -c^{(p-1)/2} = -(-1) \\
 &=1
 \end{align}
-This means that $|t'| \mid 2^{k-1}$, and hence $|t'| = 2^{k'}$ for some $0 < k' < k$.  So, we get a "new version" of [](#eq-TS1):
+This means that $|t'| \mid 2^{k-1}$, and hence $|t'| = 2^{k'}$ for some $0 < k' < k$.  So, we get a "new version" of {prf:ref}`eq-TS1`:
 ```{math}
 \begin{align*}
 (r')^2 &= a \cdot t' \\
@@ -845,7 +845,7 @@ Hence, if we iterate this process, we can see that if $a$ has a square root modu
 
 Let's prove the theorem:
 
-:::{prf:proof} Proof of [](#th-hl-sqrt-odd)
+:::{prf:proof} Proof of {prf:ref}`th-hl-sqrt-odd`
 :nonumber:
 
 First, note since $p \nmid a$ and $p^k \mid (b_k^2 - a)$, we have that $p \nmid b_k$.  Then, since $p$ is odd, we have that $p \nmid 2b_k$, and hence $\gcd(p^{k+1}, 2b_k) = 1$.  Therefore, there is some integer $c_k$ such that
@@ -969,7 +969,7 @@ You will implement this algorithm in your Homework.
 
 ## Square Roots Module Powers of $2$
 
-[](#th-hl-sqrt-odd) does not apply when $p=2$.  In fact, the case when $p=2$ is more complicated.  But before we give the version of the theorem for $p=2$, let's first investigate when we have square roots modulo $2^n$ and how many square roots we have.
+{prf:ref}`th-hl-sqrt-odd` does not apply when $p=2$.  In fact, the case when $p=2$ is more complicated.  But before we give the version of the theorem for $p=2$, let's first investigate when we have square roots modulo $2^n$ and how many square roots we have.
 
 :::{prf:proposition} Number of Square Roots Modulo $2^n$
 :label: pr-n-roots-power-2
@@ -1038,7 +1038,7 @@ b, \qquad -b, \qquad b + 2^{k-1}, \qquad -b + 2^{k-1}.
 ```
 :::
 
-Here is the equivalent version of [](#th-hl-sqrt-odd):
+Here is the equivalent version of {prf:ref}`th-hl-sqrt-odd`:
 
 :::{prf:theorem} Square Roots Module $\mathbb{Z}/2^n\mathbb{Z}$ for $n\geq3$
 :label: th-hl-sqrt-2
@@ -1098,9 +1098,9 @@ b = b_k + t \cdot 2^{k-1} \equiv b_k + c_k 2^{k-1} = b_k + \Delta_k = b_{k+1} \p
 
 ### Example
 
-Let's find a square root of $a=33$ modulo $2^7$.  Firstly, we might ask if such square root exist.  But, since $33 \equiv 1 \pmod{8}$, by [](#pr-n-roots-power-2), the square root exists.
+Let's find a square root of $a=33$ modulo $2^7$.  Firstly, we might ask if such square root exist.  But, since $33 \equiv 1 \pmod{8}$, by {prf:ref}`pr-n-roots-power-2`, the square root exists.
 
-The first step is to find a root modulo $8$, and $1$, $3$, $5$, and $7$ all are.  In fact, different ones *might* give different square roots modulo $2^6$ with the process from [](#th-hl-sqrt-2).  Let's use $3$ here in this example.  (In principle we could *always* use $1$ (or $3$, or $5$ or $7$), but we use $3$ just to show it also works.)  We then have:
+The first step is to find a root modulo $8$, and $1$, $3$, $5$, and $7$ all are.  In fact, different ones *might* give different square roots modulo $2^6$ with the process from {prf:ref}`th-hl-sqrt-2`.  Let's use $3$ here in this example.  (In principle we could *always* use $1$ (or $3$, or $5$ or $7$), but we use $3$ just to show it also works.)  We then have:
 ```{math}
 \begin{align*}
 c_3 &= \frac{33 - 1^2}{2^3} = \frac{24}{8} = 3 \equiv 1 \pmod{2} \\

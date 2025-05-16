@@ -406,7 +406,7 @@ Or, alternatively:
 Given a certain range, how large must $B$ be so that a random element $n$ in that range has a "good chance" of being $B$-smooth?
 :::
 
-These questions are in fact relevant to *all* modern factorization methods and we will come back to them in [](#smooth-numbers) below.
+These questions are in fact relevant to *all* modern factorization methods and we will come back to them in {prf:ref}`smooth-numbers` below.
 
 +++
 
@@ -458,12 +458,12 @@ Note that  $kN = a^2 - b^2$ means that $a^2 \equiv b^2 \pmod{N}$, or $a^2 = b^2$
 \label{eq-diff_sqrs}
 a^2 = b^2  \quad \text{in $\mathbb{Z}/N\mathbb{Z}$, with $a > \lfloor \sqrt{N} \rfloor$.}
 ```
-But still, finding $a$ and $b$ from [](#eq-diff_sqrs) will likely take too long, so we need a method to make it more efficient.
+But still, finding $a$ and $b$ from {prf:ref}`eq-diff_sqrs` will likely take too long, so we need a method to make it more efficient.
 
-Here is the general procedure to find $a$ and $b$ as in [](#eq-diff_sqrs):
+Here is the general procedure to find $a$ and $b$ as in {prf:ref}`eq-diff_sqrs`:
 
 
-1) **Relation Building:**  Find "many" $a_1, a_2, \ldots, a_r < \lfloor N \rfloor$ such that the reduction modulo $N$ of $a_i^2$, which we shall denote by $c_i$, is [$B$-smooth](#def-B_smooth) for some relatively small $B$.
+1) **Relation Building:**  Find "many" $a_1, a_2, \ldots, a_r < \lfloor N \rfloor$ such that the reduction modulo $N$ of $a_i^2$, which we shall denote by $c_i$, is {prf:ref}`$B$-smooth <def-B_smooth>` for some relatively small $B$.
 
 2) **Elimination:**  Take a product of $c_{i_1} c_{i_2} \cdots c_{i_s}$ of *some* of the $c_i$'s such that every prime in the product appears an *even* number of times, i.e., with an even power in the prime factorization, so that $c_{i_1} c_{i_2} \cdots c_{i_s} = b^2$ for some integer $b$.
 
@@ -493,7 +493,7 @@ The worst case is when $N=pq$, with $p$ and $q$ distinct prime factors (so, $N$ 
 ```
 so $p \mid (a-b)$ or $p \mid (a+b)$ (and possibly dividing both), *with (about) the same probability*.  And note that if $p \mid (a-b)$, and similarly for $q$.  So, there is about a $50\%$ chance that, in this case, $p \mid (a-b)$ and $q \nmid (a-b)$.  And note that if that is the case, then $q \mid (a+b)$, and quite likely $q \nmid (a+b)$, since for the latter to happen, we would need that $p \mid k$, and $k$ should not be that large.  So, we do not need to compute both $\gcd(N, a+b)$ and $\gcd(N, a-b)$: quite likely one gives us a factor if and only if the other does as well.  Since $a-b$ is smaller, we use it instead.
 
-Note that this $50\%$ change of finding a factor when [](#eq-diff_sqrs) is satisfied is quite good, which means we would likely not need to check many pairs $(a, b)$.
+Note that this $50\%$ change of finding a factor when {prf:ref}`eq-diff_sqrs` is satisfied is quite good, which means we would likely not need to check many pairs $(a, b)$.
 
 +++
 
@@ -601,7 +601,7 @@ and hence $v_4 = 0$.  So, *all* solutions of the system are of the form $(v_1, 0
 ```{math}
 c_1^1 \cdot c_2^0 \cdot c_3^1 \cdot c_4^0 \cdot c_5^1 = c_1 c_3 c_5
 ```
-is a perfect square.  In fact, from [](#eq-ex-elimination1), we have
+is a perfect square.  In fact, from {prf:ref}`eq-ex-elimination1`, we have
 ```{math}
 c_1 c_3 c_5 = 3^4 \cdot 5^4 \cdot 7^6 \cdot 11^4 = \left( 3^2 \cdot 5^2 \cdot 7^3 \cdot 11^2 \right)^2.
 ```
@@ -765,7 +765,7 @@ a = prod(ai^x for (ai, x) in zip(list_a, v))
 
 +++
 
-But, when computing $b$ we need to take a square root.  But we can speed up this calculation since we can easily now find the powers of the primes that appear in $b^2$ (as in [](#eq-ex-elimination1)) and hence we can simply divide them by $2$.
+But, when computing $b$ we need to take a square root.  But we can speed up this calculation since we can easily now find the powers of the primes that appear in $b^2$ (as in {prf:ref}`eq-ex-elimination1`) and hence we can simply divide them by $2$.
 
 The trick to find these exponents of the prime factors of $b^2$ is to use [matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication).  We just have to use each solution found and multiply `coef_matrix` (and *not* `M`) by it:
 
@@ -861,7 +861,7 @@ You will implement this *Elimination* process in your Homework.
 (smooth-numbers)=
 ## Smooth Numbers
 
-As previously mentioned, [smooth numbers](#def-b_smooth) appear in all modern factorization methods (as well as other computational problems).  In this section we will give some mathematical properties of $B$-smooth numbers.  The proofs are complex and beyond the scope of these notes, so we will simply state the properties.  But let's start with some examples.
+As previously mentioned, {prf:ref}`smooth numbers <def-b_smooth>` appear in all modern factorization methods (as well as other computational problems).  In this section we will give some mathematical properties of $B$-smooth numbers.  The proofs are complex and beyond the scope of these notes, so we will simply state the properties.  But let's start with some examples.
 
 :::{prf:example} $5$-Smooth Numbers
 :label: ex-5-smooth
@@ -913,7 +913,7 @@ For any real number $c$ with $0 < c < 1$ and for "large" values of $x$, we have
 where $s_x$ approaches $0$ as $x$ gets large.
 :::
 
-In the factorization by [difference of squares factorization method](#sec-diff-squares), in order to find solution we need that the system must have more equations than variables.  The number of equations is given by the number of primes less than or equal to $B$, when we require the $c_i$'s to be $B$-smooth, i.e., $\pi(B)$, while the number of variables is given by the number of $a_i$'s (or $c_i$'s).  So, we need the number of $B$-smooth $c_i$'s to be greater than $\pi(B)$.
+In the factorization by {prf:ref}`difference of squares factorization method <sec-diff-squares>`, in order to find solution we need that the system must have more equations than variables.  The number of equations is given by the number of primes less than or equal to $B$, when we require the $c_i$'s to be $B$-smooth, i.e., $\pi(B)$, while the number of variables is given by the number of $a_i$'s (or $c_i$'s).  So, we need the number of $B$-smooth $c_i$'s to be greater than $\pi(B)$.
 
 The theorem above gives us the an idea of how difficult finding that many $B$-smooth numbers is:
 

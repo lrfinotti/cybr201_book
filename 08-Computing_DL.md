@@ -137,7 +137,7 @@ On the other hand, in the case where $N$ is a $2047$-bit integer, these would st
 
 :::{important}  Computing Powers
 
-As observed in the section [](./05-Powers.md#successive_powers), it is *crucial* that we do not compute the list of powers above using `^`.  We *should not* do something like
+As observed in the section [Computing Successive Powers](./05-Powers.md#successive_powers), it is *crucial* that we do not compute the list of powers above using `^`.  We *should not* do something like
 ```python
 powers = []
 for i in range(n + 1):

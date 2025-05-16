@@ -22,7 +22,7 @@ In this chapter we introduce methods that can improve on Shank's Baby-Step/Giant
 
 ## Solving the Discrete Log for Powers of Prime Orders
 
-Suppose that $g \in \mathbb{F}^{\times}$ such that $g$ has order $q^e$, where $q$ is some prime and $e$ is an integer greater than one.  Of course, we can use [Shank's Baby-Step/Giant-Step algorithm](#al-bs_gs).  But there is a more efficient way in this case!
+Suppose that $g \in \mathbb{F}^{\times}$ such that $g$ has order $q^e$, where $q$ is some prime and $e$ is an integer greater than one.  Of course, we can use {prf:ref}`Shank's Baby-Step/Giant-Step algorithm <al-bs_gs>`.  But there is a more efficient way in this case!
 
 +++
 
@@ -49,7 +49,7 @@ Let $g, h \in \mathbb{F}^{\times}$ such that $|g| = q^e$, where $q$ is some prim
 
 1) Initialize $N_0 = |g| = q^e$, $N = N_0$, $x = 0$.
 2) While $N > 1$:
-   1) Compute $y = \log_{g^{N/q}}\left( h^{N/q}\right)$ using [Shank's Baby-Step/Giant-Step algorithm](#al-bs_gs).
+   1) Compute $y = \log_{g^{N/q}}\left( h^{N/q}\right)$ using {prf:ref}`Shank's Baby-Step/Giant-Step algorithm <al-bs_gs>`.
    2) Let $x \leftarrow x + y N_0/N$, $h \leftarrow g^{-y}h$, $g \leftarrow g^q$, and $N \leftarrow N/q$.
 3) Return $x$.
 :::
@@ -62,7 +62,7 @@ Note that in the loop, every iteration divides $N$ by $q$, so it takes a total o
 
 Let's try to justify why the algorithm above indeed gives us the discrete log $\log_g(h)$.
 
-Before we get into it, let's remind ourselves of a couple of results we've seen in [](./05-Powers.md):
+Before we get into it, let's remind ourselves of a couple of results we've seen in [chapter about powers](./05-Powers.md):
 
 :::{prf:proposition} Properties of Powers
 :label: prop-powers
@@ -92,7 +92,7 @@ Let's find the first digit $d_0$.  Since $h^x = g$, we start by raising both sid
 \left( g^x \right)^{q^{e-1}} = h^{q^{e-1}} \quad \Longrightarrow \quad \left( g^{q^{e-1}} \right)^x = h^{q^{e-1}}.
 ```
 
-Now, by the first part of [](#prop-powers), note that
+Now, by the first part of {prf:ref}`prop-powers`, note that
 ```{math}
 \left| g^{q^{e-1}} \right| = \frac{|g|}{\gcd(|g|, q^{e-1})} = \frac{q^e}{\gcd(q^e, q^{e-1})} = \frac{q^e}{q^{e-1}} = q,
 ```
@@ -103,12 +103,12 @@ Now, since $g^{q^{e-1}}$ has order $q$ (prime), we use Shank's Baby-Step/Giant-S
 ```{math}
  \left( g^{q^{e-1}} \right)^{y} = h^{q^{e-1}} = \left( g^{q^{e-1}} \right)^x,
 ```
-and by the second item of [](#prop-powers), we have that
+and by the second item of {prf:ref}`prop-powers`, we have that
 ```{math}
 y \equiv x \equiv d_0 \pmod{q}.
 ```
 
-This means that when we solved [](#eq-dl1), we found $d_0$!
+This means that when we solved {prf:ref}`eq-dl1`, we found $d_0$!
 
 We now find $d_1$  Observe that
 ```{math}
@@ -123,7 +123,7 @@ i.e.,
 ```{math}
 h' = (g')^{x'}.
 ```
-Note that, again by the first part of [](#prop-powers), we have that $|g'| = q^{e-1}$, so the order went down by a factor of $q$.
+Note that, again by the first part of {prf:ref}`prop-powers`, we have that $|g'| = q^{e-1}$, so the order went down by a factor of $q$.
 
 So, to find $d_1$ we repeat the process to find $d_0$ above, and repeat until we find all digits $d_i$ (in $e$ iterations of the process).
 
@@ -160,7 +160,7 @@ Finally, let $h = 805{,}343{,}147$.
 h = Mod(805343147, p)
 ```
 
-We need to find $\log_g(h)$, i.e., we need $x$ such that $g^x = h$.  We follow [](#al-dl-power).
+We need to find $\log_g(h)$, i.e., we need $x$ such that $g^x = h$.  We follow {prf:ref}`al-dl-power`.
 
 Since the algorithm changes the original values of `g` and `h`, let's store the original values in different variables:
 
@@ -262,7 +262,7 @@ It worked!
 
 ### Number of Operations
 
-In this situation where $|g| = q^e$ and we compute $\log_g(h)$, if we use [Shank's Baby-Step/Giant-Step](./08-Computing_DL.md#al-bs_gs) algorithm, as seen in [the number of operations for Shank's algorithm](#sec-bsgsnop), we need about
+In this situation where $|g| = q^e$ and we compute $\log_g(h)$, if we use [Shank's Baby-Step/Giant-Step](./08-Computing_DL.md#al-bs_gs) algorithm, as seen in {prf:ref}`the number of operations for Shank's algorithm <sec-bsgsnop>`, we need about
 ```{math}
 \frac{\sqrt{q^e}}{2}  \cdot \log_2(q^e) = \frac{q^{e/2}}{2} \cdot e \cdot \log_2(q)
 ```
@@ -306,9 +306,9 @@ We then have the following algorithm:
 
 Let $g, h \in \mathbb{F}^{\times}$ and suppose that $|g| = N =  q_1^{e_1} q_2^{e_2} \cdots q_k^{e_k}$, with $q_i$'s distinct prime, and $e_i \geq 1$ for $i = 1, 2, \ldots, k$.  To compute $\log_g(h)$:
 
-1) For each $i \in \{ 1, 2, \ldots, k \}$ let $N_i = N/q_i^{e_i}$, $g_i = g^{N_i}$ and $h_i = h^{N_i}$ and find $y_i = \log_{g_i} \left( h_i \right)$ using [](#al-dl-power).
+1) For each $i \in \{ 1, 2, \ldots, k \}$ let $N_i = N/q_i^{e_i}$, $g_i = g^{N_i}$ and $h_i = h^{N_i}$ and find $y_i = \log_{g_i} \left( h_i \right)$ using {prf:ref}`al-dl-power`.
 
-2) Use the [](#crt) to find $x$ such that
+2) Use the {prf:ref}`crt` to find $x$ such that
 ```{math}
 \begin{align*}
 x &\equiv y_1 \pmod{q_1^{e_1}},\\
@@ -400,7 +400,7 @@ If we were to use Shank's Baby-Step/Giant-Step directly, the number of multiplic
 floor(sqrt(N)/2 * log(N, base=2))
 ```
 
-On the other hand, using [](#al-ph), the number of multiplications would be:
+On the other hand, using {prf:ref}`al-ph`, the number of multiplications would be:
 
 ```{code-cell} ipython3
 k = len(N_factorization)  # number of prime factors
@@ -502,7 +502,7 @@ gg = g^NN
 hh = h^NN
 ```
 
-Now, we solve a discrete log (with a base that has order `q^e`), using [](#al-dl-power).  In here (as in your homework!) we can use Sage's `discrete_log`, which internally does exactly that:
+Now, we solve a discrete log (with a base that has order `q^e`), using {prf:ref}`al-dl-power`.  In here (as in your homework!) we can use Sage's `discrete_log`, which internally does exactly that:
 
 ```{code-cell} ipython3
 y.append(discrete_log(hh, gg))  # add discrete log to the list

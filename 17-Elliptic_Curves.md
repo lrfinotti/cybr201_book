@@ -35,7 +35,7 @@ is called an *elliptic curve*.  The quantity $\Delta = -16 \cdot (4a^3 + 27b^2)$
 
 :::{note}
 
-As we shall see later, sometimes elliptic curves are given by equations a little more complex than [](#eq-basic-weq).
+As we shall see later, sometimes elliptic curves are given by equations a little more complex than {prf:ref}`eq-basic-weq`.
 :::
 
 
@@ -44,7 +44,7 @@ When we think about curves, like lines, parabolas, circles, etc., we usually thi
 
 :::{caution}
 
-Elliptic curves are not [ellipses](https://en.wikipedia.org/wiki/Ellipse)!  The name comes from the fact that an equation similar to [](#eq-basic-weq) appears when we try to compute the *length* of an ellipse.
+Elliptic curves are not [ellipses](https://en.wikipedia.org/wiki/Ellipse)!  The name comes from the fact that an equation similar to {prf:ref}`eq-basic-weq` appears when we try to compute the *length* of an ellipse.
 :::
 
 As an example, we can take the elliptic curve given by $y^2 = x^3 + 1$.  In Sage we can easily create this elliptic curve and graph it:
@@ -461,7 +461,7 @@ Then $P + Q = (x_3, {\color{red} -}y_3)$.
 
 
 :::{note}
-Note that [](#al-sum-vertnottwo) is the same as [](#al-sum-novert) with $x_2 = x_1$, *except* for the formula of $m$, which is different.
+Note that {prf:ref}`al-sum-vertnottwo` is the same as {prf:ref}`al-sum-notvert` with $x_2 = x_1$, *except* for the formula of $m$, which is different.
 :::
 
 +++
@@ -547,10 +547,10 @@ Let $P$ and $Q$ be points on an elliptic curve with equation $y^2 = x^3 + ax + b
 2) If $Q = \mathcal{O}$, then $P + Q = P$.
 3) If $P = (x_1, y_1) \neq Q = (x_2, y_2)$:
    1) if $x_1=x_2$ (and so $y_1 \neq y_2$), then $P + Q = \mathcal{O}$;
-   2) if $y_1 \neq y_2$, then we use [](#al-sum-notvert).
+   2) if $y_1 \neq y_2$, then we use {prf:ref}`al-sum-notvert`.
 4) If $P = Q = (x_1, y_1)$:
    1) if $y_1 = 0$, then $P + Q = \mathcal{O}$;
-   2) if $y_1 \neq 0$, then we use [](#al-sum-vertnottwo).
+   2) if $y_1 \neq 0$, then we use {prf:ref}`al-sum-vertnottwo`.
 :::
 
 
@@ -863,7 +863,7 @@ In our applications to cryptography and digital signature we need large groups t
 
 :::{important}
 
-We should observe that [](#def-ec) above does not work when $p=2$ or $p=3$. Since these primes are too small to give large groups, we will assume here that $p \geq 5$ and so we can assume that our elliptic curves are given by the Weierstrass equation give by [](#eq-basic-weq).
+We should observe that {prf:ref}`def-ec` above does not work when $p=2$ or $p=3$. Since these primes are too small to give large groups, we will assume here that $p \geq 5$ and so we can assume that our elliptic curves are given by the Weierstrass equation give by {prf:ref}`eq-basic-weq`.
 :::
 
 :::{note}
@@ -1062,7 +1062,7 @@ We start by writing $3545$ in base $2$:
 ```{math}
 3545 = 1 + 2^3 + 2^4 + 2^6 + 2^7 + 2^8 + 2^{10} + 2^{11}.
 ```
-We now use [](#eq:sp2) for any consecutive powers of $2$.  We start from lower powers, so we rewrite $2^3 + 2^4 = 2^5 - 2^3$:
+We now use {prf:ref}`eq:sp2` for any consecutive powers of $2$.  We start from lower powers, so we rewrite $2^3 + 2^4 = 2^5 - 2^3$:
 ```{math}
 3545 = 1 {\color{red} - 2^3 + 2^5} + 2^6 + 2^7 + 2^8 + 2^{10} + 2^{11}.
 ```
@@ -1133,7 +1133,7 @@ For the *average* case, we have about:
 :::{admonition} Homework
 :class: note
 
-In your homework you will write a function in Sage that takes an integer and returns the ternary expansion, i.e., you will implement [](al:ternary).
+In your homework you will write a function in Sage that takes an integer and returns the ternary expansion, i.e., you will implement {prf:ref}`al:ternary`.
 :::
 
 +++

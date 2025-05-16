@@ -646,7 +646,7 @@ powers = [valuation(element, l) for l in B_primes]
 element == prod(l^r for l, r in zip(B_primes, powers))
 ```
 
-Ah, so $h \cdot g^{-5}$ is $B$-smooth.  According to [](#eq-index-calc1), we have that the discrete log $\log_g(h)$ is:
+Ah, so $h \cdot g^{-5}$ is $B$-smooth.  According to {prf:ref}`eq-index-calc1`, we have that the discrete log $\log_g(h)$ is:
 
 ```{code-cell} ipython3
 (5 + sum(r * log_l for r, log_l in zip(powers, logs_B))) % (p - 1)

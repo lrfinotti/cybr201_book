@@ -18,7 +18,7 @@ kernelspec:
 
 ## Euler's Formula
 
-Before we introduce a new and important public-key cryptosystem, we need some theory.  We start by reviewing some facts about $\mathbb{Z}/m\mathbb{Z}$ from [](#05-Powers.md):
+Before we introduce a new and important public-key cryptosystem, we need some theory.  We start by reviewing some facts about $\mathbb{Z}/m\mathbb{Z}$ from {prf:ref}`05-Powers.md`:
 
 :::{prf:definition} The Euler $\varphi$-Function
 :label: def-euler_phi-2
@@ -63,7 +63,7 @@ Let $a$ in $\mathbb{Z}/m\mathbb{Z}$ and suppose that $k$ is a *positive* integer
 
 
 
-In this chapter we will deal with a modulus $N = pq$, where $p$ and $q$ are two distinct (*very* large) primes.  So, we have that $\varphi(N)=(p-1)(q-1)$.  Then, by [{name}](#th-euler), we have that if $\gcd(a, N) = 1$, then $a^{(p-1)(q-1)} = 1$ in $\mathbb{Z}/N\mathbb{Z}$.  But we can do better:
+In this chapter we will deal with a modulus $N = pq$, where $p$ and $q$ are two distinct (*very* large) primes.  So, we have that $\varphi(N)=(p-1)(q-1)$.  Then, by {prf:ref}`{name} <th-euler>`, we have that if $\gcd(a, N) = 1$, then $a^{(p-1)(q-1)} = 1$ in $\mathbb{Z}/N\mathbb{Z}$.  But we can do better:
 
 :::{prf:theorem} Euler's Formula
 :label: th-order_pq
@@ -75,7 +75,7 @@ Let $p$ and $q$ be distinct primes, $N = pq$, and $g = \gcd((p-1), (q-1))$, and 
 :::{prf:proof}
 :nonumber:
 
-Since $\gcd(a, pq) = 1$ (as $a$ is a unit in $\mathbb{Z}/N\mathbb{Z}$), we have that $\gcd(a, p) = \gcd(a, q) = 1$, so $a$ (as an integer) is also a unit ins $\mathbb{Z}/p\mathbb{Z}$ and $\mathbb{Z}/q\mathbb{Z}$.  Then, by [{name}](#th-eule), and noting the $(p-1)/g$ and $(q-1)/g$ are both *integers*, we have that
+Since $\gcd(a, pq) = 1$ (as $a$ is a unit in $\mathbb{Z}/N\mathbb{Z}$), we have that $\gcd(a, p) = \gcd(a, q) = 1$, so $a$ (as an integer) is also a unit ins $\mathbb{Z}/p\mathbb{Z}$ and $\mathbb{Z}/q\mathbb{Z}$.  Then, by {prf:ref}`{name} <th-eule>`, and noting the $(p-1)/g$ and $(q-1)/g$ are both *integers*, we have that
 ```{math}
 \begin{align*}
 a^{((p-1)(q-1)/g} & = \left( a^{p-1} \right)^{(q-1)/g} \equiv 1^{(q-1)/g} = 1 \pmod{p} \qquad \Longrightarrow \qquad &p \mid a^{(p-1)(q-1)/g}, \\[1.7ex]
@@ -120,7 +120,7 @@ x^e = c \quad \text{if and only if} \quad x = c^d.
 
 If $c=0$, then $x^e=0$ if and only if $x=0$ if and only if $x^d=0$.
 
-So, assume that $x \neq 0$ (in $\mathbb{Z}/p\mathbb{Z}$), i.e., $x \in (\mathbb{Z}/p\mathbb{Z})^{\times}$.  Since $\varphi(p) = p-1$, by [{name}](#th-euler-2) we have that $x^{p-1} = 1$.  Since $(p-1) \mid (de - 1)$, we have that $x^{de-1} = 1$, i.e., $x^{de} = x$.  Since $c$ is also a unit, the same argument tells us that $c^{de} = c$.
+So, assume that $x \neq 0$ (in $\mathbb{Z}/p\mathbb{Z}$), i.e., $x \in (\mathbb{Z}/p\mathbb{Z})^{\times}$.  Since $\varphi(p) = p-1$, by {prf:ref}`{name} <th-euler-2>` we have that $x^{p-1} = 1$.  Since $(p-1) \mid (de - 1)$, we have that $x^{de-1} = 1$, i.e., $x^{de} = x$.  Since $c$ is also a unit, the same argument tells us that $c^{de} = c$.
 
 So, if $x^e = c$, then raising both sides to the $d$-th power, we have that
 ```{math}
@@ -153,7 +153,7 @@ x^e = c \quad \text{if and only if} \quad x = c^d.
 
 First note that since $\gcd(e, \varphi(N)) = \gcd(e, (p-1)(q-1)) = 1$, then $\gcd(e, (p-1)) = \gcd(e, (q-1)) = 1$.  Also, since $ed \equiv 1 \pmod{(p-1)(q-1)}$, then $ed \equiv 1 \pmod{p-1}$ and $ed \equiv 1 \pmod{q-1}$.
 
-So, if $x^e = c$ (in $\mathbb{Z}/N\mathbb{Z}$), by [](#prop-root_mod_p), we have
+So, if $x^e = c$ (in $\mathbb{Z}/N\mathbb{Z}$), by {prf:ref}`prop-root_mod_p`, we have
 ```{math}
 \begin{align*}
 x^e \equiv c \pmod{pq} \quad &\Longrightarrow \quad x^e \equiv c \pmod{p} \quad &\Longrightarrow \quad x \equiv c^d \pmod{p}, \\
@@ -162,7 +162,7 @@ x^e \equiv c \pmod{pq} \quad &\Longrightarrow \quad x^e \equiv c \pmod{q} \quad 
 ```
 which together, since $\gcd(p, q) = 1$, tell us that $x \equiv c^d \pmod{N}$ (as $N=pq$), i.e., $x = c^d$ in $\mathbb{Z}/N\mathbb{Z}$.
 
-Conversely, if $x=c^d$, then raising to the $e$-th power and since $ed \equiv 1 \pmod{\varphi(N)}$, we get by [{name}](#th-euler-2) and [](pr-power_eq_1-2) that $x^e = (c^d)^e = c^{de} = c$ in $\mathbb{Z}/N\mathbb{Z}$.
+Conversely, if $x=c^d$, then raising to the $e$-th power and since $ed \equiv 1 \pmod{\varphi(N)}$, we get by {prf:ref}`Euler's Theorem <th-euler-2>` and {prf:ref}`pr-power_eq_1-2` that $x^e = (c^d)^e = c^{de} = c$ in $\mathbb{Z}/N\mathbb{Z}$.
 :::
 
 
@@ -177,13 +177,13 @@ Let $p$ and $q$ be distinct primes, $N = pq$, $g = \gcd(p-1, q-1)$, $e$ a positi
 
 :::{important}
 
-This means that when finding $d$ to find the $e$-th root of $c$ (as in [](#prop-root_mod_pq)), we can find an inverse in modulo $(p-1)(q-1)/g$ instead of modulo $(p-1)(g-1)$, which is likely faster (if $g>1$).
+This means that when finding $d$ to find the $e$-th root of $c$ (as in {prf:ref}`prop-root_mod_pq`), we can find an inverse in modulo $(p-1)(q-1)/g$ instead of modulo $(p-1)(g-1)$, which is likely faster (if $g>1$).
 :::
 
 :::{prf:proof}
 :nonumber:
 
-By [](th-order_pq), we have that $c^{(p-1)(q-1)/q} = 1$, so by [](#pr-power_eq_1-2), we have that $c^{ed} = c$.  Hence, if $x = c^d$, then $x^e = c^{de} = c$.
+By {prf:ref}`th-order_pq`, we have that $c^{(p-1)(q-1)/q} = 1$, so by {prf:ref}`pr-power_eq_1-2`, we have that $c^{ed} = c$.  Hence, if $x = c^d$, then $x^e = c^{de} = c$.
 :::
 
 
@@ -201,7 +201,7 @@ How can we find $p$ and $q$ from $N = pq$, i.e., how can we computer $\varphi(N)
 
 We first note that the two questions are equivalent.  If we know how to factor $N = pq$ to find $p$ and $q$, the we can compute $\varphi(N)$ as $(p-1)(q-1)$.
 
-But suppose we have a method to find $\varphi(N)$ without using the prime factorization of $N$, i.e., without the formula of [](#th-phi_comp-2).  What we get is some number, but we know that $\varphi(N)=(p-1)(q-1) = pq - p - q + 1 = N - p - q + 1$.  So, we get $p+q = N - \varphi(N) + 1$, where we know all numbers on the left, so we know the result of $p+q$.  We also know the product $N =  pq$.  With those two in hand, we can find $p$ and $q$ themselves!
+But suppose we have a method to find $\varphi(N)$ without using the prime factorization of $N$, i.e., without the formula of {prf:ref}`th-phi_comp-2`.  What we get is some number, but we know that $\varphi(N)=(p-1)(q-1) = pq - p - q + 1 = N - p - q + 1$.  So, we get $p+q = N - \varphi(N) + 1$, where we know all numbers on the left, so we know the result of $p+q$.  We also know the product $N =  pq$.  With those two in hand, we can find $p$ and $q$ themselves!
 
 We have that
 ```{math}
@@ -233,8 +233,7 @@ is_prime(4153) and is_prime(6899)
 
 In 1977 [Ron Rivest](https://en.wikipedia.org/wiki/Ron_Rivest), [Adi Shamir](https://en.wikipedia.org/wiki/Adi_Shamir), and [Leonard Adleman](https://en.wikipedia.org/wiki/Leonard_Adleman) published the public-key cryptosystem that become known as the [RSA Cryptosystem](https://en.wikipedia.org/wiki/RSA_cryptosystem).  It was the first public available public-key cryptosystem (earlier than ElGamal's), although, according to Wikipedia:
 
-> An equivalent system was developed secretly in 1973 at Government Communications Headquarters (GCHQ), the British signals intelligence agency, by the English mathematician Clifford Cocks. That system was declassified in 1997.[2**
-
+> An equivalent system was developed secretly in 1973 at Government Communications Headquarters (GCHQ), the British signals intelligence agency, by the English mathematician Clifford Cocks. That system was declassified in 1997.
 
 While the security of ElGamal's is based on the difficulty of computing discrete logs, RSA's security is based on the difficulty of taking $e$-th roots in $\mathbb{Z}/N\mathbb{Z}$, where $N$ is a product of very large primes, i.e., it's based on how hard it is to factor $N$.
 

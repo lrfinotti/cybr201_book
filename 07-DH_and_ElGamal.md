@@ -1,4 +1,18 @@
- ---
+---
+jupytext:
+  formats: ipynb,md:myst,sage:percent
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.17.1
+kernelspec:
+  display_name: SageMath 10.5
+  language: sage
+  name: sage-10.5
+---
+
+---
 jupytext:
   formats: ipynb,md:myst,sage:percent
   text_representation:
@@ -70,7 +84,7 @@ The numbers involved are very large in general, so one would have to compute ver
 
 ### Finding $q$ and $g$
 
-How would one find the $g$, with large order $q$ in $\mathbb{F}^{\times}$?  Let's first think about its order, which we called $q$.  We want it to be as large as possible.  As we've seen in [Proposition %s](./05-Powers.md#pr-power_one) in the previous section, we know that $|g| = q \mid \varphi(p)=p-1$.  Since $p$ is odd, being a prime different from $2$, the largest that $q$ could be is if $p-1 = 2q$.  So, to find the *pair* $p$ and $q$, we look for a $p$ of the desired size, and check if $(p-1)/2$ is also prime.  If so, $q = (p-1)/2$ works.
+How would one find the $g$, with large order $q$ in $\mathbb{F}^{\times}$?  Let's first think about its order, which we called $q$.  We want it to be as large as possible.  As we've seen in [Proposition 2](./05-Powers.md#pr-power_one) in a previous chapter, we know that $|g| = q \mid \varphi(p)=p-1$.  Since $p$ is odd, being a prime different from $2$, the largest that $q$ could be is if $p-1 = 2q$.  So, to find the *pair* $p$ and $q$, we look for a $p$ of the desired size, and check if $(p-1)/2$ is also prime.  If so, $q = (p-1)/2$ works.
 
 We can do that relatively easy with Sage for primes of reasonable size:
 
@@ -96,7 +110,7 @@ If we take a random element of $a$ of $\mathbb{F}^{\times}$, we know that $|a| \
 
 Now, we can compute $a^2$.  If we get $1$, then $a$ is either $1$ or $p-1$, and we try a different random $a$.  But if $a^2 \neq 1$, then, either $|a| = q$ or $|a|=2q$.
 
-If $|a|=q$, then, by [Proposition %s](./05-Powers.md#pr-order_power), we have that
+If $|a|=q$, then, by the [Order of a Power Proposition](./05-Powers.md#pr-order_power) from a previous chapter, we have that
 ```{math}
 |a^2| = \frac{q}{\gcd(q, 2)} = \frac{q}{1} = q,
 ```
@@ -184,7 +198,7 @@ B = g^b
 B
 ```
 
-+++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "184889"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "74913"}, "metadata": {}}}]}
++++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "86491"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "44525"}, "metadata": {}}}]}
 
 So, now Alice sends Bob $A$, i.e., {eval}`A`, and Bob sends Alice $B$, i.e., {eval}`B`, while keeping $a$ and $b$ for themselves.
 
@@ -239,7 +253,7 @@ But note that we have no guarantee that some very clever individual will come up
 
 +++
 
-Also note that if the order of the element $g$ were not prime, then we can compute $|A| = |g^a|$ and if $|A| \neq |g|$, which is possible when $|g|$ is not prime, then by [](./05-Powers.md#pr-order_power) we know that
+Also note that if the order of the element $g$ were not prime, then we can compute $|A| = |g^a|$ and if $|A| \neq |g|$, which is possible when $|g|$ is not prime, then by the [Order of a Power Proposition](./05-Powers.md#pr-order_power) (from a previous chapter), we know that
 ```{math}
 |A| = \frac{|g|}{\gcd(|g|, a)} \qquad \Longrightarrow \qquad \gcd(|g|, a) = \frac{|g|}{|A|},
 ```
