@@ -54,7 +54,8 @@ Given $a,b \in \mathbb{Z}$, with $b \neq 0$, there is a *unique* pair of integer
 
 :::{note}
 
-Note that $|b|$ above is the *absolute value* of $b$, meaning that if $b$ is non-negative, then $|b|=b$, and if it is negative, then $|b| = -b$, i.e., the "positive version" of $b$.)
+1) Remember that the symbol $\in$ means "*belongs to*".  So $a, b \in \mathbb{Z}$ is saying that $a$ and $b$ belong to the set of integers, i.e., $a$ and $b$ are integers.
+2) Note that $|b|$ above is the *absolute value* of $b$, meaning that if $b$ is non-negative, then $|b|=b$, and if it is negative, then $|b| = -b$, i.e., the "positive version" of $b$.)
 :::
 
 +++
@@ -200,10 +201,6 @@ long_div(182, 37)
 long_div(-182, 37)
 ```
 
-----
-
-+++
-
 The work above is a good exercise in thinking [algorithmically](https://en.wikipedia.org/wiki/Algorithm) and writing Sage/Python code, but, as one would expect, we could also have done this directly, as `//` gives the quotient and `%` gives the remainder!
 
 ```{code-cell} ipython3
@@ -223,7 +220,7 @@ help(divmod)
 So, to make sure our code is OK, let's test our function against Sage's:
 
 ```{code-cell} ipython3
-count = 1_000  # number of test
+count = 1_000  # number of tests
 max_int = 1_000_000
 for i in range(count):
     a = randint(-max_int, max_int)
@@ -239,7 +236,10 @@ else:  # runs when for loop ended without break!!!!!
     print("It worked (for all tests)!")
 ```
 
-----
+```{important}
+
+Note that `for`-loops in Python/Sage can have an `else` statement.  It runs when the loop runs reaches its end without being manually stopped by the `break` keyword.  (A better name would have been `nobreak` instead of `else`.)
+```
 
 +++
 
@@ -266,7 +266,7 @@ If we only want to test for divisibility, we can simply use `a % b` in Sage/Pyth
 
 +++
 
-:::{prf:definition} Prime
+:::{prf:definition} Prime and Composite
 :nonumber:
 
 A positive integer $p$ is *prime* if it is not $1$ and the only positive divisors are $1$ and $p$ itself.  Integers greater than $1$ that are not prime are called *composite*.
@@ -299,6 +299,7 @@ def prime_test(n):
     for div in xsrange(2, n):  # stops at n-1
         if n % div == 0:  # found divisor
             return False
+    # if we get here, no divisor was found and the number is prime!
     return True
 ```
 
@@ -325,10 +326,10 @@ If $n = a \cdot b$, with $a$ and $b$ integers greater than $1$ (and hence also s
 
 If $a > \sqrt{n}$, then also $b > \sqrt{n}$, and so
 ```{math}
-n = a \cdot b < \sqrt{n} \cdot \sqrt{n} = n,
+n = a \cdot b > \sqrt{n} \cdot \sqrt{n} = n,
 ```
 
-i.e., $n < n$, which is impossible!  Therefore, we must have that, if $n$ is composite, then the smallest divisor *must be* less than or equal to $\sqrt{n}$!
+i.e., $n > n$, which is impossible!  Therefore, we must have that, if $n$ is composite, then the smallest divisor *must be* less than or equal to $\sqrt{n}$!
 
 Therefore, we only need to test for divisors up to $\sqrt{n}$.  If none is found up to there, then $n$ must be prime.
 
@@ -357,6 +358,7 @@ def prime_test_2(n):
     for div in xsrange(2, floor(sqrt(n)) + 1):  # stops at sqrt(n)  (NOTE the "+1")
         if n % div == 0:  # found divisor
             return False
+    # if we get here, no divisor was found and the number is prime!
     return True
 ```
 
@@ -365,7 +367,10 @@ def prime_test_2(n):
 prime_test_2(3 * 10^7 + 1)
 ```
 
-This very simple idea gave a huge improvement, but required some mathematical knowledge (and maturity).  That is often the case: no matter how good a coder you are, or what language and computing tricks, knowing some math can have a much greater impact in your code!
+```{important}
+
+This very simple idea gave a huge improvement, but required some mathematical knowledge (and maturity).  That is often the case: no matter how good a coder you are, or what language and computing tricks you use, knowing some math can have a much greater impact in your code!
+```
 
 +++
 
@@ -381,11 +386,11 @@ And then we do the same for $5$.  (No need for $4$, since it is even.)  Then $7$
 
 We then see that we only need to check divisibility by *primes*!
 
-But wait, we don't know which numbers are prime.  (That's exactly what we are trying to do here.)
+But wait, we don't know which numbers are prime yet.  (That's exactly what we are trying to do here.)
 
 +++
 
-The [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) offers a solution to this natural idea!  It is a bit more memory intensive, since we have store (more or less) all numbers up to the one we want to test in memory.  But, at the end, it does not only check if the number itself is prime: it gives us *all* primes *up to* that number!
+The [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) offers a solution that uses this natural idea!  It is a bit more memory intensive, since we have store (more or less) all numbers up to the one we want to test in memory.  But, at the end, it does not only check if the number itself is prime: it gives us *all* primes *up to* that number!
 
 Let's see how it works.
 
@@ -576,6 +581,10 @@ test_1 = [p for p in range(2, n + 1) if prime_test_2(p)]
 test_2 = prime_sieve(n)
 ```
 
+So, for lists of primes, it is a lot faster!
+
+Let's check that the results match:
+
 ```{code-cell} ipython3
 test_1 == test_2
 ```
@@ -644,12 +653,14 @@ But, there is a much more efficient way of doing it!
 
 We have the following:
 
-**Theorem:** We have that $d$ divides both $a$ and $b$ *if, and only if*, $d$ also divides both $a$ and $b - a$.  This implies that
+
+:::{prf:theorem}
+We have that $d$ divides both $a$ and $b$ *if, and only if*, $d$ also divides both $a$ and $b - a$.  This implies that
 ```{math}
 \{\text{common divisors of $a$ and $b$}\} = \{\text{common divisors of $a$ and $b - a$}\},
 ```
 and hence $\boxed{\gcd(a, b) = \gcd(a, b-a)}$.
-
+:::
 <br>
 
 Here is a quick idea of why that is true: say $d \mid a, b$.  Then $a/d$ and $b/d$ are integers.  So,
@@ -761,7 +772,7 @@ To compute $\gcd(a, b)$:
 
 1) Perform the long division of the larger by the smaller and replace the larger by the remainder.  (This remainder now is smaller than the previous smallest element!)
 2) Repeat until you get a remainder of $0$.
-3) The GCD is the last divisor (meaning, the last non-zero smallest element).
+3) The GCD is the last divisor (meaning, the last non-zero remainder/smallest element).
 ```
 
 So, we have a series of long divisions, until we get a remainder of $0$:
@@ -831,7 +842,7 @@ In your homework you will automate this process, i.e., implement the Euclidean A
 
 Is the Euclidean Algorithm efficient?  It is clear is much better than our naive approaches above.  But how many long divisions do we need to perform?  Let's think of the worst case scenario.  The faster the numbers get smaller, the better.
 
-With some (relatively simple math), one can prove that if the  sequence of remainder is $r_1$, $r_2$, $r_3$, ..., then
+With some (relatively simple) math, one can prove that if the  sequence of remainder is $r_1$, $r_2$, $r_3$, ..., then
 ```{math}
 r_{i+2} < \frac{r_i}{2}, \quad \text{for $i=0,1,2, \ldots$}
 ```
@@ -854,6 +865,13 @@ This means that $r_{2k} < \dfrac{r_0}{2^k}$.  Since $2^k$ grows very fast as $k$
 \text{number of long divisions} < 2 \log_2(b) + 2,
 ```
 where, again, $b$ is the smallest between $a$ and $b$.
+
+```{note}
+
+Remember that $\log_2$ denotes the logarithm (or simply log) base $2$.  More genenrally if $b$ is a positive real number different from $1$, the log base $b$ of $x$, denoted by $\log_b(x)$ is simply the power of $b$ that gives $x$.  For instance, $\log_3(9) = 2$, since $2$ is the power of the base, i.e., $3$, that gives the argument, i.e., $9$: $3^2 = 9$.  Simliarly:
+  - $\log_2(16) = 4$, since $2^4 = 16$ and 
+  - $\log_5(1/25) = -2$, since $5^{-2} = 1/25$.
+```
 
 +++
 
@@ -899,6 +917,8 @@ We had the $\gcd(159, 48) = 3$, and
 3 = 159 \cdot (-3) + 48 \cdot 10  \quad \text{so, $u=-3$ and $v=10$.}
 ```
 
+Let's check this second one:
+
 ```{code-cell} ipython3
 159 * (-3) + 48 * 10
 ```
@@ -907,6 +927,8 @@ We have that $\gcd(1{,}027, 349) = 1$, and
 ```{math}
 1  = 1{,}027 \cdot 157 + 349 \cdot (-462), \quad \text{so, $u = 157$ and $v=-462$.}
 ```
+
+Again, let's check:
 
 ```{code-cell} ipython3
 1027 * 157 + 349 * (-462)
@@ -988,7 +1010,7 @@ The key idea is that when we multiply $149 \cdot 0 +  58 \cdot 1$ by $3$, we sim
 ```{math}
 \begin{array}{rcrclcrcl}
 159 & = & 159 & \cdot & {\color{red} 1} & + & 48 & \cdot & {\color{blue} 0} \\
-(-3) \cdot 58 & = & 159 & \cdot & {\color{red} (-3) \cdot 0} & + & 48 & \cdot & {\color{blue} (-3) \cdot 1} \\[1ex]
+(-3) \cdot 48 & = & 159 & \cdot & {\color{red} (-3) \cdot 0} & + & 48 & \cdot & {\color{blue} (-3) \cdot 1} \\[1ex]
 \hline
 15 & = & 159 &\cdot & {\color{red} 1} & +  & 48 & \cdot & {\color{blue} (-3)}
 \end{array}
@@ -1234,7 +1256,9 @@ u1, u2 = u2, (u1 - q * u2)
 print(f"{r = }, {x = }, {u1 = }, {y = }, {u2 = }")
 ```
 
-Remainder is $0$, so $\gcd(1{,}037, 349) = 1$ and $u = -35$.  But what is $v$?  Well
+Remainder is $0$, so $\gcd(1{,}037, 349) = 1$ and $u = -35$.  But what is $v$?
+
+Well
 
 ```{math}
 \gcd(1{,}037, 349) = 1{,}037 u + 349 v,
@@ -1415,7 +1439,7 @@ But the theorem tells us that those are *all* the solutions, i.e., every single 
 
 It is not too hard the check that this is true with some algebra, but let's just do a computer check instead.  Note that if $au + bv = d$ with $u$ and $v$ integers, then
 ```{math}
-v = \frac{d - au}{b} \in \Z,
+v = \frac{d - au}{b} \in \mathbb{Z},
 ```
 so $b \mid (d - au)$.  So, to search for solutions, we try integers $u$ in some range, and if $b \mid (d-au)$, then the formula above would gives us $v$.
 
@@ -1582,7 +1606,10 @@ In your homework, you will automate this process: you will write a function that
 
 You can do it as above: have two cases, depending on whether $u_0$ is positive or negative.  But there is a clever way to find this smallest positive $u$ directly using *long division*!  Can you find it?
 
-**Hint:**  What happens if you divide $u_0$ by $b/d$?
+```{hint}
+
+What happens if you divide $u_0$ by $b/d$?
+```
 
 +++
 
@@ -1622,7 +1649,10 @@ for year in range(2024, 2027):
     print(f"{year} = {factor(year)}")
 ```
 
+```{note}
+
 You might remember from school how to compute GCDs using prime factorization.  Although it works well for small numbers, the Euclidean Algorithm is a lot more efficient in practice!
+```
 
 +++
 
@@ -1640,7 +1670,7 @@ That is relatively easy: if $z=0$, we only have the solution $(0,0,0)$.  If not,
 ```{math}
 \left(\frac{x}{z}\right)^2 + \left(\frac{y}{z}\right)^2 = 1,
 ```
-a point in the unit circle.  So, there is some $\theta \in [0, 2 \pi)$ such that
+a point in the unit circle.  So, there is some angle $\theta \in [0, 2 \pi)$ such that
 ```{math}
 \frac{x}{z} = \cos(\theta), \qquad \frac{y}{z} = \sin(\theta).
 ```

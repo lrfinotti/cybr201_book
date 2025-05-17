@@ -18,7 +18,7 @@ kernelspec:
 
 We will use some computer tools to learn and deal with cryptography in this course.  Our main software will be [Sage](https://www.sagemath.org/).  On the other hand, Sage is built on top of [Python](https://www.python.org/) (and other math software), with which it shares its syntax.  In fact, you can use virtually any Python tool within Sage.
 
-But before we start our discussion of Sage and Python, we need to talk about *Jupyter Notebooks*.
+But before we start our discussion of Sage and Python, we need to talk about [*Jupyter Notebooks*](https://jupyter.org/).
 
 +++
 
@@ -26,7 +26,12 @@ But before we start our discussion of Sage and Python, we need to talk about *Ju
 
 +++
 
-We will use [Jupyter Notebooks](https://jupyter.org/) in this course for our classes, computations, and homework.  In fact, this is a Jupyter notebook!
+We will use [Jupyter Notebooks](https://jupyter.org/) in this course for our classes, computations, and homework.  In fact, what you are reading now either *is* a Jupyter notebook or was created with one!  If the latter, we recommend you download the corresponding notebook so that you can edit it and test it.  Moreover, the homework from this book is done with Jupyter notebooks, so it is important to familiarize yourself with it.
+
+```{important}
+
+From now on we will continue assuming you are reading the *Jupyter notebook*.  If you are reading the associated generated chapter, you can use it as a reference, but cannot edit it.  Just remember that actions mentioned below, like running or editing cells, refer to the Jupyter notebook.
+```
 
 Jupyter notebooks allow us to have formatted text, math formulas, images, and code together in a single document.
 
@@ -36,19 +41,25 @@ Jupyter notebooks allow us to have formatted text, math formulas, images, and co
 
 +++
 
-A notebook is made of cells, which can be a text/Markdown cell, like this one you are reading, or a code cell, like the one below:
+A notebook is made of cells, which can be a text/Markdown cell, like this one, if you are reading this within Jupyter, or a code cell, like the one below:
 
 ```{code-cell} ipython3
 print("Hello world!")
 ```
 
-**Code cells:** Code cells can run, by default, Python code.  To run the code cell, click on it and press `Shift + Enter/Return`.  You can edit a code cell simply by clicking inside it.
+**Code cells:** Code cells can run code.  The language of the code depends on the [kernel](https://docs.jupyter.org/en/latest/install/kernels.html) used, with Python being the default and most used.  This notebook, though, is meant to be used with a [Sage kernel](https://doc.sagemath.org/html/en/installation/launching.html#setting-up-sagemath-as-a-jupyter-kernel-in-an-existing-jupyter-notebook-or-jupyterlab-installation).  To run the code cell, click on it and press `Shift + Enter/Return`.  You can edit a code cell simply by clicking inside it.
 
 +++
 
 **Text cells:** Text cells are formatted with [Markdown](https://daringfireball.net/projects/markdown/), which provides a quick syntax to format text.  [Markdown Guide](https://www.markdownguide.org/) is one of the many possible references to get started with Markdown.
 
 To edit a text cell, you need to double click on it.  (You will then see the markdown code.)  When done, you run it, like a code cell, with `Shift + Enter/Return`, to format the text.
+
+Note that the notebooks associated to this book use [MyST](https://mystmd.org/), which is an extension of Markdown, providing extra formatting options.  To read these properly within Jupyter, you might need to install [jupyterlab_myst](https://github.com/jupyter-book/jupyterlab-myst).  You can install it with
+
+```
+pip install jupyterlab_myst
+```
 
 +++
 
@@ -125,7 +136,7 @@ Therefore, this introduction serves as an introduction to both Sage and Python!
 
 +++
 
-We can use Sage/Python to perform simple mathematical computations.  Its syntax should be mostly familiar.  For example, to compute the product $3 \cdot 4$, we simply type (in a *code cell*):
+We can use Python/Sage to perform simple mathematical computations.  Its syntax should be mostly familiar.  For example, to compute the product $3 \cdot 4$, we simply type (in a *code cell*):
 
 ```{code-cell} ipython3
 3 * 4
@@ -163,17 +174,21 @@ Although I needed the `print` above to see the result (unlike the previous code 
 
 Sage's behavior is, as expected, better for mathematics, as we get an exact results and can deal with [rational numbers](https://en.wikipedia.org/wiki/Rational_number) (i.e., fraction of integers).
 
-If we want the decimal in Sage, we have a few options:
++++
+
+Note that Sage always gives you a *reduced fraction*, meaning that the numerator and denominator have no common factor.
 
 ```{code-cell} ipython3
 4 / 6
 ```
 
-(Note that Sage always gives you a *reduced fraction*, meaning that the numerator and denominator have no common factor.)
+If we want the decimal in Sage, we have a few options.  We can make one of the numbers a float/decimal:
 
 ```{code-cell} ipython3
 4.0 / 6
 ```
+
+We cam use the method or function `numerical_approximation`:
 
 ```{code-cell} ipython3
 (4 / 6).numerical_approx()
@@ -209,7 +224,7 @@ The problem for the *function* `n(...)` is that we often use `n` as a variable n
 
 ```{warning} Sage versus Python
 
-For *powers* Python uses `**` instead of the more commonly used `^`, which is used by Sage.  (Sage also accepts `**` for powers!)  In Python is used for the logical operator *XOR*, or *"exclusive or"*.  So, if you use `^` instead of `**` Python will not give an error, but it won't compute what you were expecting!
+For *powers* Python uses `**` instead of the more commonly used `^`, which is used by Sage.  (Sage also accepts `**` for powers!)  In Python is used for the logical operator *XOR*, or [*"exclusive or"*](https://en.wikipedia.org/wiki/Exclusive_or).  So, if you use `^` instead of `**` Python will not give an error, but it won't compute what you were expecting!
 ```
 
 ```{code-cell} ipython3
@@ -260,7 +275,7 @@ Here are some of the most basic operations:
 
 +++
 
-Sage/Python expressions obey the same familiar rules of *precedence* as in algebra: multiplication and division occur before addition and subtraction. Parentheses can be used to group together smaller expressions within a larger expression.
+Python/Sage expressions obey the same familiar rules of *precedence* as in algebra: multiplication and division occur before addition and subtraction. Parentheses can be used to group together smaller expressions within a larger expression.
 
 +++
 
@@ -292,7 +307,10 @@ represents
 Python would give `2017.0` as the answer.
 ```
 
-+++
+```{code-cell} ipython3
+%%python
+print(1 + 2 * (3 * 4 * 5 / 6) ** 3 + 7 + 8 - 9 + 10)
+```
 
 ### Some Builtin Functions
 
@@ -359,7 +377,7 @@ or you can press *Shift-TAB* with the cursor after the function's name:
 log
 ```
 
-As the documentation for `log` shows, the base for this log is `e`, meaning that `log` is the *natural log*.  But it also shows that we can use different bases.
+As the documentation for `log` shows, the base for this log is `e`, meaning that `log` is the [*natural log*](https://en.wikipedia.org/wiki/Natural_logarithm).  But it also shows that we can use different bases.
 
 +++
 
@@ -453,7 +471,7 @@ Moreover, variable names *cannot* start with a number and *should* not start wit
 
 You should always name your variables with descriptive names to make your code more readable.
 
-You should also try to avoid variable names already used in Python, as it would override their builtin values.  For instance, names like `print`, `int`, `abs`, `round` are already used in Python, so you should not used them.
+You should also try to avoid variable names already used in Python/Sage, as it would override their builtin values.  For instance, names like `print`, `int`, `abs`, `round` are already used in Python/Sage, so you should not used them.
 
 (If the name appears in a green in a code cell in Jupyter, then it is already taken!)
 
@@ -461,9 +479,9 @@ You should also try to avoid variable names already used in Python, as it would 
 
 ## Comments
 
-We can enter *comments* in code cells to help describe what the code is doing.  Comments are text entered in Python (e.g., in code cells) that is ignored when running the code, so it is only present to provide information about the code.
+We can enter *comments* in code cells to help describe what the code is doing.  Comments are text entered in Python/Sage (e.g., in code cells) that is ignored when running the code, so it is only present to provide information about the code.
 
-Comments in Python start with `#`.  All text after a `#` and in the same line is ignored by the Python interpreter.  (By convention, we usually leave two spaces between the code and `#` and one space after it.)
+Comments in Python start with `#`.  All text after a `#` and in the same line is ignored by the Python/Sage interpreter.  (By convention, we usually leave two spaces between the code and `#` and one space after it.)
 
 As an illustration, here are some comments added to our previous restaurant code:
 
@@ -576,7 +594,7 @@ multi_line_text = "First line.\nSecond line.\n\nThird line (after a blank line).
 print(multi_line_text)
 ```
 
-We can also use `\t` for *tabs*: it gives a "stretchable space" which can be convenient to align text:
+We can also use `\t` for [*tabs*](https://en.wikipedia.org/wiki/Tab_key#Tab_characters): it gives a "stretchable space" which can be convenient to align text:
 
 ```{code-cell} ipython3
 aligned_text = "1\tA\n22\tBB\n333\tCCC\n4444\tDDDD"
@@ -742,13 +760,13 @@ Sage uses a more "flexible" data type for integers than pure Python.  The `range
 ```
 
 
-The former gives a list:
+The former, `srange` gives a list, so we do not need the `list` function:
 
 ```{code-cell} ipython3
 srange(10, 20)
 ```
 
-The latter, like range, gives an iterator. (We will discuss iterators when we talk about loops below.)
+The latter,`xsrange`, like range, gives an iterator. (We will discuss iterators when we talk about loops below.)
 
 ```{code-cell} ipython3
 list(xsrange(10, 20))
@@ -784,7 +802,7 @@ We can extract elements from a list by position.  But:
 
 ```{attention}
 
-Sage/Python count **from 0** and not 1.
+Python/Sage count **from 0** and not 1.
 ```
 
 So, to extract the first element of `list_of_numbers` we do:
@@ -919,6 +937,10 @@ list_of_numbers
 
 Note that `append` *changes the original list* and *returns no output*!
 ```
+
++++
+
+For instance, note what happens with the following code:
 
 ```{code-cell} ipython3
 new_list = list_of_numbers.append(100)
@@ -1093,7 +1115,7 @@ print(f"{a = }")
 print(f"{b = }")
 ```
 
-But in Sage/Python, we can simply do:
+But in Python/Sage, we can simply do:
 
 ```{code-cell} ipython3
 print(f"{a = }")
@@ -1158,7 +1180,7 @@ grades["Bob"]
 To get the grade of Carl's second exam:
 
 ```{code-cell} ipython3
-grades["Carl"][1]
+grades["Carl"][1]  # note index 1 give the second element!
 ```
 
 ### Adding/Changing Entries
@@ -1184,7 +1206,7 @@ grades
 Or, to change a single grade:
 
 ```{code-cell} ipython3
-grades["Alice"][2] = 95
+grades["Alice"][2] = 95  # make Alice's 3rd grade a 95
 
 grades
 ```
@@ -1230,11 +1252,31 @@ Checking for keys is really fast, but for values is pretty slow (relatively spea
 "lundi" in french_days.values()
 ```
 
+The key word `in` also works with lists and strings:
+
+```{code-cell} ipython3
+some_list = [1, 2, 3, 4]
+
+1 in some_list, 5 in some_list  # should return True, False
+```
+
+```{code-cell} ipython3
+some_string = "ABCD"
+
+"BC" in some_string, "c" in some_string  # should return True, False
+```
+
+Note that the elements in a substring have to appear in the same exact sequence:
+
+```{code-cell} ipython3
+"AC" in some_string
+```
+
 ## Sets
 
 +++
 
-Besides lists and dictionaries, we also have *sets* for collections of elements.  Unlike lists, sets have *no order*.  In fact, a set (in math and in Sage/Python) is characterized by its elements, so repetitions of elements make no difference:
+Besides lists and dictionaries, we also have *sets* for collections of elements.  Unlike lists, sets have *no order*.  In fact, a set (in math and in Python/Sage) is characterized by its elements, so repetitions of elements make no difference:
 
 ```{math}
 \{1, 1, 2, 2, 2 \} = \{2, 1\}.
@@ -1370,21 +1412,6 @@ We can clear/empty a set with:
 ```{code-cell} ipython3
 set_A.clear()
 set_A
-```
-
-### Looping over Sets
-
-+++
-
-We can also iterate over sets, but we cannot know (a priori) the order:
-
-```{code-cell} ipython3
-set_B
-```
-
-```{code-cell} ipython3
-for element in set_B:
-    print(f"{element} is in the set")
 ```
 
 ## Conditionals
@@ -1611,7 +1638,7 @@ Here some other methods for strings:
 
 ### Membership
 
-We can test for membership with the keywords `in`:
+As shown above, we can test for membership with the keyword `in`:
 
 ```{code-cell} ipython3
 2 in [1, 2, 3]
@@ -1663,7 +1690,7 @@ not ("vim" in "evil")
 
 ## if-Statements
 
-We can use conditionals to decide what code to run using *if-statements*:
+We can use conditionals to decide what code to run, depending on some condition(s), using *if-statements*:
 
 ```{code-cell} ipython3
 water_temp = 110  # in Celsius
@@ -1693,6 +1720,10 @@ if <condition>:
 Note the indentation: all code that is indented will run when the condition is true!
 ```
 
++++
+
+For example:
+
 ```{code-cell} ipython3
 water_temp = 110  # in Celsius
 
@@ -1700,6 +1731,8 @@ if water_temp >= 100:
     print("Water will boil.")
     print("(Temperature above 100.)")
 ```
+
+Compare it with:
 
 ```{code-cell} ipython3
 water_temp = 80  # in Celsius
@@ -1821,7 +1854,7 @@ elif number > 30:
     print("Second condition met, but not first")
 ```
 
-We can add an `else` at the end, which will run when all conditions above it (from `if` an `elif`'s) are false:
+We can add an `else` *at the end*, which will run when all conditions above it (from the `if` and all `elif`'s) are false:
 
 ```{code-cell} ipython3
 water_temp = 110  # in Celsius
@@ -1993,7 +2026,7 @@ for i in range(3):
     print("Beetlejuice")
 ```
 
-The `3` in `range(3)` is the number of repetitions, and the indented block below the `for` line is the code to be repeated.  The `i` is the *loop variable*, but it is not used in this example.  (We will examples when we do use it soon, though.)
+The `3` in `range(3)` is the number of repetitions, and the indented block below the `for` line is the code to be repeated.  The `i` is the *loop variable*, but it is not used in this example.  (We will see examples when we do use it soon, though.)
 
 Here `range(3)` can be thought as the list `[0, 1, 2]` (as seen above), and in each of the three times that the loop runs, the loop variable, `i` in this case, receives one of the values in this list *in order*.
 
@@ -2113,6 +2146,22 @@ for day, french_day in french_days.items():
 Although in more recent versions of Python dictionaries keep the order in which the items were added, it is not wise to count on the ordering when looping through dictionaries.
 ```
 
++++
+
+### Looping over Sets
+
++++
+
+We can also iterate over sets, but we cannot know (a priori) the order:
+
+```{code-cell} ipython3
+set_B
+```
+
+```{code-cell} ipython3
+for element in set_B:
+    print(f"{element} is in the set")
+```
 
 ### Loops with Sage Integers
 
@@ -2170,7 +2219,9 @@ while True:  # runs until we manually stop it
 print(res)
 ```
 
-A smarter way:
+In this case the loop runs until we manually break out of it with the keyword `break`.
+
+Here, though, is a smarter way (using math, rather than brute force) to accomplish the same:
 
 ```{code-cell} ipython3
 ---
@@ -2191,7 +2242,7 @@ jupyter:
 2776 * ceil(1000000 / 2776)
 ```
 
-Add the first $100$ composite (i.e., non-prime) numbers greater than or equal to $20$:
+As another example of using `while`, let's add the first $100$ composite (i.e., non-prime) numbers greater than or equal to $20$:
 
 ```{code-cell} ipython3
 ---
@@ -2286,6 +2337,7 @@ res
 The notation for list comprehensions are similar to math notation for sets.  For instance, the set
 
 ```{math}
+\label{eq:set}
 \{ x \in \{1, 2, \ldots, 31\} \; : \; \text{$x$ is prime} \}
 ```
 
@@ -2293,6 +2345,13 @@ is the set
 
 ```{math}
 \{2, 3, 5, 7, 11, 13, 17, 19, 23, 29\}.
+```
+
+```{note}
+
+In math the symbol $\in$ denotes "*in*" or "*belongs to*", and the colon $:$ denotes "*such that*".
+
+So, equation [](#eq:set) above reads as "the set of $x$'s in $\{1, 2, \ldots, 31\}$ such that $x$ is prime".
 ```
 
 +++
@@ -2308,7 +2367,7 @@ for i in range(len(my_list)):
     print(f"The element is {my_list[i]}")  # get the element from the list
 ```
 
-As we've seen, in Sage/Python, we can loop over the lists directly:
+As we've seen, in Python/Sage, we can loop over the lists directly:
 
 ```python
 for element in my_list:
@@ -2343,7 +2402,7 @@ for x, y in double_list:
 
 +++
 
-We can loop over two (or more) lists using `zip`:
+We can loop over two (or more) lists (usually of the same size) at the same time using `zip`:
 
 ```{code-cell} ipython3
 list_a = [1, 2, 3]
@@ -2365,7 +2424,7 @@ primes_list = [2, 3, 5, 7]
 for i, prime in enumerate(primes_list):
     # i: index
     # prime: element
-    print(f"Prime number {i + 1} is {prime}")
+    print(f"The prime {prime} is at index {i}.")
 ```
 
 ## Functions
@@ -2392,7 +2451,7 @@ Here is a brief description of the syntax:
 
 * `def` is the keyword that tell Python we are *defining* a function;
 * `square` is the name of the function we chose (it has the same requirements as variable names);
-* inside the parentheses after the name come the parameter(s), i.e., the inputs of the function, in this case only `x`;
+* inside the parentheses after the name comes the parameter, or parameters, i.e., the inputs of the function, in this case only `x`;
 * indented comes the code that runs when the function is called;
 * `return` gives the value that will be returned by the function, i.e., the output.
 
@@ -2414,7 +2473,7 @@ square(3)
 square(4)
 ```
 
-It is *strongly recommended* that you add a *docstring* describing the function right below its `def` line.  We use triple quotes for that:
+It is *strongly recommended* that you add a [*docstring*](https://en.wikipedia.org/wiki/Docstring) describing the function right below its `def` line.  We use triple quotes for that:
 
 ```{code-cell} ipython3
 def square(x):
@@ -2600,7 +2659,10 @@ average_of_two(3, 7)
 average_of_two(5, 6)
 ```
 
-**Note:** The most common use for lambda functions is to create functions that we pass *as arguments to other functions or methods*.
+```{note}
+
+The most common use for lambda functions is to create functions that we pass *as arguments to other functions or methods*.
+```
 
 In this scenario, we do not need to first create a function with `def`, giving it a name, and then pass this name as the argument of the other function/method.  We can simply create the function *inside the parentheses of the argument of the function*.  Thus, we do not need to name this function in the argument, which is why we sometimes call these lambda functions *nameless*.
 
@@ -2617,7 +2679,7 @@ words.sort()
 words
 ```
 
-By default, it sorts alphabetically, but again, because of the capital `L`, `Luis` comes first.  We can deal with that using the `key=` optional argument of sort.  You can pass a *function* to the `key` argument, and then Sage/Python sorts the list based on the output of this function!
+By default, it sorts alphabetically, but again, because of the capital `L`, `Luis` comes first.  We can deal with that using the `key=` optional argument of sort.  You can pass a *function* to the `key` argument, and then Python/Sage sorts the list based on the output of this function!
 
 So, we can create a function that "lowercases" the words, and then the sorting will not consider cases anymore:
 
@@ -2678,7 +2740,7 @@ names
 
 +++
 
-Sage/Python does not enforce any type (class) declaration, as some functions.  But we can add it do the definition of the function to help the user know the expected types.
+Python/Sage does not enforce any type (class) declaration, as some functions.  But we can add it do the definition of the function to help the user know the expected types.
 
 Moreover, if your code editor uses a Python [server language protocol](https://en.wikipedia.org/wiki/Language_Server_Protocol) to check your code, then it can show when you are using the wrong type.
 
@@ -2758,7 +2820,7 @@ next_prime(1_000_000)
 
 ```{hint}
 
-Note that the `_` between digits of a number are ingonred by Sage/Python.  We can use them to help us see where the decimal commas would be in the number.
+Note that the `_` between digits of a number are ingonred by Python/Sage.  We can use them to help us see where the decimal commas would be in the number.
 ```
 
 Note that if the number itself is prime, it still checks for the *next* one:
@@ -2824,7 +2886,7 @@ for p in primes(100):
 print(res)
 ```
 
-Here is an alternative (and better) way, showing the "if" construct inside lists/vectors:
+Here is an alternative (and better) way, showing the "if" construct inside a list comprehension:
 
 ```{code-cell} ipython3
 ---
@@ -2842,7 +2904,7 @@ where $P$ is the set of primes between $2$ and $99$.
 
 +++
 
-Even better, we can use generators too:
+We can even drop the braces:
 
 ```{code-cell} ipython3
 sum(p for p in primes(100) if p % 4 == 1)
@@ -2874,7 +2936,23 @@ jupyter:
   outputs_hidden: false
 ---
 a = 2781276
-divisors(a), prime_divisors(a), factor(a)
+divisors(a)
+```
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+prime_divisors(a)
+```
+
+```{code-cell} ipython3
+---
+jupyter:
+  outputs_hidden: false
+---
+factor(a)
 ```
 
 Note that despite the formatted output, `factor` gives a "list" of prime factors and powers.  This means that `factor` gives a list of pairs, and each pair contains a prime and its corresponding power in the factorization:
@@ -3091,7 +3169,7 @@ jupyter:
 Sage has already ``random`` and ``randint``, so there is no need to import Python's ``random`` module.
 
 ```{code-cell} ipython3
-a = random()
+a = random()  # a float between 0 and 1
 a
 ```
 
@@ -3205,7 +3283,7 @@ Sage can even print it nicely:
 jupyter:
   outputs_hidden: false
 ---
-show(derivative(ln(x^2)/(x+1), x))
+derivative(ln(x^2)/(x+1), x)
 ```
 
 We can do indefinite integrals, for instance,
@@ -3215,7 +3293,7 @@ We can do indefinite integrals, for instance,
 ```
 
 ```{code-cell} ipython3
-show(integral(ln(x)*x, x))
+integral(ln(x)*x, x)
 ```
 
 Or definite integrals, for instance:
@@ -3268,7 +3346,7 @@ matrix_a
 parent(matrix_a)
 ```
 
-We can make Sage print the matrix with "nice" math formatting with `show`:
+We can make Sage print the matrix with "nice" math formatting with `show` (this only work in Jupyter Lab, not in the static book version):
 
 ```{code-cell} ipython3
 show(matrix_a)
@@ -3289,13 +3367,13 @@ matrix_b = matrix(
     4,  # 4 columns
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]  # entries
 )
-show(matrix_b)
+matrix_b
 ```
 
 We can compute products of matrices:
 
 ```{code-cell} ipython3
-show(matrix_a * matrix_b)
+matrix_a * matrix_b
 ```
 
 Determinants:
@@ -3307,7 +3385,7 @@ matrix_a.determinant()
 Inverses:
 
 ```{code-cell} ipython3
-show(matrix_a^(-1))
+matrix_a^(-1)
 ```
 
 Characteristic polynomial:

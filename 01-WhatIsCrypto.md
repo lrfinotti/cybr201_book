@@ -35,13 +35,13 @@ The common scenario is that Alice and Bob want to exchange a secrete message tha
 
 +++
 
-The importance of keeping messages secret is clear and has been applied since ancient times.  One very basic *cipher* (i.e., a secret method of writing or recording data) is the so called [Caesar Cipher](https://en.wikipedia.org/wiki/Caesar_cipher), since there is some evidence the Caesar employed this method in ancient Rome.
+The importance of keeping messages secret is clear and has been applied since ancient times.  One very basic *cipher* (i.e., a secret method of writing or recording data) is the so called [Caesar Cipher](https://en.wikipedia.org/wiki/Caesar_cipher), since there is some evidence the Julius Caesar employed this method in ancient Rome.
 
 The idea is very basic: we simply scramble the letters!
 
 For instance one might replace every occurrence of A with D, every occurrence of B with, H, every occurrence of C with U, and so on.
 
-To distinguish the encoded text from the real one, we will use *lowercase* letters for the unencrypted text and *uppercase* letters for the encrypted text.  So, our "scrambling" might be given by the table below:
+To distinguish the encoded text from the real one, we will use *lowercase* letters for the unencrypted text and *uppercase* letters for the encrypted text.  So, for example, our "scrambling" might be given by the table below:
 
 ```{table} Example of Caesar Cipher
 :name: tb-cc
@@ -103,7 +103,7 @@ H F L W X F Y Z E X B R J I Z W X Z V D G Y B R F
 b e s u r e t o d r i n k y o u r o v a l t i n e
 ```
 
-The secret message is then [Be sure to drink your Ovaltine](https://www.youtube.com/watch?v=6_XSShVAnkY).
+The secret message is then ["Be sure to drink your Ovaltine"](https://www.youtube.com/watch?v=6_XSShVAnkY).
 
 +++
 
@@ -113,7 +113,7 @@ The secret message is then [Be sure to drink your Ovaltine](https://www.youtube.
 
 How hard is it to break the Caesar's cipher, meaning, how hard would it be to decode an ecnrypted message without the *key* (the letter conversion table)?
 
-A mindless brute force attempt would be hard!
+A mindless brute force attempt, meaning just trying different permutations of the alphabet until some works, would be hard!
 
 ```{code-cell} ipython3
 print(f"There are {factorial(26):,} possible permutations of the alphabet!")
@@ -162,7 +162,7 @@ But, there is a clear weakness to this method: it is susceptible to a *statistic
 
 +++
 
-Therefore, in a *reasonably long* text, if XKU is the most frequent sequence of three letters, there is a good chance that X is t, K is h, and U is e.  We will try to apply this idea shortly, but first, we need routines for encoding and decoding text.
+Therefore, in a *reasonably long* text, if XKU is the most frequent sequence of three letters, there is a good chance that X is t, K is h, and U is e.
 
 +++
 
@@ -252,7 +252,9 @@ And here are the frequencies of the [most frequent *bigrams*](https://en.wikiped
 
 +++
 
-We need to functions to deal with characters:
+Let's implement the Caesar Cipher!  This will be just an illustration and we don't expect the reader to follow the code we introduce here.  We will introduce the necessary programming tools in a later section, so don't worry too much about the code.  (You can come back to it after you learn more about Sage/Python.)
+
+We first need functions to deal with characters.  Sage/Python has the following functions:
 
 * `ord`: takes a character (as a string) and returns the [ASCII](https://en.wikipedia.org/wiki/ASCII) value of a character;
 * `chr`: takes a numerical value (integer between 0 and 127) and return the character corresponding to that value in ASCII.
@@ -359,7 +361,7 @@ Let's test it in the same example as above, the (not really) secret phrase
 
 ```{code-cell} ipython3
 text = "Luis is a great teacher!"
-enc_t = encrypt(text, encrypt_dict)
+enc_t = encrypt(text, encrypt_dict)  # encoded text!
 
 enc_t
 ```
@@ -400,7 +402,7 @@ decrypt("HFLWXFYZEXBRJIZWXZVDGYBRF", decrypt_dict)
 
 +++
 
-Let's create objects with the most common words, letters, and bigrams.
+As observed before, this method can often be broken with some statistical analysis.  So, let's create objects with the most common words, letters, and bigrams.
 
 ```{code-cell} ipython3
 common_words = [
@@ -636,8 +638,21 @@ def analyze_text(text: str, length: int):
     return Counter(res)
 ```
 
+We can use it to print an analysis of the number of occurrences of each letter:
+
 ```{code-cell} ipython3
-def analyze_letter(text):
+def analyze_letter(text: str) -> None:
+    """
+    Given a text, prints the number of occurences of each letter, together with
+    the expected number of occurences for each letter in a text of that size.
+
+    INPUT:
+    text: a string conaining some text.
+
+    OUTPUT:
+    No real ouptut.  It just prints a table with the frequency of each letter in
+    the text and the expected frequencies.
+    """
     counter = dict(analyze_text(text, 1))
     letters = list(counter.keys())
     letters.sort(reverse=True, key=lambda letter: counter[letter])
@@ -654,7 +669,20 @@ analyze_letter(tale_text_enc)
 This gives us some guesses on what to try.  For instance, it seems that "F" is "e", "Y" is "t", and "D" is "a".  But let's try to get more certainty but also checking bigrams:
 
 ```{code-cell} ipython3
-def analyze_bigram(text, num=20):
+def analyze_bigram(text: str, num: int = 20) -> None:
+    """
+    Given a text and a number of bigrams, prints the number of occurences of
+    the first num bigrams (by number of occurrences), together with the
+    expected number of occurences for each bigram in a text of that size.
+
+    INPUT:
+    text: a string conaining some text;
+    num: number of bigrams to analyze (a positive integer).
+
+    OUTPUT:
+    No real ouptut.  It just prints a table with the frequency of the first
+    num bigram in the text and the expected frequencies.
+    """
     counter = dict(analyze_text(text, 2).most_common(num))
     bigrams = list(counter.keys())
     bigrams.sort(reverse=True, key=lambda bigram: counter[bigram])
@@ -673,11 +701,15 @@ analyze_bigram(tale_text_enc)
 This reinforces our guesses for "F" and "Y", but casts doubts on "D".  On the other hand, it hints "A" is "h".  Let's try these three values:
 
 ```{code-cell} ipython3
+# possible decryption dictionary -- start with no translation
 test_dec_dict = {chr(x): chr(x) for x in range(65, 91)}
+
+# try the corresponding letters above
 test_dec_dict["Y"] = "t"
 test_dec_dict["A"] = "h"
 test_dec_dict["F"] = "e"
 
+# partial decryption
 part_dec = decrypt(tale_text_enc, test_dec_dict)
 ```
 
@@ -686,6 +718,8 @@ Let's now analyze three letter words:
 ```{code-cell} ipython3
 analyze_text(part_dec, 3).most_common(20)
 ```
+
+Let's look at the most common three letter words:
 
 ```{code-cell} ipython3
 [word for word in common_words if len(word) == 3]
@@ -700,6 +734,7 @@ analyze_letter(part_dec)
 It seems close enough!  Let's give it a try:
 
 ```{code-cell} ipython3
+# add new translations to decrypting dictionary
 test_dec_dict["D"] = "a"
 test_dec_dict["R"] = "n"
 test_dec_dict["E"] = "d"
@@ -738,7 +773,7 @@ test_dec_dict["B"] = "i"
 part_dec = decrypt(tale_text_enc, test_dec_dict)
 ```
 
-We can now look for other common words appearing:
+We can now look for other common words appearing.  Let's look a four-letter words:
 
 ```{code-cell} ipython3
 [word for word in common_words if len(word) == 4]
@@ -776,6 +811,8 @@ def find_possible_word(text: str, word: str, dec_dict: dict[str, str]):
     return {key: value for key, value in sorted(count_words.items(), key=lambda item: -item[1]) if use_word(key)}
 ```
 
+So, you give a word to the function and it sees, based on what has been translated already, what are the possible occurrences of that word in the text.  So, let's see what occurrences in our partially decrypted text could be the word "have":
+
 ```{code-cell} ipython3
 find_possible_word(part_dec, "have", test_dec_dict)
 ```
@@ -800,7 +837,7 @@ Let's try to find "w" from "with":
 find_possible_word(part_dec, "with", test_dec_dict)
 ```
 
-Again, checking with the frequencies, "T" as "w" is a good match!
+Again, checking with the frequencies (above), "T" as "w" is a good match!
 
 ```{code-cell} ipython3
 test_dec_dict["T"] = "w"
@@ -808,7 +845,7 @@ test_dec_dict["T"] = "w"
 part_dec = decrypt(tale_text_enc, test_dec_dict)
 ```
 
-Maybe we can get "s" from "this":
+Maybe we can get "s" from "this" (another common word):
 
 ```{code-cell} ipython3
 find_possible_word(part_dec, "this", test_dec_dict)
@@ -824,7 +861,7 @@ analyze_letter(part_dec)
 analyze_bigram(part_dec)
 ```
 
-The frequency as a letter looks good, but and "es" appears among bigrams, although st" does not.
+The frequency as a letter looks good, but and "es" appears among bigrams, although "st" does not.
 
 Also note that from frequency and from "on" being a frequent bigram, there is a good change that "Z" is "o".
 
@@ -852,7 +889,7 @@ Let's see if we can find "because":
 find_possible_word(part_dec, "because", test_dec_dict)
 ```
 
-That is not too much to go by...  So, let's investigate some more.  Let's try "but":
+That is not too much to go by...  So, let's investigate some more.  Let's look at other common works with a "b", to see if "H" would be reasonable for it.  Let's try "but":
 
 ```{code-cell} ipython3
 find_possible_word(part_dec, "but", test_dec_dict)
@@ -864,7 +901,7 @@ And "be":
 find_possible_word(part_dec, "be", test_dec_dict)
 ```
 
-Ah-ha!  If indeed "H" is "b" and "W" is "u" we see "but" once and "be" 19 times.  It seems to work then:
+Ah-ha!  If indeed "H" is "b" and "W" is "u".  We see "but" once and "be" 19 times.  It seems to work then:
 
 ```{code-cell} ipython3
 test_dec_dict["H"] = "b"
@@ -872,6 +909,8 @@ test_dec_dict["U"] = "c"
 test_dec_dict["W"] = "u"
 part_dec = decrypt(tale_text_enc, test_dec_dict)
 ```
+
+Let's look at our partial decryption so far:
 
 ```{code-cell} ipython3
 part_dec
@@ -903,6 +942,8 @@ part_dec = decrypt(tale_text_enc, test_dec_dict)
 part_dec
 ```
 
+And it seems now that "O" is "q", "K" is "x", and "M" is "j":
+
 ```{code-cell} ipython3
 test_dec_dict["O"] = "q"
 test_dec_dict["K"] = "x"
@@ -924,6 +965,8 @@ So, it should be the value missing:
 sorted(value for value in test_dec_dict.values() if value.islower())
 ```
 
+Ah, "z" is missing among our translated letters, so "Q" must be "z":
+
 ```{code-cell} ipython3
 test_dec_dict["Q"] = "z"
 
@@ -932,7 +975,7 @@ part_dec = decrypt(tale_text_enc, test_dec_dict)
 part_dec
 ```
 
-I think we are done now:
+We are done now:
 
 ```{code-cell} ipython3
 part_dec.islower()
@@ -952,7 +995,7 @@ We've done it!
 
 +++
 
-So, as we can see, it is not that hard to break the Caesar Cipher.  But, if the text is short, and avoid articles ("the" and "a") and prepositions ("of", "from", "to", etc.) when not making the text unintelligible, it could still be rather safe, as the statistical analysis would not gives us much and brute force attach is not viable.
+So, as we can see, it is not that hard to break the Caesar Cipher.  But, if the text is short, and it avoids articles ("the" and "a") and prepositions ("of", "from", "to", etc.) whenever doing so does not make the text unintelligible, it could still be rather safe, as the statistical analysis would not gives us much and brute force attach is not viable.
 
 Another idea is to insert a reasonable amount of random letters around the actual text.  One would likely still be able to discern the actual message.
 
@@ -1009,10 +1052,8 @@ As we will see, text can be made into a single (very large) number, and so one c
 
 But even if there are ways to make Caesar Ciphers more secure, it has a crucial flaw: it is a [symmetric-key cipher](https://en.wikipedia.org/wiki/Symmetric-key_algorithm), meaning anyone who knows how to encrypt a message, also knows how to decrypt any message using this cipher.
 
-Therefore, if Bob wants to send Alice a secrete message, they first have to agree on the Caesar Cipher they will use.  For instance, Bob can send Alice the key (the permutation being used) or a [decoder ring](https://en.wikipedia.org/wiki/Secret_decoder_ring) before sending her his secret message.  But, if Eve can intercept the decoder ring before Alice gets it, she then can make a copy, send the ring to Alice, and be able to then decipher any message using the cipher.
+Therefore, if Bob wants to send Alice a secrete message, they first have to agree on the Caesar Cipher they will use.  For instance, Bob can send Alice the key (the permutation being used) or a [decoder ring](https://en.wikipedia.org/wiki/Secret_decoder_ring) before sending her his secret message.  But, if Eve, a malicious third party, can intercept the decoder ring before Alice gets it, she then can make a copy, send the ring to Alice, and be able to then decipher any message using the cipher.
 
-In the same way, imagine that every time you needed to make a payment online, the vendor needed to send you the encryption key for you to send your credit card number.  Can you be sure the key was not intercepted by some malicious party that then could decode your credit card number transmitted to the vendor?
+In the same way, imagine that every time you needed to make a payment online, the vendor needed to send you the encryption key for you to send your credit card number.  Can you be sure the key was not intercepted by some malicious party during the transmission that then could decode your credit card number transmitted to the vendor?
 
 Therefore, there is a clear need for a [public-key cryptosystem](https://en.wikipedia.org/wiki/Public-key_cryptography), in which the encryption method is known by *all*, but knowing how to encrypt does not automatically imply that you can also decrypt.
-
-The
