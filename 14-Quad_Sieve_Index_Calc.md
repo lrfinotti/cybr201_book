@@ -7,9 +7,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.17.1
 kernelspec:
-  name: sage-10.5
   display_name: SageMath 10.5
   language: sage
+  name: sage-10.5
 ---
 
 # Quadratic Sieve and Index Calculus
