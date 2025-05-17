@@ -1,8 +1,12 @@
 # In _config.yml
 title: A Practical and Computational Introduction to Mathematical Cryptography
 author: Luís Finotti
+copyright: 2025
 execute:
   execute_notebooks: force
+
+# repository:
+#   url: https://github.com/lrfinotti/cybr201_book
 
 # Add a bibtex file so that we can create citations
 bibtex_bibfiles:
