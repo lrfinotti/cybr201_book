@@ -21,10 +21,10 @@ Since the security of the Diffie-Hellman key exchange and the ElGamal public-key
 In this chapter we then shall use the following notation:
 
 * $p$ is a large prime number;
-* $g \in \mathbb{F}^{\times}$ and element of large order, say $N$ (and so $N \mid (p-1)$ by Euler's Theorem);
-* $h \in \mathbb{F}^{\times}$ such that $g^x = h$ for some $x$ (which can be taken in $\mathbb{Z}/N\mathbb{Z}$);
+* $g \in \mathbb{F}_p^{\times}$ and element of large order, say $N$ (and so $N \mid (p-1)$ by Euler's Theorem);
+* $h \in \mathbb{F}_p^{\times}$ such that $g^x = h$ for some $x$ (which can be taken in $\mathbb{Z}/N\mathbb{Z}$).
 
-Hence, we have that the discrete log $\log_g(h)$ exists and is equal to $x$.  Here we deal with the question of how can we find $x$.
+Hence, we have that the discrete log $\log_g(h)$ exists and is equal to $x$.  Here we deal with the question of how we can find this exponent $x$.
 
 +++
 
@@ -36,7 +36,7 @@ The most immediate way to compute this discrete log is by "brute force": we star
 ```
 has $N$ distinct elements, since $g$ has order $N$.
 
-When $N$ is very large, this can take a considerable amount of time.  If $N$ is a $2047$-bit integer, meaning that $2^{2046} \leq N < 2^{2047}$, as recommended for Diffie-Hellman and ElGamal, if each product takes one *billionth* of a second, let's see how many millennia it would take for this computation:\
+When $N$ is very large, this can take a considerable amount of time.  If $N$ is a $2047$-bit integer, meaning that $2^{2046} \leq N < 2^{2047}$, as recommended for Diffie-Hellman and ElGamal, and (arbitrarily) assuming each product takes one *billionth* of a second, we can compute how many *millennia* it would take to perform $N-1$ products:
 
 ```{code-cell} ipython3
 prod_time = 10^(-9)
@@ -60,10 +60,10 @@ In 1971, [Daniel Shanks](https://en.wikipedia.org/wiki/Daniel_Shanks) devised a 
 :label: al-bs_gs
 
 
-If $g$ is an element of order $N \geq 2$ in $\mathbb{F}^{\times}$ for some prime $p$ and $h \in \mathbb{F}^{\times}$.  Then, to compute $\log_g(h)$ (i.e., to try to find $x$ such that $h = g^x$), we do:
+If $g$ is an element of order $N \geq 2$ in $\mathbb{F}_p^{\times}$ for some prime $p$ and $h \in \mathbb{F}_p^{\times}$.  Then, to compute $\log_g(h)$ (i.e., to try to find $x$ such that $h = g^x$), we do:
 
 1) Let $n = \lfloor \sqrt{N} \rfloor + 1$ (so $n > \sqrt{N}$).
-2) Compute the list of elements of $\mathbb{F}^{\times}$: $\{1, g, g^2, g^3, \ldots ,  g^n\}$ (the *baby-steps*).
+2) Compute the list of elements of $\mathbb{F}_p^{\times}$: $\{1, g, g^2, g^3, \ldots ,  g^n\}$ (the *baby-steps*).
 3) Compute the inverse $g^{-n}$ of $g^n$ (computed in the previous step).
 4) In a loop, start computing $h, h \cdot g^{-n}, h \cdot h \cdot g^{-2n}, h \cdot g^{-3n}, \ldots, h \cdot g^{-n^2}$ (the *giant-steps*) until one these elements has a match in the list above.
 5) If we get to the last element $h \cdot g^{-n^2}$ and still found no match, then $\log_g(h)$ does not exist.  If we find a match, say $g^i = h \cdot g^{-jn}$, then $\log_g(h) = i + jn$ (in $\mathbb{Z}/m\mathbb{Z}$), i.e., we have that $g^{i+jn} = h$.
@@ -137,7 +137,7 @@ On the other hand, in the case where $N$ is a $2047$-bit integer, these would st
 
 :::{important}  Computing Powers
 
-As observed in the section [Computing Successive Powers](./05-Powers.md#successive_powers), it is *crucial* that we do not compute the list of powers above using `^`.  We *should not* do something like
+As observed in the section [Computing Successive Powers](#successive_powers), it is *crucial* that we do not compute the list of powers above using `^`.  We *should not* do something like
 ```python
 powers = []
 for i in range(n + 1):
@@ -160,7 +160,7 @@ for _ in range(1, n + 1):
 
 ### Example
 
-Let's compare the brute force and baby-step/giant-step methods in a concrete example.  Let's first find $p$ and $g$: let's take $p=2{,}819$, $N = (p-1) /2 = 1{,}409$ (also prime), and $g = 798$ (in $\mathbb{F}^{\times}$).
+Let's compare the brute force and baby-step/giant-step methods in a concrete example.  Let's first find $p$ and $g$: let's take $p=2{,}819$, $N = (p-1) /2 = 1{,}409$ (also prime), and $g = 798$ (in $\mathbb{F}_p^{\times}$).
 
 ```{code-cell} ipython3
 p = 2819
@@ -174,7 +174,7 @@ Let's verify that these work (we should get `True, True`):
 is_prime(p), g.multiplicative_order() == N
 ```
 
-Now, take $h = 1{,}945$ (in $\mathbb{F}^{\times}$) and let's try to compute $\log_g(h)$.
+Now, take $h = 1{,}945$ (in $\mathbb{F}_p^{\times}$) and let's try to compute $\log_g(h)$.
 
 ```{code-cell} ipython3
 h = 1945
@@ -222,7 +222,7 @@ We then can find if something is in the list with `in`:
 if x in powers:
     ...  # do something
 ```
-But search in lists is relatively slow.  Searching in a [set](https://docs.python.org/3/tutorial/datastructures.html#sets) is *much* faster, since they are [hashed](https://en.wikipedia.org/wiki/Hash_table).  In this case, though, a set is not ideal, since we also need the *exponent* that gives us the resulting power, i.e., the $i$ in $g^i$.
+But searching in lists is relatively slow.  Searching in a [set](https://docs.python.org/3/tutorial/datastructures.html#sets) is *much* faster, since they are [hashed](https://en.wikipedia.org/wiki/Hash_table).  In this case, though, a set is not ideal, since we also need the *exponent* that gives us the resulting power, i.e., the $i$ in $g^i$.
 
 An alternative to keep track of both the exponent and the resulting power, is to use a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) as in
 ```python

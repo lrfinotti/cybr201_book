@@ -98,7 +98,6 @@ Let $p$ be an odd prime and $a \in \mathbb{F}_p = \mathbb{Z}/p\mathbb{Z}$, with 
 
 
 :::{prf:proof}
-:nonumber:
 
 First, by Fermat's Little Theorem, we have that
 ```{math}
@@ -194,7 +193,6 @@ Let $a, b \in \mathbb{F}^{\times}$.  Then $ab$ is a square in $\mathbb{F}^{\time
 :::
 
 :::{prf:proof}
-:nonumber:
 
 This follows from {prf:ref}`pr-squares_ge`.  Let $g$ be a primitive root of $\mathbb{F}^{\times}$ and write $a = g^r$, $b = g^s$.  Then, $ab = g^{r+s}$ is a square if and only if $r + s$ is even.  But this happens if and only if either $r$ and $s$ are both even or both odd, i.e., if and only if $a$ and $b$ are both squares or neither is.
 :::
@@ -562,7 +560,6 @@ If $p$ is an *odd* prime and $a \in \mathbb{F}^{\times}$ has a square root in $\
 :::
 
 :::{prf:proof}
-:nonumber:
 
 Clearly we have that $-b$ is also a square root, since
 ```{math}
@@ -846,7 +843,6 @@ Hence, if we iterate this process, we can see that if $a$ has a square root modu
 Let's prove the theorem:
 
 :::{prf:proof} Proof of {prf:ref}`th-hl-sqrt-odd`
-:nonumber:
 
 First, note since $p \nmid a$ and $p^k \mid (b_k^2 - a)$, we have that $p \nmid b_k$.  Then, since $p$ is odd, we have that $p \nmid 2b_k$, and hence $\gcd(p^{k+1}, 2b_k) = 1$.  Therefore, there is some integer $c_k$ such that
 ```{math}
@@ -982,7 +978,6 @@ Let $a$ be an *odd* integer and $k \geq 3$.
 :::
 
 :::{prf:proof}
-:nonumber:
 
 For the first item, we have that if $b$ is square root module $2^k$, then it is also a square root modulo $8$ since $k \geq 3$.  And we can just check by hand that $1$ the only odd that is a square modulo $8$:
 ```{math}
@@ -1063,7 +1058,6 @@ Note that the second part is weaker than for $p$ odd: as we have $b \equiv b_{k+
 :::
 
 :::{prf:proof}
-:nonumber:
 
 First, note that since $2^{k-1} \mid \Delta_k$, we have that $2^{k-2} \mid \Delta_k^2$.  Since $k \geq 3$, we have that $2k-2 \geq k + 1$, and we have that $2^{k+1} \mid \Delta_k^2$.  Thus
 ```{math}

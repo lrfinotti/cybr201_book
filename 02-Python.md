@@ -2337,7 +2337,7 @@ res
 The notation for list comprehensions are similar to math notation for sets.  For instance, the set
 
 ```{math}
-\label{eq:set}
+:label: eq:set
 \{ x \in \{1, 2, \ldots, 31\} \; : \; \text{$x$ is prime} \}
 ```
 

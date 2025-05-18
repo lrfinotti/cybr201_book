@@ -603,6 +603,13 @@ Given two integers $a$, $b$, the *greatest common divisor (GCD)* of $a$ and $b$,
 2) Any integer $a$ divides $0$, since $0 = a \cdot 0$ (and $0$ is an integer).  So, if $a$ is a **positive** integer, then $\boxed{\gcd(a, 0)=a}$.
 3) Signs do not affect divisibility: if $a \mid b$, then $-a \mid b$, $a \mid -b$ and $-a \mid -b$, and so $\boxed{\gcd(a, b) = \gcd(|a|, |b|)}$.
 4) If $a$ and $b$ are **positive**, and $a \mid b$, then $\gcd(a, b) = a$.
+5) If $p$ is prime, then
+   ```{math}
+    \gcd(p, a) = \begin{cases}
+    1,& \text{if $p \nmid a$,}\\
+    p,& \text{if $p \mid a$.}
+    \end{cases}
+   ```
 :::
 
 :::{prf:definition} Relatively Prime

@@ -12,6 +12,7 @@ kernelspec:
   name: sage-10.5
 ---
 
+(ch-powers)=
 # Powers in $\mathbb{Z}/m\mathbb{Z}$
 
 +++
@@ -20,12 +21,12 @@ kernelspec:
 
 +++
 
-Now, if $a$ is a *unit* of $\mathbb{Z}/m\mathbb{Z}$, we can define negative powers! If $k$ is a positive integer, then we define
+So far we've only defined *positive* powers of elements of $\mathbb{Z}/m\mathbb{Z}$.  In general, there is no "natural" was to define negative powers.  But if $a$ is a *unit* of $\mathbb{Z}/m\mathbb{Z}$, then we *can* define negative powers! If $k$ is a positive integer, then we define
 ```{math}
 a^0 = 1 \qquad \text{and} \qquad a^{-k} = \underbrace{a^{-1} \cdot a^{-1} \cdots a^{-1}}_{\text{$k$ factors of $a^{-1}$}}.
 ```
 
-Moreover, the properties of powers we had before for positive exponents also work for if allow zero or negative exponents
+(As usual, $a^{-1}$ here is the inverse of $a$ (a unit) $\mathbb{Z}/m\mathbb{Z}$.)  Moreover, the properties of powers we had before for positive exponents also work for if allow zero or negative exponents
 
 +++
 
@@ -33,13 +34,23 @@ Moreover, the properties of powers we had before for positive exponents also wor
 
 +++
 
+We start by introducing some notation:
+
+:::{prf:definition} (Number of Elements of a Set)
+If $S$ is a finite set, we denote by $|S|$ the *number of elements* of $S$.  If $S$ is infinite, we write $|S| = \infty$.
+:::
+
++++
+
+The following [arithmetic function](https://en.wikipedia.org/wiki/Arithmetic_function) will be quite important to some of our applications in cryptography:
+
 :::{prf:definition} The Euler $\varphi$-Function
 :label: def-euler_phi
 
 
- Given a positive integer $m$, we defined the $\varphi(m)$ as the number of elements of $(\mathbb{Z}/m\mathbb{Z})^{\times}$, in other words
+ Given a positive integer $m$, we defined the $\varphi(m)$ as $|(\mathbb{Z}/m\mathbb{Z})^{\times}|$, i.e., the number of elements of $(\mathbb{Z}/m\mathbb{Z})^{\times}$, in other words
 ```{math}
-\varphi(m) = \text{number of integers $a$ between $0$ and $m$ with $\gcd(a, m)=1$.}
+\varphi(m) = |\{a \in \{1, 2, \ldots, m-1\} \; : \; \gcd(a, m) = 1 \}|.
 ```
 We also define $\varphi(1)$ as $1$.  This function is called the *Euler $\varphi$ function*.
 :::
@@ -51,13 +62,18 @@ We also define $\varphi(1)$ as $1$.  This function is called the *Euler $\varphi
 2) Since $(\mathbb{Z}/24\mathbb{Z})^{\times} = \{1, 5, 7, 11, 13, 17, 19, 23\}$, then $\varphi(24) = 8$.
 :::
 
+:::{note}
+
+If $p$ is prime, then $\verphi(p) = p-1$, as all integers between $1$ and $p-1$ are relatively prime to $p$.
+:::
+
 As we will later see, this function will be important for the RSA Cryptosystem.
 
 One might ask if there is another way to compute $\varphi(m)$, besides just checking for integers relatively prime to $m$, which can be slow if $m$ is large.
 
 We have:
 
-:::{prf:theorem}
+:::{prf:theorem} Formula for $\varphi(m)$
 :label: th-phi_comp
 
 
@@ -122,15 +138,14 @@ The problem with is this method, as we shall see, is that the prime factorizatio
 
 Remember that we cannot reduce powers in computations in $\mathbb{Z}/m\mathbb{Z}$.  As we've seen, in $\mathbb{Z}/4\mathbb{Z}$ we have that $4 = 0$, but
 ```{math}
-2^0 = 1 \neq 0 = 2^4.
+2^0 = 1 \not \equiv 0 \equiv 2^4 \pmod{4}.
 ```
 That is, again, because the exponent must be in $\mathbb{Z}$, and not in $\mathbb{Z}/4\mathbb{Z}$.  But there is something we can do:
 
-:::{prf:proposition}
+:::{prf:proposition} Reducing Powers
 :label: pr-power_eq_1
 
-
-Let $a$ in $\mathbb{Z}/m\mathbb{Z}$ and suppose that $k$ is a *positive* integer such that $a^k = 1$.  Then, if $r \equiv s \pmod{k}$ (so, modulo $k$, *and not $n$*!), then $a^r = a^s$.  Therefore, we can reduce exponents modulo $k$ (and not $m$).
+Let $a$ in $\mathbb{Z}/m\mathbb{Z}$ and suppose that $k$ is a *positive* integer such that $a^k = 1$.  Then, if $r \equiv s \pmod{k}$ (so, modulo $k$, *and not $m$*!), then $a^r = a^s$.  Therefore, we can reduce exponents modulo $k$ (and not $m$).
 :::
 
 Let's see some examples: we have that in $\mathbb{Z}/7\mathbb{Z}$ that $3^6 = 1$.
@@ -139,7 +154,7 @@ Let's see some examples: we have that in $\mathbb{Z}/7\mathbb{Z}$ that $3^6 = 1$
 Mod(3, 7)^6
 ```
 
-Then, it should be the case that for any exponent $r$, in $\mathbb{Z}/7\mathbb{Z}$ we should have that $2^r$ is the same as $2^s$ where $s$ is the residue of $r$ module $6$ (and not 7!).  Let's test it:
+Then, it should be the case that for any exponent $r$ we should have that $2^r$ is the same, in $\mathbb{Z}/7\mathbb{Z}$, as $2^s$ where $s$ is the residue of $r$ module $6$ (and not 7!).  Let's test it:
 
 ```{code-cell} ipython3
 number_tries = 1000
@@ -155,16 +170,16 @@ else:
     print("It seems to work!")
 ```
 
-But, it is not hard to see, in general why this is true.  Suppose $a^k = 1$ in $\mathbb{Z}/m\mathbb{Z}$ and and $r \equiv s \pmod{k}$.  This means that $s = r + nk$ for some integer $n$.  Then, using properties of exponents:
+This is not hard to see why this is true in general.  Suppose $a^k = 1$ in $\mathbb{Z}/m\mathbb{Z}$ and and $r \equiv s \pmod{k}$.  This means that $s = r + nk$ for some integer $n$.  Then, using properties of exponents:
 ```{math}
 a^s = a^{r + nk} = a^r \cdot a^{nk} = a^r \cdot (a^k)^s = a^r \cdot 1^s = a^r.
 ```
 
 +++
 
-Of course, this is all based on the fact that $a^k = 1$ for some $k$, but this is not always going to be true.  If $a^k = 1$, then $a \cdot a^{k-1} = a^k = 1$, and so $a$ must be a *unit*!
+Of course, this is all based on the fact that $a^k = 1$ for some $k$, but such an exponent might not exist.  If $a^k = 1$, then $a \cdot (a^{k-1}) = a^k = 1$, and so $a$ must be a *unit*!
 
-But, assuming that $a$ *is* a unit, how would we find such $k$.  The answer is given below:
+But, assuming that $a$ *is* a unit, how would we find such $k$?  Does it even exist?  The answers are given by the following theorem:
 
 :::{prf:theorem} Euler's Theorem
 :label: th-euler
@@ -173,7 +188,7 @@ But, assuming that $a$ *is* a unit, how would we find such $k$.  The answer is g
 Let $a$ be a unit in $\mathbb{Z}/m\mathbb{Z}$ (i.e., $\gcd(a, m) = 1$).  Then $a^{\varphi(m)} = 1$ in $\mathbb{Z}/m\mathbb{Z}$ (i.e., $a^{\varphi(m)} \equiv 1 \pmod{m}$).  (Here $\varphi$ is the Euler $\varphi$ function.)
 :::
 
-Again, let's check this with Sage:
+We will not prove it here, although it is not terribly difficult to do so, but instead we will test it empirically for many random cases using Sage:
 
 ```{code-cell} ipython3
 number_tries = 1000
@@ -201,7 +216,7 @@ The particular case when $m$ is a *prime* has a different name:
 If $p$ is prime and $p \nmid a$, then $a^{p-1} = 1$ in $\mathbb{Z}/p\mathbb{Z}$ (i.e., $a^{p-1} \equiv 1 \pmod{p}$).
 :::
 
-This follows from Euler's Theorem since, when $p$ is prime, we have that  $\varphi(p) = p-1$  and $\gcd(a, p) = 1$ if, and only if, $p \not\mid a$.
+This follows from Euler's Theorem since, when $p$ is prime, we have that  $\varphi(p) = p-1$  and $\gcd(a, p) = 1$ if, and only if, $p \nmid a$.
 
 Let's apply these ideas in an example.
 
@@ -217,7 +232,28 @@ First we reduce $100324$ modulo $15$:
 100324 % 15
 ```
 
-So, $100324^{657483384} \equiv 4^{657483384} \pmod{15}$.  Now, observe that $\gcd(4, 15) = 1$ since the only divisors of $4$ are $1$, $2$, and $4$ and, among these, only $1$ divides $15$.  So, combining Euler's Theorem
+So, $100324^{657483384} \equiv 4^{657483384} \pmod{15}$.  Now, observe that $\gcd(4, 15) = 1$ since the only divisors of $4$ are $1$, $2$, and $4$ and, among these, only $1$ divides $15$.  Now, by $\varphi(15) = \varphi(3 \cdot 5) = 2 \cdot 4 = 8$, and by {prf:ref}`Euler's Theorem <th-euler>` and {prf:ref}`pr-power_eq_1`, we can reduce the exponent modulo $8$:
+
+```{code-cell} ipython3
+657483384 % 8
+```
+
+So, combining {prf:ref}`Euler's Theorem <th-euler>` and {prf:ref}`th-ar_prop_congr`,  we get:
+```{math}
+100324^{657483384} \equiv 4^0 = 1 \pmod{15}.
+```
+Hence, the remainder of $100324^{657483384}$ when divided by $15$ is $1$.
+
+Let's check it with Sage:
+
+```{code-cell} ipython3
+Mod(100324, 15)^657483384
+```
+
+```{important}
+
+Note that we do `Mod(100324, 15)^657483384` and *not* `Mod(100324^657483384, 15)`, as the latter is much less efficient and might involve numbers that are too large even for computers.
+```
 
 +++
 
@@ -227,7 +263,7 @@ So, $100324^{657483384} \equiv 4^{657483384} \pmod{15}$.  Now, observe that $\gc
 
 Note that although raising a unit of $\mathbb{Z}/m\mathbb{Z}$ to the exponent $\varphi(m)$ *always* yields $1$ (by Euler's Theorem), it might not be the *smallest* positive power that gives $1$.  For instance, in $\mathbb{Z}/7\mathbb{Z}$, we have $\varphi(7) = 6$ and although $6^6 = 1$, we also have that $6^2 = 36 = 1 + 5 \cdot 7 = 1$.
 
-We have the following definition:
+This motivates the following definition:
 
 :::{prf:definition} Order of an Element
 :label: def-ord
@@ -238,20 +274,31 @@ If $a$ is a unit of $\mathbb{Z}/m\mathbb{Z}$, then the *order of $a$*, usually d
 
 (So, by Euler's Theorem, in $\mathbb{Z}/m\mathbb{Z}$, for any unit $a$, we have that $|a| \leq \varphi(m)$.)
 
+
+:::{caution}
+
+We have three different meanings to the $| \cdot |$ symbol, depending on context:
+
+1) If $x$ is a real number, then $|x|$ is the *absolute value* of $x$.
+2) If $S$ is a set, then $|S|$ is the *number of elements* of $S$.
+3) If $a \in \mathbb{Z}/m\mathbb{Z}$, then $|a|$ is the *order* of $m$ in $\mathbb{Z}/m\mathbb{Z}$ (as defined above).
+:::
+
 We have:
 
 :::{prf:proposition}
 :label: pr-power_one
 
-
 Let $a$ be a unit of $\mathbb{Z}/m\mathbb{Z}$. If $a^k = 1$, for some integer $k$, then $|a| \mid k$.  In particular, we always have that $|a| \mid \varphi(m)$.
 :::
 
+:::{prf:proof}
 This is not too hard to see: suppose that $a^k$ and let's denote $n = |a|$.  We can perform the long division of $k$ by $n$: $k = qn + r$, for integers $q$ and $r$, with $r \in \{0, 1, 2, \ldots, (n-1)\}$.  Then,
 ```{math}
 1 = a^k = a^{nq + r} = a^{nq} \cdot a^r = (a^n)^q \cdot a^r = 1^q \cdot a^r = a^r.
 ```
 Therefore $r$ is a power smaller than $n=|a|$ that gives $1$.  But since, by definition of order $n$ is the smallest *positive* power that gives $1$, we must have that $r=0$ (remember $0$ is neither positive, nor negative!), i.e., $n \mid k$.
+:::
 
 +++
 
@@ -308,7 +355,7 @@ Mod(3, 11).order()
 
 ### Orders of Powers
 
-Remember that if $g$ is a primitive root of $\mathbb{F}_p$, then all elements of $\mathbb{F}_p^{\times}$ are powers of $g$.  We already know that $|g| = p-1$, being a primitive roots, so it is often useful to know what is the order of a power of $g$.  Or, more generally:
+Suppose we know the order $|a|$ for some unit $a$.  It is often useful to know orders of powers of $a$.  (This will be useful, in particular, when we deal with {prf:ref}`primitive roots <def-prim>`.
 
 :::{prf:proposition} Order of a Power
 :label: pr-order_power
@@ -428,7 +475,7 @@ When the modulus is prime, this set has an interesting (and useful) property:
 :label: th-prim_root
 
 
-Let $p$ be a prime.  (Remember then that $\mathbb{F}_p$ is just another way to write $\mathbb{Z}/p\mathbb{Z}$.)  Then, there is an element $g \in \mathbb{F}_p^{\times}$ such that every element of $\mathbb{F}_p^{\times}$ is a power of $g$.  In other words:
+Let $p$ be a prime.  (Remember then that $\mathbb{F}_p$ is just another way to write $\mathbb{Z}/p\mathbb{Z}$.  Remember also that we can only use this notation for *prime* moduli!)  Then, there is an element $g \in \mathbb{F}_p^{\times}$ such that every element of $\mathbb{F}_p^{\times}$ is a power of $g$.  In other words:
 ```{math}
 \mathbb{F}_p^{\times} = \{1, g, g^2, g^3, \ldots, g^{p-2}\}.
 ```
@@ -446,7 +493,7 @@ A $g$ as above is called a *primitive root* of $\mathbb{F}_p$ or a *generator* o
 We have that $g$ is a primitive root of $\mathbb{F}_p^{\times}$ if, and only if, $|g| = (p-1)$, the total number of elements of $\mathbb{F}_p^{\times}$.  So, to find a primitive root, we just look for elements of order $p-1$.
 :::
 
-Here are some observations.  First, this element is not, necessarily, unique.  For instance, let's take $p=11$.  Let's find the primitive roots of $\mathbb{F}_{11}$:
+Here are some observations.  First, this element is not necessarily unique.  For instance, let's take $p=11$.  Let's find the primitive roots of $\mathbb{F}_{11}$:
 
 ```{code-cell} ipython3
 for i in xsrange(1, 11):
@@ -495,7 +542,10 @@ Remember that
 
 This allows to write, say, the number $9{,}217$ as
 ```{math}
-9{,}217 = 9{,}000 + 200 + 10 + 7 = 9 \cdot 10^3 + 2 \cdot 10^2 + 1 \cdot 10 + 9 \cdot 10^0.
+\begin{align*}
+9{,}217 &= 9{,}000 + 200 + 10 + 7\\
+&= 9 \cdot 10^3 + 2 \cdot 10^2 + 1 \cdot 10 + 9 \cdot 10^0.
+\end{align*}
 ```
 
 So, we can write any number as a sum of powers of $10$ times a digit in $\{0, 1, 2, \ldots , 9\}$.  In practice, *counting from the right*, we multiply the $k$-th digit by $10^{k-1}$ and then add all this products to get the number.  For example:
@@ -513,10 +563,10 @@ Now, let's say that, for some reason, we want to only use $8$ digits: $\{0, 1, 2
 
 The problem is that then, our number $9$ would be represented as $10$, since when counting it would go:
 ```{math}
-1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 20, 21 \ldots
+1, 2, 3, 4, 5, 6, 7, {\color{red} 10}, 11, 12, 13, 14, 15, 16, 17, {\color{red} 20}, 21 \ldots
 ```
 
-To make this a little less confusing, let's write use an subscript of $8$, as in $10_8$, when we mean that we are using eight digits, on *in base $8$*.  (This representation is also called *octal*.)  So, that is to say that
+To make this a little less confusing, let's use a subscript of $8$, as in $10_8$, when we mean that we are using eight digits, on *in base $8$*.  (This representation is also called *octal*.)  So, that is to say that
 ```{math}
 10_8 = 8, \qquad 11_8 = 9, \qquad 12_8 = 10, \qquad \cdots
 ```
@@ -526,14 +576,14 @@ Mathematically, this is very similar to numbers base $10$, but now we use powers
 \begin{align*}
 7_8 &= 7 \cdot 8^0 = 7,\\
 10_8 &= 1 \cdot 8^1 + 0 \cdot 8^0 = 8, \\
-215_8 &= 2 \cdot 2 \cdot 8^2 + 1 \cdot 8 + 5 = 141, \\
+215_8 &= 2 \cdot 8^2 + 1 \cdot 8 + 5 = 141, \\
 1{,}046_8 &= 1 \cdot 8^3 + 0 \cdot 8^2 + 4 \cdot 8 + 6 \cdot 8^0  = 550.
 \end{align*}
 ```
 
 +++
 
-You might have heard that computers use *binary numbers*, meaning, numbers in *base $2$*.  Therefore, we use only two digits, $0$ and $1$.  The reason is due to how computers work.  Very roughly speaking, primitive computers involved a series of switches, which could be either on, represented by $1$, or off, represented by $0$:
+You might have heard that computers use [*binary numbers*](https://en.wikipedia.org/wiki/Binary_number), meaning, numbers in *base $2$*.  Therefore, we use only two digits, $0$ and $1$.  The reason is due to how computers work.  Very roughly speaking, primitive computers involved a series of switches, which could be either on, represented by $1$, or off, represented by $0$:
 
 ```{figure} ./images/switch.jpg
 :alt: switch
@@ -546,7 +596,7 @@ Power switch
 
 So, if you have, say, $5$ switches, you can give on/off instructions to them with a sequence of $5$ zeros and ones, from $00000_2$ (all off) to $11111_2$ (all on), so, a number between $0$ and $1 \cdot 2^4 + 1 \cdot 2^3 + 1 \cdot 2^2 + 1 \cdot 2 + 1 \cdot 2^0 = 31$.  Each individual digit is called a *bit*.
 
-Sometimes in computer science we use *hexadecimal numbers*, meaning numbers in base $16$.  So, we need $16$ digits.  Since we only have $10$, we add letters for the next six:
+Sometimes in computer science we use [*hexadecimal numbers*](https://en.wikipedia.org/wiki/Hexadecimal), meaning numbers in base $16$.  So, we need $16$ digits.  Since we only have $10$, we add letters for the next six:
 ```{math}
 \begin{align*}
 A &= 10, & B &= 11, & C &= 12, \\
@@ -604,7 +654,7 @@ Let's show it in action.  We've seen that $1{,}046_8 = 550$.  So, let's double c
 We divide our number by $8$:
 
 ```{code-cell} ipython3
-divmod(550, 8)
+divmod(550, 8)  # divmod gives the quotient and remainder, in that order
 ```
 
 The remainder is $6$, so our representation in base $8$ ends with $\boxed{6}$!  So now, we take the quotient and divide by $8$:
@@ -662,7 +712,7 @@ We can specify the digits using the optional argument `digits`:
 
 +++
 
-As we will soon see, many encryption methods we will rely on computations of very large powers, so it is important that we have an efficient way to compute them.
+As we will soon see, many encryption methods will rely on computations of very large powers, so it is important that we have an efficient way to compute them.
 
 The naive way to compute $g^N$ is to perform $N-1$ products:
 ```{math}
@@ -687,21 +737,20 @@ To compute $g^N$, where $g$ is in $\mathbb{Z}/m\mathbb{Z}$:
    ```{math}
    N = N_0 + N_1 \cdot 2 + N_2 \cdot 2^2 + \cdots N_r 2^r
    ```
-   with $N_i \in \{0, 1\}$.  (Note that $r = \lfloor \log_2(N) \rfloor$, where $\lfloor x \rfloor$ is just rounding down $x$ to the largest integer less than or equal to $x$, the so called *floor function*.)
-2) Compute all powers, *reducing modulo $m$ at every step!*:
-```{math}
-\begin{align*}
-    a_0 &\equiv g && \pmod{m} \\
-    a_1 &\equiv a_0^2 \equiv g^2 && \pmod{m} \\
-    a_2 &\equiv a_1^2 \equiv g^{2^2} &&\pmod{m} \\
-    a_3 &\equiv a_2^2 \equiv g^ {2^3} &&\pmod{m} \\
-   &\;\;\vdots \\
-   a_r &\equiv a_{r-1}^2 \equiv g^{2^r} &&\pmod{m}.
-   \end{align*}
-```
-
-   (Note that this gives a total of $r$ products, one for each squaring.)
-3) Now we have
+   with $N_i \in \{0, 1\}$.  (Note that $r = \lfloor \log_2(N) \rfloor$, where $\lfloor x \rfloor$ is just rounding down $x$ to the largest integer less than or equal to $x$, the so called [*floor function*](https://en.wikipedia.org/wiki/Floor_and_ceiling_functions).)
+2) Compute the powers:
+    ```{math}
+    \begin{align*}
+        a_0 &\equiv g && \pmod{m} \\
+        a_1 &\equiv a_0^2 \equiv g^2 && \pmod{m} \\
+        a_2 &\equiv a_1^2 \equiv g^{2^2} &&\pmod{m} \\
+        a_3 &\equiv a_2^2 \equiv g^ {2^3} &&\pmod{m} \\
+       &\;\;\vdots \\
+       a_r &\equiv a_{r-1}^2 \equiv g^{2^r} &&\pmod{m}
+       \end{align*}
+    ```
+   *reducing modulo $m$ at every step!*  (Note that this gives a total of $r$ products, one for each squaring.)
+3) Now, using {prf:ref}`properties of powers <pr-exp>`, we have
 ```{math}
 \begin{align*}
     g^N &= g^{N_0 + N_1 \cdot 2 + N_2 \cdot 2^2 + \cdots N_r 2^r} \\
@@ -710,7 +759,7 @@ To compute $g^N$, where $g$ is in $\mathbb{Z}/m\mathbb{Z}$:
    \end{align*}
 ```
 
-   (Note that the powers of $N_i$ do not require extra products, since if $N_i$ is $0$, the factor $a^{N_i} = 1$ and can be simply skipped, and if $N_i=1$, then $a_i^{N_i} = a_i$.  Hence, this last step requires *at most* another $r$ products.)
+Note that the powers of $N_i$ do not require extra products, since if $N_i$ is $0$, the factor $a^{N_i} = 1$ and can be simply skipped, and if $N_i=1$, then $a_i^{N_i} = a_i$.  Hence, this last step requires *at most* another $r$ products.
 :::
 
 Therefore, with this method, we can compute $g^N$ in at most $2 r = 2 \cdot \lfloor \log_2(N) \rfloor$ products.
@@ -718,7 +767,6 @@ Therefore, with this method, we can compute $g^N$ in at most $2 r = 2 \cdot \lfl
 ```{warning}
 In the second step above, it is *very* important the we compute $g^{{2^k}}$ by squaring the previously computer $g^{2^{k-1}}$ (as I do below), and not directly, as in `g^(2^k)`.
 ```
-
 
 How does it compare to the previous naive method, that required $N-1$ products?
 
@@ -744,7 +792,7 @@ The length is:
 len(digits_base_2)
 ```
 
-Now, we could create a list with the powers of $11$ modulo $1237$.  But this can take some memory.  So, we will do one step at a time.  We initialize a variable `res` to keep the result as $1$ and a variable `a` as $g$, or $11$ in our case.  Our computations will be *much* faster if we make `g = Mod(11, 1237)`, as Sage then will automatically (and efficiently) reduce the result of each squaring modulo $1237$:
+Now, we could create a list with the powers of $11$ modulo $1237$, but this can take some memory.  So, we will do one step at a time.  We initialize a variable `res` to keep the result (the final power) as $1$ and a variable `a` as $g$, or $11$ in our case.  Our computations will be *much* faster if we make `g = Mod(11, 1237)`, as Sage then will automatically (and efficiently) reduce the result of each squaring modulo $1237$:
 
 ```{code-cell} ipython3
 res = 1
@@ -871,4 +919,8 @@ Mod(11, 1237)^156
 
 Note that we only had $11$ products (instead of $155$!) and at each step we kept the numbers we are multiplying relatively small since we reduced the result modulo $1237$ at each step!
 
+:::{admonition} Homework
+:class: note
+
 As you might expect, you will implement this algorithm in your homework.  Hopefully the steps above give you an idea on how to use a loop (and some if clauses) to automate the process.
+:::

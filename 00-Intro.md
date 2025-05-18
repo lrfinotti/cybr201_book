@@ -69,4 +69,6 @@ Hopefully the homework give the reader practice with coding, with a particular c
 
 The book [An Introduction to Mathematical Cryptography](doi:10.1007/978-1-4939-1711-2), by Jeffrey Hoffstein, Jill Pipher, and Joseph H. Silverman, was the main resource for this book, along with class notes from the author on a course based in that book.
 
+This book was produced using [Jupyter notebooks](https://jupyter.org/) and [Jupyter Book](https://jupyterbook.org/en/stable/intro.html).  The computations were done with [Sage](https://www.sagemath.org/).
+
 This book was written during a semester in which the [College of Emerging and Collaborative Studies](https://cecs.utk.edu/) at the [University of Tennessee](https://www.utk.edu/) reduced the author's teaching load, allowing the writing of this book.  The teaching reduction was given so the author could develop the new course [CYBR 201 - Introduction to Cryptography and Data Protection](https://catalog.utk.edu/content.php?filter%5B27%5D=CYBR&filter%5B29%5D=201&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D=1&cur_cat_oid=54&expand=&navoid=11523&search_database=Filter#), and although writing the book was not a requirement, the extra time allowed the author to do it.

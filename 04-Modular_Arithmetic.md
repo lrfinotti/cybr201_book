@@ -30,7 +30,7 @@ a \equiv b \pmod{m}.
 In this case, $m$ is called the *modulus*.
 :::
 
-So, it is very easy to check for congruences!  It is just a question about divisibility.
+So, it is easy to check if number are congruent: it is just a question about divisibility.
 
 
 **Examples:**
@@ -80,7 +80,7 @@ Here are some important remarks about congruences:
 
 +++
 
-These last three facts are very important.  They say we can break the set of all integers in $m$ pieces, depending on the remainder of the division by $m$.  More concretely, for $m=5$, every integer is congruent to one, and only one, among $0$, $1$, $2$, $3$, and $4$ (the possible remainders of the division by $5$):
+These last three facts are very important.  They say we can break the set of all integers in $m$ parts, depending on the remainder of the division by $m$.  More concretely, for $m=5$, every integer is congruent to one, and only one, among $0$, $1$, $2$, $3$, and $4$ (the possible remainders of the division by $5$):
 
 ```{math}
 \begin{align*}
@@ -106,7 +106,8 @@ So, we often call the remainder of $a$ when divided by $m$ the *residue* modulo 
 
 Here is very important result:
 
-:::{prf:theorem}
+:::{prf:theorem} Arithmetic Properties of Congruences
+:label: th-ar_prop_congr
 Let $m$ be an integer greater than $1$ and suppose that
 ```{math}
 a_1 \equiv a_2 \pmod{m} \quad \text{and} \quad b_1 \equiv b_2 \pmod{m}.
@@ -123,7 +124,7 @@ a_1^k &\equiv a_2^k &&\pmod{m} \quad \text{for any positive integer $k$.}
 :::
 
 
-So, "$\equiv$" is *similar* to "$=$" in computations.  In congruences with sums, differences, and products, we can replace a number by another that is congurent to it.  Let's see it in action in an example:
+So, "$\equiv$" is *similar* to "$=$" in computations.  In congruences with sums, differences, and products, we can replace a number by any other number that is congurent to it.  Let's see it in action in an example:
 
 +++
 
@@ -135,15 +136,15 @@ What is the remainder of
 when divided by $5$?
 :::
 
-We could compute this huge number, then do the long division to find the remainder.  But note that asking for the remainder modulo $5$ is the same to ask for a number between $0$ and $4$ congruent to the number:
+We could compute this huge number, then do the long division to find the remainder.  But note that asking for the remainder modulo $5$ is the same as asking for a number between $0$ and $4$ congruent to the original number:
 
 ```{math}
 5647438438 \cdot 85948594584 - 7548376839 \equiv \, ??? \pmod{5}.
 ```
 
-The idea now is that the theorem above allows us to replace each of the three large numbers by smaller numbers congruent to them modulo $5$, making the computation much simpler!  As we've seen above, we can replace them by their residues modulo $5$ (i.e., their remainders when divided by $5$), so numbers between $0$ and $4$.
+The idea now is that the {prf:ref}`th-ar_prop_congr` above tells us that we can replace each of the three large numbers by smaller numbers congruent to them modulo $5$, making the computation much simpler!  As we've seen above, we can replace them by their residues modulo $5$ (i.e., their remainders when divided by $5$), so numbers between $0$ and $4$.
 
-Of course, we could just ask Sage for their residues, but we can in fact compute residues modulo $5$ quite easily using the Theorem and the fact that $10 \equiv 0 \pmod{5}$.  For example, let's find the residue of the first number modulo $5$:
+Of course, we could just ask Sage for their residues, but we can in fact compute residues modulo $5$ quite easily using the {prf:ref}`th-ar_prop_congr` and the fact that $10 \equiv 0 \pmod{5}$.  For example, let's find the residue of the first number modulo $5$:
 
 ```{math}
 \begin{align*}
@@ -194,7 +195,7 @@ So, the remainder is $3$!
 What is the remainder of $13^{1{,}000{,}000{,}000}$ when divided by $7$?
 ```
 
-We can again think in terms of congruences and we are asking for a number between $0$ and $6$ congruent to $13^{1{,}000{,}000{,}000}$ modulo $7$. And again, by the Theorem, we can replace $13$ by its residue modulo $7$ in a congruence, and clearly $13 = 7 \cdot 1 + 6$, so we have
+We can again think in terms of congruences and we are asking for a number between $0$ and $6$ congruent to $13^{1{,}000{,}000{,}000}$ modulo $7$. And again, by {prf:ref}`th-ar_prop_congr`, we can replace $13$ by its residue modulo $7$ in a congruence, and clearly $13 = 7 \cdot 1 + 6$, so we have
 ```{math}
 13^{1{,}000{,}000{,}000} \equiv 6^{1{,}000{,}000{,}000} \pmod{7}.
 ```
@@ -237,7 +238,7 @@ Here I said "the" inverse instead of "a" inverse, since any two inverses will be
 
 +++
 
-Note that not all numbers have inverses.  Clearly $0$ has no inverse modulo any modulus.  But also, for instance, $2$ has no inverse modulo $6$:
+Note that not all numbers have inverses.  Clearly $0$ has no inverse, no matter the modulus.  But also, for instance, $2$ has no inverse modulo $6$:
 
 ```{code-cell} ipython3
 for i in range(6):
@@ -282,7 +283,7 @@ Can we tell something from these examples?
 
 If we pay attention, we will see:
 
-:::{prf:theorem}
+:::{prf:theorem} Inverses Modulo $m$
 :label: th-inv
 
 
@@ -295,7 +296,7 @@ has a solution (with $x$ *integer*) if, and only if, $\gcd(a, m) = 1$.
 
 This is not hard to see.
 
-First, suppose that $\gcd(a, m) = 1$.  (We want to show that $a$ has an inverse modulo $m$.)  By Bezout's Lemma, we have that there are integers $u$ and $v$ such that
+First, suppose that $\gcd(a, m) = 1$.  (We want to show that $a$ has an inverse modulo $m$.)  By {prf:ref}`Bezout's Lemma <lm-bezout>`, we have that there are integers $u$ and $v$ such that
 ```{math}
 1 = au + mv.
 ```
@@ -303,7 +304,7 @@ But then, since $m \equiv 0 \pmod{m}$, we have that
 ```{math}
 1 \equiv au + mv  \equiv au + 0 = au \pmod{m}.
 ```
-So, the $u$ found by the Extended Euclidean Algorithm is the inverse of $a$!
+So, the $u$ found by the {prf:ref}`Extended Euclidean Algorithm <al-eea>` is the inverse of $a$!
 
 +++
 
@@ -330,7 +331,7 @@ But the only positive integer that divides $1$ is $1$ itself, so, $1 = d = \gcd(
 
 +++
 
-As we can see above, we know how to compute inverses!  We just use the Extended Euclidean Algorithm!
+As we can see above, we know how to compute inverses!  We just use the {prf:ref}`Extended Euclidean Algorithm <al-eea>`!
 
 :::{prf:example}
 :nonumber:
@@ -358,22 +359,24 @@ The GCD (first output) is $1$, so it *is* invertible.  It also tells us that
 
 +++
 
+:::{prf:definition} Integers Modulo $m$
 Given an integer $m > 1$, we can create a new set:
 ```{math}
 \mathbb{Z} / m\mathbb{Z} = \{0, 1, 2, \ldots, (m-1)\}
 ```
-where *congruences become equalities*!
+where *congruences become equalities*!  We call this set $\mathbb{Z} / m\mathbb{Z}$ the *set (or ring) of integers modulo $m$*.
+:::
 
 :::{warning}
 
 ***These elements are not integers any more!***  They have different properties!  We will discuss that in more detail below, but it is very important to observe that from the start.
 :::
 
-To differentiate these elements from the actual integers, often times authors use an over bar for the elements of this set, as in
+To differentiate these elements from the actual integers, often times authors use an bar over the numbers for the elements of this set, as in
 ```{math}
 \mathbb{Z} / m\mathbb{Z} = \{\bar{0}, \bar{1}, \bar{2}, \ldots, \overline{m-1}\}
 ```
-But, we will not use the bars here.  We just have to be aware of the context.
+We will not use the bars here and will just have to be aware of the context.  (Not using the bars is in fact the most common practice.)
 
 So, while in $\mathbb{Z}$ we had
 
@@ -402,7 +405,7 @@ in $\mathbb{Z}/5\mathbb{Z} = \{0, 1, 2, 3, 4\}$, we have:
 So, one can say that $6 \in \mathbb{Z}/5\mathbb{Z}$, but in this new set, we have that $6 = 1$ (since $6 \equiv 1 \pmod{5}$).
 
 
-In this set, by our previous theorem that allows us to replace elements by elements congruent to it in congruences, we can *add*, *subtract*, and *multiply* elements.  But, again, with congruences becoming equality.  For instance, still in $\mathbb{Z}/5\mathbb{Z}$, we have:
+In this set, by our {prf:ref}`th-ar_prop_congr` (that allows us to replace elements by elements congruent to it in congruences), we can *add*, *subtract*, and *multiply* elements.  But, again, with congruences becoming equality.  For instance, still in $\mathbb{Z}/5\mathbb{Z}$, we have:
 
 ```{math}
 \begin{align*}
@@ -418,7 +421,7 @@ This last observation makes clear the fact that the elements of $\mathbb{Z}/5\ma
 
 :::{important}
 
-If $m$ and $n$ are two different moduli, then $\mathbb{Z}/m\mathbb{Z}$ and $\mathbb{Z}/n\mathbb{Z}$ are *unrelated*, meaning that they live in different universes and do not relate to each other!
+If $m$ and $n$ are two different moduli, then $\mathbb{Z}/m\mathbb{Z}$ and $\mathbb{Z}/n\mathbb{Z}$ are *unrelated*, meaning that they live in different universes and do not relate to each other!  This means we cannot perform operations with or even compare elements from these different sets.
 :::
 
 To make this clear, one might think that since $\mathbb{Z}/3\mathbb{Z} = \{0, 1, 2\}$ and $\mathbb{Z}/4\mathbb{Z} = \{0, 1, 2, 3\}$, then $\mathbb{Z}/3\mathbb{Z}$ is contained in $\mathbb{Z}/4\mathbb{Z}$.  But *this is not the case*!  For instance, their $1$'s are not the same.  In $\mathbb{Z}/3\mathbb{Z}$ we have that $1 + 1 + 1 = 3 = 0$, while in $\mathbb{Z}/4\mathbb{Z}$ we have that $1 + 1 + 1 = 3 \neq 0$.
@@ -426,7 +429,7 @@ To make this clear, one might think that since $\mathbb{Z}/3\mathbb{Z} = \{0, 1,
 :::{note}
 
 1) The title of this section is "The *Ring* of Integers Modulo $m$".  The world [ring](https://en.wikipedia.org/wiki/Ring_(mathematics)) comes from [Abstract Algebra](https://en.wikipedia.org/wiki/Abstract_algebra) and essentially says that we can add, subtract, and multiply elements of $\mathbb{Z}/m\mathbb{Z}$ with some of the expected properties for these operations.
-2) Many texts use $\mathbb{Z}_m$ for $\mathbb{Z}/m\mathbb{Z}$, since it is quicker to write.  But is ambiguous, as $\mathbb{Z}_p$ (for $p$ prime) is often used for [$p$-adic numbers](https://en.wikipedia.org/wiki/P-adic_number).  The notation $\mathbb{Z}/m\mathbb{Z}$ is universally understood.
+2) Many texts use $\mathbb{Z}_m$ for $\mathbb{Z}/m\mathbb{Z}$, since it is quicker to write.  But is ambiguous, as $\mathbb{Z}_p$ (for $p$ prime) is often used for [$p$-adic numbers](https://en.wikipedia.org/wiki/P-adic_number), which is not the same as integers modulo $p$.  The notation $\mathbb{Z}/m\mathbb{Z}$ is universally understood.
 :::
 
 :::{prf:definition} Notation
@@ -435,6 +438,8 @@ To make this clear, one might think that since $\mathbb{Z}/3\mathbb{Z} = \{0, 1,
 
 If $p$ is a prime number, then we might write $\mathbb{F}_p$ for $\mathbb{Z}/p\mathbb{Z}$.  That is because when $p$ is prime (and only in that case), the ring $\mathbb{Z}/p\mathbb{Z}$ is a [field](https://en.wikipedia.org/wiki/Field_(mathematics)) with $p$ elements.
 :::
+
+Although we won't get into details here, the *field* part is saying that every element of $\mathbb{Z}/p\mathbb{Z}$ *except for $0$* is invertible, which we know to be true from {prf:ref}`th-inv`.
 
 +++
 
@@ -523,7 +528,7 @@ If $k$ is a positive integer and $a$ is an element of $\mathbb{Z}/m\mathbb{Z}$, 
 ```{math}
 k \cdot a = \underbrace{a + a + \cdots a}_{\text{$k$ summands of $a$}}.
 ```
-So, it is simply a shortcut.  (Note that the addition is the addition of $\mathbb{Z}/m\mathbb{Z}$.)
+So, it is simply a shortcut.  (Note that the addition is the addition  above is the addition of elements of $\mathbb{Z}/m\mathbb{Z}$.)
 
 Now, we also define
 ```{math}
@@ -562,7 +567,12 @@ Indeed, if $-3 \in \mathbb{Z}$ and $5 \in \mathbb{Z}/7\mathbb{Z}$, then:
 
 +++
 
-**Note:** In the end, multiplying $a$ and $b$ when $a \in \mathbb{Z}$ and $b \in \mathbb{Z}/m\mathbb{Z}$ is the same as multiplying both elements as if they were in $\mathbb{Z}/mZ$.  So, we don't have to worry about it:
+:::{note}
+
+In the end, multiplying $a$ and $b$ when $a \in \mathbb{Z}$ and $b \in \mathbb{Z}/m\mathbb{Z}$ is the same as multiplying both elements as if they were in $\mathbb{Z}/mZ$.
+:::
+
+So, we don't have to worry about it:
 
 ```{code-cell} ipython3
 Mod(3, 7) * Mod(5, 7) == 3 * Mod(5, 7)
@@ -576,7 +586,7 @@ Mod(-3, 7) * Mod(5, 7) == -3 * Mod(5, 7)
 
 +++
 
-Similar to how we have shortcut to add an element of $\mathbb{Z}/m\mathbb{Z}$ to itself many times over (as in $k \cdot a$) we also have shortcut to multiplying: for any *positive* integer $k$, we let:
+Similarly to how we have shortcut to add an element of $\mathbb{Z}/m\mathbb{Z}$ to itself many times over (as in $k \cdot a$) we also have shortcut to multiplying: for any *positive* integer $k$, we let:
 ```{math}
 a^k = \underbrace{a \cdot a \cdots a}_{\text{$k$ factors of $a$}}.
 ```
@@ -691,7 +701,7 @@ We denote the set of all units (or all invertible elements) of $\mathbb{Z}/m\mat
 
 :::{note}
 
-The title of this section is "The Group of Units of $\mathbb{Z}/m\mathbb{Z}$" and, again, the term [group](https://en.wikipedia.org/wiki/Group_(mathematics)) comes from Abstract Algebra.  We might talk more about groups later!
+The title of this section is "The Group of Units of $\mathbb{Z}/m\mathbb{Z}$" and, again, the term [group](https://en.wikipedia.org/wiki/Group_(mathematics)) comes from Abstract Algebra.  We will talk a little more about groups in a later chapter!
 :::
 
 +++
@@ -759,7 +769,7 @@ a = Mod(2, 6)
 a.is_unit()
 ```
 
-Sage can also give us the whole set of units.  Remembering the `Z5` is `Zmod(5)` meaning $\mathbb{Z}/5\mathbb{Z}$ we have:
+Sage can also give us the whole set of units.  Remembering that we've set above the variable `Z5` as `Zmod(5)` meaning $\mathbb{Z}/5\mathbb{Z}$ we have:
 
 ```{code-cell} ipython3
 Z5.unit_group()
@@ -771,13 +781,15 @@ That is strange...  Let's look at the elements:
 set(Z5.unit_group())
 ```
 
-What is `f`?
+Still strange...  What is `f`?
 
 This is a related to some algebraic properties of the group of units, but we can "translate" is back to $\mathbb{Z}/5\mathbb{Z}$:
 
 ```{code-cell} ipython3
 {Z5(x) for x in Z5.unit_group()}
 ```
+
+So, we use this last method to explicitly obtain the set of all units.  (We will not worry about the output of the previous two commands here.)
 
 ```{code-cell} ipython3
 Z24 = Zmod(24)

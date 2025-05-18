@@ -1,6 +1,8 @@
 # In _toc.yml
 format: jb-book
 root: 00-Intro
+options:
+  numbered: true
 chapters:
 - file: 01-WhatIsCrypto
 - file: 02-Python

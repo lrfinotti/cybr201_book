@@ -73,7 +73,6 @@ Let $p$ and $q$ be distinct primes, $N = pq$, and $g = \gcd((p-1), (q-1))$, and 
 :::
 
 :::{prf:proof}
-:nonumber:
 
 Since $\gcd(a, pq) = 1$ (as $a$ is a unit in $\mathbb{Z}/N\mathbb{Z}$), we have that $\gcd(a, p) = \gcd(a, q) = 1$, so $a$ (as an integer) is also a unit ins $\mathbb{Z}/p\mathbb{Z}$ and $\mathbb{Z}/q\mathbb{Z}$.  Then, by {prf:ref}`{name} <th-eule>`, and noting the $(p-1)/g$ and $(q-1)/g$ are both *integers*, we have that
 ```{math}
@@ -116,7 +115,6 @@ x^e = c \quad \text{if and only if} \quad x = c^d.
 :::
 
 :::{prf:proof}
-:nonumber:
 
 If $c=0$, then $x^e=0$ if and only if $x=0$ if and only if $x^d=0$.
 
@@ -149,7 +147,6 @@ x^e = c \quad \text{if and only if} \quad x = c^d.
 
 
 :::{prf:proof}
-:nonumber:
 
 First note that since $\gcd(e, \varphi(N)) = \gcd(e, (p-1)(q-1)) = 1$, then $\gcd(e, (p-1)) = \gcd(e, (q-1)) = 1$.  Also, since $ed \equiv 1 \pmod{(p-1)(q-1)}$, then $ed \equiv 1 \pmod{p-1}$ and $ed \equiv 1 \pmod{q-1}$.
 
@@ -181,7 +178,6 @@ This means that when finding $d$ to find the $e$-th root of $c$ (as in {prf:ref}
 :::
 
 :::{prf:proof}
-:nonumber:
 
 By {prf:ref}`th-order_pq`, we have that $c^{(p-1)(q-1)/q} = 1$, so by {prf:ref}`pr-power_eq_1-2`, we have that $c^{ed} = c$.  Hence, if $x = c^d$, then $x^e = c^{de} = c$.
 :::

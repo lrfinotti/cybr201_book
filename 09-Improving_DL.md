@@ -22,30 +22,17 @@ In this chapter we introduce methods that can improve on Shank's Baby-Step/Giant
 
 ## Solving the Discrete Log for Powers of Prime Orders
 
-Suppose that $g \in \mathbb{F}^{\times}$ such that $g$ has order $q^e$, where $q$ is some prime and $e$ is an integer greater than one.  Of course, we can use {prf:ref}`Shank's Baby-Step/Giant-Step algorithm <al-bs_gs>`.  But there is a more efficient way in this case!
+Suppose that $g \in \mathbb{F}_p^{\times}$ such that $g$ has order $q^e$, where $q$ is some prime and $e$ is an integer greater than one.  Of course, we can use {prf:ref}`Shank's Baby-Step/Giant-Step algorithm <al-bs_gs>`.  But there is a more efficient way in this case!
 
 +++
 
 ### Algorithm
 
-:::{prf:definition} Assignment Notation
-:label: not-assignment
-
-
-We will use $\leftarrow$, as is customary, to denote *assignment* to a variable.  So, we may write, for instance,
-```{math}
-a \leftarrow a^2
-```
-to say that the variable $a$ be assigned to the square of its *previous value*.  In Sage this is done simply with `a = a^2`, but in algebra we cannot use the equal sign, since it has a different meaning.  (If we have $a = a^2$, then that means that $a$ must be either $0$ or $1$.)
-:::
-
-With this notation in hand, we can describe the algorithm:
-
 :::{prf:algorithm} Discrete Log for Power of Prime Order
 :label: al-dl-power
 
 
-Let $g, h \in \mathbb{F}^{\times}$ such that $|g| = q^e$, where $q$ is some prime and $e \geq 2$.  To compute $\log_g(h)$:
+Let $g, h \in \mathbb{F}_p^{\times}$ such that $|g| = q^e$, where $q$ is some prime and $e \geq 2$.  To compute $\log_g(h)$:
 
 1) Initialize $N_0 = |g| = q^e$, $N = N_0$, $x = 0$.
 2) While $N > 1$:
@@ -53,6 +40,8 @@ Let $g, h \in \mathbb{F}^{\times}$ such that $|g| = q^e$, where $q$ is some prim
    2) Let $x \leftarrow x + y N_0/N$, $h \leftarrow g^{-y}h$, $g \leftarrow g^q$, and $N \leftarrow N/q$.
 3) Return $x$.
 :::
+
+(Remember that the $\leftarrow$ denotes {prf:ref}`assignment <not-assignment>`.)
 
 Note that in the loop, every iteration divides $N$ by $q$, so it takes a total of $e$ iterations to get to $N=1$ and the loop to stop.
 
@@ -62,7 +51,7 @@ Note that in the loop, every iteration divides $N$ by $q$, so it takes a total o
 
 Let's try to justify why the algorithm above indeed gives us the discrete log $\log_g(h)$.
 
-Before we get into it, let's remind ourselves of a couple of results we've seen in [chapter about powers](./05-Powers.md):
+Before we get into it, let's remind ourselves of a couple of results we've seen in [chapter about powers](#ch-powers):
 
 :::{prf:proposition} Properties of Powers
 :label: prop-powers
@@ -76,18 +65,18 @@ If $a$ is a unit in $\mathbb{Z}/n\mathbb{Z}$ of order $m$, then:
 ```
 2) We have:
 ```{math}
-a^k = a^l \text{ if and only if } k \equiv l \pmod{m}.
+a^k = a^l \quad \text{ if and only if } \quad k \equiv l \pmod{|a|}.
 ```
 :::
 
-So, suppose that $g \in \mathbb{F}^{\times}$ with $|g| = q^e$ for some prime $q$ and $e \geq 2$, and that $h = g^{x}$, for some $x \in \{0, 1, 2, \ldots , q^e - 1\}$.  (Note that we do not know the value of $x$, as it is what we are trying to compute.  But we are assuming that it *exists*.).  We then can write $x$ in base $q$ as
+So, suppose that $g \in \mathbb{F}_p^{\times}$ with $|g| = q^e$ for some prime $q$ and $e \geq 2$, and that $h = g^{x}$, for some $x \in \{0, 1, 2, \ldots , q^e - 1\}$.  (Note that we do not know the value of $x$, as it is what we are trying to compute.  But we are assuming that it *exists*.).  We then can write $x$ in base $q$ as
 ```{math}
 x = d_0 + d_1 q + d_2 q^2 + \cdots + d_{e-1} q^{e-1}, \quad d_i \in \{ 0, 1, \ldots, q-1 \} .
 ```
 
 Let's find the first digit $d_0$.  Since $h^x = g$, we start by raising both sides to the power $q^{e-1}$:
 ```{math}
-:name: eq-dl1
+:label: eq-dl1
 
 \left( g^x \right)^{q^{e-1}} = h^{q^{e-1}} \quad \Longrightarrow \quad \left( g^{q^{e-1}} \right)^x = h^{q^{e-1}}.
 ```
@@ -110,12 +99,12 @@ y \equiv x \equiv d_0 \pmod{q}.
 
 This means that when we solved {prf:ref}`eq-dl1`, we found $d_0$!
 
-We now find $d_1$  Observe that
+We now find $d_1$ in a similar way.  Observe that
 ```{math}
 h = g^x = g^{ d_0 + d_1 q + d_2 q^2 + \cdots + d_{e-1} q^{e-1}} = g^{d_0} \cdot \left( g^q \right)^{d_1 + d_2 q + d^3 q^2 + \cdots + d_{e-1}q^{e-2}}.
 ```
 
-Letting $g' = g^q$, $h' = g^{-d_0}h$, and $x' = d_1 + d_2 q + \cdots + d_{e-1}q^{e-2}$, and multiplying both sides of the equation above by $g^{d_0}$, we get:
+Letting $g' = g^q$, $h' = g^{-d_0}h$, and $x' = d_1 + d_2 q + \cdots + d_{e-1}q^{e-2}$, and multiplying both sides of the equation above by $g^{-d_0}$, we get:
 ```{math}
 h' = g^{-d_0} g^x = \left( g^q \right)^{d_1 + d_2 q + d^3 q^2 + \cdots + d_{e-1}q^{e-2}} = (g')^{x'},
 ```
@@ -262,7 +251,7 @@ It worked!
 
 ### Number of Operations
 
-In this situation where $|g| = q^e$ and we compute $\log_g(h)$, if we use [Shank's Baby-Step/Giant-Step](./08-Computing_DL.md#al-bs_gs) algorithm, as seen in {prf:ref}`the number of operations for Shank's algorithm <sec-bsgsnop>`, we need about
+In this situation where $|g| = q^e$ and we compute $\log_g(h)$, if we use [Shank's Baby-Step/Giant-Step](./08-Computing_DL.md#al-bs_gs) algorithm, as seen in {prf:ref}`the number of operations for Shank's algorithm <./08-Computing_DL.md#sec-bsgsnop>`, we need about
 ```{math}
 \frac{\sqrt{q^e}}{2}  \cdot \log_2(q^e) = \frac{q^{e/2}}{2} \cdot e \cdot \log_2(q)
 ```
@@ -279,7 +268,7 @@ Thus, the ratio between the number of multiplications is
 \frac{q^{1/2}}{q^{e/2}} = \frac{1}{q^{(e-1)/2}} .
 ```
 
-Therefore, a straight use of Shank's algorithm in our example above would use $q = 1{,}019$ times the number of multiplications of our new method.  In practice, for larger primes $q$ and/or larger powers $e$, the gains are even higher!
+Therefore, a straight use of Shank's algorithm in our example above would use $q = 1{,}019$ *times the number of multiplications of our new method*.  In practice, for larger primes $q$ and/or larger powers $e$, the gains are even higher!
 
 +++
 
@@ -294,7 +283,7 @@ You will implement this algorithm in your homework.
 (sec-pohlig-hellman)=
 ## The Pohlig-Hellman Algorithm
 
-Now suppose that $g \in \mathbb{F}^{\times}$ and we have $|g| = N$, with the prime factorization:
+Now suppose that $g \in \mathbb{F}_p^{\times}$ and we have $|g| = N$, with the prime factorization:
 ```{math}
 N = q_1^{e_1} q_2^{e_2} \cdots q_k^{e_k}.
 ```
@@ -304,11 +293,11 @@ We then have the following algorithm:
 :label: al-ph
 
 
-Let $g, h \in \mathbb{F}^{\times}$ and suppose that $|g| = N =  q_1^{e_1} q_2^{e_2} \cdots q_k^{e_k}$, with $q_i$'s distinct prime, and $e_i \geq 1$ for $i = 1, 2, \ldots, k$.  To compute $\log_g(h)$:
+Let $g, h \in \mathbb{F}_p^{\times}$ and suppose that $|g| = N =  q_1^{e_1} q_2^{e_2} \cdots q_k^{e_k}$, with $q_i$'s distinct prime, and $e_i \geq 1$ for $i = 1, 2, \ldots, k$.  To compute $\log_g(h)$:
 
 1) For each $i \in \{ 1, 2, \ldots, k \}$ let $N_i = N/q_i^{e_i}$, $g_i = g^{N_i}$ and $h_i = h^{N_i}$ and find $y_i = \log_{g_i} \left( h_i \right)$ using {prf:ref}`al-dl-power`.
 
-2) Use the {prf:ref}`crt` to find $x$ such that
+2) Use the {prf:ref}`Chinese Remainder Theorem <th-crt>` to find $x$ such that
 ```{math}
 \begin{align*}
 x &\equiv y_1 \pmod{q_1^{e_1}},\\
@@ -330,9 +319,9 @@ Since we have that $g_i = g^{N_i}$, we have that
 ```{math}
 |g_i| = \frac{|g|}{\gcd(|g|, N_i)} = \frac{N}{\gcd(N, N/q_i^{e_i})} = \frac{N}{N/q_i^{e_i}} = q_i^{e_i}.
 ```
-So, if $x$ satisfies the congruences above, we have that $x \equiv y_i \pmod{q_i^{e_i}}$, and hence $g_i^x = g_i^{y_i} = h_i$ in $\mathbb{F}^{\times}$, for all $i \in \{1, 2, \ldots, k\}$.
+So, if $x$ satisfies the congruences above, we have that $x \equiv y_i \pmod{q_i^{e_i}}$, and hence $g_i^x = g_i^{y_i} = h_i$ in $\mathbb{F}_p^{\times}$, for all $i \in \{1, 2, \ldots, k\}$.
 
-Note that $\gcd(N_1, N_2, \ldots, N_k) = \gcd(N/q_1^{e_1}, N/q_2^{e_2}, \ldots , N/q_k^{e_k}) = 1$, since $q_i$ does not divide $N/q_i^{e_i}$.  Then, using the Generalized Extended Euclidean Algorithm, we can find integers $r_1, r_2, \ldots , r_k$ such that
+Note that $\gcd(N_1, N_2, \ldots, N_k) = \gcd(N/q_1^{e_1}, N/q_2^{e_2}, \ldots , N/q_k^{e_k}) = 1$, since $q_i$ does not divide $N/q_i^{e_i}$.  Then, using the {prf:ref}`Generalized Extended Euclidean Algorithm <al-geea>`, we can find integers $r_1, r_2, \ldots , r_k$ such that
 ```{math}
 r_1 \cdot N_1 + r_2 \cdot N_2 + \cdots + r_k \cdot N_k = 1.
 ```
@@ -358,7 +347,7 @@ g^x &= \left( g^1 \right)^x \\[1.7ex]
 
 ### Number of Operations
 
-In the algorithm we compute $2k$ powers, which we can do using [Fast Powering](./05-Powers.md#fast_powering).  The number of products that this takes is at most:
+In the algorithm we compute $2k$ powers, which we can do using [Fast Powering](#fast_powering).  The number of products that this takes is at most:
 ```{math}
 \begin{align*}
 (2 \log_2(N_1) + 2) &+ (2 \log_2(N_2) + 2) + \cdots + (2 \log_2(N_k) + 2) \\[1.7ex]
@@ -468,14 +457,14 @@ We did not take this step into account when counting the number of operations fo
 :::
 
 
-In this case, we have that $3$ has order $N$ in $\mathbb{F}^{\times}$:
+In this case, we have that $3$ has order $N$ in $\mathbb{F}_p^{\times}$:
 
 ```{code-cell} ipython3
 g = Mod(3, p)
 g.multiplicative_order() == N
 ```
 
-Now, let's take some $h \in \mathbb{F}^{\times}$:
+Now, let's take some $h \in \mathbb{F}_p^{\times}$:
 
 ```{code-cell} ipython3
 h = Mod(117619616680834488747814058359345855076997576088312309, p)

@@ -26,7 +26,9 @@ kernelspec:
 
 Remember how logarithms work: if you are asked was is $\log_{\color{red} 2}({\color{blue} 4})$, what you are being asked is *what power of ${\color{red} 2}$ gives us ${\color{blue} 4}$*?   In other words, the answer is the value of $x$ such that ${\color{red} 2}^x = {\color{blue} 4}$.  In this case, the answer is easy: since ${\color{red} 2}^2 = {\color{blue} 4}$, we have that $\boxed{\log_2(4) = 2}$.
 
-That is essentially all that there is to logs.  On the other hand, it clearly is harder than computing powers.  If I asked you what is $5^3$, you simply compute it directly: $5^3 = 5 \cdot 5 \cdot 5 = 125$.  But if I ask you what is $\log_5(125)$, you do not compute it directly: you solve $5^x = 125$ for $x$.  (And this solution is $\log_5(125)$, which is $3$ in this case.)  This is similar to how to compute $\sqrt{9}$ we do not do (in general) a direct computation, but solve the equation $x^2 = 9$, which the *non-negative* solution being the answer.
+That is essentially all that there is to logs.  On the other hand, it clearly is harder than computing powers.  If I asked you what is $5^3$, you simply compute it directly: $5^3 = 5 \cdot 5 \cdot 5 = 125$.  But if I ask you what is $\log_5(125)$, you do not compute it directly: you solve $5^x = 125$ for $x$.  (And this solution is $\log_5(125)$, which is $3$ in this case.)
+
+This is similar to how to compute square roots.  To compute, say, $\sqrt{9}$ we do not do (in general) perform a direct computation, but solve the equation $x^2 = 9$, for which the *non-negative* solution will be our answer.
 
 +++
 
@@ -36,11 +38,19 @@ That is essentially all that there is to logs.  On the other hand, it clearly is
 
 Now suppose we have some elements $a, g \in \mathbb{Z}/m\mathbb{Z}$.  One might ask if there is some power $k$ such that $a = g^k$.  Note that is the same question that the logarithm asks: what is the power of $g$ that gives us $a$.  Hence, if $g^k = a$, we write, similar to real numbers, that $k = \log_g(a)$.
 
-For real numbers we know that if the base $b$ of the log is positive and different from $1$, and $a$ is positive, then $\log_b(a)$ exists, meaning, there is indeed some power of $b$ that gives $a$.  This questions is a bit harder to answer for logs in $\mathbb{Z}/m\mathbb{Z}$.  For instance, in $\mathbb{Z}/8\mathbb{Z}$, no power of $2$ can give you $3$.  There are few ways to check that this is indeed true, but let's do it computationally with Sage.
+For real numbers we know that if the base $b$ of the log is positive and different from $1$, and $a$ is positive, then $\log_b(a)$ exists, meaning, there is indeed some *unique* power of $b$ that gives $a$.  This questions is a bit harder to answer for logs in $\mathbb{Z}/m\mathbb{Z}$.  For instance, in $\mathbb{Z}/8\mathbb{Z}$, no power of $2$ can give you $3$.  There are few ways to check that this is indeed true, but let's do it computationally with Sage.
 
-First, how many times do we have to compute these powers?
+To do so, we can simply start compyting the power $2^0$, $2^1$, $2^2$, etc., in $\mathbb{Z}/8\mathbb{Z}$. First, how many times do we have to compute these powers?  In other words, is there a way to know when we can stop computing these and be sure that no positive integer power will *ever* give us $3$?
 
-If we get a repetition, that means that we will start to get the same results as from the first occurrence.  So, let's check our example
+If we get a repetition, then the values of the powers will start repeating themselves (in the same order). After all, if $2^k = 2^l$, then 
+```{math}
+2^{k+r} = 2^r \cdot 2^k = 2^r \cdot 2^l = 2^{l+r},
+```
+for any positive integer $r$.
+
+So, if we get a repetition before getting $3$, we will *never* get $3$.
+
+So, let's check:
 
 ```{code-cell} ipython3
 Mod(2, 8)^2
@@ -68,7 +78,7 @@ Ah, we already have a repetition since $3^0 = 1$, $3^1=3$, and $3^2 = 1$.  So, w
 
 On the other hand, sometimes the discrete log does exist!  A simple one, still in $\mathbb{Z}/8\mathbb{Z}$, is $\log_3(1)$: we have that $3^0 = 1$, so $\log_3(1) = 0$.
 
-But wait!  We also have that $3^2 = 1$.  In fact, any positive *even* integer power of $3$ would give $1$, as we've just seen.  So, which one of these powers is $\log_3(1)$?  Let's postpone the answer for a little while, but we will comme back to this issue.
+But wait!  We also have that $3^2 = 1$.  In fact, any positive *even* integer power of $3$ would give $1$, as we've just seen.  So, which one of these powers is $\log_3(1)$?  Let's postpone the answer for a little while, but we will come back to this issue later.
 
 +++
 
@@ -76,9 +86,9 @@ But wait!  We also have that $3^2 = 1$.  In fact, any positive *even* integer po
 
 +++
 
-We can a log in $\mathbb{Z}/m\mathbb{Z}$ a *discrete log*, as the result is a subset of the *integers*, not the real numbers.  The integers are called *discrete* because its separated from each other by gaps in the real line.  Conversely, the real numbers are *continuous*, since there are not gaps between real numbers (in the real line) that is not filled by real numbers.
+We can a log in $\mathbb{Z}/m\mathbb{Z}$ a *discrete log*, as the result is a subset of the *integers*, not the real numbers.  The integers are called [*discrete*](https://en.wikipedia.org/wiki/Discrete_mathematics_) because its separated from each other by gaps in the real line.  Conversely, the real numbers are [*continuous*](https://en.wikipedia.org/wiki/List_of_continuity-related_mathematical_topics), since there are not gaps between real numbers (in the real line) that is not filled by real numbers.
 
-More generally, a discrete log is any kind of log (meaning, situations where we are asking for powers) where the results are integers.  We will mostly work for discrete logs in $\mathbb{Z}/m\mathbb{Z}$, although later we will talk about discrete logs in finite fields and elliptic curves.
+More generally, a discrete log is any kind of log (meaning, situations where we are asking for powers) where the results are integers.  We will mostly work for discrete logs in $\mathbb{Z}/m\mathbb{Z}$, although later we will talk about discrete logs in elliptic curves.
 
 +++
 
@@ -103,9 +113,7 @@ The discrete log has similar properties to the regular log:
 
 Again, when trying to compute a discrete log, we are not sure in principle, if it exists or not.  But, there is one case when are sure that it does.  If $g$ is a primitive root of $\mathbb{Z}/m\mathbb{Z}$ and $a$ is a *unit*, then we know that $\log_g(a)$ exists, since every unit is a power of $g$.
 
-Moreover, in this case, the question of how we properly define the discrete log, since multiple powers of $g$ can give $a$, is to think of the exponent, and so the values of the discrete log, in $\mathbb{Z}/\varphi(m)\mathbb{Z}$.  This works, since, as we've seen before, we have that $|g| = \varphi(m)$ and hence we can consider the exponents of $g$ modulo $m$.  (More generally, if $g$ is not primitive root, we consider exponents, and so the values of the discrete log, in $/Z/|g|\mathbb{Z}$.)
-
-The only method we know (at least so far) to compute the discrete log is *brute force*: to compute $\log_g(a)$, we start computing powers of $g$, i.e., $g^0$, $g^1$, $g^2$, etc., until we either get $a$ or get a repeated power, in which case the log does not exist.  This make this computation extremely time consuming if $|g|$ is a really large number, and as we will soon see, we can use this difficulty to create a cryptosystem that is difficult to break.
+Moreover, in this case, the question of how we properly define the discrete log, since multiple powers of $g$ can give $a$, is to think of the exponent, and so the values of the discrete log, in $\mathbb{Z}/\varphi(m)\mathbb{Z}$.  This works, since, as we've seen before, we have that $|g| = \varphi(m)$ and hence we can consider the exponents of $g$ modulo $m$.  (More generally, if $g$ is not primitive root, we consider exponents, and so the values of the discrete log, in $\mathbb{Z}/|g|\mathbb{Z}$.)
 
 +++
 
@@ -136,9 +144,10 @@ As you can see, the powers do not seem to follow any pattern.
 list_plot([power_mod(17, x, 31) for x in range(30)])
 ```
 
-:::{prf:definition} The Discrete Log Problem
-:label: def-dlp
+Therefore, at this point the only method we see to compute the discrete log is *brute force*: to compute $\log_g(a)$, we start computing powers of $g$, i.e., $g^0$, $g^1$, $g^2$, etc., until we either get $a$ or get a repeated power, in which case the log does not exist.  This make this computation extremely time consuming if $|g|$ is a really large number, and as we will soon see, we can use this difficulty to create a cryptosystem that is difficult to break.
 
+:::{prf:definition} The Discrete Log Problem (DLP)
+:label: def-dlp
 
 We call the (computationally intensive) problem of computing a discrete log $\log_g(a)$, i.e., finding a power $x$ (in $\mathbb{Z}/|a|\mathbb{Z}$) such that $g^x = a$ in $\mathbb{Z}/m\mathbb{Z}$, the *discrete log problem (DLP)*.
 :::
@@ -151,7 +160,7 @@ A [Cryptosystem](https://en.wikipedia.org/wiki/Cryptosystem) is a set of algorit
 
 As we've mentioned before, the usual scenario is when Bob wants to send Alice some secret message so that even if their enemy Eve intercepts the message, she will not be able to read its content.
 
-This means that Bob needs a way to *encode* the message and Alice needs a way to decode the message, and the decoding process must difficult enough that, without some secret knowledge, Eve should not be able to discover the decoding method.
+This means that Bob needs a way to *encode* the message and Alice needs a way to decode Bob's encoded message, and the decoding process must difficult enough that, without some secret knowledge, Eve should not be able to discover the decoding method.
 
 Formally, we write that if $m$ is the plain/unencrypted message, then Bob uses some *encoding key*, say $e$, to create a function $E_e$, called the *encryption function*, which depends on the key $e$, so that $E_e(m)$ produces the encrypted message.
 
@@ -163,11 +172,11 @@ In our example of the Caesar Cipher, the encryption key $e$ was the table that w
 
 ## Symmetric versus Asymmetric Cryptosystems
 
-In our Caesar Cipher example, as mentioned before, knowledge of the encryption table/key $e$ would automatically tell Eve what the decryption key $d$ should be.  This is an example of what we call a *symmetric cryptosystem*: the same key allows for both encrypting and decrypting messages.
+In our Caesar Cipher example, as mentioned before, knowledge of the encryption table/key $e$ would automatically tell Eve what the decryption key $d$ should be.  This is an example of what we call a [*symmetric cryptosystem*](https://en.wikipedia.org/wiki/Symmetric-key_algorithm): the same key allows for both encrypting and decrypting messages.
 
-But again, this raises the problem of how will Alice and Bob exchange the encryption/decryption key.  A better method would be to have an *asymmetric cryptosystem*, i.e., one in which Alice can provide *publicly* an encoding key to Bob (or anyone else who might want to send her a message), but keep secret her decoding key, with the obvious assumption that is hard to obtain the decoding key from the publicly available decoding key.  In this situation the encoding key is called the *public-key* and the decoding key is called the *private key*.  For this reason, these asymmetric cryptosystems are also called *public-key cryptosystems*.
+But again, this raises the problem of how will Alice and Bob exchange the encryption/decryption key.  A better method would be to have an *asymmetric cryptosystem*, i.e., one in which Alice can provide *publicly* an encoding key to Bob (or anyone else who might want to send her a message), but keep secret her decoding key, with the obvious assumption that is hard to obtain the decoding key from the publicly available decoding key.  In this situation the encoding key is called the *public-key* and the decoding key is called the *private key*.  For this reason, these asymmetric cryptosystems are also called [*public-key cryptosystems*](https://en.wikipedia.org/wiki/Public-key_cryptography).
 
-Of course, the real question is how can we create such a system.  Most of the naive methods one can come up with will be symmetric.  But before we do that, let's see if we can find a safe way to exchange a key in a symmetric cryptosystem.
+Of course, the real question is how can we create such a system.  Most of the naive methods one can come up with will be symmetric.  But before we do that, let's see if we can find a safe way to exchange a secret key for a symmetric cryptosystem.
 
 +++
 
@@ -192,14 +201,14 @@ Eve, Alice and Bob's enemy, will know $p$, $g$, $q$, $A$, and $B$, since these a
 
 :::{note}
 
-The numbers involved are very large in general, so one would have to compute very large powers of $g$.  So, you can see how the [Fast Powering Algorithm](./05-Powers.md#fast_powering).
+The numbers involved are very large in general, so one would have to compute very large powers of $g$.  So, you can see how the [Fast Powering Algorithm](#fast_powering).
 :::
 
 +++
 
 ### Finding $q$ and $g$
 
-How would one find the $g$, with large order $q$ in $\mathbb{F}^{\times}$?  Let's first think about its order, which we called $q$.  We want it to be as large as possible.  As we've seen in [Proposition 2](./05-Powers.md#pr-power_one) in a previous chapter, we know that $|g| = q \mid \varphi(p)=p-1$.  Since $p$ is odd, being a prime different from $2$, the largest that $q$ could be is if $p-1 = 2q$.  So, to find the *pair* $p$ and $q$, we look for a $p$ of the desired size, and check if $(p-1)/2$ is also prime.  If so, $q = (p-1)/2$ works.
+How would one find the $g$, with large order $q$ in $\mathbb{F}^{\times}$?  Let's first think about its order, which we called $q$.  We want it to be as large as possible.  As we've seen in {prf:ref}`a previous proposition <pr-power_one>`, we know that $|g| = q \mid \varphi(p)=p-1$.  Since $p$ is odd, being a prime different from $2$, the largest that $q$ could be is if $p-1 = 2q$.  So, to find the *pair* $p$ and $q$, we look for a $p$ of the desired size, and check if $(p-1)/2$ is also prime.  If so, $q = (p-1)/2$ works.
 
 We can do that relatively easy with Sage for primes of reasonable size:
 
@@ -225,7 +234,7 @@ If we take a random element of $a$ of $\mathbb{F}^{\times}$, we know that $|a| \
 
 Now, we can compute $a^2$.  If we get $1$, then $a$ is either $1$ or $p-1$, and we try a different random $a$.  But if $a^2 \neq 1$, then, either $|a| = q$ or $|a|=2q$.
 
-If $|a|=q$, then, by the [Order of a Power Proposition](./05-Powers.md#pr-order_power) from a previous chapter, we have that
+If $|a|=q$, then, by the {prf:ref}`Order of a Power Proposition <pr-order_power>` from a previous chapter, we have that
 ```{math}
 |a^2| = \frac{q}{\gcd(q, 2)} = \frac{q}{1} = q,
 ```
@@ -237,7 +246,7 @@ If $|a|=2q$, then, by the same result, we have that
 ```
 Hence, in either case $a^2$ gives us an element of order $q$.
 
-So, we have, when $p = 2q$, to find an element of order $q$ we simply take an random element $a$ between $2$ and $p-2$, and square it, i.e., we take $g = a^2$.
+So, we have, when $p = 2q + 1$, with $p$ and $q$ primes, to find an element of order $q$ we simply take an random element $a$ between $2$ and $p-2$, and square it, i.e., we take $g = a^2$.
 
 +++
 
@@ -247,7 +256,7 @@ More generally, when we do not necessarily have that $q = (p-1)/2$, but simply a
 :label: find_g
 
 
-Given primes $p$ and $q$, with $q$ dividing $p-1$, and a random element $a \in \mathbb{F}^{\times}$, then the probability that $c^{\frac{p-1}{q}}$ has order $q$ is $(q-1)/q$.
+Given primes $p$ and $q$, with $q$ dividing $p-1$, and a random element $a \in \mathbb{F}^{\times}$, then the probability that $a^{\frac{p-1}{q}}$ has order $q$ is $(q-1)/q$.  (If $q$ is large, this probability is quite high!)
 :::
 
 :::{admonition} Homework
@@ -260,7 +269,7 @@ In your homework you will implement this general method of finding $g$ of order 
 
 ### Example
 
-As a quick example.  First, last use a prime $p$ between $100{,}000$ and $200{,}000$, such that $(p-1)/2$ is also prime.  (This size is too small for it to safe, but will illustrate the process.)
+Let's do a quick example.  First, let's use a prime $p$ between $100{,}000$ and $200{,}000$, such that $(p-1)/2$ is also prime.  (This size is too small for it to safe, but will illustrate the process.)
 
 ```{code-cell} ipython3
 while True:
@@ -313,7 +322,7 @@ B = g^b
 B
 ```
 
-+++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "38431"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "114696"}, "metadata": {}}}]}
++++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "41070"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "88944"}, "metadata": {}}}]}
 
 So, now Alice sends Bob $A$, i.e., {eval}`A`, and Bob sends Alice $B$, i.e., {eval}`B`, while keeping $a$ and $b$ for themselves.
 
@@ -347,7 +356,9 @@ We call the *Diffie-Hellman Problem* the problem of being able to break the Diff
 :::
 
 
-If she can solve the *discrete log problem*, then she can solve the Diffie-Hellman problem: Eve computes $\log_g(A)$, which is just $a$, and then, as Alice does, gets the shared key as $B^a$.  It is not known if the converse is true, namely, if one can solve the Diffie-Hellman problem, then somehow one can solve the discrete log problem.
+If she can solve the *discrete log problem*, then she can solve the Diffie-Hellman problem: Eve computes $\log_g(A)$, which is just $a$, and then, as Alice does, gets the shared key as $B^a$.
+
+It is not known if the converse is true, namely, if one can solve the Diffie-Hellman problem, then somehow one can also solve the discrete log problem.
 
 +++
 
@@ -368,7 +379,7 @@ But note that we have no guarantee that some very clever individual will come up
 
 +++
 
-Also note that if the order of the element $g$ were not prime, then we can compute $|A| = |g^a|$ and if $|A| \neq |g|$, which is possible when $|g|$ is not prime, then by the [Order of a Power Proposition](./05-Powers.md#pr-order_power) (from a previous chapter), we know that
+Also note that if the order of the element $g$ were not prime, then we can compute $|A| = |g^a|$ and if $|A| \neq |g|$, which is possible when $|g|$ is not prime, then by the {prf:ref}`Order of a Power Proposition <pr-order_power>` (from a previous chapter), we know that
 ```{math}
 |A| = \frac{|g|}{\gcd(|g|, a)} \qquad \Longrightarrow \qquad \gcd(|g|, a) = \frac{|g|}{|A|},
 ```
@@ -401,8 +412,8 @@ We will now describe the cryptosystem, but observe that, for now, we shall assum
 ### Steps for ElGamal Encryption
 
 1) **Set up:** Choose and publish large prime $p$ and element $g \in \mathbb{F}_p$ of large prime order.
-2) **Key Creation:** Alice chooses a *private* key $a \in \{1, 2, 3, \ldots, p-2\}$ and publishes $A = g^a$ (in $\mathbb{F}_p$).
-3) **Encryption:** To encrypt the message $m$ (a numbers between $1$ and $p-1$), Bob chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use) $k$, computes $c_1 = g^k$, and $c_2=mA^k$ (both in $\mathbb{F}_p$), and sends the pair $(c_1, c_2)$ to Alice.  (This pair is the encrypted message.)
+2) **Key Creation:** Alice chooses a *private* key $a \in \{2, 3, \ldots, p-2\}$ and publishes $A = g^a$ (in $\mathbb{F}_p$).
+3) **Encryption:** To encrypt the message $m$ (a *number* between $1$ and $p-1$), Bob chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use) $k$, computes $c_1 = g^k$, and $c_2=mA^k$ (both in $\mathbb{F}_p$), and sends the pair $(c_1, c_2)$ to Alice.  (This pair is the encrypted message.)
 4) **Decryption:** To decrypt $(c_1, c_2)$ sent by Bob, Alice, using her private key $a$, computes $(c_1^a)^{-1} \cdot c_2$ (in $\mathbb{F}_p$).  This last expression is equal to the message $m$.
 
 
@@ -506,7 +517,7 @@ As usual, you will implement these steps more generally in your homework.
 
 Again, as for the Diffie-Hellman key exchange, we need the order of $g$ to be prime, and again, the best possible scenario is when $|g| = (p-1)/2$ and prime.
 
-Also note that in the encryption process, Bob should use an ephemeral private key $k$, meaning that he should randomly generate a new key for each message.  This increases security as if somehow Eve know that some message $m$ was encrypted and $(c_1, c_2)$ was the encrypted message, then she can decrypt any other encrypted message.  Say that Bob encrypts another message $m'$ using $k$ again, and resulting on the encrypted message $(c_1', c_2')$, then Eve can find the new secret message $m'$ by computing $m \cdot c_2'/c_2$, since:
+Also note that in the encryption process, Bob should use an ephemeral private key $k$, meaning that he should randomly generate a new key for each message.  This increases security as if somehow Eve knows that some message $m$ was encrypted and $(c_1, c_2)$ was the encrypted message, then she can decrypt any other encrypted message.  Say that Bob encrypts another message $m'$ using $k$ again, and resulting on the encrypted message $(c_1', c_2')$, then Eve can find the new secret message $m'$ by computing $m \cdot c_2'/c_2$, since:
 ```{math}
 \begin{align*}
   m \cdot \frac{c_2'}{c_2}

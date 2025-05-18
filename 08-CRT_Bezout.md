@@ -22,7 +22,7 @@ In this chapter we introduce two mathematical tools to help speed up the computa
 
 ## The Chinese Remainder Theorem
 
-In some cases we have algorithms even faster than Shank's Baby-Step/Giant-Step in computing discrete logs.  These depend on $N$ (the order of $g$) *not being prime*, which is one of the reasons we should always use elements of prime order with Diffie-Hellman key exchange and ElGamal cryptosystem.  They way these work is by prime factoring
+In some cases we have algorithms even faster than Shank's Baby-Step/Giant-Step in computing discrete logs.  These depend on $N$ (the order of $g$) *not being prime*, which is one of the reasons we should always use elements of prime order with Diffie-Hellman key exchange and ElGamal cryptosystem.  Here is, roughly, how these methods work: we compute the prime factorization
 ```{math}
 N = p_1^{r_1} p_2^{r_2} \cdots p_k^{r_k}
 ```
@@ -34,7 +34,7 @@ This last step of patching the discrete logs modulo $p_i^{r_i}$ is done by using
 :label: crt
 
 
-Let $m_1, m_2, \ldots, m_k$ be pairwise relatively prime moduli (i.e., $\gcd(m_i, m_j) = 1$ if $i \neq j$) and $a_1, a2_, \ldots, a_k$ be integers.  Then the system
+Let $m_1, m_2, \ldots, m_k$ be pairwise relatively prime moduli (i.e., $\gcd(m_i, m_j) = 1$ if $i \neq j$) and $a_1, a_2, \ldots, a_k$ be integers.  Then the system
 ```{math}
 :name: eq-crt
 
@@ -46,17 +46,16 @@ Let $m_1, m_2, \ldots, m_k$ be pairwise relatively prime moduli (i.e., $\gcd(m_i
 \end{align*}
 ```
 
-has a *unique* solution modulo $m = m_1 m_2 \cdots m_k$, meaning that there is an integer $x=x_0$ simultaneously satisfying all these equations, and that $x_1$ is also a common solution if and only if $x_1 \equiv x_0 \pmod{m}$.
+has a *unique* solution modulo $m = m_1 m_2 \cdots m_k$, meaning that there is an integer $x=x_0$ simultaneously satisfying all these congruences, and that $x_1$ is also a common solution if and only if $x_1 \equiv x_0 \pmod{m}$.
 :::
 
 Let's see why it is true and how we can find a solution.
 
 :::{prf:proof} Proof of the CRT.
-:nonumber:
 
 We start with the case when $k = 2$.  So, we want to find $x$ such that
 ```{math}
-:name: eq-crt-2
+:label: eq-crt-2
 
 \begin{align*}
   x &\equiv a_1 \pmod{m_1}, \\
@@ -64,7 +63,7 @@ We start with the case when $k = 2$.  So, we want to find $x$ such that
 \end{align*}
 ```
 
-Using the *Extended Euclidean Algorithm* we find $u$ and $v$ integers such that $1 = \gcd(m_1, m_2) = um_1 + vm_2$.  Note that this means that:
+Using the {prf:ref}`Extended Euclidean Algorithm <al-eea>` we find $u$ and $v$ integers such that $1 = \gcd(m_1, m_2) = um_1 + vm_2$.  Note that this means that:
 ```{math}
 \begin{align*}
 vm_2 &= 1 - um_1 \equiv 1 - u \cdot 0 \cdot 0 = 1 \pmod{m_1}, \\
@@ -94,7 +93,9 @@ i.e.,
   x_0 \equiv a_2 \pmod{m_2},
 \end{align*}
 ```
-and so $x_0$ is a solution to the system {prf:ref}`eq-crt-2`.  Also, clearly, if $x_1 \equiv x_0 \pmod{m}$, where $m = m_1m2$, i.e., $x = x_0 + tm$ for some integer $t$, then
+and so $x_0$ is a solution to the system {prf:ref}`eq-crt-2`.
+
+Also, clearly, if $x_1 \equiv x_0 \pmod{m}$, where $m = m_1m_2$, i.e., $x = x_0 + tm$ for some integer $t$, then
 ```{math}
 \begin{align*}
   x_1 \equiv x_0 + tm_1m_2 \equiv x_0 + 0 = x_0 \equiv a_1\pmod{m_1}, \\
@@ -103,7 +104,7 @@ and so $x_0$ is a solution to the system {prf:ref}`eq-crt-2`.  Also, clearly, if
 ```
 so $x_1$ is also a solution.  Hence, any $x_1 \equiv x_0 \pmod{m}$ is also a solution of {prf:ref}`eq-crt-2`.
 
-Now, suppose that $x_2$ is some other solution of {prf:ref}`eq-crt-2`.  (We need to show that $x_2 \equiv x_0 \pmod{m}$, i.e., that the solutions above are not missing any particular one.)  Then, since both $x_0$ and $x_1$ satisfy the system we have
+Now, suppose that $x_2$ is some other solution of {prf:ref}`eq-crt-2`.  (We need to show that $x_2 \equiv x_0 \pmod{m}$, i.e., that the solutions above are not missing any particular one.)  Then, since both $x_0$ and $x_2$ satisfy the system we have
 ```{math}
 \begin{align*}
   x_2 - x_0 \equiv a_1 - a_1 = 0 \pmod{m_1}, \\
@@ -111,7 +112,7 @@ Now, suppose that $x_2$ is some other solution of {prf:ref}`eq-crt-2`.  (We need
 \end{align*}
 ```
 
-This means that $m_1$ and $m_2$ both divide $x_2 - x_0$.  *Since $\gcd(m_1, m_2) = 1$*, this means that $m_1m_2 = m$ also divides $x_2 - x_0$, i.e., that $x_2 \equiv x_0 \pmod{m}$.
+This means that $m_1$ and $m_2$ both divide $x_2 - x_0$.  *Since $m_1$ and $m_2$ are relatively prime*, this means that $m_1m_2 = m$ also divides $x_2 - x_0$, i.e., that $x_2 \equiv x_0 \pmod{m}$.
 
 So, note that this gives us that the two congruences of system {prf:ref}`eq-crt-2` is equivalent to the single congruence
 ```{math}
@@ -295,7 +296,7 @@ Let's check again:
 (Mod(sol, 6), Mod(sol, 5)) == (Mod(3, 6), Mod(3, 5))
 ```
 
-Repeating, we replace the first two congruences by $x \equiv 3 \pmod{30}$:
+Repeating, we replace the first two congruences (of the *new* system) by $x \equiv 3 \pmod{30}$:
 
 ```{math}
 \begin{align*}
@@ -344,6 +345,7 @@ If we have a list, the `.pop` method takes (by default) the last element of the 
 
 ```{code-cell} ipython3
 my_list = [1, 2, 3, 4]
+
 # returns last element and REMOVE it from the list
 last_element = my_list.pop()
 
@@ -361,7 +363,7 @@ a = 3
 print(f"We have that {a = }, and {b = }.")
 ```
 
-What happened here is that at the end `b` has the old value of `a`.  Now, let's look at an example with lists:
+We started setting `a` as $2$, used `b` to store the same value as `a`, and then changed the value of `a`.  At the end `b` has the old value of `a`.  Now, let's look at an example with lists:
 
 ```{code-cell} ipython3
 list_a = [1, 2, 3]
@@ -370,22 +372,22 @@ list_a.pop()  # remove last element of list_a
 print(f"We have that {list_a = }, and {list_b = }.")
 ```
 
-So, you might have been expecting that `list_b` would have the previous value of `list_a`, but both lists are the *same*!
+So, you might have been expecting that `list_b` would have the old/original value of `list_a`, but both lists are the *same*!
 
-The reason for that is, basically, that line 2 makes the names `list_a` and `list_b` "point" to the same object, the list `[1, 2, 3]`.  (The same is true for line 2 in the previous example: `a` and `b` point to the same object, the integer `2`.)  But, while line 3 of the previous example *redefines* `a`, making it to point somewhere else (the integer `3`), in the last example line 3 *changed* (or *mutated*) the object to which both lists were point!
+The reason for that is, basically, that line 2 makes the names `list_a` and `list_b` "point" to the same object, the list `[1, 2, 3]`.  (The same is true for line 2 in the previous example: `a` and `b` point to the same object, the integer `2`.)  But, while line 3 of the previous example *redefines* `a`, making it to point somewhere else (the integer `3`), in the last example line 3 *changed* (or *mutated*) the object to which both lists were pointing!
 
-If we were to also redefine `list_a`, then this problem would not happen:
+If we were to also *redefine* (instead of changing) `list_a`, then this problem would not happen:
 
 ```{code-cell} ipython3
 list_a = [1, 2, 3]
 list_b = list_a
-liast_a = [1, 2]
+list_a = [1, 2]
 print(f"We have that {list_a = }, and {list_b = }.")
 ```
 
 The statement `list_a = [1, 2]` makes `list_a` point somewhere else, i.e., it *defines* `list_a`, while `list_a.pop()` simply *changes* the object to which it was pointing (by removing the last element).
 
-But you might want to have `list_b` be the same as the old `list_a`, and not be affected by any changes to `list_a`, meaning, you might want `list_b` to be a *copy* of `list_a` and its *current state*, and not be affected to any other changes made to it.
+But you might want to have `list_b` be the same as the old `list_a`, and not be affected by any changes to `list_a`, meaning, you might want `list_b` to be a *copy* of `list_a` at its *current state*, and not be affected to any other changes made to it.
 
 To do that, we can use the list method `.copy()`:
 
@@ -407,7 +409,7 @@ poped_value = my_dict.pop("B")
 poped_value, my_dict
 ```
 
-Sets are also mutable.  On the other hand [tuples](https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences) (which use parentheses instead of the square brackets used for lists) are *not* mutable.  There is not method that changes the original tuple.
+Sets are also mutable.  On the other hand [tuples](https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences) (which use parentheses instead of the square brackets used for lists) are *not* mutable.  There is no method that changes a tuple (since it cannot be changed).
 
 :::{warning}
 
@@ -434,13 +436,13 @@ my_function(2)
 
 (The function here is "silly", but it is a simple example to illustrate the point.)
 
-Let's see if the value of `a` was changed also outside the function.  (If it were, it should have value `3` now.)
+Let's see if the value of `a` was changed also outside the function.  (If it were, it should have value `3 = 2 + 1` now.)
 
 ```{code-cell} ipython3
 a
 ```
 
-As you can see, it is not!    Variables defined inside a function are *local*, meaning, they only have values inside the function.  This includes the input variables as well.
+As you can see, it is not!    Variables defined inside a function are *local*, meaning, they only have meaning inside the function.  This includes the input variables as well.
 
 But let's look at this example:
 
@@ -507,7 +509,7 @@ Now the original remains intact:
 my_list
 ```
 
-What would happen if the user passes a [tuple](https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences), like `(5, 3, 1, 2, 4)`, instead of a list?  Since tuples do not have the `.copy` method (since they cannot be changed, this method is not needed), we would get an error:
+What would happen if the user passes a [tuple](https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences), like `(5, 3, 1, 2, 4)`, instead of a list?  Since tuples do not have the `.copy` method (since they cannot be changed, and hence this `copy` method is not needed), we would get an error:
 
 ```
 AttributeError: 'tuple' object has no attribute 'copy'
@@ -525,7 +527,7 @@ we use
     new_list = list(input_list)
 ```
 
-This will copy the list, if `input_list` is already a list, and convert the obeject to a list if not:
+This will copy the list, if `input_list` is already a list, and convert the object to a list if not:
 
 ```{code-cell} ipython3
 def find_list_minimum(input_list):
@@ -544,7 +546,7 @@ my_list
 ```
 
 ```{code-cell} ipython3
-my_tuple = (5, 3, 1, 2, 4)
+my_tuple = (5, 3, 1, 2, 4)  # a tuple!
 find_list_minimum(my_tuple)
 ```
 
@@ -554,11 +556,16 @@ my_tuple
 
 This might come hand when getting lists are inputs for functions, like in your homework, when coding the CRT function.
 
+```{important}
+
+The bottom line is that if you have a function that takes a list, say `my_list`, as an argument, and you do not want to change the original when performing the actions of your function, create a copy of the list using something like `local_list = list(my_list)`, and use `local_list` instead of `my_list` inside your function.
+```
+
 +++
 
 ## Generalized Bezout's Lemma
 
-We will make even further improvements in some cases, but we need a new result before we can introduce it:
+The following result is also used in improvements in computations of the discrete log (in specific cases):
 
 :::{prf:lemma} Generalized Bezout's Lemma
 :label: lm-gen_bezout
@@ -573,7 +580,7 @@ d = r_1a_1 + r_2a_2 + \cdots + r_ka_k.
 :::{prf:proof} Proof of the Generalized Bezout's Lemma
 :nonumber:
 
-The idea is to reduce the number of integers inside the GCD until we get only two and can use the Extended Euclidean Algorithm.  The key idea is that
+The idea is to reduce the number of integers inside the GCD until we get only two and can use the Extended Euclidean Algorithm.  The key result is that
 ```{math}
 \gcd(a_1, a_2, \ldots, a_n) = \gcd( a_{1}, a_{2}, \ldots , a_{n-2}, \gcd(a_{n-1}, a_n)),
 ```
@@ -585,22 +592,22 @@ d = r_1 a_1 + r_2 a_2 + r_3 a_3 + r_4 a_4.
 ```
 Let $d_3 = \gcd(a_3, a_4)$.  By Bezout's Lemma we have that there are integers $u_3$ and $v_3$ such that
 ```{math}
-d_3 = u_3 a_3 + v_3 a_4.
+\color{red} d_3 = u_3 a_3 + v_3 a_4.
 ```
 So, we have that $d = \gcd(a_1, a_2, d_3)$, and repeating the argument, we have that $d = \gcd(a_1, \gcd(a_2, d_3))$.  Letting $d_2 = \gcd(a_2, d_3)$, we can use Bezout's Lemma again to find integers $u_2$ $v_2$ such that
 ```{math}
 \begin{align*}
-d_2 &= u_2 a_2 + v_2 d_3 \\
-&= u_2 a_2 + v_2 (u_3 a_3 + v_3 a_4) \\
-&= u_2 a_2 + (v_2u_3) a_3 + (v_2 v_3) a_4.
+{\color{blue} d_2} &= u_2 a_2 + v_2 {\color{red} d_3} \\
+&= u_2 a_2 + v_2 ({\color{red} u_3 a_3 + v_3 a_4}) \\
+&= {\color{blue} u_2 a_2 + (v_2u_3) a_3 + (v_2 v_3) a_4}.
 \end{align*}
 ```
 
 We can now use Bezout's Lemma one last time and get integers $u_1$ and $v_1$ such that
 ```{math}
 \begin{align*}
-d &= u_1 a_1 + v_1 d_2 \\
-&= u_1 a_1 + v_1 (u_2 a_2 + (v_2u_3) a_3 + (v_2 v_3) a_4) \\
+d &= u_1 a_1 + v_1 {\color{blue} d_2} \\
+&= u_1 a_1 + v_1 ({\color{blue} u_2 a_2 + (v_2u_3) a_3 + (v_2 v_3) a_4}) \\
 &= u_1 a_1 + (v_1 u_2) a_2 + (v_1v_2u_3) a_3 + (v_1 v_2 v_3) a_4.
 \end{align*}
 ```
@@ -618,7 +625,20 @@ To actually compute the $r_1$, $r_2$, etc., above, one can follow the idea of th
 
 In the first step, we get a list of coefficients $(u_3, v_3)$.  In the second, the list becomes $(u_2, v_2u_3, v_2v_3)$.  Then, in the third and final step, it becomes, $(u_1, v_1 v_2, v_1v_2u_3, v_1v_2v_3)$.  So, in each step, when we use Bezou't Lemma, we get a pair of integers $(u, v)$ and change the list we had before by adding $u$ to the *beginning* of the new list, and by multiplying all elements of the old list by $v$.  We repeat the process until we run out of integers.
 
-Here is a more detailed algorithm:
+Before we describe the algorithm, we need some standard notation:
+
+:::{prf:definition} Assignment Notation
+:label: not-assignment
+
+
+We will use $\leftarrow$, as is customary, to denote *assignment* to a variable.  So, we may write, for instance,
+```{math}
+a \leftarrow a^2
+```
+to say that we assign to the variable $a$ the square of its *previous value*.  In Sage this is done simply with `a = a^2`, but in algebra we cannot use the equal sign, since it has a different meaning.  (If we have $a = a^2$, then that means that $a$ must be either $0$ or $1$.)
+:::
+
+With this notation in hand, we can describe the algorithm in more detail:
 
 :::{prf:algorithm} Generalized Extended Euclidean Algorithm
 :label: al-geea
@@ -630,7 +650,7 @@ Given a list $v = (a_1, a_2, \ldots, a_n)$ of integers, to find $w = ( r_{1}, r_
 ```
 we do:
 
-1) Initialize $b \leftarrow a_n$, $w = (1)$, and remove the last element of $v$.
+1) Initialize $b \leftarrow a_n$ (the last element of $v$), $w \leftarrow (1)$ (a list with only $1$ in it), and remove the last element of $v$.
 2) While $v$ is not empty:
    1) Remove the last element of $v$ and save it in the variable $a$.
    2) Use Bezout's Lemma to find $r$ and $s$ such that $\gcd(a, b) = ra + sb$.
@@ -654,29 +674,29 @@ So, our input is:
 v = [123, 573, 942, 3105]
 ```
 
-Since we need to change this list in the process, let's save a copy of the original:
+Since we need to change this list in the process, let's use a *copy* of the original:
 
 ```{code-cell} ipython3
-v_original = list(v)  # or use v.copy()
+v_copy = list(v)  # or use v.copy()
 ```
 
 Then, we initialize `b` and `w`, and remove last element of `v`:
 
 ```{code-cell} ipython3
-b = v.pop()  # remove last element of v and save it in b
+b = v_copy.pop()  # remove last element of v and save it in b
 w = [1]
 ```
 
 We now start the loop, which runs as long as `v` is not empty.  So, let's check it:
 
 ```{code-cell} ipython3
-v
+v_copy
 ```
 
-Since `v` is not empty, we run the body of the loop.  First, remove the last element of `v` and save it in `a`:
+Since `v_copy` is not empty, we run the body of the loop.  First, remove the last element of `v_copy` and save it in `a`:
 
 ```{code-cell} ipython3
-a = v.pop()  # remove last element of v and save it in a
+a = v_copy.pop()  # remove last element of v and save it in a
 ```
 
 Then, we use the Extended Euclidean Algorithm, using Sage's own `xgcd`:
@@ -697,43 +717,43 @@ And we save the old GCD (saved in `d` above) as `b`.
 b = d
 ```
 
-The body of the loop is over, so we check if `v` is empty:
+The body of the loop is over, so we check if `v_copy` is empty:
 
 ```{code-cell} ipython3
-v
+v_copy
 ```
 
 It is not, so we repeat the body of the loop (all at once now):
 
 ```{code-cell} ipython3
-a = v.pop()
+a = v_copy.pop()
 d, r, s = xgcd(a, b)
 w = [r] + [s * x for x in w]
 b = d
 ```
 
-Check `v` again:
+Check `v_copy` again:
 
 ```{code-cell} ipython3
-v
+v_copy
 ```
 
 Since it is not empty, we run the body of the loop:
 
 ```{code-cell} ipython3
-a = v.pop()
+a = v_copy.pop()
 d, r, s = xgcd(a, b)
 w = [r] + [s * x for x in w]
 b = d
 ```
 
-Check `v` again:
+Check `v_copy` again:
 
 ```{code-cell} ipython3
-v
+v_copy
 ```
 
-Since `v` is now empty, we are done.  The variable `b` (or `d`) should have our GCD:
+Since `v_copy` is now empty, we are done.  The variable `b` (or `d`) should have our GCD:
 
 ```{code-cell} ipython3
 b
@@ -742,7 +762,7 @@ b
 Let's check it with Sage's `gcd`:
 
 ```{code-cell} ipython3
-gcd(v_original)
+gcd(v)
 ```
 
 So, it worked!
@@ -756,7 +776,7 @@ w
 Let's test it:
 
 ```{code-cell} ipython3
-sum(x * y for (x, y) in zip(v_original, w))
+sum(x * y for (x, y) in zip(v, w))
 ```
 
 It worked!
@@ -764,20 +784,20 @@ It worked!
 Note that we can also use Sage's `xgcd`:
 
 ```{code-cell} ipython3
-xgcd(v_original)
+xgcd(v)
 ```
 
 The first element is the GCD, matching our result.  But the coefficients are different.  Of course, they also work:
 
 ```{code-cell} ipython3
-w_sage = list(xgcd(v_original))[1:]  # convert result to list, and slice the first element off
+w_sage = list(xgcd(v))[1:]  # convert result to list, and slice the first element off
 w_sage
 ```
 
 Checking:
 
 ```{code-cell} ipython3
-sum(x * y for (x, y) in zip(v_original, w_sage))
+sum(x * y for (x, y) in zip(v, w_sage))
 ```
 
 ### Number of Operations
