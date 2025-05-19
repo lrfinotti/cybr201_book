@@ -1,7 +1,7 @@
 # In _config.yml
 title: A Practical and Computational Introduction to Mathematical Cryptography
 author: Luís Finotti
-copyright: 2025
+copyright: "2025"
 execute:
   execute_notebooks: force
 

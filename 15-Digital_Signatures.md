@@ -66,7 +66,7 @@ For the sake of simplicity, in what follows we will simply refer to the signatur
 
 We often can use cryptosystems to create a digital signature algorithm.  Basically we "decrypt" the document and publish this version as the signature.  Then, encrypting it will produce the original document, which verifies that the signature is valid.
 
-Here is how it would work using the [RSA Cryptosystem](./11-RSA.md#sec-rsa):
+Here is how it would work using the [RSA Cryptosystem](#sec-rsa):
 
 1) **Setup:**  (Same as the RSA)
     1) Samantha chooses two large primes $p$ and $q$, to be *kept secret*, and computes $N = pq$.

@@ -47,7 +47,6 @@ The following [arithmetic function](https://en.wikipedia.org/wiki/Arithmetic_fun
 :::{prf:definition} The Euler $\varphi$-Function
 :label: def-euler_phi
 
-
  Given a positive integer $m$, we defined the $\varphi(m)$ as $|(\mathbb{Z}/m\mathbb{Z})^{\times}|$, i.e., the number of elements of $(\mathbb{Z}/m\mathbb{Z})^{\times}$, in other words
 ```{math}
 \varphi(m) = |\{a \in \{1, 2, \ldots, m-1\} \; : \; \gcd(a, m) = 1 \}|.
@@ -64,7 +63,7 @@ We also define $\varphi(1)$ as $1$.  This function is called the *Euler $\varphi
 
 :::{note}
 
-If $p$ is prime, then $\verphi(p) = p-1$, as all integers between $1$ and $p-1$ are relatively prime to $p$.
+If $p$ is prime, then $\varphi(p) = p-1$, as all integers between $1$ and $p-1$ are relatively prime to $p$.
 :::
 
 As we will later see, this function will be important for the RSA Cryptosystem.

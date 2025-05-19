@@ -16,7 +16,7 @@ kernelspec:
 
 +++
 
-The only *know* way to break RSA's security if by factoring $N = pq$, where $p$ and $q$ are very large primes.  But before we can even try to factor a number, we need an efficient way to test if a number is prime.
+The only *known* way to break RSA's security if by factoring $N = pq$, where $p$ and $q$ are very large primes.  But before we can even try to factor a number, we need an efficient way to test if a number is prime.
 
 +++
 
@@ -31,7 +31,7 @@ Remember that we have:
 If $p$ is prime and $p \nmid a$, then $a^{p-1} = 1$ in $\mathbb{Z}/p\mathbb{Z}$ (i.e., $a^{p-1} \equiv 1 \pmod{p}$).  In particular, for any integer $a$, we have that $a^p = a$ in $\mathbb{Z}/p\mathbb{Z}$.
 :::
 
-(This is a consequence of [Euler's Theorem](./05-Powers.md#th-euler).)
+(This is a consequence of {prf:ref}`Euler's Theorem <th-euler>`.)
 
 We can use Fermat's Little Theorem try to check if a number is prime or composite:
 
@@ -156,7 +156,7 @@ Let's introduce some useful terminology:
 :label: def-mr_witness
 
 
-Let $n$ be an odd, positive integer, and write $n = 2^{k}q$, with $q$ odd.  If $a$ is an integer such that
+Let $n$ be an odd, positive integer, and write $n - 1= 2^{k}q$, with $q$ odd.  If $a$ is an integer such that
 
 1) $\gcd(a, n) = 1$,
 2) $a^q \neq 1$ in $\mathbb{Z}/n\mathbb{Z}$,
@@ -176,10 +176,10 @@ Note that $a$ as above tells us that $n$ is composite, since if it were prime, b
 Let $n > 2$ be a integer (to be testes for compositeness) and $a \in \{ 2, 3 ,\ldots, (n-1) \}$ (a potential witness), which we see as an element of $\mathbb{Z}/n\mathbb{Z}$.
 
 1) If $n > 2$ and even, or if $\gcd(a, n) > 1$, then $n$ is **composite**.
-2) If not, find $k$ and $q$ such that $n-1 = 2^k$, with $q$ odd.
+2) If not, find $k$ and $q$ such that $n-1 = 2^k q$, with $q$ odd.
 3) Initialize $b \leftarrow a^q$ (in $\mathbb{Z}/n\mathbb{Z}$).
 4) If $b=1$, then the test **fails** (it is inconclusive and we can stop here).
-5) If $b \neq 1$, the for $i = 0, 1, 2, \ldots, (k-1)$ we:
+5) If $b \neq 1$, the for $i = 0, 1, 2, \ldots, (k-1)$ we do:
    1) If $b=-1$, then the test **fails**.
    2) If $b \neq -1$, then set $b \leftarrow b^2$ and try next $i$.
 6) If finish the loop without failing, then $n$ is **composite** and $a$ is a Miller-Rabin witness.
@@ -226,7 +226,7 @@ a = Mod(2, n)
 
 The first step is to compute $\gcd(a, n) = \gcd(2, 561)$.  But, since $561$ is odd, the GCD is clearly equal to $1$.
 
-Now, for the second step, we need to find $k$ and $q$ such that $n - 1 = 2^k q$.  Note that $k$ is simply the number of times that $2$ divides $n-1$.  We know it is at least one, since $n$ is odd.  We could compute it with a simple loop, but Sage has a tool for that task already.  The function `valuation(n, p)` returns how many times the prime `p` divides the integer `n`.
+Now, for the second step, we need to find $k$ and $q$ such that $n - 1 = 2^k q$.  Note that $k$ is simply the number of times that $2$ divides $n-1$.  We know it is at least one, since $n$ is odd.  We could compute it with a simple loop, but Sage has a tool for that task already: the function `valuation(n, p)` returns how many times the prime `p` divides the integer `n`.
 
 ```{code-cell} ipython3
 k = valuation(n - 1, 2)
@@ -304,7 +304,7 @@ As usual, you will implement this algorithm in your homework.
 
 ### Proportion of Witnesses
 
-At first glance, this looks a lot like {prf:ref}`al-flt`, in the sense that it can only detect compositeness in some cases.  So, one might also wonder if there $n$ that are similar to Carmichael numbers, in the sense, that $n$ is composite, but no $a \in \{2, 3, \ldots, (n-1)\}$ is a Miller-Rabin witness for its compositeness.  But in fact, there is *not*!
+At first glance, this looks a lot like {prf:ref}`al-flt`, in the sense that it can only detect compositeness in some cases.  So, one might also wonder if there are $n$'s that are similar to Carmichael numbers, in the sense, that $n$ is composite, but no $a \in \{2, 3, \ldots, (n-1)\}$ is a Miller-Rabin witness for its compositeness.  But in fact, there is *not*!
 
 :::{prf:theorem} Miller-Rabin Witnesses
 :label: th-mr_witness
@@ -348,13 +348,12 @@ You will implement this test in your homework.
 
 ### Deterministic Miller-Rabin
 
-The [Generalized Riemann Hypothesis (GRH)](https://en.wikipedia.org/wiki/Generalized_Riemann_hypothesis) is a [conjecture](https://en.wikipedia.org/wiki/Conjecture) (i.e., a statement believed to be true, but for which there is still no mathematical proof) that relates to prime numbers.  Even stating it would be beyond the scope of this text, but it is one of the most important conjectures in all of Mathematics, and proving only a particular case, the (non-generalized )[Riemann Hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis), one of the [Millennium Prize Problems](https://en.wikipedia.org/wiki/Millennium_Prize_Problems), would pay you a million dollars..
+The [Generalized Riemann Hypothesis (GRH)](https://en.wikipedia.org/wiki/Generalized_Riemann_hypothesis) is a [conjecture](https://en.wikipedia.org/wiki/Conjecture) (i.e., a statement believed to be true, but for which there is still no mathematical proof) related to prime numbers.  Even stating it would be beyond the scope of this text, but it is one of the most important conjectures in all of Mathematics, and proving only a particular case, the (non-generalized )[Riemann Hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis), one of the [Millennium Prize Problems](https://en.wikipedia.org/wiki/Millennium_Prize_Problems), would pay you a million dollars.
 
-On the other hand, there is ample numerical and theoretical evidence that it is likely true, and many proved results in mathematics can be strengthened if we assume the GRH to be true.  One example allows us to use the Miller-Rabin test deterministically with far fewer tests:
+On the other hand, there is ample numerical and theoretical evidence that it is likely true, and many proved results in mathematics can be strengthened if we assume the GRH to be true.  For example, if the GRH is true, then we can use the Miller-Rabin test deterministically with far fewer tests:
 
 :::{prf:theorem} Deterministic Miller-Rabin
 :label: th-dmr
-
 
 If the GRH is true, then every composite, odd $n$ has a Miller-Rabin witness $a$ with $a \leq 2 (\log(n))^2$.
 :::
@@ -375,7 +374,6 @@ So, let's introduce some (standard) notation:
 :::{prf:definition} Number of Primes Function
 :label: def-pi
 
-
 Let $x$ be a positive real number.  Then, $\pi(x)$ denotes the number of primes less than or equal to $x$.
 :::
 
@@ -391,10 +389,10 @@ We have that
 ```{math}
 \lim_{x \to \infty} \frac{\pi(x)}{x/\log(x)} = 1.
 ```
-(Here $\log(x)$ is the *natural log*, i.e., base $e$.)
+(Here $\log(x)$ is the *natural log*, i.e., base the log $e$.)
 :::
 
-The theorem above is stated using Calculus, but what is basically says is that, for *very* large numbers $x$ we have that $\dfrac{\pi(x)}{x/\log(x)}$ is (relatively) close to $1$, or, $\pi(x)$ about "close" to $x/\log(x)$.
+The theorem above is stated using Calculus, but what is basically says is that, for *very* large numbers $x$ we have that $\dfrac{\pi(x)}{x/\log(x)}$ is (relatively) close to $1$, or equivalently, that $\pi(x)$ is (relatively) close to $x/\log(x)$.
 
 :::{table} $\pi(x)$ versus $x/\log(x)$ for Large $x$
 :name: tb-pi
@@ -449,33 +447,31 @@ prime_pi(10^6) - prime_pi(9 * 10^5)
 
 ## Finding a Random Prime
 
-Suppose we want to find a random $1024$-bit prime, i.e., a prime $p$ such that $2^{1023} < p < 2^{1024}$.  There are about
+Suppose we want to find a random $1024$-bit prime (e.g., to use with ElGamal's encryption or the RSA), i.e., a prime $p$ such that $2^{1023} < p < 2^{1024}$.  There are about
 ```{math}
-\frac{2^{1024}}{1024 \cdot \log(2)} - \frac{2^{1023}}{1023 \cdot log(2)} \approx 1.26 \cdot 10^{305}
+\frac{2^{1024}}{1024 \cdot \log(2)} - \frac{2^{1023}}{1023 \cdot \log(2)} \approx 1.26 \cdot 10^{305}
 ```
 such primes.  That is a lot, but the range is also huge: the probability that a random element in the range is prime is about $0.14\%$.  So, if we pick about $(0.0014)^{-1} \approx 714$ random elements in the range, there is a good change one of them will be prime.  (We can test them using Miller-Rabin.)
 
-But we can do better!  For instance, we can avoid multiples of, say, $2$, $3$, $5$, $7$, and $11$.  Here is one way of doing it: pick a number relatively prime to $2 \cdot 3 \cdot 5 \cdot 7 \cdot 11 = 2310$, e.g., $1139$.
+But we can do better!  For instance, we can avoid multiples of, say, $2$, $3$, $5$, $7$, and $11$.  Here is one way of doing it: pick a number relatively prime to $2 \cdot 3 \cdot 5 \cdot 7 \cdot 11 = 2310$, e.g., $13$.
 
-```{code-cell} ipython3
-gcd(2310, 1139)
-```
++++
 
-Then, for any integer $k$, the number $N = 2310 \cdot k + 1139$ is relatively prime to $2310$, as by the Euclidean Algorithm (or, more precisely, by the idea behind it), we have
+Then, for any integer $k$, the number $N = 2310 \cdot k + 13$ is relatively prime to $2310$, as by the Euclidean Algorithm (or, more precisely, by the idea behind it), we have
 ```{math}
-\gcd(N, 2310) = \gcd(N - 2310 \cdot k, 2310) = \gcd(1139, 2310) = 1.
+\gcd(N, 2310) = \gcd(N - 2310 \cdot k, 2310) = \gcd(13, 2310) = 1.
 ```
 
-Then, to choose a number in our range from $2^{1023}$ to $2^{1024}$, we simply pick $k$ in the range from $\lceil (2^{1023} - 1139)/2310 \rceil$ to $\lfloor (2^{1024} - 1139) / 2310 \rfloor$.
+Then, to choose a number in our range from $2^{1023}$ to $2^{1024}$, we simply pick $k$ in the range from $\lceil (2^{1023} - 13)/2310 \rceil$ to $\lfloor (2^{1024} - 13) / 2310 \rfloor$.
 
-But how much doing this improve the probability of getting a random prime in the range?  The math behind is not complex, and involves basically solutions of systems of congruences modulo the given primes: we must have
+But how does this improve the probability of getting a random prime in the range?  The math behind is not complex, and involves basically solutions of systems of congruences modulo the given primes: we must have
 ```{math}
 \begin{align*}
 x &\equiv 1 \pmod{2} \\
 x &\equiv a_3 \pmod{3} \\
 x & \equiv a_5 \pmod{5} \\
 x &\equiv a_7 \pmod{7} \\
-x &\equiv a_11 \pmod{11}
+x &\equiv a_{11} \pmod{11}
 \end{align*}
 ```
 where the $a_p$'s can be any choice between $1$ and $p-1$.  An analysis of the number of solutions gives that between $1$ and some large $N$, we have about
@@ -494,7 +490,7 @@ This is a very reasonable improvement.  Can we do better if we add more primes t
 ```{math}
 \frac{2}{1} \cdot \frac{3}{2} \cdot \frac{5}{4} \cdots \frac{p_k}{p_k - 1}.
 ```
-{prf:ref}`tb-impr` shows the improvements obtained by going to $p_k$:
+[](#tb-impr) shows the improvements obtained by going to $p_k$:
 
 :::{table} Improvement Factors by Avoiding Primes Up to $p_k$
 :align: center

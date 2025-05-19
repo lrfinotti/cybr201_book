@@ -18,21 +18,22 @@ kernelspec:
 
 ## Euler's Formula
 
-Before we introduce a new and important public-key cryptosystem, we need some theory.  We start by reviewing some facts about $\mathbb{Z}/m\mathbb{Z}$ from {prf:ref}`05-Powers.md`:
+Before we introduce a new and important public-key cryptosystem, we need some theory.  We start by reviewing some facts from [the chapter on powers in $\mathbb{Z}/m\mathbb{Z}$](#ch-powers):
 
 :::{prf:definition} The Euler $\varphi$-Function
 :label: def-euler_phi-2
 
-
- Given a positive integer $m$, we defined the $\varphi(m)$ as the number of elements of $(\mathbb{Z}/m\mathbb{Z})^{\times}$, in other words
+ Given a positive integer $m$, we defined the $\varphi(m)$ as $|(\mathbb{Z}/m\mathbb{Z})^{\times}|$, i.e., the number of elements of $(\mathbb{Z}/m\mathbb{Z})^{\times}$, in other words
 ```{math}
-\varphi(m) = \text{number of integers $a$ between $0$ and $m$ with $\gcd(a, m)=1$.}
+\varphi(m) = |\{a \in \{1, 2, \ldots, m-1\} \; : \; \gcd(a, m) = 1 \}|.
 ```
+
 We also define $\varphi(1)$ as $1$.  This function is called the *Euler $\varphi$ function*.
 :::
 
+(Remember that for a set $S$, we denote by $|S|$ the *number of elements* in the set.)
 
-:::{prf:theorem}
+:::{prf:theorem} Formula for $\varphi(m)$
 :label: th-phi_comp-2
 
 
@@ -51,10 +52,10 @@ be its prime decomposition.  Then
 :label: th-euler-2
 
 
-Let $a$ be a unit in $\mathbb{Z}/m\mathbb{Z}$ (i.e., $\gcd(a, m) = 1$).  Then $a^{\varphi(m)} = 1$ in $\mathbb{Z}/m\mathbb{Z}$ (i.e., $a^{\varphi(m)} \equiv 1 \pmod{m}$).  (Here $\varphi$ is the Euler $\varphi$ function.)
+Let $a$ be a unit in $\mathbb{Z}/m\mathbb{Z}$ (i.e., $\gcd(a, m) = 1$).  Then $a^{\varphi(m)} = 1$ in $\mathbb{Z}/m\mathbb{Z}$ (i.e., $a^{\varphi(m)} \equiv 1 \pmod{m}$).
 :::
 
-:::{prf:proposition}
+:::{prf:proposition} Reducing Powers
 :label: pr-power_eq_1-2
 
 
@@ -63,7 +64,7 @@ Let $a$ in $\mathbb{Z}/m\mathbb{Z}$ and suppose that $k$ is a *positive* integer
 
 
 
-In this chapter we will deal with a modulus $N = pq$, where $p$ and $q$ are two distinct (*very* large) primes.  So, we have that $\varphi(N)=(p-1)(q-1)$.  Then, by {prf:ref}`{name} <th-euler>`, we have that if $\gcd(a, N) = 1$, then $a^{(p-1)(q-1)} = 1$ in $\mathbb{Z}/N\mathbb{Z}$.  But we can do better:
+In this chapter we will deal with a modulus $N = pq$, where $p$ and $q$ are two distinct (*very* large) primes.  So, we have that $\varphi(N)=(p-1)(q-1)$.  Then, by {prf:ref}`Euler's Theorem <th-euler-2>`, we have that if $\gcd(a, N) = 1$, then $a^{(p-1)(q-1)} = 1$ in $\mathbb{Z}/N\mathbb{Z}$.  But we can do better:
 
 :::{prf:theorem} Euler's Formula
 :label: th-order_pq
@@ -72,24 +73,29 @@ In this chapter we will deal with a modulus $N = pq$, where $p$ and $q$ are two 
 Let $p$ and $q$ be distinct primes, $N = pq$, and $g = \gcd((p-1), (q-1))$, and $a \in (\mathbb{Z}/N\mathbb{Z})^{\times}$.  Then, $a^{(p-1)(q-1)/g} = 1$ (in $\mathbb{Z}/N\mathbb{Z}$).  In particular, if both $p$ and $q$ are odd, we have that $a^{(p-1)(q-1)/2} = 1$.
 :::
 
+:::{note}
+Note how we could reduce the power necessary to obtain $1$ from $(p-1)(q-1)$ to $(p-1)(q-1)/g$.
+:::
+
 :::{prf:proof}
 
-Since $\gcd(a, pq) = 1$ (as $a$ is a unit in $\mathbb{Z}/N\mathbb{Z}$), we have that $\gcd(a, p) = \gcd(a, q) = 1$, so $a$ (as an integer) is also a unit ins $\mathbb{Z}/p\mathbb{Z}$ and $\mathbb{Z}/q\mathbb{Z}$.  Then, by {prf:ref}`{name} <th-eule>`, and noting the $(p-1)/g$ and $(q-1)/g$ are both *integers*, we have that
+Since $\gcd(a, pq) = 1$ (as $a$ is a unit in $\mathbb{Z}/N\mathbb{Z}$), we have that $\gcd(a, p) = \gcd(a, q) = 1$, so $a$ (as an integer) is also a unit in $\mathbb{Z}/p\mathbb{Z}$ and $\mathbb{Z}/q\mathbb{Z}$.  Then, by {prf:ref}`Euler's Theorem <th-euler-2>`, and noting the $(p-1)/g$ and $(q-1)/g$ are both *integers*, we have that
 ```{math}
 \begin{align*}
-a^{((p-1)(q-1)/g} & = \left( a^{p-1} \right)^{(q-1)/g} \equiv 1^{(q-1)/g} = 1 \pmod{p} \qquad \Longrightarrow \qquad &p \mid a^{(p-1)(q-1)/g}, \\[1.7ex]
-a^{((p-1)(q-1)/g} & = \left( a^{q-1} \right)^{(p-1)/g} \equiv 1^{(p-1)/g} = 1 \pmod{q} \qquad \Longrightarrow \qquad &q \mid a^{(p-1)(q-1)/g}.
+a^{((p-1)(q-1)/g} & = \left( a^{p-1} \right)^{(q-1)/g} \equiv 1^{(q-1)/g} = 1 \pmod{p} \qquad \Longrightarrow \qquad &p \mid a^{(p-1)(q-1)/g} - 1, \\[1.7ex]
+a^{((p-1)(q-1)/g} & = \left( a^{q-1} \right)^{(p-1)/g} \equiv 1^{(p-1)/g} = 1 \pmod{q} \qquad \Longrightarrow \qquad &q \mid a^{(p-1)(q-1)/g} - 1.
 \end{align*}
 ```
 
-Since $\gcd(p, q) = 1$, this means that $pq \mid a^{(p-1)(q-1)/g}$, i.e., $a^{(p-1)(q-1)/g} = 1$ in $\mathbb{Z}/N\mathbb{Z}$.
+Since $\gcd(p, q) = 1$, this means that $pq \mid a^{(p-1)(q-1)/g} - 1$, i.e., $a^{(p-1)(q-1)/g} = 1$ in $\mathbb{Z}/N\mathbb{Z}$.
 
-Note that if $p$ and $q$ are odd, then $2 \mid \gcd(p, q) = g$, and so $g/2$ is an integer and hence
+Note that if $p$ and $q$ are odd, then $p-1$ and $q-1$ are even and hence $2 \mid \gcd(p - 1, q - 1) = g$.  Thus, $g/2$ is an integer and hence, in $\mathbb{Z}/N\mathbb{Z}$ we have
 ```{math}
  a^{(p-1)(q-1)/2} = a^{(p-1)(q-1)(g/2)/g} = \left( a^{(p-1)(q-1)/g} \right)^{g/2} = 1^{g/2} = 1.
 ```
 :::
 
++++
 
 ## Roots Module $N = pq$
 
@@ -98,7 +104,7 @@ The security of ElGamal's cryptosystem is based on the difficulty of solving the
 :::{admonition} Question
 :class: note
 
-Given $p$ and $q$ two distinct and large problems, $c \in \mathbb{Z}/N\mathbb{Z}$, and a positive integer $e$, how can we find $x$ such that $x^e = c$ (in $\mathbb{Z}/N\mathbb{Z}$), i.e., find the $e$-th root of $c$ (in $\mathbb{Z}/N\mathbb{Z}$)?
+Given two distinct large primes $p$ and $q$, $c \in \mathbb{Z}/N\mathbb{Z}$, and a positive integer $e$, how can we find $x$ such that $x^e = c$ (in $\mathbb{Z}/N\mathbb{Z}$), i.e., find the $e$-th root of $c$ (in $\mathbb{Z}/N\mathbb{Z}$)?
 :::
 
 We start approaching a simpler problem, when the modulus is *prime*:
@@ -107,7 +113,7 @@ We start approaching a simpler problem, when the modulus is *prime*:
 :label: prop-root_mod_p
 
 
-Let $p$ be prime, $c \in \mathbb{Z}/p\mathbb{Z}$, and $e$ a positive integer with $\gcd(e, p-1) = 1$.  Then, let $d$ be the inverse of $e$ modulo $p-1$ (i.e., $ed \equiv 1 \pmod{p-1}$).  Then
+Let $p$ be prime, $c \in \mathbb{Z}/p\mathbb{Z}$, and $e$ a positive integer with $\gcd(e, p-1) = 1$.  Then, let $d$ be the inverse of $e$ modulo $p-1$ (i.e., $ed \equiv 1 \pmod{p-1}$).  Then, in $\mathbb{Z}/p\mathbb{Z}$, we have that
 ```{math}
 x^e = c \quad \text{if and only if} \quad x = c^d.
 ```
@@ -116,18 +122,18 @@ x^e = c \quad \text{if and only if} \quad x = c^d.
 
 :::{prf:proof}
 
-If $c=0$, then $x^e=0$ if and only if $x=0$ if and only if $x^d=0$.
+First, note that since the modulus is prime, we have that $x=0$ if and only if *any power* of $x$ is zero. (This follows from {prf:ref}`Euclid's Lemma <lm-euclid>`.)  So, if $c=0$, then $x^e=0$ if and only if $x=0$, and $x=0$ if and only if $x^d=0$.
 
 So, assume that $x \neq 0$ (in $\mathbb{Z}/p\mathbb{Z}$), i.e., $x \in (\mathbb{Z}/p\mathbb{Z})^{\times}$.  Since $\varphi(p) = p-1$, by {prf:ref}`{name} <th-euler-2>` we have that $x^{p-1} = 1$.  Since $(p-1) \mid (de - 1)$, we have that $x^{de-1} = 1$, i.e., $x^{de} = x$.  Since $c$ is also a unit, the same argument tells us that $c^{de} = c$.
 
 So, if $x^e = c$, then raising both sides to the $d$-th power, we have that
 ```{math}
-x = x^de = c^d.
+x = x^{de} = c^d.
 ```
 
 And if $x=c^d$, then raising both sides to the $e$-th power, we have that
 ```{math}
-x^e = c^de = c.
+x^e = c^{de} = c.
 ```
 :::
 
@@ -138,7 +144,7 @@ We can apply this to case we actually need:
 :label: prop-root_mod_pq
 
 
-Let $p$ and $q$ be dissecting primes, $N=pq$, $c \in \mathbb{Z}/N\mathbb{Z}$, and $e$ a positive integer with $\gcd(e, \varphi(N)) = 1$.  Then, let $d$ be the inverse of $e$ modulo $\varphi(N)$ (i.e., $ed \equiv 1 \pmod{\varphi(N)}$).  Then
+Let $p$ and $q$ be distinct primes, $N=pq$, $c \in \mathbb{Z}/N\mathbb{Z}$, and $e$ a positive integer with $\gcd(e, \varphi(N)) = 1$.  Then, let $d$ be the inverse of $e$ modulo $\varphi(N)$ (i.e., $ed \equiv 1 \pmod{\varphi(N)}$).  Then
 ```{math}
 x^e = c \quad \text{if and only if} \quad x = c^d.
 ```
@@ -168,8 +174,7 @@ The following proposition, gives a faster way to find roots in $\mathbb{Z}/N\mat
 :::{prf:proposition}
 :label: pr-root
 
-
-Let $p$ and $q$ be distinct primes, $N = pq$, $g = \gcd(p-1, q-1)$, $e$ a positive integer, and $d$ and inverse of $e$ modulo $(p-1)(q-1)/g$.  Then, for all $c \in $(\mathbb{Z}/N\mathbb{Z})^{\times}$, we have that $x = c^d$ is such that $x^e = c$, i.e., $c^d$ is an $e$-th root of $c$ in $\mathbb{Z}/N\mathbb{Z}$.
+Let $p$ and $q$ be distinct primes, $N = pq$, $g = \gcd(p-1, q-1)$, $e$ a positive integer, and $d$ and inverse of $e$ modulo $(p-1)(q-1)/g$.  Then, for all $c \in (\mathbb{Z}/N\mathbb{Z})^{\times}$, we have that $x = c^d$ is such that $x^e = c$, i.e., $c^d$ is an $e$-th root of $c$ in $\mathbb{Z}/N\mathbb{Z}$.
 :::
 
 :::{important}
@@ -183,7 +188,7 @@ By {prf:ref}`th-order_pq`, we have that $c^{(p-1)(q-1)/q} = 1$, so by {prf:ref}`
 :::
 
 
-So, if we have $N = pq$ as above, $e$ a positive integer, and $c \in (\mathbb{Z}/N\mathbb{Z})^{\times}$, and we want to solve $x^e = c$, we simply need to find and inverse of $e$ modulo $\varphi(N)$ (or modulo $(p-1)(q-1)/g$, where $g = \gcd(p-1, q-1)$).  So, we need to find $p$ and $q$ for the given $N$.
+So, if we have $N = pq$ as above, $e$ a positive integer, and $c \in (\mathbb{Z}/N\mathbb{Z})^{\times}$, and we want to solve $x^e = c$, we simply need to find and inverse of $e$ modulo $\varphi(N)$ (or modulo $(p-1)(q-1)/g$, where $g = \gcd(p-1, q-1)$).  So, we need to find $\varphi(N)$ for the given $N$.
 
 +++
 
@@ -192,12 +197,12 @@ So, if we have $N = pq$ as above, $e$ a positive integer, and $c \in (\mathbb{Z}
 :::{admonition} Question
 :class: important
 
-How can we find $p$ and $q$ from $N = pq$, i.e., how can we computer $\varphi(N)$ or factor $N$?  How hard is it to solve either problem?
+How can we find $\varphi(N)$ from $N = pq$, i.e., how can we either compute $\varphi(N)$ directly or factor $N$?  How hard is it to solve either problem?
 :::
 
-We first note that the two questions are equivalent.  If we know how to factor $N = pq$ to find $p$ and $q$, the we can compute $\varphi(N)$ as $(p-1)(q-1)$.
+We first note that the two questions are equivalent.  If we know how to factor $N = pq$ to find $p$ and $q$, the we can compute $\varphi(N)$ as $(p-1)(q-1)$ (using {prf:ref}`the formula <th-phi_comp-2>`).
 
-But suppose we have a method to find $\varphi(N)$ without using the prime factorization of $N$, i.e., without the formula of {prf:ref}`th-phi_comp-2`.  What we get is some number, but we know that $\varphi(N)=(p-1)(q-1) = pq - p - q + 1 = N - p - q + 1$.  So, we get $p+q = N - \varphi(N) + 1$, where we know all numbers on the left, so we know the result of $p+q$.  We also know the product $N =  pq$.  With those two in hand, we can find $p$ and $q$ themselves!
+But suppose we have a method to find $\varphi(N)$ without using the prime factorization of $N$, i.e., without the formula of {prf:ref}`th-phi_comp-2`.  What we get is just a number, but we know that $\varphi(N)=(p-1)(q-1) = pq - p - q + 1 = N - p - q + 1$.  So, we get $p+q = N - \varphi(N) + 1$, where we know all numbers on the left, so we know the result of $p+q$.  We also know the product $N =  pq$.  With those two in hand, we can find $p$ and $q$ themselves!
 
 We have that
 ```{math}
@@ -221,7 +226,7 @@ solve(x^2 - 11052*x + 28651547 == 0, x)
 The two solutions, $4{,}153$ and $6{,}899$ are $p$ and $q$!
 
 ```{code-cell} ipython3
-is_prime(4153) and is_prime(6899)
+is_prime(4153) and is_prime(6899) and 4153 * 6899 == 28651547
 ```
 
 (sec-rsa)=
@@ -240,7 +245,7 @@ While the security of ElGamal's is based on the difficulty of computing discrete
     2) Alice chooses an *encryption exponent* $e$ between $2$ and $(p-1)(q-1) - 1$, with $\gcd(e, (p-1)(q-1)) = 1$.
     3) Alice uses the Extended Euclidean Algorithm to compute and inverse $d$ of $e$ modulo $(p-1)(q-1)$, i.e., she finds $d$ such that $de \equiv 1 \pmod{(p-1)(q-1)}$.  This $d$ is the *decryption exponent* and is kept secret.
     4) Alice *publishes* $N$ and $e$.
-2) **Encryption:** To send a message $m$ (a number in $\{2, 3, \ldots, N-1\}$) to Alice, Bob computes $c=m^e$ in $\mathbb{Z}/N/Z$, and sends $c$ to Alice.
+2) **Encryption:** To send a message $m$ (a number in $\{2, 3, \ldots, N-1\}$) to Alice, Bob computes $c=m^e$ in $\mathbb{Z}/N\mathbb{Z}$, and sends $c$ to Alice.
 3) **Decryption:**  Alice decodes the encrypted message $c$ by computing $c^d$ in $\mathbb{Z}/N\mathbb{Z}$.
 
 Note that we know that the decryption works, since $de \equiv 1 \pmod{(p-1)(q-1)}$ implies that
@@ -251,16 +256,16 @@ c^d = \left( m^e \right) ^d = m^{de} = m \quad \text{(in $\mathbb{Z}/N\mathbb{Z}
 
 :::{warning}
 
-As we will see in [Chapter 13](./13-Factorization.md), it is crucial to choose the primes $p$ and $q$ such that both $p-1$ and $q-1$ have large prime factors!
+As we will see in a [later chapter](#ch-factorization), it is crucial to choose the primes $p$ and $q$ such that both $p-1$ and $q-1$ have large prime factors!
 :::
 
 :::{note}
 
 1) Unlike ElGamal's cryptosystem, one cannot use someone else's setup, as $p$ and $q$ must be kept secret.
-2) Encrypting and decrypting are done by computing powers in $\mathbb{Z}/N\mathbb{Z}$, so [Fast Powering](./05-Powers.md#fast-powering) comes handy!
-3) It is important to have fast encryption, so using a small $e$ helps.  Of course we cannot use $e=1$ and $2$ is not relatively prime to $(p-1)(q-1)$, so it is also out.  So, one can use $e=3$.  It *seems* to be safe, but there are some concerns.  An option is to use $e = 2^{16} + 1$ (a prime!), as computing $m^e$ then takes only five products!
-4) One should be careful once $d$ is found, that it is not too small.  We need $d > \sqrt[4]{N}$.  If that is not the case, when should choose another $e$ or $p$ and $q$.
-5) Although we only know how to compute roots in $\mathbb{Z}/N\mathbb{Z}$ if we know how to factor $N$, it is possible that there might be a yet unknown, novel way without it.  Therefore, strictly speaking, the security of the RSA relies in the difficulty in computing roots in $\mathbb{Z}/N\mathbb{Z}$ (quickly enough), and not (necessarily) of the difficulty of factoring $N$.
+2) Encrypting and decrypting are done by computing powers in $\mathbb{Z}/N\mathbb{Z}$, so [Fast Powering](#fast_powering) comes handy!
+3) It is important to have fast encryption, so using a small $e$ helps.  Of course we cannot use $e=1$ and $2$ is not relatively prime to $(p-1)(q-1)$, so it is also out.  So, one could use $e=3$, if it is relatively prime to $(p-1)(q-1)$.  This *seems* to be safe, but there are some concerns.  An option is to use $e = 2^{16} + 1$ (a prime!), if it is relatively prime to $(p-1)(q-1)$, as computing $m^e$ then takes only five products!
+4) One should be careful once $d$ is found, that it is not too small.  We need $d > \sqrt[4]{N}$.  If that is not the case, one should choose another $e$ or $p$ and $q$.
+5) Although we only know how to compute roots in $\mathbb{Z}/N\mathbb{Z}$ if we know how to factor $N$, it is possible that there might be a yet unknown, novel way without it.  Therefore, strictly speaking, the security of the RSA relies in the difficulty in computing roots in $\mathbb{Z}/N\mathbb{Z}$ (quickly enough), and not (necessarily) on the difficulty of factoring $N$.
 :::
 
 
@@ -280,7 +285,7 @@ Solving the math problem that define cryptosystems are usually unfeasible to att
 
 Suppose that Eve not only can see messages being exchanged between Bob and Alice, but can actually *intercept* them and replace the originals with different ones.  This is what is called a [man-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack).  She then might be able to find a way to read the messages without being able to solve the underlying mathematical problem.
 
-Let's illustrate how this could be done with the [Diffie-Hellman key exchange](./07-DH_and_ElGamal.md#DH_key_exchange):  Eve knows the prime $p$, $g \in \mathbb{F}^{\times}$, and its order $N$, as they are publicly available.
+Let's illustrate how this could be done with the [Diffie-Hellman key exchange](#DH_key_exchange):  Eve knows the prime $p$, $g \in \mathbb{F}_p^{\times}$, and its order $N$, as they are publicly available.
 1) Alice chooses a secret key $a$, and sends $A = g^a$ (computed in $\mathbb{F}_p$) to Bob.
 2) Eve intercepts $A$, chooses her own secret key $e$, and sends Bob $E = g^e$, who believes it came from Alice.
 3) Bob chooses a secret key $b$, and sends $B = g^b$ to Alice.
@@ -289,7 +294,7 @@ Let's illustrate how this could be done with the [Diffie-Hellman key exchange](.
 
 To further illustrate the point, suppose that Alice and Bob wants to exchange secrete message by encoding them using their shared key, similar to ElGamal.  So, if Bob wants to send the message $m$ to Alice, he would send $m' = A^b m$ to Alice, $A^b$ being the shared key.  (So, Alice would be able to decrypt it by computing $(B^a)^{-1} m' = m$.)  But, in this situation, he would send $m' = E^bm$ to Eve (intercepting it on the way to Alice).  Eve then is capable of decrypting it, as she has $B^e = E^b$, and can invert it to recover $m$.
 
-Then, Eve sends $m'' = A^e m$ to Alice, who believes is coming from Bob.  When she deciphers is, she will use the key $E^a$.  Since $E^a = A^e$, she *can* decrypt it and obtain Bob's original message $m$.  So, Alice believes that their communication was successful, but *Eve was able to read the message as well*.
+Then, Eve sends $m'' = A^e m$ to Alice, who believes it is coming from Bob.  When she deciphers is, she will use the key $E^a$.  Since $E^a = A^e$, she *can* decrypt it and obtain Bob's original message $m$.  So, Alice believes that their communication was successful, but *Eve was able to read the message as well*.
 
 +++
 
@@ -315,7 +320,7 @@ This makes it clear that *Alice should not decipher any message to anyone*!
 
 ### Multiple Encrypting Exponents
 
-Suppose that Alice publishes two different encrypting exponents, say $e_1$ and $e_2$, for the same modulus $N$.  If somehow Eve can read the *same message from Bob*, say $c_1 = m^{e_1}$ and $c_2 = m^{e_2}$ (in $\mathbb{Z}/N\mathbb{Z}$), using the different exponents and $\gcd(e_1, e_3) = 1$, then Even can recover $m$: using the Extended Euclidean Algorithm, Eve finds integer $u$ and $v$ such that
+Suppose that Alice publishes two different encrypting exponents, say $e_1$ and $e_2$, for the same modulus $N$.  If somehow Eve can read the *same message from Bob*, say $c_1 = m^{e_1}$ and $c_2 = m^{e_2}$ (in $\mathbb{Z}/N\mathbb{Z}$), using the different exponents and $\gcd(e_1, e_2) = 1$, then Even can recover $m$: using the Extended Euclidean Algorithm, Eve finds integer $u$ and $v$ such that
 ```{math}
 ue_1 + ve_2 = 1.
 ```

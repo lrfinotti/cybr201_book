@@ -23,7 +23,7 @@ We will soon come back to factorization and computation of discrete logs, but be
 (sec:sqrt_mod_p)=
 ## Squares Module Odd Primes
 
-First, we need to recall some definitions and results from the [chapter on powers](./05-Powers.md).  Recall *Fermat's Little Theorem*:
+First, we need to recall some definitions and results from the [chapter on powers](#ch-powers).  Recall *Fermat's Little Theorem*:
 
 :::{prf:theorem} Fermat's Little Theorem
 :label: th-flt-3
@@ -125,7 +125,7 @@ Since the order is not $1$, it means that $a^{(p-1)/2} \neq 1$, and hence it mus
 
 :::{note}
 
-With [fast powering](./05-Powers.md#fast_powering), one can use {prf:ref}`pr-squares-fp` to relatively quickly decide if an element in $\mathbb{F}^{\times}$ is a square.  But we will see a better method below, using {prf:ref}`Quadratic Reciprocity <sec-quad_rec>`
+With [fast powering](./05-Powers.md#fast_powering), one can use {prf:ref}`pr-squares-fp` to relatively quickly decide if an element in $\mathbb{F}^{\times}$ is a square.  But we will see a better method below, using [Quadratic Reciprocity](#sec-quad_rec).
 :::
 
 
@@ -194,7 +194,7 @@ Let $a, b \in \mathbb{F}^{\times}$.  Then $ab$ is a square in $\mathbb{F}^{\time
 
 :::{prf:proof}
 
-This follows from {prf:ref}`pr-squares_ge`.  Let $g$ be a primitive root of $\mathbb{F}^{\times}$ and write $a = g^r$, $b = g^s$.  Then, $ab = g^{r+s}$ is a square if and only if $r + s$ is even.  But this happens if and only if either $r$ and $s$ are both even or both odd, i.e., if and only if $a$ and $b$ are both squares or neither is.
+This follows from {prf:ref}`pr-squares_gen`.  Let $g$ be a primitive root of $\mathbb{F}^{\times}$ and write $a = g^r$, $b = g^s$.  Then, $ab = g^{r+s}$ is a square if and only if $r + s$ is even.  But this happens if and only if either $r$ and $s$ are both even or both odd, i.e., if and only if $a$ and $b$ are both squares or neither is.
 :::
 
 
@@ -576,7 +576,7 @@ Note that square roots in $F_2$ are easy: $0$ and $1$ are their own square roots
 
 ### Computing Square Roots
 
-But now, if $p$ is an *odd* prime and we know that $\mathbb{F}^{\times}$ is a square in $\mathbb{F}_p$, i.e., $a = b^2$ for some $b \in \mathbb{F}_p$ (e.g., by using {prf:ref}`pr-sqaures-fp`), how do we find $b$?
+But now, if $p$ is an *odd* prime and we know that $\mathbb{F}^{\times}$ is a square in $\mathbb{F}_p$, i.e., $a = b^2$ for some $b \in \mathbb{F}_p$ (e.g., by using {prf:ref}`pr-squares-fp`), how do we find $b$?
 
 If $p \equiv 3 \pmod{4}$, it is relatively easy: we have that $a^{(p+1)/4}$ is a square root!  (Note that since $p \equiv 3 \pmod 4$, we have that $(p+1)/4$ is an *integer*!)  Indeed, if $a = b^2$, then, using {prf:ref}`Fermat's Little Theorem <th-flt-3>`
 ```{math}
@@ -595,7 +595,7 @@ Given a prime $p \equiv 1 \pmod{4}$ and some $a \in \mathbb{F}^{\times}$ that we
 
 1) *Initialization*:
     1) Find integers $h$ and $m$ such that $p-1=2^h \cdot m$, with $m$ odd.  (We can use `h = valuation(p - 1, 2)` in Sage.)
-    2) Find some $c \in \mathbb{F}^{\times}$ that is *not* a square in $\mathbb{F}_p$.  This can be done by taking a random elements and testing if it is a square.  We can use {prf:ref}`Quadratic Reciprocity <sec-quad_rec>` for testing.  Since the odds of picking a non-square is $50\%$, we should quickly find $c$.
+    2) Find some $c \in \mathbb{F}^{\times}$ that is *not* a square in $\mathbb{F}_p$.  This can be done by taking a random elements and testing if it is a square.  We can use [Quadratic Reciprocity](#sec-quad_rec) for testing.  Since the odds of picking a non-square is $50\%$, we should quickly find $c$.
     3) Set
     ```{math}
         \begin{align*}
@@ -645,8 +645,9 @@ r^2 = \left( a^{(m+1)/2} \right)^2 = a^{m+1} =a \cdot a^m = a \cdot t,
 ```
 and so we have
 ```{math}
+:label: eq-TS1
+
 \begin{align*}
-\label{eq-TS1}
 r^2 &= a \cdot t, \\
 |t| &= 2^k, \quad \text{for some $1 \leq k \leq h-1$}.
 \end{align*}
@@ -671,7 +672,7 @@ Thus, it $t' = 1$, then $r'$ is a square root of $a$ and needed.  Moreover, by {
 &= -c^{2^{h-1}m} = -c^{(p-1)/2} = -(-1) \\
 &=1
 \end{align}
-This means that $|t'| \mid 2^{k-1}$, and hence $|t'| = 2^{k'}$ for some $0 < k' < k$.  So, we get a "new version" of {prf:ref}`eq-TS1`:
+This means that $|t'| \mid 2^{k-1}$, and hence $|t'| = 2^{k'}$ for some $0 < k' < k$.  So, we get a "new version" of [](#eq-TS1):
 ```{math}
 \begin{align*}
 (r')^2 &= a \cdot t' \\

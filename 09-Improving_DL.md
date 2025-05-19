@@ -97,7 +97,7 @@ and by the second item of {prf:ref}`prop-powers`, we have that
 y \equiv x \equiv d_0 \pmod{q}.
 ```
 
-This means that when we solved {prf:ref}`eq-dl1`, we found $d_0$!
+This means that when we solved [](#eq-dl1), we found $d_0$!
 
 We now find $d_1$ in a similar way.  Observe that
 ```{math}
@@ -251,7 +251,7 @@ It worked!
 
 ### Number of Operations
 
-In this situation where $|g| = q^e$ and we compute $\log_g(h)$, if we use [Shank's Baby-Step/Giant-Step](./08-Computing_DL.md#al-bs_gs) algorithm, as seen in {prf:ref}`the number of operations for Shank's algorithm <./08-Computing_DL.md#sec-bsgsnop>`, we need about
+In this situation where $|g| = q^e$ and we compute $\log_g(h)$, if we use {prf:ref}`Shank's Baby-Step/Giant-Step <al-bs_gs>` algorithm, as seen in {prf:ref}`the number of operations for Shank's algorithm <sec-bsgsnop>`, we need about
 ```{math}
 \frac{\sqrt{q^e}}{2}  \cdot \log_2(q^e) = \frac{q^{e/2}}{2} \cdot e \cdot \log_2(q)
 ```

@@ -26,7 +26,8 @@ kernelspec:
 
 A curve given by a *Weierstrass equation* of the form
 ```{math}
-\label{eq-basic-weq}
+:label: eq-basic-weq
+
 y^2 = x^3 + ax + b,  \quad \text{for some $a$ and $b$ with $\Delta = -16 \cdot (4a^3 + 27b^2) \neq 0$}
 ```
 is called an *elliptic curve*.  The quantity $\Delta = -16 \cdot (4a^3 + 27b^2)$ is the *discriminant* of the curve.
@@ -35,7 +36,7 @@ is called an *elliptic curve*.  The quantity $\Delta = -16 \cdot (4a^3 + 27b^2)$
 
 :::{note}
 
-As we shall see later, sometimes elliptic curves are given by equations a little more complex than {prf:ref}`eq-basic-weq`.
+As we shall see later, sometimes elliptic curves are given by equations a little more complex than [](#eq-basic-weq).
 :::
 
 
@@ -44,7 +45,7 @@ When we think about curves, like lines, parabolas, circles, etc., we usually thi
 
 :::{caution}
 
-Elliptic curves are not [ellipses](https://en.wikipedia.org/wiki/Ellipse)!  The name comes from the fact that an equation similar to {prf:ref}`eq-basic-weq` appears when we try to compute the *length* of an ellipse.
+Elliptic curves are not [ellipses](https://en.wikipedia.org/wiki/Ellipse)!  The name comes from the fact that an equation similar to [](#eq-basic-weq) appears when we try to compute the *length* of an ellipse.
 :::
 
 As an example, we can take the elliptic curve given by $y^2 = x^3 + 1$.  In Sage we can easily create this elliptic curve and graph it:
@@ -779,7 +780,7 @@ Hence, we say that an elliptic curve is an Abelian group with respect to its add
 
 :::{note}
 
-Note that with the [ElGamal Cryptosystem](./07-DH_and_ElGamal.md#sec-elgamal) or [DSA](./16-Digital_Signatures.md#sec-dsa), one can replace $\mathbb{F}^{\times}$ with any other *finite* Abelian group.  (Of course, extreme care is needed with the choice!)  This often has the benefit of making the [index calculus](./15-Quad_Sieve_Index_Calc.md#sec-index-calc) (the most efficient method of attack) unavailable.
+Note that with the [ElGamal Cryptosystem](#sec-elgamal) or [DSA](./16-Digital_Signatures.md#sec-dsa), one can replace $\mathbb{F}^{\times}$ with any other *finite* Abelian group.  (Of course, extreme care is needed with the choice!)  This often has the benefit of making the [index calculus](./15-Quad_Sieve_Index_Calc.md#sec-index-calc) (the most efficient method of attack) unavailable.
 :::
 
 ### Order of an Element
@@ -863,7 +864,7 @@ In our applications to cryptography and digital signature we need large groups t
 
 :::{important}
 
-We should observe that {prf:ref}`def-ec` above does not work when $p=2$ or $p=3$. Since these primes are too small to give large groups, we will assume here that $p \geq 5$ and so we can assume that our elliptic curves are given by the Weierstrass equation give by {prf:ref}`eq-basic-weq`.
+We should observe that {prf:ref}`def-ec` above does not work when $p=2$ or $p=3$. Since these primes are too small to give large groups, we will assume here that $p \geq 5$ and so we can assume that our elliptic curves are given by the Weierstrass equation give by [](#eq-basic-weq).
 :::
 
 :::{note}
@@ -981,7 +982,7 @@ So, our question now is *how hard is the ECDLP*, meaning, how hard is it to comp
 As with many problems of this sort, we cannot be quite sure, but so far this has been a difficult problem, as the addition of points on elliptic curves are somewhat complicated.  But as usual, we have no guarantee that someone may come up with an ingenious idea that would allow us to easily compute these logs tomorrow!
 
 
-But, so far, the best methods are collision methods, such as [Shank's Babystep-Giantstep](./08-Computing_DL.md#sec-bsgs) (which can be easily adapted for elliptic curves).  As observed before, a great advantage is that the [index calculus](./15-Quad_Sieve_Index_Calc.md#sec-index-calc) does not work with elliptic curves.  In practice, to solve the ECDLP for $E/\mathbb{F}_p$, the best known methods take about $\sqrt{p}$ steps, which makes it infeasible to solve it in practice for very large $p$.
+But, so far, the best methods are collision methods, such as [Shank's Babystep-Giantstep](#sec-bsgs) (which can be easily adapted for elliptic curves).  As observed before, a great advantage is that the [index calculus](./15-Quad_Sieve_Index_Calc.md#sec-index-calc) does not work with elliptic curves.  In practice, to solve the ECDLP for $E/\mathbb{F}_p$, the best known methods take about $\sqrt{p}$ steps, which makes it infeasible to solve it in practice for very large $p$.
 
 As usual, there are specific cases in which the computations become simpler and should be avoided!  Among those are elliptic curves with $|E(\mathbb{F}_p)|$ equal to either $p$ or $p+1$ or curves over finite fields with $2^m$ with $m$ composite.  (Note we have not seen here finite fields with order $2^m$ and $m > 1$, since the only ones we've introduced here have a *prime* number of elements.)
 
@@ -989,7 +990,7 @@ As usual, there are specific cases in which the computations become simpler and 
 
 ## Fast Multiplication
 
-In the previous methods of encryption and digital signatures, we needed to take large powers of elements in $\mathbb{F}^{\times}$.  Now, with elliptic curves, we need compute large *multiples* of a point, i.e., we need to replace products by sums.  But for these we can adapt [Fast Powers](./05-Powers.md#fast-powering): instead of using successive squaring, we use *successive doubling*.
+In the previous methods of encryption and digital signatures, we needed to take large powers of elements in $\mathbb{F}^{\times}$.  Now, with elliptic curves, we need compute large *multiples* of a point, i.e., we need to replace products by sums.  But for these we can adapt [Fast Powers](#fast-powering): instead of using successive squaring, we use *successive doubling*.
 
 
 :::{prf:algorithm} Fast Multiplying Algorithm (Successive Doubling)
@@ -1044,7 +1045,7 @@ Indeed, if we let $S = 1 + 2 + 2^2 + \cdots + 2^s$, then $2S = 2 + 2^2 + 2^3 + \
 
 From this, we can get a more general formula for a sum of consecutive powers of two:
 ```{math}
-\label{eq:sp2}
+:label: eq:sp2
 2^r + 2^{r+1} + 2^{r+2} + \cdots + 2^{r+s} = 2^{r+s+1} - 2^r.
 ```
 (We just multiply both sides of the previous formula by $2^r$.)
@@ -1062,7 +1063,7 @@ We start by writing $3545$ in base $2$:
 ```{math}
 3545 = 1 + 2^3 + 2^4 + 2^6 + 2^7 + 2^8 + 2^{10} + 2^{11}.
 ```
-We now use {prf:ref}`eq:sp2` for any consecutive powers of $2$.  We start from lower powers, so we rewrite $2^3 + 2^4 = 2^5 - 2^3$:
+We now use [](#eq:sp2) for any consecutive powers of $2$.  We start from lower powers, so we rewrite $2^3 + 2^4 = 2^5 - 2^3$:
 ```{math}
 3545 = 1 {\color{red} - 2^3 + 2^5} + 2^6 + 2^7 + 2^8 + 2^{10} + 2^{11}.
 ```
@@ -1140,7 +1141,7 @@ In your homework you will write a function in Sage that takes an integer and ret
 
 ## Elliptic Curve Diffie-Hellman Key Exchange
 
-We can now adapt the [Diffie-Hellman Key Exchange](./07-DH_ElGamal.md#DH_key_exchange) to use elliptic curves:
+We can now adapt the [Diffie-Hellman Key Exchange](#DH_ElGamal.md#DH_key_exchange) to use elliptic curves:
 
 **The Diffie-Hellman Key Exchange:**
 
@@ -1156,7 +1157,7 @@ We can now adapt the [Diffie-Hellman Key Exchange](./07-DH_ElGamal.md#DH_key_exc
 
 ### Smaller Key Sizes
 
-Note that the points $Q_A$ and $Q_B$, which are public, and the shared key, both have size of about $2p$, as each coordinate has size about $p$.  One can reduce the sizes by only using the $x$-coordinates.  In this scenario, Alice and Bob only make public the $x$-coordinates of $Q_A = (x_A, y_A)$ and $Q_B = (x_B, y_B)$.  So, when Bob gets $x_A$, he can compute the square root of $x_A^3 + ax_A + b$.  (Note that we have seen [methods for this computation](./14-Square_Roots.md#sec:sqrt_mod_p)!)  The problem is that there is no way for Bob to know if that square root is equal to $y_A$ (from Alice's $Q_A$) or $-y_A$.  But using either one, he can compute $n_B \cdot (x_A, \pm y_A) = n_B \cdot (\pm Q_A) = \pm (n_B \cdot Q_A) = \pm n_A n_B \cdot P$.  Similarly, Alice obtains $\pm (n_A \cdot Q_B) = \pm n_A n_B \cdot P$.  So, they do not have a shared *point*, as they do not know the sign of the $y$-coordinate, but their $x$-coordinates are the same!  So, the $x$-coordinate is the shared secret.
+Note that the points $Q_A$ and $Q_B$, which are public, and the shared key, both have size of about $2p$, as each coordinate has size about $p$.  One can reduce the sizes by only using the $x$-coordinates.  In this scenario, Alice and Bob only make public the $x$-coordinates of $Q_A = (x_A, y_A)$ and $Q_B = (x_B, y_B)$.  So, when Bob gets $x_A$, he can compute the square root of $x_A^3 + ax_A + b$.  (Note that we have seen [methods for this computation](#sec:sqrt_mod_p)!)  The problem is that there is no way for Bob to know if that square root is equal to $y_A$ (from Alice's $Q_A$) or $-y_A$.  But using either one, he can compute $n_B \cdot (x_A, \pm y_A) = n_B \cdot (\pm Q_A) = \pm (n_B \cdot Q_A) = \pm n_A n_B \cdot P$.  Similarly, Alice obtains $\pm (n_A \cdot Q_B) = \pm n_A n_B \cdot P$.  So, they do not have a shared *point*, as they do not know the sign of the $y$-coordinate, but their $x$-coordinates are the same!  So, the $x$-coordinate is the shared secret.
 
 **The Diffie-Hellman Key Exchange ($x$-Coordinates):**
 
@@ -1262,7 +1263,7 @@ But we can check that the $x$-orientates obtained were indeed equal to the $x$-c
 ## Elliptic Curve ElGamal Cryptography
 
 
-We can also adapt the [ElGamal Cryptography](./07-DH_and_ElGamal.md#sec-elgamal) to use elliptic curves:
+We can also adapt the [ElGamal Cryptography](#sec-elgamal) to use elliptic curves:
 
 1) **Set up:** Choose (or copy from trusted source) and publish:
    - a large prime $p$,
@@ -1278,7 +1279,7 @@ We can also adapt the [ElGamal Cryptography](./07-DH_and_ElGamal.md#sec-elgamal)
    - sends $(C_1, C_2)$ to Alice.
 4) **Decryption:** To decrypt $(C_1, C_2)$ sent by Bob, Alice, using her private key $n_A$, computes $C_2 - n_A \cdot C_1$ .  This last expression is equal to the point $M$, from which she can recover the message $m$.
 
-The first problem is how does Bob converts a message $m$, which we may assume to be a number, as we know [how to convert text messages to numbers](./07-DG_and_Elgamal.md#sec:converting_text).  Moreover, the number of possible messages is $|E(\mathbb{F}_p)| \approx p + 1$, while the encrypted message has size $4p$ ($2p$ for each point).  Our next method addresses both these issues.
+The first problem is how does Bob converts a message $m$, which we may assume to be a number, as we know [how to convert text messages to numbers](#sec:converting_text).  Moreover, the number of possible messages is $|E(\mathbb{F}_p)| \approx p + 1$, while the encrypted message has size $4p$ ($2p$ for each point).  Our next method addresses both these issues.
 
 But we can verify that it works, since
 ```{math}
@@ -1400,7 +1401,7 @@ You will implement the encryption/decryption process in your homework.
 
 ## Elliptic Curve DSA
 
-We can also adapt the [DSA](./16-Digital_Signatures.md#sec-dsa) to [use elliptic curves](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm):
+We can also adapt the [DSA](#sec-dsa) to [use elliptic curves](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm):
 
 1) **Setup:**
    1) Samantha chooses (or copies from a trusted source):

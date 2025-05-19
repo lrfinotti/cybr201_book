@@ -21,7 +21,7 @@ In this chapter we introduce two of the more effective (and mathematically sophi
 
 ## The Quadratic Sieve
 
-We will focus again on the problem of factorization, more specifically, factoring $N = p q$, where $p$ and $q$ are large, distinct primes.  With the [difference of squares Factorization method](./13-Factorization.md#sec-diff-squares), the hard part was the *Relation Building*, i.e., finding $a_1, a_2, \ldots , a_r > \sqrt{N}$, for $r$ sufficiently large, such the $c_i$'s, defined as the reduction modulo $N$ of $a_i^2$, are all $B$-smooth for some relatively small $B$.
+We will focus again on the problem of factorization, more specifically, factoring $N = p q$, where $p$ and $q$ are large, distinct primes.  With the [difference of squares Factorization method](#sec-diff-squares), the hard part was the *Relation Building*, i.e., finding $a_1, a_2, \ldots , a_r > \sqrt{N}$, for $r$ sufficiently large, such the $c_i$'s, defined as the reduction modulo $N$ of $a_i^2$, are all $B$-smooth for some relatively small $B$.
 
 In this section we introduce the [*Quadratic Sieve*](https://en.wikipedia.org/wiki/Quadratic_sieve), which is an efficient algorithm for relation building.  When used with the difference of squares factorization method, it is the best known algorithm to factor $N = pq$ with $N < 2^{350}$.
 
@@ -199,6 +199,7 @@ And for all $5$-smooth numbers less than or equal to $100$:
 b_smooth_sieve(100, 5)
 ```
 
+(sec-relation_building)=
 ### Relation Building
 
 The method above works for consecutive numbers.  But in our application, we need to find $a$'s, with $q > \sqrt{N}$,  such that the reduction module $N$ of $a^2$ are $B$-smooth.  Hence, we need to adapt our previous method.
@@ -220,11 +221,11 @@ To find $B$-smooth number in $F(a), F(a+1), \ldots , F(b)$, for each $p$ in the 
 ```{math}
 F(t) \equiv 0 \pmod{p}, \quad \text{i.e.,} \quad t^2 \equiv N \pmod{p}.
 ```
-This means that $N$ is a square modulo $p$.  Fortunately, we have seen how to do this, for instance, we can use [Quadratic Reciprocity](./14-Square_Roots.md#sec-quad_rec).  If $N$ is not square modulo $p$, we move to the next prime.
+This means that $N$ is a square modulo $p$.  Fortunately, we have seen how to do this, for instance, we can use [Quadratic Reciprocity](#sec-quad_rec).  If $N$ is not square modulo $p$, we move to the next prime.
 
 Note that if $p \mid N$, then we found a prime factor and are done.  So, let's assume that $p \nmid N$.  Then, if $N$ is a square modulo $p$, we get either two square roots, when $p$ is odd, or four, when $p=2$, assuming that $p \nmid N$.  If $c$ is a square root of $N$, i.e., $c^2 \equiv N \pmod{p}$, then $F(c), F(c + p), F(c + 2p), \ldots$ are all divisible by $p$ (i.e., congruent to $0$ modulo $p$).  Then, as with consecutive numbers, we sieve through the list by dividing each every $p$ terms of our list by $p$.  More precisely, if $c_p$ is the smallest integer in $a, a+1, a+2, \ldots, b$ such that $c_p \equiv c \pmod{p}$, then we divide $F(c_p), F(c_p+p), F(c_p + 2p) \ldots$ by $p$.
 
-But we need to also divide the terms that are divisible by higher powers of $p$.  For that, we can use [Hensel's Lemma](./14-Square_Roots.md#sec-hl) to solve
+But we need to also divide the terms that are divisible by higher powers of $p$.  For that, we can use [Hensel's Lemma](#sec-hl) to solve
 ```{math}
 t^2 \equiv N \pmod{p^k}, \text{ for $k=1, 2, 3, \ldots $.}
 ```
@@ -547,7 +548,8 @@ while the log of the right-side is
 ```
 Putting these last two equations together, we get:
 ```{math}
-\label{eq-index-calc1}
+:label: eq-index-calc1
+
 \log_g(h) = k + r_1 \log_g(\ell_1) + r_2\log_g(\ell_2) + \cdots + r_n \log_g(\ell_n).
 ```
 On the left we have what we want to compute, while on the right all terms are known!
@@ -646,7 +648,7 @@ powers = [valuation(element, l) for l in B_primes]
 element == prod(l^r for l, r in zip(B_primes, powers))
 ```
 
-Ah, so $h \cdot g^{-5}$ is $B$-smooth.  According to {prf:ref}`eq-index-calc1`, we have that the discrete log $\log_g(h)$ is:
+Ah, so $h \cdot g^{-5}$ is $B$-smooth.  According to [](#eq-index-calc1), we have that the discrete log $\log_g(h)$ is:
 
 ```{code-cell} ipython3
 (5 + sum(r * log_l for r, log_l in zip(powers, logs_B))) % (p - 1)
@@ -735,5 +737,5 @@ Step 1 might be difficult!  So, with ElGamal we want $p-1$ to not have small pri
 
 :::{note}
 
-One can generalize the discrete log and ElGamal cryptosystem by replacing $\mathbb{F}^{\times}$ with an arbitrary [group](https://en.wikipedia.org/wiki/Group_(mathematics)).  (We will talk a little more about groups later.)  While our previous methods for computing the discrete log (e.g., [*Shanks Babystep-Giantstep*](./08-Computing_DL.md#sec-bsgs), [*Pohlig-Hellman*](./Improving_DL.md#sec-pohlig-hellman)) generalize for arbitrary groups, this index calculus algorithm (introduced here) does *not*.  Since it is the faster than the previous methods, to make ElGamal more secure, one can use different groups instead of $\mathbb{F}^{\times}$.
+One can generalize the discrete log and ElGamal cryptosystem by replacing $\mathbb{F}^{\times}$ with an arbitrary [group](https://en.wikipedia.org/wiki/Group_(mathematics)).  (We will talk a little more about groups later.)  While our previous methods for computing the discrete log (e.g., [*Shanks Babystep-Giantstep*](#sec-bsgs), [*Pohlig-Hellman*](#sec-pohlig-hellman)) generalize for arbitrary groups, this index calculus algorithm (introduced here) does *not*.  Since it is the faster than the previous methods, to make ElGamal more secure, one can use different groups instead of $\mathbb{F}^{\times}$.
 :::

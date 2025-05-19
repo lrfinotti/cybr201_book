@@ -618,7 +618,19 @@ Given two integers $a$, $b$, the *greatest common divisor (GCD)* of $a$ and $b$,
 We say that two integers are *relatively prime* if their GCD is $1$.
 :::
 
-<br >
+The following result about GCD is quite useful, but not as simple as the ones above.  One can prove it using {prf:ref}`Bezout's Lemma <lm-bezout>` or {prf:ref}`Prime Factorization <th-fta>` below.
+
+:::{prf:proposition}
+:label: pr-rp_div
+
+Suppose that $a \mid c$ and $b \mid c$.  If $a$ and $b$ are relatively prime, i.e., if $\gcd(a, b)=1$, then we also have that $ab \mid c$.
+:::
+
+This is certainly not necessarily the case if $a$ and $b$ are not relatively prime.  For instance $6$ and $9$ both divide $18$, but $6 \cdot 9 = 36$ clearly does not.
+
++++
+
+### Computing the GCD
 
 A first naive method to compute the GCD is to find the divisors of both numbers and take the largest common one.  For instance, say we want $\gcd(12, 15)$.  We have
 
@@ -1624,7 +1636,39 @@ What happens if you divide $u_0$ by $b/d$?
 
 +++
 
-Here is an important fact about primes you might remember from school:
+The following result is an important property of primes:
+
+:::{prf:lemma} Euclid's Lemma
+:label: lm-euclid
+
+If $p$ is a prime and $p \mid a \cdot b$, then either $p \mid a$ or $p \mid b$ (or both, as in mathematics/logic, "or" is *not exclusive*).
+
+More generally, if $p \mid a_1 \cdot a_2 \cdots a_k$, then $p$ divides (at least) one of the $a_i$'s in the product.
+:::
+
+This a defining property of primes and shows how they are *indivisible parts* of integers: if $p$ is a part of $a \cdot b$, then it is a part of either $a$ or $b$.  We cannot "create" $p$ from other parts from $a$ and $b$.  For composite numbers, this can certainly happen.  For example $6 \mid 9 \cdot 10 = 90$  (as $90 = 6 \cdot 15$), but $6 \mid 9$ and $6 \nmid 15$.  In this case we are "making" $6$ from a factor of $2$ from $10$ and a factor of $3$ from $9$.
+
+We can prove it using {prf:ref}`Bezout's Lemma <lm-bezout>`:
+
+:::{prf:proof}
+Suppose that $p \mid a \cdot b$, but $p \nmid a$.  We then need to show that $p \mid b$.
+
+Since $p \nmid a$, we have that $\gcd(a, p) = 1$, and by Bezout's Lemma, there are integers $u$ and $v$ such that 
+```{math}
+1 = ua + vp.
+```
+Multiplying this by $b$, we get
+```{math}
+b = uab + vpb.
+```
+Now $p$ divides $ab$, so it divides $uab$.  Also, clearly it divides $vpb$.  Then it divides the right-side of the equation above, so it divides the left-side as well, i.e., $p \mid b$.
+
+The case for more than two factors can be done by breaking down the product in twos.  For example, if $p \mid abc = (ab) \cdot c$, then, by the case above with *two* factors, we have that either $p \mid ab$ or $p \mid c$.  The former gives us that $p$ divides either $a$ or $b$, so we have that $p$ divides either $a$, $b$, or $c$.
+
+(The proper way to prove this more general case is to use [Mathematical Induction](https://en.wikipedia.org/wiki/Mathematical_induction), but the idea is hopefully clear.)
+:::
+
+With {prf:ref}`Euclid's Lemma <lm-euclid>` one can prove an important fact about primes you might remember from school:
 
 :::{prf:theorem} Fundamental Theorem of Arithmetic (Prime Factorization)
 :label: th-fta
@@ -1647,9 +1691,11 @@ For example,
 \end{align*}
 ```
 
-Hence, these primes are the *building blocks* for integers.
+Hence, prime numbers are the *(indivisible) building blocks* for integers.
 
-Although you will write your own function for prime factorization, of course, Sage has its own:
+It is not too hard to prove this theorem, but we will skip for the sake of brevity.  Instead, we will illustrate it with direct computations, e.g., writing a function to compute the factorization of a given integer.
+
+Although you will write your own function for prime factorization in your homework, of course, Sage has its own:
 
 ```{code-cell} ipython3
 for year in range(2024, 2027):

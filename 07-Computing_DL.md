@@ -212,7 +212,7 @@ n = floor(sqrt(N)) + 1
 ```
 
 Now, let's think about how we create the list of powers of $g$.  In principle, we could just do something like:
-```pyhthon
+```python
 powers = [Mod(1, p)]
 for _ in range(1, n + 1):
     powers.append(g * powers[-1])

@@ -31,7 +31,7 @@ solving discrete logs with elements of order $p_i^{r_i}$, which being a smaller 
 This last step of patching the discrete logs modulo $p_i^{r_i}$ is done by using the following important result:
 
 :::{prf:theorem} Chinese Remainder Theorem (CRT)
-:label: crt
+:label: th-crt
 
 
 Let $m_1, m_2, \ldots, m_k$ be pairwise relatively prime moduli (i.e., $\gcd(m_i, m_j) = 1$ if $i \neq j$) and $a_1, a_2, \ldots, a_k$ be integers.  Then the system
@@ -93,7 +93,7 @@ i.e.,
   x_0 \equiv a_2 \pmod{m_2},
 \end{align*}
 ```
-and so $x_0$ is a solution to the system {prf:ref}`eq-crt-2`.
+and so $x_0$ is a solution to the system [](#eq-crt-2).
 
 Also, clearly, if $x_1 \equiv x_0 \pmod{m}$, where $m = m_1m_2$, i.e., $x = x_0 + tm$ for some integer $t$, then
 ```{math}
@@ -102,9 +102,9 @@ Also, clearly, if $x_1 \equiv x_0 \pmod{m}$, where $m = m_1m_2$, i.e., $x = x_0 
   x_1 \equiv x_0 + tm_1m_2 \equiv x_0 + 0 = x_0 \equiv a_2\pmod{m_2},
 \end{align*}
 ```
-so $x_1$ is also a solution.  Hence, any $x_1 \equiv x_0 \pmod{m}$ is also a solution of {prf:ref}`eq-crt-2`.
+so $x_1$ is also a solution.  Hence, any $x_1 \equiv x_0 \pmod{m}$ is also a solution of [](#eq-crt-2).
 
-Now, suppose that $x_2$ is some other solution of {prf:ref}`eq-crt-2`.  (We need to show that $x_2 \equiv x_0 \pmod{m}$, i.e., that the solutions above are not missing any particular one.)  Then, since both $x_0$ and $x_2$ satisfy the system we have
+Now, suppose that $x_2$ is some other solution of [](#eq-crt-2).  (We need to show that $x_2 \equiv x_0 \pmod{m}$, i.e., that the solutions above are not missing any particular one.)  Then, since both $x_0$ and $x_2$ satisfy the system we have
 ```{math}
 \begin{align*}
   x_2 - x_0 \equiv a_1 - a_1 = 0 \pmod{m_1}, \\
@@ -114,15 +114,15 @@ Now, suppose that $x_2$ is some other solution of {prf:ref}`eq-crt-2`.  (We need
 
 This means that $m_1$ and $m_2$ both divide $x_2 - x_0$.  *Since $m_1$ and $m_2$ are relatively prime*, this means that $m_1m_2 = m$ also divides $x_2 - x_0$, i.e., that $x_2 \equiv x_0 \pmod{m}$.
 
-So, note that this gives us that the two congruences of system {prf:ref}`eq-crt-2` is equivalent to the single congruence
+So, note that this gives us that the two congruences of system [](#eq-crt-2) is equivalent to the single congruence
 ```{math}
-:name: eq-crt-2-sol
+:label: eq-crt-2-sol
 
 x \equiv x_0 \pmod{m_1m_2},
 ```
-meaning that $x$ is a solution of {prf:ref}`eq-crt-2` if and only if $x$ is a solution of {prf:ref}`eq-crt-2-sol`.
+meaning that $x$ is a solution of [](#eq-crt-2) if and only if $x$ is a solution of [](#eq-crt-2-sol).
 
-So, when we have $k$ congruences, as in {prf:ref}`eq-crt`, we can reduce the number of equations by one by replacing the first two by {prf:ref}`eq-crt-2-sol`:
+So, when we have $k$ congruences, as in [](#eq-crt), we can reduce the number of equations by one by replacing the first two by [](#eq-crt-2-sol):
 ```{math}
 :name: eq-crt-1
 
@@ -322,7 +322,7 @@ This solution, namely $x \equiv 183 \pmod{210}$, now should satisfy the original
 :::{admonition} Homework
 :class: note
 
-You will implement this {prf:ref}`algorithm to find solutions in the CRT <crt-alg>` as an exercise in your homework.
+You will implement this [algorithm to find solutions in the CRT](#crt-alg) as an exercise in your homework.
 :::
 
 But, of course, Sage can solve the system of congruences in the CRT using the function `crt`.  We give it a list of the left-sides of the congruences (i.e., $a_1, a_2, \ldots, a_k$) and a list of the moduli (i.e., $m_1, m_2, \ldots, m_k$).  So, our previous example can be done with:

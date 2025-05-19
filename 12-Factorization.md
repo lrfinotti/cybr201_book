@@ -12,6 +12,7 @@ kernelspec:
   language: sage
 ---
 
+(ch-factorization)=
 # Factorization
 
 +++
@@ -39,9 +40,9 @@ def naive_factor(n):
     return factorization
 ```
 
-Note that we've used Sage's `next_prime`.  If not using Sage, we would need to use some primality test, which can be difficult, to find the next prime.  But note that this is the case in which a probabilistic test is fine: it might slow things down in the unlikely event that it gives a false positive, but it will not produce a fake prime factor.
+Note that we've used Sage's `next_prime`.  If not using Sage, we would need to use some primality test, which can be time consuming, to find the next prime.  But note that this is a case in which a probabilistic test is fine: it might slow things down in the unlikely event that it gives a false positive, but it will not produce a fake prime factor.
 
-We would be testing element after element, so if some number $q$ is composite and the test has told us that it is prime, then $q$ will not divide the number, since it must be made of smaller prime factors that do not divide the number anymore at this point.
+Indeed, we would be testing element after element, so if some number $q$ is composite and the test has told us that it is prime, then $q$ will not divide the number, since it must be made of smaller prime factors that do not divide the number anymore at this point.
 
 Thus, we would have an unnecessary division, but no error is introduced in the result.
 
@@ -84,10 +85,10 @@ The following idea and resulting algorithm were introduced by [J. Pollard](https
 
 Suppose you want to factor $N = pq$, where $p$ and $q$ are very large distinct primes, as used with the RSA encryption.  Suppose that somehow we find an integer $L$ such that:
 
-1) $L = (p - 1)i$, for some integer $i$, and so $L$ divides $p-1$;
-2) $L = (q - 1)j + k$, for integers $i$ and $k$, with $k \in \{ 1, 2, \ldots, (q-2) \}$, and so $L$ does *not* divide $q-1$.
+1) $L = (p - 1)i$, for some integer $i$, and so $p - 1$ divides $L$;
+2) $L = (q - 1)j + k$, for integers $i$ and $k$, with $k \in \{ 1, 2, \ldots, (q-2) \}$, and so $q-1$ does *not* divide $L$.
 
-Then, if $\gcd(a, N) = 1$, i.e., $a$ not divisible by either $p$ or $q$, then, by Fermat's Little Theorem (or Euler's Theorem):
+Then, if $\gcd(a, N) = 1$, i.e., $a$ not divisible by either $p$ or $q$, then, by {prf:ref}`Fermat's Little Theorem <th-flt>` (or {prf:ref}`Euler's Theorem <th-euler>`):
 ```{math}
 a^L = a^{(p-1)i} = \left( a^{p-1} \right)^i \equiv 1^i = 1 \pmod{p}
 ```
@@ -98,13 +99,13 @@ a^L = a^{(q-1)j + k} = \left( a^{q-1} \right)^j \cdot a^k \equiv 1^j \cdot a^k =
 
 For a randomly chosen $a$ relatively prime to $pq$, we have that the probability that $a^k \not\equiv 1 \pmod{q}$ is high, and in this case we have that $p \mid a^L - 1$ and $q \nmid a^L - 1$, so $\gcd(a^L - 1, N) = \gcd(a^L, pq) = p$.  Using the Euclidean algorithm we can quickly compute this GCD and find $p$.  Dividing $N$ by $p$ we find $q$ and have factored $N$.
 
-So, the question is really how do we find this $L$?  Here is Pollard's observation: if $p - 1$ is a product of *small primes only*, then $p-1$ divides $n!$ for some $n$ "not too large".  Then, if $\gcd(a, p) = 1$, we have that
+So, the question is really how do we find this $L$ (with the properties above)?  Here is Pollard's observation: if $p - 1$ is a product of *small primes only*, then $p-1$ divides $n!$ for some $n$ "not too large".  Then, if $\gcd(a, p) = 1$, we have that
 ```{math}
 a^{n!} = \left( a^{p-1} \right)^{n!/(p-1)} \equiv 1^{n!/(p-1)} = 1 \pmod{p}
 ```
 (noting that in this case $n!/(p-1)$ is an integer by assumption).
 
-Hoping that $a^{n!} \not\equiv 1 \pmod{q}$, which can happen with a reasonable likelihood, as above, we can reduce $a^{n!}$ modulo $N$, obtaining, say, $r$, and then compute $\gcd(r, N)$.  If it is neither $1$ nor $N$, then this GCD is $p$, one the prime factors, and we can factor $N$.
+Hoping that $a^{n!} \not\equiv 1 \pmod{q}$, which can happen with a reasonable likelihood, as observed above, we can reduce $a^{n!}$ modulo $N$, obtaining, say, $r$, and then compute $\gcd(r, N)$.  If it is neither $1$ nor $N$, then this GCD is $p$, one the prime factors, and we can factor $N$.
 
 Here is a possible procedure:
 
@@ -120,7 +121,7 @@ Given a composite integer $N$, we want to find a proper factor (i.e., a factor d
    1) Set $b$ as the reduction modulo $N$ of $b^j$.
    2) Compute $d = \gcd(b-1, N)$.
    3) If $d \neq 1, N$, then it is a factor, and we return it (and stop).  If not, go to the next iteration of the loop.
-4) If the loop reaches $B$ with not success, increase $b$, avoiding perfect powers, e.g., going to the next prime, and repeat (from 2).
+4) If the loop reaches $B$ with not success, increase $a$, avoiding perfect powers, e.g., going to the next prime, and repeat (from 2).
 :::
 
 First, observe that in step 3, we are computing $a^{j!}$, as the values of $b$ are:
@@ -133,16 +134,22 @@ One can also try to reduce the number of operations: note that of $(p-1)$ divide
 
 The downside of this approach is that increases the chances that both $p-1$ and $q-1$ divide $a^{(rk)!}$, which we need to avoid.  But, if $k$ is not too large, this is not very likely and it might be worth the risk.
 
+:::{admonition} Homework
+:class: note
+
+You will implement this algorithm in your homework.
+:::
+
 +++
 
 ### Number of Operations
 
-If we perform the powers in the algorithm using [Fast Powering](./05-Powers.md#al-fast_power) the products in the loop will require, at worst,
+If we perform the powers in the algorithm using {prf:ref}`Fast Powering <al-fast_power>`, the products in the loop will require, at worst,
 
 ```{math}
 \begin{align*}
 (2 \log_2(2) + 2) &+ (2 \log_2(3) + 2) + \cdots + (2 \log_2(B) + 2) \\
-&= 2 (\log_2(2) + \log_2(3) + \cdots + log_2(B)) + 2B - 2 \\
+&= 2 (\log_2(2) + \log_2(3) + \cdots + \log_2(B)) + 2B - 2 \\
 &= 2 \log_2(B!) + 2B - 2
 \end{align*}
 ```
@@ -182,7 +189,10 @@ j = 2
 b = ZZ(Mod(b, N)^j)
 ```
 
-Note that we use `Mod(b, N)^j` to efficiently compute the power $b^j$ and reduce it modulo $N$, and then `ZZ` to convert it back to an integer.
+:::{important}
+
+Note that we use `Mod(b, N)^j` to efficiently compute the power $b^j$ and reduce it modulo $N$, and then `ZZ` to convert it back to an integer.  (We convert it to an integer so that we can compute the GCD below.)  Do not use `Mod(b^j, N)`, as it is a lot less efficient.
+:::
 
 Now, we compute the GCD of $b-1$ and $N$, and check if we get something different from $1$ and $N$.
 
@@ -374,7 +384,7 @@ Firstly, we must note:
 
 :::{important}
 
-Since this algorithm is a lot more efficient than the naive factorization, when producing $N = pq$ for the RSA cryptosystem, we need to choose $p$ and $q$ such $p-1$ and $q-1$ have large prime factors!
+Since {prf:ref}`al-pollard` is a lot more efficient than the naive factorization, when producing $N = pq$ for the RSA cryptosystem, we need to choose $p$ and $q$ such $p-1$ and $q-1$ have large prime factors!
 :::
 
 
@@ -406,14 +416,14 @@ Or, alternatively:
 Given a certain range, how large must $B$ be so that a random element $n$ in that range has a "good chance" of being $B$-smooth?
 :::
 
-These questions are in fact relevant to *all* modern factorization methods and we will come back to them in {prf:ref}`smooth-numbers` below.
+These questions are in fact relevant to *all* modern factorization methods and we will come back to them in the [Smooth Numbers section](#smooth-numbers) below.
 
 +++
 
 (sec-diff-squares)=
 ## Factorization via Difference of Squares
 
-We start with the following definition:
+We will now introduce another more efficient factorization algorithm. We start with the following definition:
 
 :::{prf:definition} Perfect Square
 :label: def-perfect_square
@@ -428,11 +438,11 @@ x^2 - y^2 = (x-y)(x+y).
 ```
 We use this idea to try to factor a large integer $N$: we can try to find some integer $b$ such that $N + b^2$ is a *perfect square*, i.e., there is another integer $a$ such that $N + b^2 = a^2$.  (Note that this implies that $a > b$.)  If we do, then
 ```{math}
-N = a^2 - bn^2 = (a-b)(a+B).
+N = a^2 - b^2 = (a-b)(a+b).
 ```
 If $a > b + 1$, then $a - b$ is a proper factor!
 
-Moreover, we *cannot* have that $a = b + 1$, as in that case we must have that
+We already know that $a > b$, so $a \geq b+1$, but in fact we *cannot* have that $a = b + 1$, as in that case we must have that
 ```{math}
 \begin{align*}
 a - b &= 1, \\
@@ -441,29 +451,30 @@ a + b &= N.
 ```
 Solving this system we get $a = (N+1)/2$ and $b=(N-1)/2$.  But this then implies that
 ```{math}
-N = (a-b)(a+B) = \frac{N^2 - 1}{4} \quad \Longrightarrow  N^2 - 4N - 1 = 0.
+N = (a-b)(a+b) = \frac{N^2 - 1}{4} \quad \Longrightarrow  N^2 - 4N - 1 = 0.
 ```
 Using the quadratic formula, this means that
 ```{math}
 N = \frac{4 \pm \sqrt{20}}{2} = 2 \pm \sqrt{5},
 ```
-which is *not an integer*.
+which is *not an integer*.  Therefore, we must have that $a > b+1$, and $a-b$ would indeed be a proper factor.
 
-Thus, we can try to take some random values for $b$ and then check if $N + b^2$ is a perfect square.  (But how does one do that efficiently?)  But for large $N$, this method likely takes too long.
+Thus, we can try to take some random values for $b$ and then check if $N + b^2$ is a perfect square.  (But how does one check if an integer is a perfect square efficiently?)  Unfortunately this method takes too long for large $N$.
 
-But here is an idea that can help:  We see choose random $b$ and $k$ and see if $kN + b^2$ is a perfect square, i.e., $kN + b^2 = a^2$, for some integer $a$.  This means that $kN = a^2 - b^2 = (a-b)(a+b)$.  *Often*, either $a-b$ or $a+b$ contains some factor of $N$, and so we compute $\gcd(N, a - b)$ and $\gcd(N, a + b)$, hoping to find a proper factor.
+But here is an idea that can help: choose random $b$ and $k$ and see if $kN + b^2$ is a perfect square (again, one might wonder how to do that), i.e., $kN + b^2 = a^2$, for some integer $a$.  This means that $kN = a^2 - b^2 = (a-b)(a+b)$.  *Often*, either $a-b$ or $a+b$ contains some factor of $N$, and so we compute $\gcd(N, a - b)$ and $\gcd(N, a + b)$, hoping to find a proper factor.
 
 Note that  $kN = a^2 - b^2$ means that $a^2 \equiv b^2 \pmod{N}$, or $a^2 = b^2$ in $\mathbb{Z}/N\mathbb{Z}$.  Moreover, since $a^2 = kN + b^2 > N$, we must have that $a > \lfloor \sqrt{N} \rfloor$.  So, we want
 ```{math}
-\label{eq-diff_sqrs}
+:label: eq-diff_sqrs
+
 a^2 = b^2  \quad \text{in $\mathbb{Z}/N\mathbb{Z}$, with $a > \lfloor \sqrt{N} \rfloor$.}
 ```
-But still, finding $a$ and $b$ from {prf:ref}`eq-diff_sqrs` will likely take too long, so we need a method to make it more efficient.
+But still, finding $a$ and $b$ from [](#eq-diff_sqrs) will likely take too long, so we need a method to make it more efficient.
 
-Here is the general procedure to find $a$ and $b$ as in {prf:ref}`eq-diff_sqrs`:
+Here is the general procedure to find $a$ and $b$ as in [](#eq-diff_sqrs):
 
 
-1) **Relation Building:**  Find "many" $a_1, a_2, \ldots, a_r < \lfloor N \rfloor$ such that the reduction modulo $N$ of $a_i^2$, which we shall denote by $c_i$, is {prf:ref}`$B$-smooth <def-B_smooth>` for some relatively small $B$.
+1) **Relation Building:**  Find "many" $a_1, a_2, \ldots, a_r < \lfloor N \rfloor$ such that the reduction modulo $N$ of $a_i^2$, which we shall denote by $c_i$, is {prf:ref}`B-smooth <def-b_smooth>` for some relatively small $B$.
 
 2) **Elimination:**  Take a product of $c_{i_1} c_{i_2} \cdots c_{i_s}$ of *some* of the $c_i$'s such that every prime in the product appears an *even* number of times, i.e., with an even power in the prime factorization, so that $c_{i_1} c_{i_2} \cdots c_{i_s} = b^2$ for some integer $b$.
 
@@ -491,17 +502,15 @@ The worst case is when $N=pq$, with $p$ and $q$ distinct prime factors (so, $N$ 
 ```{math}
 (a-b)(a+b) = a^2 - b^2 = kN = kpq,
 ```
-so $p \mid (a-b)$ or $p \mid (a+b)$ (and possibly dividing both), *with (about) the same probability*.  And note that if $p \mid (a-b)$, and similarly for $q$.  So, there is about a $50\%$ chance that, in this case, $p \mid (a-b)$ and $q \nmid (a-b)$.  And note that if that is the case, then $q \mid (a+b)$, and quite likely $q \nmid (a+b)$, since for the latter to happen, we would need that $p \mid k$, and $k$ should not be that large.  So, we do not need to compute both $\gcd(N, a+b)$ and $\gcd(N, a-b)$: quite likely one gives us a factor if and only if the other does as well.  Since $a-b$ is smaller, we use it instead.
+so $p \mid (a-b)$ or $p \mid (a+b)$ (and possibly dividing both), *with (about) the same probability* and similarly for $q$.  So, there is about a $50\%$ chance that, in this case, $p \mid (a-b)$ and $q \nmid (a-b)$.  And note that if that is the case, then $q \mid (a+b)$, and quite likely $q \nmid (a+b)$, since for the latter to happen, we would need that $p \mid k$, and $k$ should not be that large.  So, we do not need to compute both $\gcd(N, a+b)$ and $\gcd(N, a-b)$: quite likely one gives us a factor if and only if the other does as well.  Since $a-b$ is smaller, we use it instead.
 
-Note that this $50\%$ change of finding a factor when {prf:ref}`eq-diff_sqrs` is satisfied is quite good, which means we would likely not need to check many pairs $(a, b)$.
+Note that this $50\%$ change of finding a factor when [](#eq-diff_sqrs) is satisfied is quite good, which means we would likely not need to check many pairs $(a, b)$.
 
 +++
 
 ### Example
 
-We will discuss the *Relation Building* process in a future section.  The *GCD Cmputation* is straight forward.  So, here we will illustrate how the *Elimination* process works, through an example.
-
-After we find the $a_i$'s and $c_i$'s (where $c_i$ is the residue module )
+We will discuss the *Relation Building* process in a [future section](sec-relation_building).  The *GCD Computation* is straight forward.  So, here we will illustrate how the *Elimination* process works, through an example.
 
 Suppose that the *Relation Building* process gave us the following $11$-smooth $c_i$'s:
 ```{math}
@@ -512,9 +521,9 @@ c_3 &= \phantom {3 \cdot} 5\phantom{^5} \cdot 7\phantom{^3} \cdot 11^3.
 \end{align*}
 ```
 
-So, we want to make products of these $c_i$'s that produce an integer that is a perfect square, which is the same as to say that in their prime factorizations, all primes appear with an even power: as
+So, we want to make products of these $c_i$'s that produce an integer that is a perfect square.  That is the same as to say that all primes in their prime factorizations appear with an even power: as
 ```{math}
-x = p_1^{2r_1} p_2^{2r_2} \cdots p_k^{2 r_k} \quad \Longrightarrow x = \left( p_1^{r_1} p_2^{r_2} \cdot p_k^{r_k} \right)^2.
+x = p_1^{2r_1} p_2^{2r_2} \cdots p_k^{2 r_k} \quad \Longleftrightarrow \quad x = \left( p_1^{r_1} p_2^{r_2} \cdots p_k^{r_k} \right)^2.
 ```
 
 
@@ -530,6 +539,8 @@ and we want all the powers of the prime factors to be *even*.
 
 Note that the powers $v_i$ (which can only be $0$ or $1$) are our *unknowns*!  We want to find these $v_i$'s that make the product a perfect square.  So, we want to find $v_i$'s, each either $0$ or $1$, such that
 ```{math}
+:label: eq-og_system
+
 \begin{align*}
 \phantom{2}v_1 + \phantom{5}v_2 \phantom{+ 3v_3} & \equiv 0 \pmod{2}, \\
 2v_1 + 5v_2 + \phantom{3}v_3 & \equiv 0 \pmod{2}, \\
@@ -563,16 +574,12 @@ c_5 &= 3^3 \cdot 5 \cdot 7^2.
 \end{align*}
 ```
 
-Again, let's add them to sage:
-
-```{code-cell} ipython3
-c4 = 3 *  11^2
-c5 = 3^3 * 5 * 7^2
-```
++++
 
 So, now we have
 ```{math}
-\label{eq-ex-elimination1}
+:label: eq-ex-elimination1
+
 c_1^{v_1} c_2^{v_2} c_3^{v_3} c_4^{v_4} c_5^{v_5}= 3^{v_1 + v_2 + v_4 + 3v_5} \cdot 5^{2v_1 + 5 v_2 + v_3 + v_5} \cdot 7^{3v_1 + v_3 + 2v_5} \cdot 11^{v_1 + v_2 + 3v_3 + 2v_4}.
 ```
 Again, we need the exponents to be even, so we set the system in $\mathbb{F}_2$ (already reducing the coefficients odulo $2$) having these exponents as $0$:
@@ -591,7 +598,7 @@ The third equation gives us that $v_1 = v_3$.  Then, the fourth gives us:
 ```
 so $v_2 = 0$.  Now, substituting in the second, we get
 ```{math}
-0 = 0 + v_1 + v_5 \qquad ==> \qquad v_5 = v_1,
+0 = 0 + v_1 + v_5 \qquad \Longrightarrow \qquad v_5 = v_1,
 ```
 and hence $v_1 = v_3 = v_5$ (and $v_2 = 0$).  Finally, substituting it in the first, we have
 ```{math}
@@ -601,7 +608,7 @@ and hence $v_4 = 0$.  So, *all* solutions of the system are of the form $(v_1, 0
 ```{math}
 c_1^1 \cdot c_2^0 \cdot c_3^1 \cdot c_4^0 \cdot c_5^1 = c_1 c_3 c_5
 ```
-is a perfect square.  In fact, from {prf:ref}`eq-ex-elimination1`, we have
+is a perfect square.  In fact, from [](#eq-ex-elimination1), we have
 ```{math}
 c_1 c_3 c_5 = 3^4 \cdot 5^4 \cdot 7^6 \cdot 11^4 = \left( 3^2 \cdot 5^2 \cdot 7^3 \cdot 11^2 \right)^2.
 ```
@@ -647,7 +654,7 @@ M = matrix(GF(2), [[1, 1, 0], [0, 1, 1], [1, 0, 1], [1, 1, 1]])
 M
 ```
 
-So, a matrix is created using a list containing each row (as another list) as its elements.  The `GF(2)` as the first argument, is similar to `Zmod(2)` (which could also be used), and it says it will use the *field* with $2$ elements, i.e., $F_2$.  (Note that `Zmod(4)` and `GF(4)` are different!  They are same only when we use primes!)  In particular, if the entries were not already zeros and ones, they would be automatically reduced when creating the matrix.  So, we could have entered the original coefficients of the system before manually reducing them:
+So, a matrix is created using a list containing each row (as another list) as its elements.  The `GF(2)` as the first argument, is similar to `Zmod(2)` (which could also be used), and it says it will use the *field* with $2$ elements, i.e., $\mathbb{F}_2$.  (Note that `Zmod(4)` and `GF(4)` are different!  They are same only when we use primes!)  In particular, if the entries were not already zeros and ones, they would be automatically reduced when creating the matrix.  So, we could have entered the original coefficients of the system before manually reducing them, i.e., [](#eq-og_system):
 
 ```{code-cell} ipython3
 M = matrix(GF(2), [[1, 1, 0], [2, 5, 1], [3, 0, 1], [1, 1, 3]])
@@ -765,7 +772,7 @@ a = prod(ai^x for (ai, x) in zip(list_a, v))
 
 +++
 
-But, when computing $b$ we need to take a square root.  But we can speed up this calculation since we can easily now find the powers of the primes that appear in $b^2$ (as in {prf:ref}`eq-ex-elimination1`) and hence we can simply divide them by $2$.
+Note that when computing $b$ we need to take a square root.  But we can speed up this calculation since we can easily now find the powers of the primes that appear in $b^2$ (as in [](#eq-ex-elimination1)) and hence we can simply divide them by $2$.
 
 The trick to find these exponents of the prime factors of $b^2$ is to use [matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication).  We just have to use each solution found and multiply `coef_matrix` (and *not* `M`) by it:
 
@@ -892,7 +899,6 @@ We also need the following function:
 :::{prf:definition} Function $L$
 :label: def-function_L
 
-
 We define function $L(x)$, for $x >0$, as
 ```{math}
 L(x) = e^{\sqrt{\log(x) \cdot \log(\log(x))}}.
@@ -905,7 +911,6 @@ We then have the following technical result:
 :::{prf:theorem}
 :label: th-psi_L
 
-
 For any real number $c$ with $0 < c < 1$ and for "large" values of $x$, we have
 ```{math}
 \psi(x, L(x)^c) \approx x \cdot L(c)^{- \frac{1}{2c} \cdot (1 + s_x)},
@@ -913,15 +918,14 @@ For any real number $c$ with $0 < c < 1$ and for "large" values of $x$, we have
 where $s_x$ approaches $0$ as $x$ gets large.
 :::
 
-In the factorization by {prf:ref}`difference of squares factorization method <sec-diff-squares>`, in order to find solution we need that the system must have more equations than variables.  The number of equations is given by the number of primes less than or equal to $B$, when we require the $c_i$'s to be $B$-smooth, i.e., $\pi(B)$, while the number of variables is given by the number of $a_i$'s (or $c_i$'s).  So, we need the number of $B$-smooth $c_i$'s to be greater than $\pi(B)$.
+When using the [difference of squares factorization method](#sec-diff-squares), in order to find solution we need that the system must have more equations than variables.  The number of equations is given by the number of primes less than or equal to $B$.  When we require the $c_i$'s to be $B$-smooth this number is $\pi(B)$ (the number of primes less than or equal to $B$).  The number of variables is given by the number of $a_i$'s (or $c_i$'s).  So, we need the number of $B$-smooth $c_i$'s to be greater than $\pi(B)$.
 
 The theorem above gives us the an idea of how difficult finding that many $B$-smooth numbers is:
 
 :::{prf:theorem}
 :label: th-b_smooth_application
 
-
-Let $N$ be a large integer and set $B = L(N)^{\frac{1}{\sqrt{2}}}$.  We expect to check about $B^2 = L(N)^{\sqrt{2}}$ random numbers modulo $N$ to find $\pi(B)$ numbers that are $B$-smooth.  Thus, we expect to check $B^2 = L(N)^{\sqrt{2}}$ random numbers of the form $a^2$ reduce modulo $N$ to be able to factor $N$.
+Let $N$ be a large integer and set $B = L(N)^{\frac{1}{\sqrt{2}}}$.  We expect to check about $B^2 = L(N)^{\sqrt{2}}$ random numbers modulo $N$ to find $\pi(B)$ numbers that are $B$-smooth.  Thus, we expect to check $B^2 = L(N)^{\sqrt{2}}$ random numbers of the form $a^2$ reduced modulo $N$ to be able to factor $N$.
 :::
 
 
@@ -961,3 +965,5 @@ Or, in terms of the number of digits
 
 
 One can improve this process by taking the $a_i$'s, which we square and reduce modulo $N$, only slightly larger than $\sqrt{N}$ (instead of purely randomly), which reduces the number of $a_i$'s to try to about $L(N)$, which is a good improvement.
+
+We will come back to this process (the *Relation Building*) in a [later section](#sec-relation_building).
