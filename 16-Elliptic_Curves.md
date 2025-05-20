@@ -781,7 +781,7 @@ Hence, we say that an elliptic curve is an Abelian group with respect to its add
 
 :::{note}
 
-Note that with the [ElGamal Cryptosystem](#sec-elgamal) or [DSA](./16-Digital_Signatures.md#sec-dsa), one can replace $\mathbb{F}^{\times}$ with any other *finite* Abelian group.  (Of course, extreme care is needed with the choice!)  This often has the benefit of making the [index calculus](./15-Quad_Sieve_Index_Calc.md#sec-index-calc) (the most efficient method of attack) unavailable.
+Note that with the [ElGamal Cryptosystem](#sec-elgamal) or [DSA](#sec-dsa), one can replace $\mathbb{F}^{\times}$ with any other *finite* Abelian group.  (Of course, extreme care is needed with the choice!)  This often has the benefit of making the [index calculus](#sec-index-calc) (the most efficient method of attack) unavailable.
 :::
 
 ### Order of an Element
@@ -983,7 +983,7 @@ So, our question now is *how hard is the ECDLP*, meaning, how hard is it to comp
 As with many problems of this sort, we cannot be quite sure, but so far this has been a difficult problem, as the addition of points on elliptic curves are somewhat complicated.  But as usual, we have no guarantee that someone may come up with an ingenious idea that would allow us to easily compute these logs tomorrow!
 
 
-But, so far, the best methods are collision methods, such as [Shank's Babystep-Giantstep](#sec-bsgs) (which can be easily adapted for elliptic curves).  As observed before, a great advantage is that the [index calculus](./15-Quad_Sieve_Index_Calc.md#sec-index-calc) does not work with elliptic curves.  In practice, to solve the ECDLP for $E/\mathbb{F}_p$, the best known methods take about $\sqrt{p}$ steps, which makes it infeasible to solve it in practice for very large $p$.
+But, so far, the best methods are collision methods, such as [Shank's Babystep-Giantstep](#sec-bsgs) (which can be easily adapted for elliptic curves).  As observed before, a great advantage is that the [index calculus](#sec-index-calc) does not work with elliptic curves.  In practice, to solve the ECDLP for $E/\mathbb{F}_p$, the best known methods take about $\sqrt{p}$ steps, which makes it infeasible to solve it in practice for very large $p$.
 
 As usual, there are specific cases in which the computations become simpler and should be avoided!  Among those are elliptic curves with $|E(\mathbb{F}_p)|$ equal to either $p$ or $p+1$ or curves over finite fields with $2^m$ with $m$ composite.  (Note we have not seen here finite fields with order $2^m$ and $m > 1$, since the only ones we've introduced here have a *prime* number of elements.)
 
@@ -991,7 +991,7 @@ As usual, there are specific cases in which the computations become simpler and 
 
 ## Fast Multiplication
 
-In the previous methods of encryption and digital signatures, we needed to take large powers of elements in $\mathbb{F}^{\times}$.  Now, with elliptic curves, we need compute large *multiples* of a point, i.e., we need to replace products by sums.  But for these we can adapt [Fast Powers](#fast-powering): instead of using successive squaring, we use *successive doubling*.
+In the previous methods of encryption and digital signatures, we needed to take large powers of elements in $\mathbb{F}^{\times}$.  Now, with elliptic curves, we need compute large *multiples* of a point, i.e., we need to replace products by sums.  But for these we can adapt [Fast Powers](#fast_powering): instead of using successive squaring, we use *successive doubling*.
 
 
 :::{prf:algorithm} Fast Multiplying Algorithm (Successive Doubling)
@@ -1142,7 +1142,7 @@ In your homework you will write a function in Sage that takes an integer and ret
 
 ## Elliptic Curve Diffie-Hellman Key Exchange
 
-We can now adapt the [Diffie-Hellman Key Exchange](#DH_ElGamal.md#DH_key_exchange) to use elliptic curves:
+We can now adapt the [Diffie-Hellman Key Exchange](#DH_key_exchange) to use elliptic curves:
 
 **The Diffie-Hellman Key Exchange:**
 

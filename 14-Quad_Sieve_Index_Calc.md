@@ -721,7 +721,7 @@ In your homework you will write the code to obtain the *matrix of coefficients* 
 But there is a problem: the coefficients (since they are all exponents) are in $\mathbb{Z}/(p-1)\mathbb{Z}$, which is not a *field* (like the real numbers or $\mathbb{F}_p$), so solving the system is not as straight forward.  But it still can be done, and here is the (vague) idea on how to do it:
 
 1) For each prime factor $q$ of $p-1$, we solve the system modulo $q$ (i.e., in the field $\mathbb{F}_q$, where our methods for solving systems work well).
-2) If $q^s$ is the largest power of $q$ dividing $p-1$, then we "lift" the solution we've found (modulo $q$) to a solution modulo $q^n$.  (The method to do this is similar to {prf:ref}`Hensel's Lemma <lm-hensel>`.)
+2) If $q^s$ is the largest power of $q$ dividing $p-1$, then we "lift" the solution we've found (modulo $q$) to a solution modulo $q^n$.  (The method to do this is similar to {prf:ref}`th-hl-sqrt-odd` or {prf:ref}`th-hl-sqrt-2`.)
 3) We use the {prf:ref}`Chinese Remainder Theorem <th-crt>` to "patch" these solutions to a solution modulo $p-1$.  More precisely, if $p-1 = q_1^{s_1} q_2^{s_2} \cdots q_t^{s_t}$, and if we've obtained $x_i \equiv b_{i,j} \pmod{q_j^{s_j}}$ for $j = 1, 2, \ldots, t$, solving
 ```{math}
 \begin{align*}

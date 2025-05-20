@@ -116,7 +116,7 @@ Since the order is not $1$, it means that $a^{(p-1)/2} \neq 1$, and hence it mus
 
 :::{note}
 
-With [fast powering](./05-Powers.md#fast_powering), one can use {prf:ref}`pr-squares-fp` to relatively quickly decide if an element in $\mathbb{F}_p^{\times}$ is a square.  But we will see a better method below, using [Quadratic Reciprocity](#sec-quad_rec).
+With [fast powering](#fast_powering), one can use {prf:ref}`pr-squares-fp` to relatively quickly decide if an element in $\mathbb{F}_p^{\times}$ is a square.  But we will see a better method below, using [Quadratic Reciprocity](#sec-quad_rec).
 :::
 
 
@@ -1059,7 +1059,7 @@ For the first item, we have that if $b$ is square root module $2^k$, then it is 
 ```
 We can see then that the square roots of $1$ are four: $1$, $3$, $5$, and $7$.
 
-Now suppose that $a \equiv 1 \pmod{8}$.  We must show that there is a square root modulo $2^n$.  This will follow from our next result, [](#th-hl-sqrt-2), which does not rely on this current proposition.
+Now suppose that $a \equiv 1 \pmod{8}$.  We must show that there is a square root modulo $2^n$.  This will follow from our next result, {prf:ref}`th-hl-sqrt-2`, which does not rely on this current proposition.
 
 So, we can now assume that there is a square root modulo $2^k$, for $k \geq 3$, and we must show that there are exactly $4$ square roots modulo $2^k$.  Suppose that $x$ and $y$, with $x \neq y$, are two such square roots, i.e.,
 ```{math}
