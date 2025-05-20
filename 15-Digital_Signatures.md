@@ -29,8 +29,8 @@ Here is the general process:
 
 1) Samantha creates a pair of keys: a *private signing key* $K^{\mathrm{pri}}$ and *verification key* $K^{\mathrm{pub}}$.  The former is used to produce signatures and kept secret, while the latter is published and used to verify that the signature (and the corresponding signed document) are from Samantha.
 2) Given a document $D$, Samantha uses some algorithm and her signing key $K^{\mathrm{pri}}$ to produce a digital signature $D^{\mathrm{sig}}$ (using both $D$ and $K^{\mathrm{pri}}$).
-3) Samantha then publishes both the document and its signature: $(D, K^{\mathrm{pri}})$.
-4) Anyone who wants to verify that $D$ is the document signed by Samantha uses the corresponding verification algorithm (entering the public available $D$, $D^{\mathrm{sig}}$, and $K^{\mathrm{pri}}$) to verify its authenticity.
+3) Samantha then publishes both the document and its signature: $(D, D^{\mathrm{sig}})$.
+4) Anyone who wants to verify that $D$ is the document signed by Samantha uses the corresponding verification algorithm (entering the publicly available $D$, $D^{\mathrm{sig}}$, and $K^{\mathrm{pub}}$) to verify its authenticity.
 
 Here are a few important considerations with digital signatures:
 1) It should, of course, be difficult to find $K^{\mathrm{pri}}$ from the public data (i.e., $K^{\mathrm{pub}}$, signing algorithm, $D$, and $D^{\mathrm{sig}}$.)
@@ -46,11 +46,11 @@ One can also create digital signatures to be used with email, so that the person
 
 Another important consideration is the size of the signature.  Most methods will provide a signature of the same size as the document itself.  Although this might not be a problem for short texts, it can be a problem if $D$ is large, e.g., some large piece of software.  Not only it will require a lot of bandwidth to download both the software and its signature, the verification process is also slow.
 
-Signing only a truncated version of $D$ is also dangerous, as malicious code or text can be added to the non-signed part.  But we still need to sign something related to $D$ smaller than itself.  The usual solution is to use a [hash function](https://en.wikipedia.org/wiki/Hash_function).  A hash function $\mathrm{Hash}$ takes a document (of any size) and produce a "hash value" $\mathrm{Hash}(D)$ of a fixed size of bits.  This size is usually relatively small and in practice, and hence often in practice the hash value $\mathrm{Hash}(D)$, for a published hash function $\mathrm{Hash}$, is signed instead of $D$ itself.  (In other words, Samantha publishes $(D, \mathrm{Hash}(D)^{\mathrm{sig}})$ instead of $(D, D^{\mathrm{sig}})$.)  Then, in the verification process, one first computes $\mathrm{Hash}(D)$ and then verify the signature with this hash value.
+Signing only a truncated version of $D$ is also dangerous, as malicious code or text can be added to the non-signed part.  But we still need to sign something related to $D$ smaller than itself.  The usual solution is to use a [hash function](https://en.wikipedia.org/wiki/Hash_function).  A hash function $\mathrm{Hash}$ takes a document (of any size) and produce a "hash value" $\mathrm{Hash}(D)$ of a fixed size of bits.  This size is usually relatively small, and hence often in practice the hash value $\mathrm{Hash}(D)$, for a published hash function $\mathrm{Hash}$, is signed instead of $D$ itself.  (In other words, Samantha publishes $(D, \mathrm{Hash}(D)^{\mathrm{sig}})$ instead of $(D, D^{\mathrm{sig}})$.)  Then, in the verification process, one first computes $\mathrm{Hash}(D)$ and then verify the signature with this hash value.
 
 But this has some potential problems.  Since the size of $D$ can be considerably larger than the size of its hash value, its mathematically impossible for the hash values to be unique, meaning that there will be different documents, say $D \neq D'$, with the same hash value, i.e., $\mathrm{Hash}(D) = \mathrm{Hash}(D')$.  This might seem problematic at first, if $\mathrm{Hash}(D) = \mathrm{Hash}(D')$, when we verify the signature of $\mathrm{Hash}(D)$, we cannot be $100\%$ sure that signature is for the document $D$, as $D'$ would produce the same hash value, and would be "verified" with this process.  So, if the malicious party, Eve, can produce a document with the same hash value as the original, then it can be verified using the hash function, and it will be believed that this alternative document was signed by Samantha.
 
-The key idea here is that a good hash function has to be random enough that it is very hard to find some other $D'$ that gives $\mathrm{Hash}(D') = \mathrm{Hash}(D)$ and if found, it would be "nonsensical", i.e., it would have no meaning as text or computer code.  In summary, here are the requirements of hash functions:
+The key idea here is that a good hash function has to be random enough that it is very hard to find some other $D'$ that gives $\mathrm{Hash}(D') = \mathrm{Hash}(D)$, and if such $D'$ is somehow found, it should be "nonsensical", i.e., it would have no meaning as text or computer code.  In summary, here are the requirements of hash functions:
 
 1) It should be hard to find $D$ from $\mathrm{Hash}(D)$.
 2) It should be hard to find $D'$ such that $\mathrm{Hash}(D) = \mathrm{Hash}(D')$.
@@ -58,7 +58,7 @@ The key idea here is that a good hash function has to be random enough that it i
 4) It should be highly unlikely that if $D$ is a proper document (or piece of software) and $\mathrm{Hash}(D) = \mathrm{Hash}(D')$, then $D'$ is also a coherent piece of text (or working software).
 
 
-For the sake of simplicity, in what follows we will simply refer to the signature of the document itself, but in practice we would likely sign the hash value.  In fact, we before, we will take the document to be a *number*, just like with encryption, as any computer file can be made into a number (or sequence of numbers, if too large), as it is a sequence of zeros and ones that can be interpreted as a binary number.
+For the sake of simplicity, in what follows we will simply refer to the signature of the document itself, but in practice we would likely sign the hash value.  In fact we will take the document to be a *number*, just like with encryption, as any computer file can be made into a number (or sequence of numbers, if too large), as it is simply a sequence of zeros and ones that can be interpreted as a binary number.
 
 +++
 
@@ -150,7 +150,7 @@ You will implement this process in your homework.
 Similarly, one can also adapt the ElGamal Cryptosystem to produce a digital signature:
 
 1) **Set up:**
-    1) Samantha chooses (or copies) and publishes a large prime $p$ and a primitive root $g \in \mathbb{F}^{\times}$, i.e., $g$ has order $p-1$.
+    1) Samantha chooses (or copies) and publishes a large prime $p$ and a primitive root $g \in \mathbb{F}_p^{\times}$, i.e., $g$ has order $p-1$.
     2) Samantha chooses a *private* key $a \in \{1, 2, 3, \ldots, p-2\}$ and publishes $A = g^a$ (in $\mathbb{F}_p$).
 2) **Signing:** To sign a document $D$ (a numbers between $2$ and $p-1$):
    1) Samantha chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use) $k$.
@@ -185,25 +185,25 @@ But, similar to ElGamal's encryption, the problem with this method is that the k
 (sec-dsa)=
 ## Digital Signature Algorithm
 
-One can address the size problem of ElGamal's digital signature by working in a "subgroup" of $\mathbb{F}^{\times}$.  This the [Digital Signature Algorithm](https://en.wikipedia.org/wiki/Digital_Signature_Algorithm):
+One can address the size problem of ElGamal's digital signature by working in a "subgroup" of $\mathbb{F}_p^{\times}$.  This the [Digital Signature Algorithm](https://en.wikipedia.org/wiki/Digital_Signature_Algorithm):
 
 1) **Setup:**
    1) Samantha chooses (or copies):
       - $p$ and $q$ primes, with $q \mid (p - 1)$;
-      - $g \in \mathbb{F}^{\times}$ of order $q$.
+      - $g \in \mathbb{F}_p^{\times}$ of order $q$.
    2) Samantha chooses a private signing key $a$ and computes $A = g^a$ (in $\mathbb{F}_p$).
    3) Samantha publishes $(p, q, g, A)$.
 2) **Signing:** To sign $D \in \{ 2, 3, \ldots, (q-1) \}$ (note the size!):
    1) Samantha chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use) $k$ with $\gcd(k, q) = 1$.
    2) Samantha computes:
       - $S_1$ as the reduction of $g^k$ (in $\mathbb{F}_p$) and reduces it modulo $q$,
-      - $S_2 = (D + a S_1)k^{-1}$ in $\mathbb{F}_q$ (and $k^{-1}$ then is the inverse of $k$ in $\mathbb{F}_q$).
+      - $S_2 = (D + a S_1)k^{-1}$ in $\mathbb{F}_q$ (where $k^{-1}$ then is the inverse of $k$ in $\mathbb{F}_q$).
    3) Samantha publishes the digital signature $D^{\mathrm{sig}}= (S_1, S_2)$.
 3) **Verification:** To verify the signature $(S_1, S_2)$:
    1) One computes:
       - $V_1 = DS_2^{-1}$ (in $\mathbb{F}_q$),
       - $V_2 = S_1 S_2^{-1}$ (in $\mathbb{F}_q$).
-  2) One checks if $g^{V_1}A^{V_2}$ (in $F_p$) reduced modulo $q$ is equal to $S_1$.
+  2) One checks if $g^{V_1}A^{V_2}$ (in $\mathbb{F}_p$) reduced modulo $q$ is equal to $S_1$.
 
 
 Let's see why this works.  First remember that since $g$ has order $q$, then if $x \equiv y \pmod{q}$, then $g^x = g^y$.  Then, in $\mathbb{F}_p$, we have
@@ -217,11 +217,11 @@ Note that the security is also bases on the discrete log problem, as that's how 
 Here are some remarks about this method:
 
 1) One usually chooses $p$ between $2^{1000}$ and $2^{2000}$ and $q$ between $2^{160}$ and $2^{320}$.  Hence, $q$ is considerably smaller than $p$.
-2) If $x \in \mathbb{F}^{\times}$ is a primitive root, then we can take $g = x^{(p-1)/q}$.
-3) Since $q \mid (p-1)$, we have that $p \nmid p$.  This means that reducing an integer modulo $q$ is *not* the same as reducing it modulo $p$ and then reducing it modulo $q$.  So, it is essential that we work in $\mathbb{F}_p$ before reducing elements modulo $q$, as in the second step of the verification or computation of $S_1$.
-4) Although $q$ is much smaller than $p$ in practice, the discrete log problem is still in $\mathbb{F}^{\times}$, so still hard for large $p$.
+2) If $x \in \mathbb{F}_p^{\times}$ is a primitive root, then we can take $g = x^{(p-1)/q}$.
+3) Since $q \mid (p-1)$, we have that $q \nmid p$.  This means that reducing an integer modulo $q$ is *not* the same as reducing it modulo $p$ and then reducing it modulo $q$.  So, it is essential that we work in $\mathbb{F}_p$ before reducing elements modulo $q$, as in the second step of the verification or computation of $S_1$.
+4) Although $q$ is much smaller than $p$ in practice, the discrete log problem is still in $\mathbb{F}_p^{\times}$, so still hard for large $p$.
 5) Note that the signature is still about twice the size of the document (i.e., $2q$ versus $q$), but since the security is bases on $p$, it is a lot safer for the given size!
-6) As observed before, one can make it harder to break it by using a different group instead of $\mathbb{F}^{\times}$, since then one cannot use the index calculus to compute $\log_g(A)$.  We will soon do this, by using *elliptic curves*.  In that case, the best attack is a collision algorithm, such as Shank's Babystep-Giantstep, which is less efficient than the index calculus, making it safer.
+6) As observed before, one can make it harder to break it by using a different group instead of $\mathbb{F}_p^{\times}$, since then one cannot use the index calculus to compute $\log_g(A)$.  We will soon [do this](#sec-ec_DSA), by using [*elliptic curves*](#sec-ec).  In that case, the best attack is a collision algorithm, such as Shank's Babystep-Giantstep, which is less efficient than the index calculus, making it safer.
 
 :::{caution}
 
@@ -242,15 +242,7 @@ Since all terms on the right-side are known (from the documents and their signat
 
 ### Example
 
-```{code-cell} ipython3
-p = random_prime(2000, lbound=1000)
-q = factor(p - 1)[-1][0]
-p, q
-```
-
-```{code-cell} ipython3
-factor(p - 1)
-```
++++
 
 Let's take $p = 1997$ and $q = 499$:
 
@@ -259,7 +251,7 @@ p, q = 1997, 499
 is_prime(p), is_prime(q), (p - 1) % q == 0
 ```
 
-Let's find a primitive root in $\mathbb{F}^{\times}$.  This is simple using Sage's functions:
+Let's find a primitive root in $\mathbb{F}_p^{\times}$.  This is simple using Sage's functions:
 
 ```{code-cell} ipython3
 primitive_root = Zmod(p).multiplicative_generator()
@@ -300,10 +292,10 @@ And let's take the document to be $D = 1234$:
 D = 1234
 ```
 
-To sign first we take a random key, say $k = 390$:
+To sign first we take a random key.  (This should be really randomly generated!)
 
 ```{code-cell} ipython3
-k = 390
+k = randint(1, q)
 ```
 
 Let's compute $S_1$:

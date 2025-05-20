@@ -45,7 +45,7 @@ Let's start with a simple and intuitive way of finding $B$-smooth numbers in a l
 :label: al-seive-b-smooth
 
 
-Given a list of numbers $2, 3, 4, \ldots , n$ and some $B > 0$, the following procedure finds the list of $B$-smooth numbers in the list.  We refer to the "number in position $k$" in the list following Sage/Python's convention: $2$ is position $0$, $3$ in position $1$, etc.  So, initially, the number $k$ is in position $k-2$.
+Given a list of numbers $2, 3, 4, \ldots , n$ and some $B > 0$, the following procedure finds the $B$-smooth numbers in the list.  We refer to the "number in position $k$" in the list following Sage/Python's convention: $2$ is position $0$, $3$ in position $1$, etc.  So, initially, the number $k$ is in position $k-2$.
 
 1) Initialize $p \leftarrow 2$ and a new list as a copy of the original.
 2) While $p < B$:
@@ -57,7 +57,7 @@ Given a list of numbers $2, 3, 4, \ldots , n$ and some $B > 0$, the following pr
          2) Set $j \leftarrow j + p^i$
       3) Set $i \leftarrow i + 1$.
    3) Set $p$ as the next element on the *new list* different from $1$.
-3) Return the elements from the original list
+3) Return the elements from the original list in the positions where we have $1$'s in the new list.
 :::
 
 
@@ -100,7 +100,7 @@ Now, we divide all numbers in positions corresponding to multiples of $2^3$ by $
 \end{array}
 ```
 
-Now, we divide all numbers in positions corresponding to multiples of $2^3$ by $2$:
+Now, we divide all numbers in positions corresponding to multiples of $2^4$ by $2$:
 
 ```{math}
 \begin{array}{rrrrrrrrrrrrrrrrrr}
@@ -112,7 +112,7 @@ Now, we divide all numbers in positions corresponding to multiples of $2^3$ by $
 \end{array}
 ```
 
-Since $2^4 = 32 > 19$, we set $p$ to the next element on the list different from $1$, so $3$ in this case:
+Since $2^5 = 32 > 19$, we set $p$ to the next element on the list different from $1$, so $3$ in this case:
 
 ```{math}
 \begin{array}{rrrrrrrrrrrrrrrrrr}
@@ -154,7 +154,11 @@ Now, the next $p$ would be the next number different from $1$, so $5$, but $5 > 
 
 Therefore, the $3$-smooth numbers less than or equal to $19$ are: $2, 3, 4, 6, 8, 9, 12, 16, 18$.
 
++++
+
 #### Implementation
+
+Here is an implementation of the algorithm above:
 
 ```{code-cell} ipython3
 def b_smooth_sieve(n, B):
@@ -204,26 +208,25 @@ b_smooth_sieve(100, 5)
 
 The method above works for consecutive numbers.  But in our application, we need to find $a$'s, with $q > \sqrt{N}$,  such that the reduction module $N$ of $a^2$ are $B$-smooth.  Hence, we need to adapt our previous method.
 
-We define the function $F(t) = t^2 - N$ (so $t$ is a variable and $N = pq$ the number we are trying to factor).  Then, if $\sqrt{N} < a < \sqrt{2N}$, then $0 < F(a) < N$, and hence $F(a)$ is its own reduction module $N$ and congruent to $a^2$ modulo $N$, i.e., $F(a)$ is the corresponding $c$.  Note that we had to restrict the size of $a$, but it helps avoid reducing $a^2$ module $N$: no long division, we just subtract $N$.
+We define the function $F(t) = t^2 - N$ (so $t$ is a variable and $N = pq$ the number we are trying to factor).  Then, if $\sqrt{N} < a < \sqrt{2N}$, we have that $0 < F(a) < N$, and hence $F(a)$ is its own reduction module $N$ and congruent to $a^2$ modulo $N$, i.e., $F(a)$ is the corresponding $c$.  Note that we had to restrict the size of $a$, but it helps avoid reducing $a^2$ module $N$: no long division, we just subtract $N$.
 
-Therefore, we go through the list starting at $a = \rfloor \sqrt{N} \lfloor + 1$ up to some upper bound $b < \sqrt{2N}$ and find the $B$-smooth numbers in the list $F(a), F(a+1), F(a+2) , \ldots, F(b)$.  Note that since $N$ is very large, we have that $\sqrt{2N} - \sqrt{N}$ (about the largest length for our list) is about $0.41 \sqrt{N}$ and still quite larger, which should be enough to find a sufficient number of $B$-smooth numbers for the difference of squares algorithm.
+Therefore, we go through the list starting at $a = \lfloor \sqrt{N} \rfloor + 1$ up to some upper bound $b < \sqrt{2N}$ and find the $B$-smooth numbers in the list $F(a), F(a+1), F(a+2) , \ldots, F(b)$.  Note that since $N$ is very large, we have that $\sqrt{2N} - \sqrt{N}$ (about the largest length for our list) is about $0.41 \sqrt{N}$ and still quite larger, which should be enough to find a sufficient number of $B$-smooth numbers for the difference of squares algorithm.
 
 Before we describe the actual process, we need the following definition:
 
 :::{prf:definition} Factor Base
 :label: def-factor-base
 
-
 Given $B>0$, the *factor base of $B$* is the set of primes less than or equal to $B$.
 :::
 
-To find $B$-smooth number in $F(a), F(a+1), \ldots , F(b)$, for each $p$ in the factor base of $B$, we look for $t \in \{ a, a+1 , \ldots , b \}$ such that
+To find $B$-smooth number in $F(a), F(a+1), \ldots , F(b)$, for each $p$ in the factor base of $B$, we look for $t \in \{ a, a+1 , a+2, \ldots , b \}$ such that
 ```{math}
 F(t) \equiv 0 \pmod{p}, \quad \text{i.e.,} \quad t^2 \equiv N \pmod{p}.
 ```
 This means that $N$ is a square modulo $p$.  Fortunately, we have seen how to do this, for instance, we can use [Quadratic Reciprocity](#sec-quad_rec).  If $N$ is not square modulo $p$, we move to the next prime.
 
-Note that if $p \mid N$, then we found a prime factor and are done.  So, let's assume that $p \nmid N$.  Then, if $N$ is a square modulo $p$, we get either two square roots, when $p$ is odd, or four, when $p=2$, assuming that $p \nmid N$.  If $c$ is a square root of $N$, i.e., $c^2 \equiv N \pmod{p}$, then $F(c), F(c + p), F(c + 2p), \ldots$ are all divisible by $p$ (i.e., congruent to $0$ modulo $p$).  Then, as with consecutive numbers, we sieve through the list by dividing each every $p$ terms of our list by $p$.  More precisely, if $c_p$ is the smallest integer in $a, a+1, a+2, \ldots, b$ such that $c_p \equiv c \pmod{p}$, then we divide $F(c_p), F(c_p+p), F(c_p + 2p) \ldots$ by $p$.
+Note that if $p \mid N$, then we found a prime factor and are done.  So, let's assume that $p \nmid N$.  Then, if $N$ is a square modulo $p$, we get either two square roots, when $p$ is odd, or four, when $p=2$.  If $c$ is a square root of $N$, i.e., $c^2 \equiv N \pmod{p}$, then $F(c), F(c + p), F(c + 2p), \ldots$ are all divisible by $p$ (i.e., congruent to $0$ modulo $p$).  Then, as with consecutive numbers, we sieve through the list by dividing each every $p$ terms of our list by $p$.  More precisely, if $c_p$ is the smallest integer in $a, a+1, a+2, \ldots, b$ such that $c_p \equiv c \pmod{p}$, then we divide $F(c_p), F(c_p+p), F(c_p + 2p) \ldots$ by $p$.
 
 But we need to also divide the terms that are divisible by higher powers of $p$.  For that, we can use [Hensel's Lemma](#sec-hl) to solve
 ```{math}
@@ -242,8 +245,8 @@ Here is the algorithm for relation building:
 
 Given an integer $N$ (to be eventually factored), $B>0$, and an upped bound $b$ between $\sqrt{N}$ and $\sqrt{2N}$, we will produce two lists:
 
-  - A list of integers between $\lfloor \sqrt{N} \rfloor + 1$ and $b$ such that their squares reduced modulo $N$ are $B$-smooth (the "$a$'s") and
-  - the list of their squares reduced modulo $N$.
+  - A list of integers between $\lfloor \sqrt{N} \rfloor + 1$ and $b$ such that their squares reduced modulo $N$ are $B$-smooth (the "$a_i$'s") and
+  - the list of their squares reduced modulo $N$ (the "$c_i$'s").
 
 We obtain these lists as follows:
 
@@ -252,22 +255,22 @@ We obtain these lists as follows:
    2) set `list_c` with entries as $a^2 - N$ for $a$'s in `list_a`
    3) create a copy of `list_c`, say `sieve_list`.
 2) Loop over primes $p$ less than or equal to the given $B$:
-   1) Set $n \leftarrow 1$.
-   2) Until we manually break out, do:
-      1) If $N$ is not a square modulo $p^n$, break out of this loop (and go to the next prime).
-      2) Compute all square roots of $N$ modulo $p^n$.
-      3) For each one of the roots:
+   1) If $N$ is not a square modulo $p$, break out of this loop (and go to the next prime).
+   2) Set $n \leftarrow 1$.
+   3) Until we manually break out, do:
+      1) Compute all square roots of $N$ modulo $p^n$.
+      2) For each one of the roots:
          1) Find (if possible) the index, say $i$, in `sieve_list` for the first entry that is congruent to the root modulo $p^n$.
          2) While $i$ is less than the length of `sieve_list`, divide the entry of `sieve_list` at index $i$ by $p$ and set $i \leftarrow i + p^n$.
-     4) If not root had a match in the list, break this loop (and go to the next prime).
-     5) Set $n \leftarrow n + 1$.
+      3) If no root had a match in the list, break this loop (and go to the next prime).
+      4) Set $n \leftarrow n + 1$.
 3) Return the elements of `list_a` corresponding to entries in `sieve_list` with $1$'s and, similarly, the elements of `list_c` corresponding to entries in `sieve_list` with $1$'s.
 :::
 
 
 :::{important}
 
-We know how to find square roots modulo $p$ or verify if there is no such root.  But when finding square roots modulo $p^2$, $p^3$, and so one, we should use *Hensel's Lemma*: when we have a square root modulo $p^k$ (from the previous step), we can use it to easily find a square root modulo $p^{k+1}$.  Also, remember that we only need one root, as the others are easy to find:
+We know how to find square roots modulo $p$ or verify if there is no such root.  But when finding square roots modulo $p^2$, $p^3$, etc., we should use *Hensel's Lemma*: when we have a square root modulo $p^k$ (from the previous step), we can use it to easily find a square root modulo $p^{k+1}$.  Also, remember that we only need one root, as the others are easy to find:
   - If $p$ is odd and $r$ is one square root modulo $p^n$, then the other is $p^n - r$.
   - If $p=2$:
     - There is a single square root modulo $2$.
@@ -282,21 +285,19 @@ We know how to find square roots modulo $p$ or verify if there is no such root. 
 Let's illustrate the process with an example: let $N = 1073$.  Then, $a = \lfloor \sqrt{1073} \rfloor + 1 = 33$.  Let's use $b = 46 < \sqrt{2 \cdot 1147}$.  So, we computer $F(33), F(34), F(35), \ldots , F(46)$:
 
 ```{code-cell} ipython3
-N = 29 * 37
+N = 1073
 a  = floor(sqrt(N)) + 1
 b = ceil(sqrt(2 * N)) - 1
 
 def F(t):
     return t^2 - N
-```
 
-```{code-cell} ipython3
 [F(x) for x in range(a, b + 1)]
 ```
 
-```{code-cell} ipython3
-list(range(a, b + 1))
-```
+In the tables below, the first row will always be the elements in the original list (the $a_i$'s), and below are the corresponding squares module $N$.
+
++++
 
 ```{math}
 \begin{array}{rrrrrrrrrrrrrr}
@@ -308,7 +309,9 @@ list(range(a, b + 1))
 
 +++
 
-We start with $p=2$.  Since $N$ is odd, we have that $F(t)$ is even whenever $t$ is odd.  Or, we have that the square root of $N$ modulo $2$ is $1$, so any $t \equiv 1 \mod{2}$ is such that $F(t) \equiv 0 \pmod{2}$ and can be divided by $2$.  Moreover that is the *only* square root modulo $2$.
+Let's find all $19$-smooth numbers in the second row $F(33), F(34), \ldots, F(46)$.
+
+We start with $p=2$.  Since $N$ is odd, we have that $F(t)$ is even whenever $t$ is odd.  Or, we have that the square root of $N$ modulo $2$ is $1$, so any $t \equiv 1 \pmod{2}$ is such that $F(t) \equiv 0 \pmod{2}$ and can be divided by $2$.  Moreover that is the *only* square root modulo $2$.
 
 ```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
@@ -350,7 +353,7 @@ Modulo $2^4 = 16$ we also know that we have $4$ square roots, since $N \equiv 1 
 1) The first element in $\{ 33, 34, 35, \ldots, 46 \}$ congruent to $1$ modulo $16$ is $33$.  Since $33 + 16 > 46$, we only divide the number corresponding to $F(33)$ by $2$.
 2) The first element in $\{ 33, 34, 35, \ldots, 46 \}$ congruent to $7$ modulo $16$ is $39$.  Since $39 + 16 > 46$, we only divide the number corresponding to $F(39)$ by $2$.
 3) The first element in $\{ 33, 34, 35, \ldots, 46 \}$ congruent to $9$ modulo $16$ is $41$.  Since $41 + 16 > 46$, we only divide the number corresponding to $F(41)$ by $2$.
-4) There is no element in $\{ 33, 34, 35, \ldots, 46 \}$ congruent to $15$ modulo $16$ is $45$, so there is no other element to divide by $2$.
+4) There is no element in $\{ 33, 34, 35, \ldots, 46 \}$ congruent to $15$ modulo $16$, so there is no other element to divide by $2$.
 
 
 ```{math}
@@ -454,7 +457,7 @@ The square roots modulo $17^2$ are $28$ and $261$, but neither has representativ
 \end{array}
 ```
 
-To find the the list of $a$'s which are such that the reduction modulo $N$ of $a^2$ are $19$-smooth, we take the numbers corresponding to the numbers ending with $1$:
+The square roots of $N$ modulo $19^2$ are $60$ and $301$, but no element in our list is congruent to either of those modulo $19^2$.  Hence, we are done and to find the the list of $a$'s which are such that the reduction modulo $N$ of $a^2$ are $19$-smooth, we take the numbers corresponding to the numbers ending with $1$:
 
 ```{math}
 \begin{array}{rrrrrrrrrrrrrrr}
@@ -532,7 +535,7 @@ The idea is the following: let $B$ be a positive number and $\ell_1, \ell_2, \ld
 ```{math}
 \log_g(\ell_1), \quad \text{for $i=1, 2, \ldots, n$.}
 ```
-Then, we compute $h \cdot g^{-k}$ (in $\mathbb{F}_p$) for $k=0, 1, 2, \ldots$ until the result is $B$-smooth.  This has to eventually happen, since these values will run over all elements of $\mathbb{F}^{\times}$.  So, we have:
+Then, we compute $h \cdot g^{-k}$ (in $\mathbb{F}_p$) for $k=0, 1, 2, \ldots$ until the result is $B$-smooth.  This has to eventually happen, since these values will run over all elements of $\mathbb{F}_p^{\times}$.  So, we have:
 ```{math}
 h \cdot g^{k} = \ell_1^{r_1} \cdot \ell_2^{r_2} \cdots \ell_n^{r_n}
 ```
@@ -586,7 +589,7 @@ B_primes = prime_range(B + 1)
 B_primes
 ```
 
-Our first steps is to compute $\log_g(\ell)$ for all primes $\ell \leq B$.  We will learn below how to do that in an efficient way, but here we will simply use Sage's `discrete_log` function.  (You will do the same in your homework.)
+Our first steps is to compute $\log_g(\ell)$ for all primes $\ell \leq B$.  We will learn below how to do that in an efficient way, but here we will simply use Sage's `discrete_log` function.  (You will do the same in your homework!)
 
 ```{code-cell} ipython3
 logs_B = [discrete_log(Mod(l, p), g) for l in B_primes]
@@ -597,7 +600,7 @@ Now, we first check if $h$ is $B$-smooth.
 
 :::{important}
 
-We should not use `factor` to check is a number `n` is $B$-smooth.  The proper way would be
+We should not use `factor` to check if a number `n` is $B$-smooth.  The proper way would be
 
 ```python
 n == prod(p^valuation(n, p) for p in primes(B + 1))
@@ -615,7 +618,8 @@ element == prod(l^r for l, r in zip(B_primes, powers))  # is it B-smooth?
 So, $h$ is not $B$-smooth.  We then try $h \cdot g^{-1}$:
 
 ```{code-cell} ipython3
-element = ZZ(h * g^(-1))
+g_inv = g^(-1)  # compute it only once!
+element = ZZ(h * g_inv)
 powers = [valuation(element, l) for l in B_primes]
 element == prod(l^r for l, r in zip(B_primes, powers))
 ```
@@ -623,7 +627,7 @@ element == prod(l^r for l, r in zip(B_primes, powers))
 Since it is not $B$-smooth, we try $h \cdot g^{-2}$:
 
 ```{code-cell} ipython3
-element = ZZ(h * g^(-2))
+element = ZZ(element * g_inv)
 powers = [valuation(element, l) for l in B_primes]
 element == prod(l^r for l, r in zip(B_primes, powers))
 ```
@@ -631,19 +635,19 @@ element == prod(l^r for l, r in zip(B_primes, powers))
 We keep trying $h \cdot g^{-3}, h \cdot g^{4}, \ldots$ until we find a $B$-smooth one:
 
 ```{code-cell} ipython3
-element = ZZ(h * g^(-3))
+element = ZZ(element * g_inv)  # i = -3
 powers = [valuation(element, l) for l in B_primes]
 element == prod(l^r for l, r in zip(B_primes, powers))
 ```
 
 ```{code-cell} ipython3
-element = ZZ(h * g^(-4))
+element = ZZ(element * g_inv)  # i = -4
 powers = [valuation(element, l) for l in B_primes]
 element == prod(l^r for l, r in zip(B_primes, powers))
 ```
 
 ```{code-cell} ipython3
-element = ZZ(h * g^(-5))
+element = ZZ(element * g_inv)  # i = -5
 powers = [valuation(element, l) for l in B_primes]
 element == prod(l^r for l, r in zip(B_primes, powers))
 ```
@@ -651,13 +655,14 @@ element == prod(l^r for l, r in zip(B_primes, powers))
 Ah, so $h \cdot g^{-5}$ is $B$-smooth.  According to [](#eq-index-calc1), we have that the discrete log $\log_g(h)$ is:
 
 ```{code-cell} ipython3
-(5 + sum(r * log_l for r, log_l in zip(powers, logs_B))) % (p - 1)
+disc_log = (5 + sum(r * log_l for r, log_l in zip(powers, logs_B))) % (p - 1)
+disc_log
 ```
 
 And we can double check it with Sage:
 
 ```{code-cell} ipython3
-log(h, g)
+g^disc_log == h
 ```
 
 :::{admonition} Homework
@@ -672,7 +677,7 @@ You will implement this algorithm in your homework.
 
 So, how can we efficiently compute $\log_g(\ell_1), \log_g(\ell_2), \ldots, \log_g(\ell_n)$?
 
-The idea is to choose some *random* exponents $a \in \mathbb{Z}/(p-1)\mathbb{Z}$ and compute $g^{a}$.  If the result is $B$-smooth, we save it in a list, if not, we discard it and try another random $a$.  We repeat this process until we have enough $B$-smooth powers of $g$.  We need at least $\pi(B)$ (i.e., the number of primes less than $B$, which we denoted by $n$ here) distinct powers of $g$.
+The idea is to choose some *random* exponents $a \in \mathbb{Z}/(p-1)\mathbb{Z}$ and compute $g^{a}$.  If the result is $B$-smooth, we save it in a list, if not, we discard it and try another random $a$.  We repeat this process until we have enough $B$-smooth powers of $g$.  We need at least $\pi(B)$ (i.e., the number of primes less than or equal to $B$, which we denoted by $n$ here) distinct powers of $g$.
 
 So, assume that we have powers $a_1, a_2, \ldots, a_m$ (for some $m \geq n = \pi(B)$), with $g^{a_i}$ $B$-smooth, say:
 ```{math}
@@ -713,11 +718,11 @@ In your homework you will write the code to obtain the *matrix of coefficients* 
 :::
 
 
-But there is a problem: the coefficients (since they are all exponents) are in $\mathbb{Z}/(p-1)\mathbb{Z}$, which is not a *field* (like the real numbers or $\mathbb{F}_p$), so this process is not as straight forward.  It still can be done.  Here is the (vague) idea:
+But there is a problem: the coefficients (since they are all exponents) are in $\mathbb{Z}/(p-1)\mathbb{Z}$, which is not a *field* (like the real numbers or $\mathbb{F}_p$), so solving the system is not as straight forward.  But it still can be done, and here is the (vague) idea on how to do it:
 
 1) For each prime factor $q$ of $p-1$, we solve the system modulo $q$ (i.e., in the field $\mathbb{F}_q$, where our methods for solving systems work well).
-2) If $q^s$ is the largest power of $q$ dividing $p-1$, then we "lift" the solution we've found (modulo $q$) to a solution modulo $q^n$.  (The method to do this is similar to Hensel's Lemma.)
-3) We use the *Chinese Remainder Theorem* to "patch" these solutions to a solution modulo $p-1$.  More precisely, if $p-1 = q_1^{s_1} q_2^{s_2} \cdots q_t^{s_t}$, and if we've obtained $x_i \equiv b_{i,j} \pmod{q_j^{s_j}}$ for $j = 1, 2, \ldots, t$, solving
+2) If $q^s$ is the largest power of $q$ dividing $p-1$, then we "lift" the solution we've found (modulo $q$) to a solution modulo $q^n$.  (The method to do this is similar to {prf:ref}`Hensel's Lemma <lm-hensel>`.)
+3) We use the {prf:ref}`Chinese Remainder Theorem <th-crt>` to "patch" these solutions to a solution modulo $p-1$.  More precisely, if $p-1 = q_1^{s_1} q_2^{s_2} \cdots q_t^{s_t}$, and if we've obtained $x_i \equiv b_{i,j} \pmod{q_j^{s_j}}$ for $j = 1, 2, \ldots, t$, solving
 ```{math}
 \begin{align*}
 x_i &\equiv b_{i,1} \pmod{q_1^{s_1}} \\
@@ -737,5 +742,5 @@ Step 1 might be difficult!  So, with ElGamal we want $p-1$ to not have small pri
 
 :::{note}
 
-One can generalize the discrete log and ElGamal cryptosystem by replacing $\mathbb{F}^{\times}$ with an arbitrary [group](https://en.wikipedia.org/wiki/Group_(mathematics)).  (We will talk a little more about groups later.)  While our previous methods for computing the discrete log (e.g., [*Shanks Babystep-Giantstep*](#sec-bsgs), [*Pohlig-Hellman*](#sec-pohlig-hellman)) generalize for arbitrary groups, this index calculus algorithm (introduced here) does *not*.  Since it is the faster than the previous methods, to make ElGamal more secure, one can use different groups instead of $\mathbb{F}^{\times}$.
+One can generalize the discrete log and ElGamal cryptosystem by replacing $\mathbb{F}_p^{\times}$ with an arbitrary [group](https://en.wikipedia.org/wiki/Group_(mathematics)).  (We will do this in a [later chapter](#sec-ec_crypto).)  While our previous methods for computing the discrete log (e.g., [*Shanks Babystep-Giantstep*](#sec-bsgs), [*Pohlig-Hellman*](#sec-pohlig-hellman)) generalize for arbitrary groups, this index calculus algorithm (introduced here) does *not*.  Since it is the faster than the previous methods, to make ElGamal more secure, one can use different groups instead of $\mathbb{F}_p^{\times}$.
 :::

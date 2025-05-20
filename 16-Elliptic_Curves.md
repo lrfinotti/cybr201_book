@@ -16,6 +16,7 @@ kernelspec:
 
 +++
 
+(sec-ec)=
 ## Definition of an Elliptic Curve
 
 [Elliptic Curves](https://en.wikipedia.org/wiki/Elliptic_curve) are very important objects in number theory and, as we shall soon see, with applications in cryptography and digital signatures.
@@ -1260,6 +1261,7 @@ But we can check that the $x$-orientates obtained were indeed equal to the $x$-c
 (nA * nB * P)[0] == shared_key_A == shared_key_B
 ```
 
+(sec-ec_crypto)=
 ## Elliptic Curve ElGamal Cryptography
 
 
@@ -1399,6 +1401,7 @@ You will implement the encryption/decryption process in your homework.
 
 +++
 
+(sec-ec_DSA)=
 ## Elliptic Curve DSA
 
 We can also adapt the [DSA](#sec-dsa) to [use elliptic curves](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm):
