@@ -79,6 +79,7 @@ It seems to work, but if you run it you will likely see that it is slow.  Theref
 
 +++
 
+(sec-pollards_p-1)=
 ## Pollards's $p-1$ Factorization Algorithm
 
 The following idea and resulting algorithm were introduced by [J. Pollard](https://en.wikipedia.org/wiki/John_Pollard_(mathematician)) in 1974.

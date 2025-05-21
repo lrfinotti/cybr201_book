@@ -275,6 +275,11 @@ As we will see in a [later chapter](#ch-factorization), it is crucial to choose 
 In your homework you will write functions to generate keys, and to encrypt and decrypt messages with the RSA cryptosystem.
 :::
 
+:::{note}
+
+The RSA is still currently used, but has been mostly superseded by [elliptic curve cryptography](sec-ec-mve-crypto), which we will discuss later.
+:::
+
 +++
 
 ## Implementation and Security Issues

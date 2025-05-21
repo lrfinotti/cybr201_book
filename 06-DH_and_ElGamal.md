@@ -16,6 +16,7 @@ kernelspec:
 
 +++
 
+(sec-dl)=
 ## The Discrete Log Problem
 
 +++
@@ -322,7 +323,7 @@ B = g^b
 B
 ```
 
-+++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "41070"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "88944"}, "metadata": {}}}]}
++++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "671"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "105619"}, "metadata": {}}}]}
 
 So, now Alice sends Bob $A$, i.e., {eval}`A`, and Bob sends Alice $B$, i.e., {eval}`B`, while keeping $a$ and $b$ for themselves.
 

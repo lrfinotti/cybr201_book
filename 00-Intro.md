@@ -18,23 +18,66 @@ kernelspec:
 
 ## Introduction
 
-This book is an introduction to the main mathematical and computational ideas in cryptography.  It is heavily based on selected sections of [An Introduction to Mathematical Cryptography](doi:10.1007/978-1-4939-1711-2), by Jeffrey Hoffstein, Jill Pipher, and Joseph H. Silverman, which is an excellent introduction to mathematical cryptography.  In fact, we strongly recommend the more mathematically inclined readers to use that book in addition to (or perhaps even instead of) this present one.  This book does not go nearly as deep in the math, but focus more in computations and applications.  For example, we might just give computational evidence that some mathematical statement is true, rather than giving an actual proof.  We do prove the easier statements, though, and although these could be skipped by the reader with less interest in the mathematics, we urge them to at least try read them, even if only superficially enough to have a general idea of why the statement is true.
+This book is an introduction to the main mathematical and computational ideas in cryptography.  It is heavily based on selected sections of [An Introduction to Mathematical Cryptography](https://link.springer.com/chapter/10.1007/978-1-4939-1711-2_7), by Jeffrey Hoffstein, Jill Pipher, and Joseph H. Silverman, which is an excellent introduction to mathematical cryptography.  In fact, we strongly recommend the more mathematically inclined readers to use that book in addition to (or perhaps even instead of) this present one.  This book does not go nearly as deep in the math, but focus more in computations and applications.  For example, we might just give computational evidence that some mathematical statement is true, rather than giving an actual proof.  We do prove the easier statements, though, and although these could be skipped by the reader with less interest in the mathematics, we urge them to at least try read them, even if only superficially enough to have a general idea of why the statement is true.
 
 This book was written to serve as a text book for [CYBR 201 - Introduction to Cryptography and Data Protection](https://catalog.utk.edu/content.php?filter%5B27%5D=CYBR&filter%5B29%5D=201&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D=1&cur_cat_oid=54&expand=&navoid=11523&search_database=Filter#) at the [University of Tennessee](https://www.utk.edu/), which the author proposed and developed.
 
++++
 
 ## Goal
 
 The main goal of this book is to introduce the mathematical ideas behind [cryptosystems](https://en.wikipedia.org/wiki/Cryptosystem) and [digital signature](https://en.wikipedia.org/wiki/Digital_signature) methods, but with a very practical and computational approach and with minimal prerequisites in mathematics.  By following this book, the reader should be able to understand the underlying mathematical problems on which the security of cryptosystems and digital signatures are based, and the computational challenges associated to them.
 
-The more mathematically inclined, but with less experience with coding, should realize the difficulties of finding efficient methods for computations of even the most basic mathematical objects.  Finding these methods requires a shift on how we think about mathematical problems.
+We hope that by following this book, the more mathematically inclined, but with less experience with coding, should realize the difficulties of finding efficient methods for computations of even the most basic mathematical objects.  Finding these methods requires a shift on how we think about mathematical problems.
 
-On the other hand, the more computationally inclined readers, but with less mathematical background, should realize that a good mathematical insight quite often yields much greater gains than any clever coding.
+On the other hand, the more computationally inclined readers, but with less mathematical background, should realize that mathematical insights quite often yield much greater gains than any clever coding.
 
-Those who are just starting with both the math and programming at this level hopefully will see the important relation between the two topics in a very practical and concrete application.
+Those who are just starting with both the math and programming at this level will hopefully appreciate the important relation between the two approaches in a very practical and concrete setting.
 
 This way, we hope that all these groups should benefit from this book.
 
++++
+
+## Topics
+
+The main goal it to cover the following applications:
+
+1) [Diffie-Hellman Key Exchange](#DH_key_exchange),
+2) the [ElGamal Cryptosystem](#sec-elgamal),
+3) the [RSA Cryptosystem](#sec-rsa),
+4) the [RSA](#sec-rsa-ds), [ElGamal](#sec-elgamal-ds), [DSA](#sec-dsa) digital signatures,
+5) and [elliptic curve](#sec-ec) [cryptography](#sec-ec_crypto) and [digital signature](#sec-ec_DSA).
+
+We will also discuss the main methods of attack to these, by discussing efficient methods for factorization and computing [discrete logs](#sec-dl), such as:
+
+1) [Collision (Shank's  Babystep-Giantstep Algorithm)](#sec-bsgs) (for computing discrete logs),
+2) the [Pohlig-Hellman Algorithm](#sec-pohlig-hellman) (for computing discrete logs),
+3) [Index Calculus](#sec-index-calc) (for computing discrete logs in $\mathbb{F}_p^{\times}$),
+4) [Pollard's $p-1$ factorization algorithm](#sec-pollards_p-1),
+5) [Factorization via Difference of Squares](#sec-diff-squares),
+6) the [Quadratic Sieve](#sec-quad_sieve).
+
+To properly cover this topics, we need to cover some basic [Number Theory](#ch-number_theory), including:
+
+1) Long Division,
+2) Prime Numbers,
+3) Greatest Common Divisor, including the Euclidean Algorithm and Extended Euclidean Algorithm,
+4) Fundamental Theorem of Arithmetic,
+5) Congruences,
+6) Integers Modulo $m$ and its units,
+7) Euler's Theorem and Fermat's Little Theorem,
+8) the Chinese Remainder Theorem,
+9) Primality Testing (including the Miller-Rabin Probabilistic Test),
+10) Quadratic Reciprocity,
+11) Square Roots Modulo $m$,
+12) Elliptic Curves,
+13) and related computational problems.
+
+We will also have a very practical approach when covering this theory.  Although we will provide proofs to the simpler results, we often will just demonstrate statements with some concrete computations.  Concrete examples will also be provided to illustrate the statements.  Moreover, the computations will always be done with the help of [Sage](https://www.sagemath.org/).  Hence, although our goal is to illustrate the importance of mathematics in cryptography, we do not require any higher-level background in mathematics.
+
+We will also give a brief introduction to the basic tools of Python and Sage necessary for the course.
+
++++
 
 ## Computations
 
@@ -42,6 +85,7 @@ There is a large focus on computations, since the challenges involved in creatin
 
 We will not assume any previous background in Number Theory, but we will introduce the needed results as we progress.
 
++++
 
 ## Sage
 
@@ -53,6 +97,7 @@ As with Python, Sage if free and open source.  It can be installed directly in t
 
 We will not assume that the reader has any previous experience with coding, and introduce the necessary background in the text.  But experience with coding, especially in Python,  would certainly benefit the reader.
 
++++
 
 ## Homework
 
@@ -64,11 +109,20 @@ Most routines that the reader will implement are available in Sage already, and 
 
 Hopefully the homework give the reader practice with coding, with a particular care about efficiency.
 
++++
 
 ## Acknowledgments
 
-The book [An Introduction to Mathematical Cryptography](doi:10.1007/978-1-4939-1711-2), by Jeffrey Hoffstein, Jill Pipher, and Joseph H. Silverman, was the main resource for this book, along with class notes from the author on a course based in that book.
+The book [An Introduction to Mathematical Cryptography](https://link.springer.com/chapter/10.1007/978-1-4939-1711-2_7), by Jeffrey Hoffstein, Jill Pipher, and Joseph H. Silverman, was the main resource for this book, along with class notes from the author on a course based in that book.
 
 This book was produced using [Jupyter notebooks](https://jupyter.org/) and [Jupyter Book](https://jupyterbook.org/en/stable/intro.html).  The computations were done with [Sage](https://www.sagemath.org/).
 
-This book was written during a semester in which the [College of Emerging and Collaborative Studies](https://cecs.utk.edu/) at the [University of Tennessee](https://www.utk.edu/) reduced the author's teaching load, allowing the writing of this book.  The teaching reduction was given so the author could develop the new course [CYBR 201 - Introduction to Cryptography and Data Protection](https://catalog.utk.edu/content.php?filter%5B27%5D=CYBR&filter%5B29%5D=201&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D=1&cur_cat_oid=54&expand=&navoid=11523&search_database=Filter#), and although writing the book was not a requirement, the extra time allowed the author to do it.
+This book was written during a semester in which the [College of Emerging and Collaborative Studies](https://cecs.utk.edu/) at the [University of Tennessee](https://www.utk.edu/) reduced the author's teaching load, allowing the writing of this book.  The teaching reduction was given so the author could develop the new course [CYBR 201 - Introduction to Cryptography and Data Protection](https://catalog.utk.edu/content.php?filter%5B27%5D=CYBR&filter%5B29%5D=201&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D=1&cur_cat_oid=54&expand=&navoid=11523&search_database=Filter#), and although writing the book was not a requirement, the extra time allowed the author to do it.  Therefore, the author would like to thank the [University of Tennessee](https://www.utk.edu/), the [College of Emerging and Collaborative Studies](https://cecs.utk.edu/) , and UT's [Math Department](https://math.utk.edu/) for their support.
+
++++
+
+## Copyright
+
+This book is protected by United States and International copyright laws.  Reproduction and distribution without the consent of the author is prohibited.  You may contact the author at luis@luisfinotti.org.
+
+Copyright © 2025 Luís R.A. Finotti.  All rights reserved.

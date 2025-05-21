@@ -1,7 +1,7 @@
 ---
 jupytext:
-  encoding: '# -*- coding: utf-8 -*-'
   formats: ipynb,sage:percent,md:myst
+  encoding: '# -*- coding: utf-8 -*-'
   text_representation:
     extension: .md
     format_name: myst

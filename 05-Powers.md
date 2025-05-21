@@ -37,6 +37,8 @@ a^0 = 1 \qquad \text{and} \qquad a^{-k} = \underbrace{a^{-1} \cdot a^{-1} \cdots
 We start by introducing some notation:
 
 :::{prf:definition} (Number of Elements of a Set)
+:label: def-number_elements
+
 If $S$ is a finite set, we denote by $|S|$ the *number of elements* of $S$.  If $S$ is infinite, we write $|S| = \infty$.
 :::
 

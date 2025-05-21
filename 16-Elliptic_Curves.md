@@ -19,11 +19,10 @@ kernelspec:
 (sec-ec)=
 ## Definition of an Elliptic Curve
 
-[Elliptic Curves](https://en.wikipedia.org/wiki/Elliptic_curve) are very important objects in number theory and, as we shall soon see, with applications in cryptography and digital signatures.
+[Elliptic Curves](https://en.wikipedia.org/wiki/Elliptic_curve) are very important objects in number theory and, as we shall soon see, have applications in cryptography and digital signatures.
 
 :::{prf:definition} Elliptic Curve
 :label: def-ec
-
 
 A curve given by a *Weierstrass equation* of the form
 ```{math}
@@ -37,11 +36,10 @@ is called an *elliptic curve*.  The quantity $\Delta = -16 \cdot (4a^3 + 27b^2)$
 
 :::{note}
 
-As we shall see later, sometimes elliptic curves are given by equations a little more complex than [](#eq-basic-weq).
+We should observe that not all elliptic curves can be given by an equation of the form of [](#eq-basic-weq).  But this definition is adequate for our modest goals in this book.
 :::
 
-
-When we think about curves, like lines, parabolas, circles, etc., we usually think of them in the *Cartesian plane* $\mathbb{R}^2$.  This means that the curve is seen as the set of points $(x, y)$, where $x$ and $y$ are real numbers, that satisfy the equation of the curve.
+When we think about curves, like lines, parabolas, circles, etc., we usually think of them in the *Cartesian plane* $\mathbb{R}^2$.  This means that the curve is seen as the set of points $(x, y)$, where $x$ and $y$ are real numbers that satisfy the equation of the curve.
 
 
 :::{caution}
@@ -79,7 +77,7 @@ And to avoid a *cusp* (a sharp edge), like what happens to $y^2 = x^3$:
 implicit_plot(y^2 == x^3, (-0.2, 2), (-3, 3)) + point([0, 0], color="red", size=50)
 ```
 
-Note that elliptic curves might have two disjoint components, for instance $y^2 = x^3 - x$:
+Note that elliptic curves might have two disjoint components (in $\mathbb{R}^2$), for instance $y^2 = x^3 - x$:
 
 ```{code-cell} ipython3
 E2 = EllipticCurve([-1, 0])
@@ -94,7 +92,7 @@ plot(E2)
 
 ### General Rule
 
-Given two points $P$ and $Q$ on an elliptic curve $E$ we can *add* these points.  Here is the rule:
+An important feature of elliptic curves that make them very "useful" is that we can *add points* on an elliptic curve.  More precisely, given two points $P$ and $Q$ on an elliptic curve $E$, we add these points using the following rule:
 
 1) Draw a line through $P$ and $Q$.
 2) This line will intersect the curve $E$ at a third point, say $R$.
@@ -287,13 +285,11 @@ A few questions are raised from this process, though:
 
 ### Adding $P + Q$, with $P \neq Q$ (and $x_1 \neq x_2$)
 
-Let $P = (x_1, y_1)$ and $Q = (x_2, y_2)$.
-
-Let's answer the first two questions under the assumption that $P \neq Q$.  Suppose that $P$ and $Q$ are on the same vertical line, i.e., $x_1 = x_2$, but $y_1 \neq y_2$. Since the equation of the curve is $y^2 = x^3 + ax + b$, we have that $y_1$ and $y_2$ are the *only* solutions of $y^2 = x_1^3 + ax_1 + b$, since the solutions are $y = \pm \sqrt{x_1^3 + a x_1 + b}$.  In particular, we have that $y_2 = - y_1$.  Then, the line passing through $P$ and $Q$ does *not* have a third point of intersection!
+Let's answer the first two questions under the assumption that $P \neq Q$.  Suppose that $P = (x_1, y_1)$ and $Q = (x_2, y_2)$ are on the same vertical line, i.e., $x_1 = x_2$, but $y_1 \neq y_2$. Since the equation of the curve is $y^2 = x^3 + ax + b$, we have that $y_1$ and $y_2$ are the *only* solutions of $y^2 = x_1^3 + ax_1 + b$, since the solutions are $y = \pm \sqrt{x_1^3 + a x_1 + b}$.  In particular, we have that $y_2 = - y_1$.  Then, the line passing through $P$ and $Q$ does *not* have a third point of intersection!
 
 But assuming that $P \neq Q$ and they are not on the same vertical line, i.e., $y_1 \neq y_2$, let's try to find the third point.  The line through $P$ and $Q$ is given by
 ```{math}
-y = \frac{y_2-y_1}{x_2-x_1}(x - x_1) + y_1.
+y = \left(\frac{y_2-y_1}{x_2-x_1}\right)(x - x_1) + y_1 = \left(\frac{y_2-y_1}{x_2-x_1}\right) x + \left(y_1 - \left(\frac{y_2-y_1}{x_2-x_1}\right) x_1 \right).
 ```
 Letting
 ```{math}
@@ -324,9 +320,9 @@ x^3 - m^2x^2 + (a -2mc)x + (b-c^2)
 
 This means that
 ```{math}
--m2^2 = -(x_1 + x_2 + x_3) \quad \Longrightarrow \quad x_3 = m^2 - x_1 - x_2.
+-m^2 = -(x_1 + x_2 + x_3) \quad \Longrightarrow \quad x_3 = m^2 - x_1 - x_2.
 ```
-And that is the *only* other solution.  To obtain the $y$-coordinate of $R$, we just need to plug in the equation of the line, so $y_3 = mx_3 + c$.
+And that is the *only* other solution.  To obtain the $y$-coordinate of $R$, we just need to plug $x_3$ in the equation of the line, so $y_3 = mx_3 + c$.
 
 Now, to find $P + Q$ we just need to flip the sign of $y_3$, so the coordinates of $P + Q$ are  $(x_3, -y_3)$.
 
@@ -348,7 +344,7 @@ y_3 &= mx_3 + c.
 Then $P + Q = (x_3, {\color{red} -}y_3)$.
 :::
 
-Note that we still have a problem if $P \neq Q$ but $x_1 = x_2$. The solution is more involved, so we will come back to it later.
+Note that we still have a problem if $P \neq Q$ but $x_1 = x_2$. The solution for this case is more involved and we will come back to it later.
 
 +++
 
@@ -409,7 +405,11 @@ p += plot(m * (x - P[0]) + P[1], (x, -1, 0), color="red")
 show(p)
 ```
 
-So, given a point $P$ on the curve, we need to find the tangent line to the curve at that point.  We need calculus for that, and the best method would be *implicit differentiation*: taking derivatives of $y^2 = x^3 + ax + b$ we get
+The [tangent line](https://en.wikipedia.org/wiki/Tangent) to $P$, represented in solid red above, is the [limit](https://en.wikipedia.org/wiki/Limit_(mathematics)) of the secant linesthrough $P$ and a second distinct point (the dashed lines above), when this second point gets closer and closer to $P$.
+
++++
+
+So, given a point $P$ on the curve, we need to find the tangent line to the curve at that point.  We need calculus for that, and the best method would be [implicit differentiation](https://en.wikipedia.org/wiki/Implicit_function#Implicit_differentiation): taking derivatives of $y^2 = x^3 + ax + b$ we get
 ```{math}
 2yy' = 3x^2 + a \qquad \Longrightarrow \qquad y' = \frac{3x^2 + a}{2y}.
 ```
@@ -426,7 +426,7 @@ and if we take $c = y_1 - mx_1$, then the tangent line at $P$ is $y = mx + c$.
 If $y_1 = 0$, then the tangent line at $P$ is *vertical*!  It will then not intersect the curve in any other point.
 :::
 
-Now, we need to find the other point of intersection when $y_1 \neq 0$.  We can use the same approach as in the previous case, noting that $x_1$ is a *double root* of the corresponding equation.  If $x_3$ is the other (still unknown) solution, we have that
+Now, we need to find the other point of intersection when $y_1 \neq 0$.  We can use the same approach as in the previous case, noting that $x_1$ is a [double root](https://en.wikipedia.org/wiki/Multiplicity_(mathematics)#Multiplicity_of_a_root_of_a_polynomial) of the corresponding equation.  If $x_3$ is the other (still unknown) solution, we have that
 ```{math}
 \begin{align*}
 x^3 - m^2x^2 + (a -2mc)x + (b-c^2)
@@ -439,7 +439,7 @@ This means that
 ```{math}
 -m_2^2 = -(2x_1 + x_3) \quad \Longrightarrow \quad x_3 = m^2 - 2x_1.
 ```
-And that is the *only* other solution.  To obtain the $y$-coordinate of $R$, we just need to plug in the equation of the line, so $y_3 = mx_3 + c$.
+And that is the *only* other solution.  To obtain the $y$-coordinate of $R$, again we just need to plug $x_3$ in the equation of the line, so $y_3 = mx_3 + c$.
 
 Now, to find $P + P$ we just need to flip the sign of $y_3$, so the coordinates of $P + Q$ are  $(x_3, -y_3)$.
 
@@ -494,7 +494,7 @@ The problem is that our curve is *missing a point*!
 
 In technical terms, an elliptic curves is a [projective curve](https://en.wikipedia.org/wiki/Projective_geometry).  In the [projective plane](https://en.wikipedia.org/wiki/Projective_plane) we have an extra line "at infinity".  The points on this extra line correspond to *directions* (or slopes) of lines in the plane. This means that *all lines with the same slope pass through the same point of the line at infinity*.  (The common phrase that "parallel lines meet at infinity" comes from this notion of projective geometry.)
 
-Our elliptic curves *always* have one extra point at this line at infinity: the point corresponding to *vertical lines*!  This point is usually denoted by $\mathcal{O}$.  One other important property: the tangent line to $\mathcal{O}$ is the line at infinity, and so contains no extra point on the curve besides $\mathcal{O}$ itself.
+Our elliptic curves *always* have one extra point at this line at infinity: the point corresponding to *vertical lines*!  This point is usually denoted by $\mathcal{O}$.  This point has another important property: the tangent line to the curve at $\mathcal{O}$ is the *line at infinity*, and so contains no extra point on the curve besides $\mathcal{O}$ itself.
 
 Note that, in particular, the line through $P$ and $\mathcal{O}$ (if $P \neq \mathcal{O}$) is the vertical line passing through $P$.
 
@@ -528,7 +528,7 @@ If $P \neq Q$, with neither equal to $\mathcal{O}$, and $x_1 = x_2$, then the li
 
 If $P=Q$ and $y_1=0$, then the tangent line at $P$ is vertical, so the third point of intersection is $\mathcal{O}$.  As in the previous case, this means that $P + P = \mathcal{O}$.
 
-But, since we introduced a new point, also have some new cases to consider.  What do we get if add $P + \mathcal{O}$?  Here, we also have two cases: $P = \mathcal{O}$ and $P \neq \mathcal{O}$.  In the first case, that the line through $P$ and $\mathcal{O}$ is a vertical line.  Then the third point on that line $R$ is on the same vertical line as $P$.  When we join $R$ and $\mathcal{O}$ we get exactly the same vertical line, and the other point on it is the original $P$.  Hence, we have that $P + \mathcal{O} = P$.
+But, since we introduced a new point, also have some new cases to consider.  What do we get if add $P + \mathcal{O}$?  Here, we also have two cases: $P \neq \mathcal{O}$ and $P = \mathcal{O}$.  In the first case, that the line through $P$ and $\mathcal{O}$ is a vertical line.  Then the third point on that line $R$ is on the same vertical line as $P$.  When we join $R$ and $\mathcal{O}$ we get exactly the same vertical line, and the other point on it is the original $P$.  Hence, we have that $P + \mathcal{O} = P$.
 
 When adding $\mathcal{O} + \mathcal{O}$, we draw the tangent line at $\mathcal{O}$ and the third point $R$ is $\mathcal{O}$ itself.  Then, we take the tangent line at $\mathcal{O}$ *again*, and the third point is again $\mathcal{O}$.  Therefore, we have that $\mathcal{O} + \mathcal{O} = \mathcal{O}$.
 
@@ -582,7 +582,7 @@ In terms of notation, if we want to define an elliptic curve over a field $F$ (a
 ```{math}
 E / F :\; y^2 = x^3 + ax + b.
 ```
-(The "$E$" is the name we given it, and the $F$ says that $E$ is defined over $F$, i.e., $a, b \in F$, and we will look a points with coordinates in $F$.)
+(The "$E$" is the name we've given it, and the "$F$" says that $E$ is defined *over $F$*, i.e., $a, b \in F$, and we will look a points with coordinates in $F$.)
 
 Finally, for an elliptic curve $E$ defined over $F$, we write $E(F)$ for the set of points of $E$ with coordinates in $F$.  This is convenient, as sometimes we might consider points on a larger or smaller field.  For instance, we can have
 ```{math}
@@ -595,7 +595,7 @@ As a simple example, if
 ```{math}
 E / \mathbb{F}_3 : \; y^2 = x^3 + 2x + 1
 ```
-then we can find $E(\mathbb{F}_3)$: we simply try all nine points in $(x, y)$, with $x, y \in \mathbb{F}_3$ that satisfies the equation.
+then we can find $E(\mathbb{F}_3)$: we simply try all nine points in $(x, y)$, with $x, y \in \mathbb{F}_3$, and see which ones satisfy the equation.
 
 ```{code-cell} ipython3
 F3 = Zmod(3)
@@ -661,7 +661,7 @@ P, Q
 
 Sage will always give points on elliptic curves in the form $(a:b:c)$.  (These are *projective coordinates*.)  Most of the times it will be $(a:b:1)$, and in this case it corresponds to the point $(a,b)$.  So, in the case above, we have that $P+Q = (1,0)$.
 
-I've never seen Sage give a point $(a:b:c)$, where $c \neq 0, 1$, but if you do, then it corresponds to the point $(a/c,b/c)$.
+I've never seen Sage give a point $(a:b:c)$, where $c \neq 0, 1$, but if you do, then it corresponds to the point $\left( \dfrac{a}{c}, \dfrac{b}{c} \right)$.
 :::
 
 If you want to see the typical coordinates (called *affine coordinates*), we use the method `.xy`:
@@ -754,7 +754,7 @@ One can verify then, that the points on elliptic curve $E$ have the following pr
 
 :::{note}
 
-Note the difference in the associativity.  For $(P + Q) + R$, we first add $P + Q$ and then add $R$ to the result of the addition.  For $P + (Q + R)$ we add to $P$ the result of the addition of $Q + R$.  Since both give the same result, then we can simply write $P + Q + R$ and let the reader decide on how to add.
+Note the difference in the associativity.  For $(P + Q) + R$, we first add $P + Q$ and then add $R$ to the result of the addition.  For $P + (Q + R)$ we add to $P$ the result of the addition of $Q + R$.  Since both give the same result, then we can simply write $P + Q + R$ (with no parentheses) and let the reader decide on the order they want to add them.
 
 We are very used to doing this, but not every operation is associative.  For instance, *subtraction* is not.  Note the difference between $(1 - 2) - 3$ and $1 - (2 - 3)$:
 ```{math}
@@ -765,28 +765,28 @@ We are very used to doing this, but not every operation is associative.  For ins
 ```
 :::
 
-Checking that an elliptic curve indeed satisfy these four properties is mostly straight-forward, but takes *a lot* of work.  The real problem is associativity, which requires many cases to be checked.
+It's very easy to check Commutativity, Neutral Element, and Inverse Element properties, but checking the Associativity property, takes *a lot* of work, since there are many cases to be checked.
 
-Note that if $p$ is prime, then $\mathbb{F}^{\times}$ has similar properties with respect to the *product*:
+Note that if $p$ is prime, then $\mathbb{F}_p^{\times}$ has similar properties with respect to the *product*:
 
-1) **Commutativity:** If $a, b \in \mathbb{F}^{\times}$, then $a \cdot b = b \cdot a$.
-2) **Associativity:** If $a, b, b \in \mathbb{F}^{\times}$, then $(a \cdot b) \cdot c = a \cdot (b \cdot c)$.
-3) **Neutral Element:** There is an element $1 \in \mathbb{F}^{\times}$ such that for any $a \in \mathbb{F}^{\times}$ we have $a \cdot 1 = 1 \cdot a = a$.
-4) **Inverse Element:** For any element $a \in \mathbb{F}^{\times}$, there is some element $a^{-1} \in \mathbb{F}^{\times}$ such that $a \cdot a^{-1} = a^{-1} \cdot a = 1$.
+1) **Commutativity:** If $a, b \in \mathbb{F}_p^{\times}$, then $a \cdot b = b \cdot a$.
+2) **Associativity:** If $a, b, b \in \mathbb{F}_p^{\times}$, then $(a \cdot b) \cdot c = a \cdot (b \cdot c)$.
+3) **Neutral Element:** There is an element $1 \in \mathbb{F}_p^{\times}$ such that for any $a \in \mathbb{F}_p^{\times}$ we have $a \cdot 1 = 1 \cdot a = a$.
+4) **Inverse Element:** For any element $a \in \mathbb{F}_p^{\times}$, there is some element $a^{-1} \in \mathbb{F}_p^{\times}$ such that $a \cdot a^{-1} = a^{-1} \cdot a = 1$.
 
-Any set with an operation that satisfies the last three properties (Associativity, Neutral Element, and Inverse Element) is called a [group](https://en.wikipedia.org/wiki/Group_(mathematics)).  Groups that also satisfy the first property (Commutativity) is called an [Abelian group](https://en.wikipedia.org/wiki/Abelian_group).
+Any set with an operation that satisfies the last three properties (Associativity, Neutral Element, and Inverse Element) is called a [group](https://en.wikipedia.org/wiki/Group_(mathematics)).  Groups that also satisfy the first property (Commutativity) are called an [Abelian groups](https://en.wikipedia.org/wiki/Abelian_group).
 
 Hence, we say that an elliptic curve is an Abelian group with respect to its addition of points.
 
 
 :::{note}
 
-Note that with the [ElGamal Cryptosystem](#sec-elgamal) or [DSA](#sec-dsa), one can replace $\mathbb{F}^{\times}$ with any other *finite* Abelian group.  (Of course, extreme care is needed with the choice!)  This often has the benefit of making the [index calculus](#sec-index-calc) (the most efficient method of attack) unavailable.
+Note that with the [ElGamal Cryptosystem](#sec-elgamal) or [DSA](#sec-dsa), one can replace $\mathbb{F}_p^{\times}$ with any other *finite* Abelian group.  (Of course, extreme care is needed with the choice!)  This often has the benefit of making the [index calculus](#sec-index-calc) (the most efficient method of attack) unavailable.
 :::
 
 ### Order of an Element
 
-Remember that for some $a \in \mathbb{F}^{\times}$, the *order* of $a$, denoted by $|a|$, is the smallest positive power $k$ such that $a^k = 1$.  In other words, is the smallest number of times we *multiply* $a$ by itself to get the *neutral element* $1$.
+Remember that for some $a \in \mathbb{F}_p^{\times}$, the *order* of $a$, denoted by $|a|$, is the smallest positive power $k$ such that $a^k = 1$.  In other words, is the smallest number of times we *multiply* $a$ by itself to get the *neutral element* $1$.
 
 We can generalize this for any group, with the care of replacing the multiplication by the corresponding operation.  In the case of an elliptic curve, the order of a point $P$, also denoted as $|P|$, is the smallest number of times we *add* $a$ to itself to get the *neutral element* $\mathcal{O}$.  In other words, is the smallest $k$ such that $k \cdot P = \mathcal{O}$.  (Note how taking a power $k$ became multiplying by $k$ when the operation changed from multiplication to addition!)
 
@@ -834,7 +834,7 @@ Similarly for $Q$:
 Q.order()
 ```
 
-It is a know fact in group theory that if the group is finite (like any elliptic curve over a finite field), then every element has finite order.  In fact, every element has order dividing the number of elements of the group.  This is a consequence of [Lagrange's Theorem] and generalizes Euler's Theorem, since $\mathbb{F}^{\times}$ has $p-1$ elements.
+It is a know fact in group theory that if the group is finite (like any elliptic curve over a finite field), then every element has finite order.  In fact, every element has order dividing the number of elements of the group.  This is a consequence of [Lagrange's Theorem](https://en.wikipedia.org/wiki/Lagrange%27s_theorem_(group_theory)), which generalizes {prf:ref}`Euler's Theorem <th-euler>`, since $\mathbb{F}_p^{\times}$ is a group with $p-1$ elements.
 
 But if the elliptic curve has infinitely many points, it might have points of infinite order.  Consider:
 ```{math}
@@ -850,7 +850,7 @@ Then, $(-1, 1)$ is in $E$, so let $P = (-1, 1)$:
 
 ```{code-cell} ipython3
 P = E((-1, 1))
-P
+P.xy()
 ```
 
 This point has infinite order:
@@ -861,11 +861,11 @@ P.order()
 
 ## Elliptic Curves over $\mathbb{F}_p$
 
-In our applications to cryptography and digital signature we need large groups to replace $\mathbb{F}^{\times}$ for large primes $p$.  If we want to use elliptic curves, firstly we need to group to be finite, since we've seen that this is not always the case for elliptic curves.  But if the curve is over $\mathbb{F}_p$, for some prime $p$, then it certainly is finite, as we have at most $p^2$ pairs $(x, y)$ with $x, y \in \mathbb{F}_p$.
+In our applications to cryptography and digital signature, we need large groups to replace $\mathbb{F}_p^{\times}$ for large primes $p$.  If we want to use elliptic curves, firstly we need the group to be finite, since we've seen that this is not always the case for elliptic curves.  But if the curve is over $\mathbb{F}_p$, for some prime $p$, then it certainly is finite, as we have at most $p^2$ pairs $(x, y)$ with $x, y \in \mathbb{F}_p$.
 
 :::{important}
 
-We should observe that {prf:ref}`def-ec` above does not work when $p=2$ or $p=3$. Since these primes are too small to give large groups, we will assume here that $p \geq 5$ and so we can assume that our elliptic curves are given by the Weierstrass equation give by [](#eq-basic-weq).
+We should observe that {prf:ref}`def-ec` above does not work when $p=2$ or $p=3$. Since these primes are too small to give large groups, we will assume here that $p \geq 5$ and so we can assume that our elliptic curves are given by the Weierstrass equation given by equation [](#eq-basic-weq).
 :::
 
 :::{note}
@@ -875,24 +875,16 @@ Note that, although we do not have the geometry when working with elliptic curve
 
 ### Number of Points
 
-So, given an elliptic curve $E / \mathbb{F}_p$, who many points do we have in $E(\mathbb{F}_p)$?
+So, given an elliptic curve $E / \mathbb{F}_p$, how many points do we have in $E(\mathbb{F}_p)$, i.e., what is $|E(\mathbb{F}_p)|$?  (Remember that if $S$ is a set, then $|S|$ is the number of elements of $S$.)
 
-:::{prf:definition} Number of Elements
-:label: def-number_elements
+Of course, since there are $p^2$ pairs $(x, y)$ with $x, y \in \mathbb{F}_p$, then we have $|E(\mathbb{F}_p)|  \leq p^2 + 1$, accounting for all possible pairs, plus the extra point $\mathcal{O}$ at infinity.  But, of course, this bound is too large.
 
-
-If $S$ is a set, we denote by $|S|$ the number of elements in $S$.
-:::
-
-Of course, since there are $p^2$ pairs $(x, y)$ with $x, y \in \mathbb{F}_p$, then we have $|E(\mathbb{F}_p)|  \leq p^2 + 1$, accounting for all possible pairs, plus the extra points $\mathcal{O}$ at infinity.  But, of course, this bound is too large.
-
-Before we improve it, remember the following proposition form ()[#14-Square_Roots.md]:
+Before we improve it, remember the following proposition form our [study of squares in $\mathbb{F}_p$](sec:sqrt_mod_p):
 
 :::{prf:proposition}
 :label: pr-squares_gen-2
 
-
-If $g$ is a primitive root in $\mathbb{F}_p$ and $a \in \mathbb{F}^{\times}$, then $a$ is a square if and only if $a = g^k$ with $k$ *even*.  In particular, a random element in $\mathbb{F}^{\times}$ has a $50\%$ chance of being a square.
+If $g$ is a primitive root in $\mathbb{F}_p$ and $a \in \mathbb{F}_p^{\times}$, then $a$ is a square if and only if $a = g^k$ with $k$ *even*.  In particular, a random element in $\mathbb{F}_p^{\times}$ has a $50\%$ chance of being a square.
 :::
 
 So, if our elliptic curve is given by
@@ -945,24 +937,24 @@ print(res)
 
 ## The  Elliptic Curve Discrete Log Problem
 
-We will soon introduce a cryptosystem and digital signature based on ElGamal and the DSA, respectively, where we replace $\mathbb{F}^{\times}$ by $E(\mathbb{F}_p)$ for some elliptic curve $E/\mathbb{F}_p$.  The security of both methods, ElGamal and DSA, are based on the *Discrete Log Problem* (DLP): given $g$ and $h$ in $\mathbb{F}^{\times}$, how do we find $x$ such that $g^x = h$.  Here is the analogous problem for elliptic curves:
+We will soon introduce a cryptosystem and a digital signature method based on ElGamal and the DSA, respectively, where we replace $\mathbb{F}_p^{\times}$ by $E(\mathbb{F}_p)$ for some elliptic curve $E/\mathbb{F}_p$.  The security of both methods, ElGamal and DSA, are based on the *Discrete Log Problem* (DLP): given $g$ and $h$ in $\mathbb{F}_p^{\times}$, how do we find $x$ such that $g^x = h$.  Here is the analogous problem for elliptic curves:
 
 :::{prf:definition} Elliptic Curve Discrete Log Problem (ECDLP)
 :label: def-ecdlp
 
 
-Given and elliptic curve $E/\mathbb{F}_p$ and $P, Q \in E(\mathbb{F}_p)$, the *discrete log of $Q$ base $P$*, denoted by $\log_P(Q)$, is the integer $n$ such that $n \cdot P = Q$.  The *Elliptic Curve Discrete Log Problem (ECDLP)* is how we can compute these logs efficiently.
+Given and elliptic curve $E/\mathbb{F}_p$ and $P, Q \in E(\mathbb{F}_p)$, the *discrete log of $Q$ base $P$*, denoted by $\log_P(Q)$, is the integer $n$ such that $n \cdot P = Q$.  The *Elliptic Curve Discrete Log Problem (ECDLP)* asks how we can compute these logs efficiently.
 :::
 
 :::{important}
 
-Note that, as with $\mathbb{F}^{\times}$, the discrete log might not exist!
+Note that, as with $\mathbb{F}_p^{\times}$, the discrete log might not exist!
 :::
 
 
 :::{note}
 
-Since, by definition $P^{|P|} = \mathcal{O}$, we may assume that the value of $\log_P(Q)$ is in $\mathbb{Z}/|P|\mathbb{Z}$.
+Since, by definition $|P| \cdot P = \mathcal{O}$, we may assume that the value of $\log_P(Q)$ is in $\mathbb{Z}/|P|\mathbb{Z}$.
 :::
 
 :::{caution}
@@ -980,7 +972,7 @@ A better notation would have been $Q/P$, as if $Q = nP$, it would make sense to 
 
 So, our question now is *how hard is the ECDLP*, meaning, how hard is it to compute $\log_P(Q)$?
 
-As with many problems of this sort, we cannot be quite sure, but so far this has been a difficult problem, as the addition of points on elliptic curves are somewhat complicated.  But as usual, we have no guarantee that someone may come up with an ingenious idea that would allow us to easily compute these logs tomorrow!
+As with many problems of this sort, we cannot be quite sure, but so far this has been a difficult problem, as the addition of points on elliptic curves are somewhat complicated.  But as usual, we have no guarantee that someone may not come up with an ingenious idea that would allow us to easily compute these logs *tomorrow*!
 
 
 But, so far, the best methods are collision methods, such as [Shank's Babystep-Giantstep](#sec-bsgs) (which can be easily adapted for elliptic curves).  As observed before, a great advantage is that the [index calculus](#sec-index-calc) does not work with elliptic curves.  In practice, to solve the ECDLP for $E/\mathbb{F}_p$, the best known methods take about $\sqrt{p}$ steps, which makes it infeasible to solve it in practice for very large $p$.
@@ -991,12 +983,11 @@ As usual, there are specific cases in which the computations become simpler and 
 
 ## Fast Multiplication
 
-In the previous methods of encryption and digital signatures, we needed to take large powers of elements in $\mathbb{F}^{\times}$.  Now, with elliptic curves, we need compute large *multiples* of a point, i.e., we need to replace products by sums.  But for these we can adapt [Fast Powers](#fast_powering): instead of using successive squaring, we use *successive doubling*.
+In the previous methods of encryption and digital signatures, we needed to take large powers of elements in $\mathbb{F}_p^{\times}$.  Now, with elliptic curves, we need compute large *multiples* of a point, i.e., we need to replace products by sums.  But for these we can adapt [Fast Powers](#fast_powering): instead of using successive squaring, we use *successive doubling*.
 
 
 :::{prf:algorithm} Fast Multiplying Algorithm (Successive Doubling)
 :label: al-fast_mult
-
 
 To compute $n \cdot P$, where $P$ is a point on an elliptic curve:
 
@@ -1005,29 +996,30 @@ To compute $n \cdot P$, where $P$ is a point on an elliptic curve:
 ```{math}
 n = n_0 + n_1 \cdot 2 + n_2 \cdot 2^2 + \cdots n_r 2^r
 ```
+   with $n_i \in \{0, 1\}$.  (Note that $r = \lfloor \log_2(n) \rfloor$.)
 
-   with $n_i \in \{0, 1\}$.  (Note that $r = \lfloor \log_2(n) \rfloor$, where $\lfloor x \rfloor$ is just rounding down $x$ to the largest integer less than or equal to $x$, the so called *floor function*.)
 2) Compute all multiples:
    ```{math}
-\begin{align*}
-    a_0 &= P\\
-    a_1 &= 2a_0\\
-    a_2 &= 2a_1\\
-    a_3 &= 2a_2\\
+   \begin{align*}
+    P_0 &= P\\
+    P_1 &= 2P_0\\
+    P_2 &= 2P_1\\
+    P_3 &= 2P_2\\
    &\;\;\vdots \\
-   a_r &= 2a_{r-1}.
+    P_r &= 2P_{r-1}.
    \end{align*}
-```
+   ```
    (Note that this gives a total of $r$ sums, one for each doubling.)
+
 3) Now we have
    ```{math}
-\begin{align*}
+   \begin{align*}
     n \cdot P &= (n_0 + n_1 \cdot 2 + n_2 \cdot 2^2 + \cdots n_r 2^r) \cdot P \\
     &= n_0 \cdot P + n_1 \cdot 2 \cdot P + n_2 \cdot 2^2 \cdot P + \cdots + n_r \cdot 2^r \cdot P \\
-    &= n_0 \cdot a_0 + n_1 \cdot a_1 +n_2 \cdot a_2 + \cdots + n_r \cdot a_r.
+    &= n_0 \cdot P_0 + n_1 \cdot P_1 +n_2 \cdot P_2 + \cdots + n_r \cdot P_r.
    \end{align*}
-```
-   (Note that the multiplications by $n_i$ do not require extra products, since if $n_i$ is $0$, the factor $n_i \cdot a_i = \mathcal{O}$ and can be simply skipped, and if $n_i=1$, then $n_i \cdot a_i = a_i$.  Hence, this last step requires *at most* another $r$ sums.)
+   ```
+   (Note that the multiplications by $n_i$ do not require extra sums, since if $n_i$ is $0$, the summand $n_i \cdot P_i = \mathcal{O}$ and can be simply skipped, and if $n_i=1$, then $n_i \cdot P_i = P_i$.  Hence, this last step requires *at most* another $r$ sums.)
 :::
 
 As with fast powering, this method is quite efficient, requiring at most $2 \lfloor n \rfloor$ sums of points.
@@ -1083,6 +1075,9 @@ Now, to compute $3545 \cdot P$, we compute:
 This requires $12$ doublings (since we need to get to $2^{12} \cdot P$, instead of simply $2^{11} \cdot P$) and $4$ additions, and hence a total of $16$ additions.  Note that $2^r \cdot (-P) = - (2^r \cdot P)$, and if we have $2^r \cdot P$, it takes virtual no time to get $-(2^r \cdot P)$, since, again, we just need to change the sign of the $y$-coordinate.
 
 
+If we were to apply the straight successive doubling method, we would need $11$ doublings, and $7$ sums, so a total of $18$ sums, so the previous method saved two sums.  The gain is not so great for small values, when computing $n \cdot P$, for large $n$, it can make a reasonable difference.
+
+
 Here is the actual algorithm:
 
 :::{prf:algorithm} Ternary Expansion
@@ -1091,21 +1086,19 @@ Here is the actual algorithm:
 
 Given a list $b$ of length $r$ corresponding to the binary digits of a number, with earlier elements corresponding to lower powers of $2$, we obtain a list $t$ of zeros, ones, and negative ones, corresponding to the ternary expansion (as above) as follows:
 
-1) Let $t$ be a copy of $b$.
+1) Let $t$ be a copy of $b$ and $r$ be the length of $t$ (or $b$).
 2) Set $i \leftarrow 0$ (the index of the current element).
 3) While $i < r$:
-   1) If the $i$-th element of $t$ (i.e., `t[i]`) is zero, set $i \leftarrow i + 1$, and skip the rest of the loop.
+   1) If the $i$-th element of $t$ (i.e., `t[i]`) is zero, set $i \leftarrow i + 1$, and skip the rest of the loop.  (In Python/Sage, the keyword `continue` can be used to skip the remaining body of a loop.)
    2) If the $(i+1)$-st element of $t$ is zero, set $i \leftarrow i + 2$, and skip the rest of the loop.
    3) Set $j \leftarrow i + 1$.
-   4) While $j < r$ and the $(j+1)$-st is one, set $j \leftarrow j + 1$.
+   4) While $j < r$ and the $(j+1)$-st element of $t$ is one, set $j \leftarrow j + 1$.
    5) Replace the $i$-th value of $t$ by $-1$.
    6) Replace the values with indices from $i+1$ to $j$, both inclusive, by $0$.
    7) If $j = r$, append $1$ to the end of $t$.  If not, make the $(j+1)$-st element of $t$ one.
    8) Set $i \leftarrow j+1$.
 :::
 
-
-If we were to apply the straight successive doubling method, we would need $11$ doublings, and $7$ sums, so a total of $18$ sums, so the previous method saved two sums.  The gain is not so great for small values, when computing $n \cdot P$, for large $n$, it can make a reasonable difference.
 
 The following proposition helps us quantify the gains of these methods:
 
@@ -1152,13 +1145,13 @@ We can now adapt the [Diffie-Hellman Key Exchange](#DH_key_exchange) to use elli
     - an element $P$ of $E(\mathbb{F}_p)$ of large order.
 2) Alice chooses a *secret* integer $n_A$, and Bob chooses a *secret* integer $n_B$.
 3) Alice computes $Q_A = n_a \cdot P$ and *publicly* sends the result $Q_A$ to Bob.  (So, $Q_A$ is known, but not the integer $n_A$ used to produce it.)  Similarly, Bob computes $Q_B = n_B \cdot P$ and *publicly* sends the result $Q_B$ to Alice.
-4) Alice computes $n_A \cdot Q_B$ and Bob computes $n_B \cdot Q_A$.  Both of these are equal to $n_A n_B \cdot P$ and that is their **shared key**.
+4) Alice computes $n_A \cdot Q_B$ and Bob computes $n_B \cdot Q_A$.  Both of these are equal to $(n_A n_B) \cdot P$ and that is their **shared key**.
 
 +++
 
 ### Smaller Key Sizes
 
-Note that the points $Q_A$ and $Q_B$, which are public, and the shared key, both have size of about $2p$, as each coordinate has size about $p$.  One can reduce the sizes by only using the $x$-coordinates.  In this scenario, Alice and Bob only make public the $x$-coordinates of $Q_A = (x_A, y_A)$ and $Q_B = (x_B, y_B)$.  So, when Bob gets $x_A$, he can compute the square root of $x_A^3 + ax_A + b$.  (Note that we have seen [methods for this computation](#sec:sqrt_mod_p)!)  The problem is that there is no way for Bob to know if that square root is equal to $y_A$ (from Alice's $Q_A$) or $-y_A$.  But using either one, he can compute $n_B \cdot (x_A, \pm y_A) = n_B \cdot (\pm Q_A) = \pm (n_B \cdot Q_A) = \pm n_A n_B \cdot P$.  Similarly, Alice obtains $\pm (n_A \cdot Q_B) = \pm n_A n_B \cdot P$.  So, they do not have a shared *point*, as they do not know the sign of the $y$-coordinate, but their $x$-coordinates are the same!  So, the $x$-coordinate is the shared secret.
+Note that the points $Q_A$ and $Q_B$, which are public, and the shared key, both have size of about $2p$, as each coordinate has size about $p$.  One can reduce the sizes by only using the $x$-coordinates.  In this scenario, Alice and Bob only make public the $x$-coordinates of $Q_A = (x_A, y_A)$ and $Q_B = (x_B, y_B)$.  So, when Bob gets $x_A$, he can compute the square root of $x_A^3 + ax_A + b$.  (Note that we have seen [methods for this computation](#sec:sqrt_mod_p)!)  The problem is that there is no way for Bob to know if that square root is equal to $y_A$ (from Alice's $Q_A$) or $-y_A$.  But using either one, he can compute $n_B \cdot (x_A, \pm y_A) = n_B \cdot (\pm Q_A) = \pm (n_B \cdot Q_A) = (\pm n_A n_B) \cdot P$.  Similarly, Alice obtains $\pm (n_A \cdot Q_B) = (\pm n_A n_B) \cdot P$.  So, they do not have a shared *point*, as they do not know the sign of the $y$-coordinate, but their $x$-coordinates are the same!  So, the $x$-coordinate is the shared secret.
 
 **The Diffie-Hellman Key Exchange ($x$-Coordinates):**
 
@@ -1168,7 +1161,7 @@ Note that the points $Q_A$ and $Q_B$, which are public, and the shared key, both
     - an element $P$ of $E(\mathbb{F}_p)$ of large order.
 2) Alice chooses a *secret* integer $n_A$, and Bob chooses a *secret* integer $n_B$.
 3) Alice computes $Q_A = n_a \cdot P = (x_A, y_A)$ and *publicly* sends $x_A$ to Bob.  Similarly, Bob computes $Q_B = n_B \cdot P = (x_B, y_B)$ and *publicly* sends $x_B$ to Alice.
-4) Alice computes a square root $y_B'$ of $x_B^3 + a x_B + b$ and $n_A \cdot (x_B, y_B')$ and Bob computes a square root $y_A'$ of $x_A^3 + a x_A + b$ and $n_B \cdot (x_A, y_A')$.  The $x$-coordinates of both of these points are equal to the $x$-coordinate of $n_A n_B \cdot P$ and that is their **shared key**.
+4) Alice computes a square root $y_B'$ of $x_B^3 + a x_B + b$ and $n_A \cdot (x_B, y_B')$ and Bob computes a square root $y_A'$ of $x_A^3 + a x_A + b$ and $n_B \cdot (x_A, y_A')$.  The $x$-coordinates of both of these points are equal to the $x$-coordinate of $(n_A n_B) \cdot P$ and that is their **shared key**.
 
 +++
 
@@ -1191,7 +1184,7 @@ E
 
 We will use
 ```{math}
-P = (22{,}035{,}006, 41{,}971{,}927)
+P = (22035006, 41971927)
 ```
 a point of order $42{,}994{,}062$.
 
@@ -1281,9 +1274,9 @@ We can also adapt the [ElGamal Cryptography](#sec-elgamal) to use elliptic curve
    - sends $(C_1, C_2)$ to Alice.
 4) **Decryption:** To decrypt $(C_1, C_2)$ sent by Bob, Alice, using her private key $n_A$, computes $C_2 - n_A \cdot C_1$ .  This last expression is equal to the point $M$, from which she can recover the message $m$.
 
-The first problem is how does Bob converts a message $m$, which we may assume to be a number, as we know [how to convert text messages to numbers](#sec:converting_text).  Moreover, the number of possible messages is $|E(\mathbb{F}_p)| \approx p + 1$, while the encrypted message has size $4p$ ($2p$ for each point).  Our next method addresses both these issues.
+The first problem is how does Bob converts a message $m$, which we may assume to be a number, as we know [how to convert text messages to numbers](#sec:converting_text), to a point $M$ on our elliptic curve $E$.  Moreover, the number of possible messages is $|E(\mathbb{F}_p)| \approx p + 1$, while the encrypted message has size $4p$ ($2p$ for each point).  So, the size of our encrypted message is about four times as large as the total number of possible messages!  Our next method addresses both these issues.
 
-But we can verify that it works, since
+But we can verify that the process above works, since
 ```{math}
 \begin{align*}
   C_2 - n_A \cdot C_1
@@ -1296,9 +1289,10 @@ But we can verify that it works, since
 
 +++
 
+(sec-ec-mve-crypto)=
 ## Menezes-Vanstone ElGamal Cryptography
 
-Here is the improved version:
+Here is the improved version that fixes both problems above:
 
 1) **Set up:** Choose (or copy from trusted source) and publish:
    - a large prime $p$,
@@ -1306,13 +1300,13 @@ Here is the improved version:
    - and a point $P \in E(\mathbb{F}_p)$ of large order.
 2) **Key Creation:** Alice chooses a *private* key $n_A$ and publishes $Q_A = n_A \cdot P$.
 3) **Encryption:** To encrypt the message $m \in \{0, 1, 2, \ldots, p^2-1\}$, Bob:
-   - writes $m = m_1 + m_2 \cdot p$ (base $p$, so $m_i \in \{0, 1, \ldots, p-1\}$),
+   - writes $m$ in base $p$, i.e., $m = m_1 + m_2 \cdot p$ with $m_i \in \{0, 1, \ldots, p-1\}$),
    - chooses some *random* integer $n_B$,
    - computes:
       - $R = n_B \cdot P$,
       - $S = n_B \cdot Q_A = (x_S, y_S)$,
       - $c_1 = m_1 \cdot x_S \in \mathbb{F}_p$,
-      - $c_2 = m_2 \cdot y_S \in F_p$,
+      - $c_2 = m_2 \cdot y_S \in \mathbb{F}_p$,
    - sends $(R, c_1, c_2)$ to Alice.
 4) **Decryption:** To decrypt $(R, c_1, c_2)$ sent by Bob, Alice, using her private key $n_A$, computes:
    - $n_A \cdot R = S = (x_S, y_S)$,
@@ -1335,7 +1329,7 @@ E / \mathbb{F}_p : \; y^2 = x^3 +  32{,}122{,}457 \cdot x + 12{,}623{,}843,
 ```
 and
 ```{math}
-P = (22{,}035{,}006, 41{,}971{,}927)
+P = (22035006, 41971927)
 ```
 a point of order $42{,}994{,}062$.
 
@@ -1399,6 +1393,12 @@ It works!
 You will implement the encryption/decryption process in your homework.
 :::
 
+
+:::{important}
+
+Elliptic curve cryptography one of the most important *public-key* cryptosystems currently in use.  In practice, most of the time it is used to exchange keys for symmetric encryption algorithms, like the [Advanced Encryption Standard (AES)](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard).  The AES provides much faster encryption and decryption, with the drawback of being symmetric.  Although quite important, the AES is not as mathematically interesting as the cryptosystems discussed here, and not as exposed to attacks, since it is a "local process".  The security of the *key exchanges*, which are often done with elliptic curve cryptosystems, is the most exposed part of the process.
+:::
+
 +++
 
 (sec-ec_DSA)=
@@ -1424,7 +1424,7 @@ We can also adapt the [DSA](#sec-dsa) to [use elliptic curves](https://en.wikipe
    1) One computes:
       - $v_1 = D \cdot s_2^{-1}$ (in $\mathbb{F}_q$),
       - $v_2 = s_1 s_2^{-1}$ (in $\mathbb{F}_q$).
-  2) One checks if the $x$-coordinate of $v_1 \cdot G + v_2 \cdot V$ (in $F_p$) reduced modulo $q$ is equal to $s_1$.
+  2) One checks if the $x$-coordinate of $v_1 \cdot G + v_2 \cdot V$ (in $\mathbb{F}_p$) reduced modulo $q$ is equal to $s_1$.
 
 
 Let's verify that this method works.  First note that since $|G| = q$ and $s \not\equiv 0 \pmod{q}$, we have that $|V|=q$ as well.  This means that we can multiply either point by an element of $\mathbb{F}_q$ in $E(\mathbb{F}_p)$.
@@ -1441,6 +1441,7 @@ Then, we can check:
 ```
 Hence the $x$-coordinate of $ v_1 \cdot G + v_2 \cdot V$ is the $x$-coordinate of $e \cdot G$, and reduced modulo $q$ should give $s_1$.
 
++++
 
 ### Example
 
@@ -1451,7 +1452,7 @@ E / \mathbb{F}_p : \; y^2 = x^3 +  32{,}122{,}457 \cdot x + 12{,}623{,}843.
 
 Our previous point $P$ did not have prime order, so we need a new point.  We shall use
 ```{math}
-G = G = E((14{,}600{,}094, 16{,}940{,}532))
+G = G = E((14600094, 16940532))
 ```
 which has order $q = 2{,}388{,}559$.
 
@@ -1474,10 +1475,10 @@ V = s * G
 V.xy()
 ```
 
-Now, let's say Samantha needs to sing the document $D = 1{,}045{,}993$.  (Remember it must be between $1$ and $q-1$.)
+Now, let's say Samantha needs to sing the document $D = 1{,}234{,}567$.  (Remember it must be between $1$ and $q-1$.)
 
 ```{code-cell} ipython3
-D = 1045993
+D = 1234567
 ```
 
 She can now produce the signature $(s_1, s_2)$:
@@ -1503,7 +1504,7 @@ It works!
 
 ## Bitcoin Authentication
 
-[Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) uses the elliptic curve DSA for authentication.  Owners need a to sign transactions to verify its validity.
+The [cryptocurrency](https://en.wikipedia.org/wiki/Cryptocurrency) [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) uses the elliptic curve DSA for authentication.  Each transaction must be signed by the owner of the bitcoins being transferred, like signing a check, to verify the validity of the transaction.
 
 The prime used is
 ```{math}
@@ -1547,10 +1548,14 @@ q
 is_prime(q)
 ```
 
-Since $1^3 + 7 = 8$ is a square in $F_p$, as $p \equiv 7 \pmod{8}$, one could take $G = (1, \sqrt{8})$.
+Since $1^3 + 7 = 8$ is a square in $\mathbb{F}_p$, as $p \equiv 7 \pmod{8}$, one could take $G = (1, \sqrt{8})$.
 
 ```{code-cell} ipython3
 Mod(8, p).is_square()
+```
+
+```{code-cell} ipython3
+Mod(8, p).sqrt()
 ```
 
 But the point taken has huge coordinates.  See Section 2.4 of [SEC 2: Recommended Elliptic Curve Domain Parameters](https://www.secg.org/sec2-v2.pdf) (by the SECG) for its coordinates.

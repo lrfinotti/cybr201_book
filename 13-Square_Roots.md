@@ -1259,6 +1259,12 @@ So, $47$ is a square root of $33$ modulo $2^7 = 128$.  The other roots are:
 It is worth noting that if we started with $1$, instead of $3$, our algorithm would give the square root $17$.  Starting with $5$ and $7$ would give the square roots $17$ and $47$, respectively.  Therefore, the square roots $81$ and $111$ would not be obtained *directly* from this method.  We need to find other square roots as in our last step above.
 :::
 
+
+:::{important}
+
+We will refer to {prf:ref}`th-hl-sqrt-odd` and {prf:ref}`th-hl-sqrt-2` collectively simply as *Hensel's Lemma*, since these are simply the application of this more general result to the computation of square roots.
+:::
+
 +++
 
 ### Implementation

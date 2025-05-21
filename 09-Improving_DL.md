@@ -251,7 +251,7 @@ It worked!
 
 ### Number of Operations
 
-In this situation where $|g| = q^e$ and we compute $\log_g(h)$, if we use {prf:ref}`Shank's Baby-Step/Giant-Step <al-bs_gs>` algorithm, as seen in {prf:ref}`the number of operations for Shank's algorithm <sec-bsgsnop>`, we need about
+In this situation where $|g| = q^e$ and we compute $\log_g(h)$, if we use {prf:ref}`Shank's Baby-Step/Giant-Step <al-bs_gs>` algorithm, as seen in [the number of operations for Shank's algorithm](#sec-bsgs_n_op), we need about
 ```{math}
 \frac{\sqrt{q^e}}{2}  \cdot \log_2(q^e) = \frac{q^{e/2}}{2} \cdot e \cdot \log_2(q)
 ```
@@ -551,4 +551,4 @@ It worked!
 
 ## Further Improvements?
 
-There is a method for solving the DLP that is even more efficient, called *index calculus*, which we will learn later.
+There is a method for solving the DLP that is even more efficient, called [index calculus](sec-index-calc), which we will learn later.

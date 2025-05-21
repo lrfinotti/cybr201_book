@@ -62,6 +62,7 @@ For the sake of simplicity, in what follows we will simply refer to the signatur
 
 +++
 
+(sec-rsa-ds)=
 ## RSA Digital Signature
 
 We often can use cryptosystems to create a digital signature algorithm.  Basically we "decrypt" the document and publish this version as the signature.  Then, encrypting it will produce the original document, which verifies that the signature is valid.
@@ -145,6 +146,7 @@ You will implement this process in your homework.
 
 +++
 
+(sec-elgamal-ds)=
 ## ElGamal Digital Signature
 
 Similarly, one can also adapt the ElGamal Cryptosystem to produce a digital signature:

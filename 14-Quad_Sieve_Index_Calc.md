@@ -19,6 +19,7 @@ kernelspec:
 In this chapter we introduce two of the more effective (and mathematically sophisticated) tools for attacks at the ElGamal and RSA Cryptosystems.
 
 
+(sec-quad_sieve)=
 ## The Quadratic Sieve
 
 We will focus again on the problem of factorization, more specifically, factoring $N = p q$, where $p$ and $q$ are large, distinct primes.  With the [difference of squares Factorization method](#sec-diff-squares), the hard part was the *Relation Building*, i.e., finding $a_1, a_2, \ldots , a_r > \sqrt{N}$, for $r$ sufficiently large, such the $c_i$'s, defined as the reduction modulo $N$ of $a_i^2$, are all $B$-smooth for some relatively small $B$.
@@ -228,7 +229,7 @@ This means that $N$ is a square modulo $p$.  Fortunately, we have seen how to do
 
 Note that if $p \mid N$, then we found a prime factor and are done.  So, let's assume that $p \nmid N$.  Then, if $N$ is a square modulo $p$, we get either two square roots, when $p$ is odd, or four, when $p=2$.  If $c$ is a square root of $N$, i.e., $c^2 \equiv N \pmod{p}$, then $F(c), F(c + p), F(c + 2p), \ldots$ are all divisible by $p$ (i.e., congruent to $0$ modulo $p$).  Then, as with consecutive numbers, we sieve through the list by dividing each every $p$ terms of our list by $p$.  More precisely, if $c_p$ is the smallest integer in $a, a+1, a+2, \ldots, b$ such that $c_p \equiv c \pmod{p}$, then we divide $F(c_p), F(c_p+p), F(c_p + 2p) \ldots$ by $p$.
 
-But we need to also divide the terms that are divisible by higher powers of $p$.  For that, we can use [Hensel's Lemma](#sec-hl) to solve
+But we need to also divide the terms that are divisible by higher powers of $p$.  For that, we can use Hensel's Lemma (i.e., {prf:ref}`th-hl-sqrt-odd` and {prf:ref}`th-hl-sqrt-2`) to solve
 ```{math}
 t^2 \equiv N \pmod{p^k}, \text{ for $k=1, 2, 3, \ldots $.}
 ```
