@@ -596,6 +596,7 @@ Let's check that the results match:
 test_1 == test_2
 ```
 
+(sec-gcd)=
 ## The Greatest Common Divisor
 
 +++
@@ -637,6 +638,7 @@ This is certainly not necessarily the case if $a$ and $b$ are not relatively pri
 
 +++
 
+(sec-naive-gcd)=
 ### Computing the GCD
 
 A first naive method to compute the GCD is to find the divisors of both numbers and take the largest common one.  For instance, say we want $\gcd(12, 15)$.  We have

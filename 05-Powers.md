@@ -470,7 +470,7 @@ If you change the `base` in the code above to $2$, you will see that the former 
 
 +++
 
-## Primitive Elements
+## Primitive Roots
 
 +++
 

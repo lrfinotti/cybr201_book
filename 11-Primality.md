@@ -113,14 +113,12 @@ Our previous attempt on primality testing was not successful, but the idea is an
 :::{prf:theorem}
 :label: th-mr
 
-
 Let $p>2$ be a prime, let $p-1=2^kq$, with $q$ odd, and $a$ an integer not divisible by $p$.  Then, either:
 1) $a^q = 1$ in $\mathbb{Z}/p\mathbb{Z}$, or
 2) at least one among $a^q, a^{2q}, a^{4q}, a^{8q}, \ldots, a^{2^{k-1}q}$ is equal to $-1$ in $\mathbb{Z}/p\mathbb{Z}$.
 :::
 
 :::{prf:proof}
-:nonumber:
 
 First note that $b^2 = 1$ in $\mathbb{Z}/p\mathbb{Z}$ if and only if $p \mid (b^2 -1) = (b-1)(b+1)$.  Since $p$ is prime, this true if and only if $p$ divides either $b-1$ or $b + 1$, i.e., if and only if $b$ is either $1$ or $-1$ in $\mathbb{Z}/p\mathbb{Z}$.
 
@@ -445,6 +443,7 @@ The exact number is:
 prime_pi(10^6) - prime_pi(9 * 10^5)
 ```
 
+(sec-find_random_prime)=
 ## Finding a Random Prime
 
 Suppose we want to find a random $1024$-bit prime (e.g., to use with ElGamal's encryption or the RSA), i.e., a prime $p$ such that $2^{1023} < p < 2^{1024}$.  There are about

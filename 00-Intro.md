@@ -102,7 +102,7 @@ We will not assume that the reader has any previous experience with coding, and 
 
 ## Homework
 
-We suggest the reader complete the corresponding homework assignments available [here](FIXME!).  These implement methods and algorithms described in the text, and therefore are computational (rather than purely mathematical) in nature.  The goal is to reinforce the ideas introduced and allow the reader to experience the difficulties and efficiency differences between different methods.
+We suggest the reader complete the corresponding [homework assignments](#hw).  These implement methods and algorithms described in the text, and therefore are computational (rather than purely mathematical) in nature.  The goal is to reinforce the ideas introduced and allow the reader to experience the difficulties and efficiency differences between different methods.
 
 These are available as [Jupyter Notebooks](https://jupyter.org/) that should be run using Sage as the kernel.  *These notebooks will not work with pure Python!*
 
