@@ -448,12 +448,20 @@ for i in range(max_power):
 
 Here, in each iteration, we perform a *single* product: `x * base`!
 
++++
+
 :::{important}
 
 Please remember this in your homework (and future code!), as it makes a considerable difference in performance!
 :::
 
 +++
+
+And here is the system used for these computations:
+
+```{code-cell} ipython3
+!inxi --system --cpu --memory
+```
 
 :::{note} Side Note
 

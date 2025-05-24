@@ -260,6 +260,11 @@ primitive_root = Zmod(p).multiplicative_generator()
 primitive_root
 ```
 
+:::{note}
+
+If you use `FiniteField(p)` (or `GF(p)`) instead of `Zmod(p)`, you can *also* use the `.primitive_element()` method instead of `.multiplicative_generator()`.  But with `Zmod(p)` you can only use the latter.
+:::
+
 ```{code-cell} ipython3
 primitive_root.multiplicative_order() == p - 1
 ```

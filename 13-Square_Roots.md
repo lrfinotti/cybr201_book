@@ -301,6 +301,7 @@ Is $-250{,}192$ a square modulo the prime $91{,}139$?
 
 We have:
 
+```{math}
 \begin{align}
 \left(\frac{-250192}{91139}\right) &= \left(\frac{-67914}{91139}\right) & &\text{(reduce the top module the bottom)}\\
 &= \left(\frac{-1}{91139}\right) \cdot \left(\frac{67914}{91139}\right) & &\text{(multiplicativity of the Legendre symbol)} \\
@@ -313,6 +314,7 @@ We have:
 &= (-1) \cdot \left(\frac{2}{11}\right)^2 \\
 &= (-1) \cdot 1 = \boxed{-1},
 \end{align}
+```
 
 So, $-250{,}192$ is *not* a square modulo the $91{,}139$.
 
@@ -984,42 +986,50 @@ p = 13
 b = 4
 ```
 
+Now, we will be working modulo $p^2$, so we can create the $\mathbb{Z}/p^2\mathbb{Z}$ in Sage for conversions of elements:
+
+```{code-cell} ipython3
+R = Zmod(p^2)
+```
+
 Now, we set:
 
 ```{code-cell} ipython3
-c = ZZ(Mod(-2 * b, p^2)^(-1))
-Delta = c * (b^2 - a) % p^2
-b = b + Delta % p^2
+c = R(-2 * b)^(-1)
+Delta = c * R(b^2 - a)
+b = ZZ(R(b) + Delta)
 b
 ```
 
 If this worked, then we must have that the new $b$ is a square root modulo $p^2$:
 
 ```{code-cell} ipython3
-Mod(b, p^2)^2 == Mod(a, p^2)
+Mod(b, p^2)^2 == Mod(a, p^2)  # b is already in Zmod(p^2)
 ```
 
 Now, we repeat, with powers adjusted:
 
 ```{code-cell} ipython3
-c = ZZ(Mod(-2 * b, p^3)^(-1))
-Delta = c * (b^2 - a) % p^3
-b = b + Delta % p^3
+R = Zmod(p^3)
+c = R(-2 * b)^(-1)
+Delta = c * R(b^2 - a)
+b = ZZ(R(b) + Delta)
 b
 ```
 
 And check:
 
 ```{code-cell} ipython3
-Mod(b, p^3)^2 == Mod(a, p^3)
+b^2 == Mod(a, p^3)
 ```
 
 Finally, we get to the fourth power:
 
 ```{code-cell} ipython3
-c = ZZ(Mod(-2 * b, p^4)^(-1))
-Delta = c * (b^2 - a) % p^4
-b = b + Delta % p^4
+R = Zmod(p^4)
+c = R(-2 * b)^(-1)
+Delta = c * R(b^2 - a)
+b = ZZ(R(b) + Delta)
 b
 ```
 

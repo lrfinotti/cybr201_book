@@ -314,7 +314,13 @@ for n in xsrange(2, 20):
         print(f"{n = } is composite.")
 ```
 
-It seems to work, but it is *relatively* very slow.  For instance, $30{,}000{,}001$ is prime, but it takes us a little while to get there:
+It seems to work, but it is *relatively* very slow.  Before we time it, here is some information about the computer running these computations:
+
+```{code-cell} ipython3
+!inxi --system --cpu --memory
+```
+
+Now, for instance, $30{,}000{,}001$ is prime, but it takes us a little while to get there:
 
 ```{code-cell} ipython3
 %%time

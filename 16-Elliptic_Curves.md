@@ -1083,13 +1083,12 @@ Here is the actual algorithm:
 :::{prf:algorithm} Ternary Expansion
 :label: al:ternary
 
+Given a positive integer $n$, obtain a list of zeros, ones, and negative ones, corresponding to the ternary expansion (as above) as follows:
 
-Given a list $b$ of length $r$ corresponding to the binary digits of a number, with earlier elements corresponding to lower powers of $2$, we obtain a list $t$ of zeros, ones, and negative ones, corresponding to the ternary expansion (as above) as follows:
-
-1) Let $t$ be a copy of $b$ and $r$ be the length of $t$ (or $b$).
+1) Get a list $t$ containing the binary expansion of $n$, with earlier entries corresponding to lower powers of $2$ and let $r$ be its length.
 2) Set $i \leftarrow 0$ (the index of the current element).
 3) While $i < r$:
-   1) If the $i$-th element of $t$ (i.e., `t[i]`) is zero, set $i \leftarrow i + 1$, and skip the rest of the loop.  (In Python/Sage, the keyword `continue` can be used to skip the remaining body of a loop.)
+   1) If the $i$-th element of $t$ (i.e., `t[i]`) is zero, set $i \leftarrow i + 1$, and skip the rest of the loop.  (In Python/Sage, the keyword `continue` can be used to skip the remaining of the body of a loop.)
    2) If the $(i+1)$-st element of $t$ is zero, set $i \leftarrow i + 2$, and skip the rest of the loop.
    3) Set $j \leftarrow i + 1$.
    4) While $j < r$ and the $(j+1)$-st element of $t$ is one, set $j \leftarrow j + 1$.
@@ -1301,7 +1300,7 @@ Here is the improved version that fixes both problems above:
 2) **Key Creation:** Alice chooses a *private* key $n_A$ and publishes $Q_A = n_A \cdot P$.
 3) **Encryption:** To encrypt the message $m \in \{0, 1, 2, \ldots, p^2-1\}$, Bob:
    - writes $m$ in base $p$, i.e., $m = m_1 + m_2 \cdot p$ with $m_i \in \{0, 1, \ldots, p-1\}$),
-   - chooses some *random* integer $n_B$,
+   - chooses some *random* integer $n_B$ such that $n_B \cdot Q_A \neq \mathcal{O}$ and has both coordinates different from $0$;
    - computes:
       - $R = n_B \cdot P$,
       - $S = n_B \cdot Q_A = (x_S, y_S)$,

@@ -2980,7 +2980,13 @@ jupyter:
 a = 10_000_000
 ```
 
-Let's time it as well, by adding `%%time` on top of the code cell:
+Let's time it as well, by adding `%%time` on top of the code cell.  But before doing so, let's display some information about the system running these computations:
+
+```{code-cell} ipython3
+!inxi --system --cpu --memory
+```
+
+Now, let's time the computation:
 
 ```{code-cell} ipython3
 ---

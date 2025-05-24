@@ -80,7 +80,7 @@ It seems to work, but if you run it you will likely see that it is slow.  Theref
 +++
 
 (sec-pollards_p-1)=
-## Pollards's $p-1$ Factorization Algorithm
+## Pollard's $p-1$ Factorization Algorithm
 
 The following idea and resulting algorithm were introduced by [J. Pollard](https://en.wikipedia.org/wiki/John_Pollard_(mathematician)) in 1974.
 
@@ -291,8 +291,6 @@ Note that in principle we do not know if this is the *prime* factorization of $N
 Let's now illustrate the method if we compute the GCD only every $k$ steps.  Let's use $k=3$ here.
 
 We initialize it the same way:
-
-###
 
 ```{code-cell} ipython3
 a = b = 2
@@ -655,7 +653,9 @@ M = matrix(GF(2), [[1, 1, 0], [0, 1, 1], [1, 0, 1], [1, 1, 1]])
 M
 ```
 
-So, a matrix is created using a list containing each row (as another list) as its elements.  The `GF(2)` as the first argument, is similar to `Zmod(2)` (which could also be used), and it says it will use the *field* with $2$ elements, i.e., $\mathbb{F}_2$.  (Note that `Zmod(4)` and `GF(4)` are different!  They are same only when we use primes!)  In particular, if the entries were not already zeros and ones, they would be automatically reduced when creating the matrix.  So, we could have entered the original coefficients of the system before manually reducing them, i.e., [](#eq-og_system):
+So, a matrix is created using a list containing each row (as another list) as its elements.
+
+Remember that `GF(2)`, used as the first argument, is the same as `FiniteField(2)` and (basically the same as) `Zmod(2)`, and gives the [field](https://en.wikipedia.org/wiki/Field_(mathematics)) $\mathbb{F}_2$.  Using it as the first argument of `matrix` tells Sage that all the entries of the matrix are in the $\mathbb{F}_2$.  In particular, if the entries were not already zeros and ones, they would be automatically reduced modulo $2$ when creating the matrix.  So, we could have entered the original coefficients of the system before manually reducing them, i.e., [](#eq-og_system):
 
 ```{code-cell} ipython3
 M = matrix(GF(2), [[1, 1, 0], [2, 5, 1], [3, 0, 1], [1, 1, 3]])
@@ -843,13 +843,14 @@ a = prod(ai^x for (ai, x) in zip(list_a, v))
 
 :::{important}
 
-If we are trying to factor $N$, as we would in practice, we should reduce each $b$ modulo $N$, as in
+If we are trying to factor $N$, as we would in practice, we should reduce each $a$ and $b$ modulo $N$, as in
 
 ```python
-b = prod(p^x for (p, x) in zip(list_p, exponents)) % N
+a = ZZ(prod(Mod(ai, N)^x for (ai, x) in zip(list_a, v)))
+b = ZZ(prod(Mod(p, N)^x for (p, x) in zip(list_p, exponents)))
 ```
 
-to make it more efficient.
+to make speed up the computation of the GCD.  Note that we compute the products in $\mathbb{Z}/N\mathbb{Z}$ and then convert them back to $\mathbb{Z}$ to make this reduction modulo $N$ more efficient.
 :::
 
 +++
@@ -968,3 +969,87 @@ Or, in terms of the number of digits
 One can improve this process by taking the $a_i$'s, which we square and reduce modulo $N$, only slightly larger than $\sqrt{N}$ (instead of purely randomly), which reduces the number of $a_i$'s to try to about $L(N)$, which is a good improvement.
 
 We will come back to this process (the *Relation Building*) in a [later section](#sec-relation_building).
+
+
+### Checking for $B$-Smoothness in Sage
+
+If you want to check that some number $a$ is $B$-smooth in Sage, one should *not* use the `factor` function.  If the number *is* $B$-smooth, for a relatively small $B$, that could work.
+
+```{code-cell} ipython3
+a = 2^6 * 7^3 * 11^4 * 13^5 * 23^2
+a
+```
+
+```{code-cell} ipython3
+B = 23
+a = 63127307789850304
+
+# test
+prime_divisors = [x[0] for x in factor(a)]
+
+if max(prime_divisors) <= B:
+    print(f"{a} is {B}-smooth.")
+else:
+    print(f"{a} is not {B}-smooth.")
+```
+
+Note that Sage actually has a `prime_factors` function that could make this even easier:
+
+```{code-cell} ipython3
+B = 23
+a = 63127307789850304
+
+# test
+if max(prime_factors(a)) <= B:
+    print(f"{a} is {B}-smooth.")
+else:
+    print(f"{a} is not {B}-smooth.")
+```
+
+But, if not, it will take a lot longer than necessary!
+
+```{code-cell} ipython3
+%%time
+
+a = 505315045110283216972911558435118337
+B = 23
+
+# test
+if max(prime_factors(a)) <= B:
+    print(f"{a} is {B}-smooth.")
+else:
+    print(f"{a} is not {B}-smooth.")
+```
+
+The idea is to simply see how many times each prime less than or equal to $B$ divides the number, and see if only those primes raised to their corresponding powers and multiplied give the number.
+
+Remember that we can use `valuation(a, p)` in Sage to see how many times the prime `p` divides `a`.  Hence, to check for $B$-smoothness, we can do
+
+```python
+a == [p^(valuation(a, p)) for p in primes(B + 1)]
+```
+
+For example:
+
+```{code-cell} ipython3
+%%time
+
+a = 505315045110283216972911558435118337
+B = 23
+
+# test
+if a == [p^(valuation(a, p)) for p in primes(B + 1)]:
+    print(f"{a} is {B}-smooth.")
+else:
+    print(f"{a} is not {B}-smooth.")
+```
+
+It's a lot faster, as it only tests divisibility by small numbers!
+
++++
+
+Here is some information about the computer used for the computations above:
+
+```{code-cell} ipython3
+!inxi --system --cpu --memory
+```

@@ -160,7 +160,15 @@ for _ in range(1, n + 1):
 
 ### Example
 
-Let's compare the brute force and baby-step/giant-step methods in a concrete example.  Let's first find $p$ and $g$: let's take $p=2{,}819$, $N = (p-1) /2 = 1{,}409$ (also prime), and $g = 798$ (in $\mathbb{F}_p^{\times}$).
+Let's compare the brute force and baby-step/giant-step methods in a concrete example.
+
+First, here is some information about the computer being used:
+
+```{code-cell} ipython3
+!inxi --system --cpu --memory
+```
+
+Now, let's first find $p$ and $g$: let's take $p=2{,}819$, $N = (p-1) /2 = 1{,}409$ (also prime), and $g = 798$ (in $\mathbb{F}_p^{\times}$).
 
 ```{code-cell} ipython3
 p = 2819
@@ -273,6 +281,7 @@ Now, let's see how long the whole process takes:
 
 ```{code-cell} ipython3
 %%time
+N = g.multiplicative_order()
 n = floor(sqrt(N)) + 1
 
 powers = {Mod(1, p): 0}
@@ -281,7 +290,9 @@ for i in range(1, n + 1):
     current_power *= g
     powers[current_power] = i
 
+factor = current_power^(-1)
 current_value = h
+
 for j in range(n + 1):
     if current_value in powers:
         i = powers[current_value]
@@ -296,5 +307,5 @@ else:
 :::{admonition} Homework
 :class: note
 
-You create a discrete log function that takes some $g$ and $h$ as arguments and finds $x$ such that $h = g^x$, if it exists.  Most of the work is actually done above, you just have to adapt it to a function.
+In your homework you will write a discrete log function that takes some $g$ and $h$ as arguments and finds $x$ such that $h = g^x$, if it exists, and returns $-1$ if it doesn't.  Most of the work is actually done above, you just have to adapt it to a function.
 :::

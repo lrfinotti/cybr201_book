@@ -711,6 +711,109 @@ a_m &= r_{m,1} x_1 + r_{m,2} x_2 + r_{m,n} x_n
 ```
 with $x_j$ found being $\log_g(\ell_j)$.  So, we just need to solve this system!
 
++++
+
+#### Example
+
+Let's see how to produce the matrix and vector associated to this system in Sage.
+
+Let's take $p=331$ and find a primitive root $g$:
+
+```{code-cell} ipython3
+p = 331
+F = FiniteField(p)
+g = F.primitive_element()
+```
+
+Let's take $h = 200$ (in $\mathbb{F}_{331}$).
+
++++
+
+h = F(200)
+
++++
+
+First, let's create a list of primes less than $B = 30$:
+
+```{code-cell} ipython3
+list_l = prime_range(30)
+list_l
+```
+
+Now, let's save the length of this list (which $\pi(30)$, with our previous notation):
+
+```{code-cell} ipython3
+pi_B = len(list_l)
+```
+
+Now, we need to find $\pi(B)$ different $a$'s such that $g^a$ is $B$-smooth.  For each one of these, we save as a row of our matrix the exponents of the prime decomposition of $g^a$ for each of the primes in our list `list_l`.  (Since $g^a$ is $B$-smooth, this list contains all the primes in the factorization of $g^a$.)
+
+Let's initialize some variables:
+
+```{code-cell} ipython3
+used_as = set()  # set of used a's, to avoid repeating!
+coef_matrix = []  # matrix of coefficients
+va = []  # vector with the a's
+```
+
+Let's add elements:
+
+```{code-cell} ipython3
+while len(va) < pi_B:  # need pi_B elements
+    a = randint(1, p - 1)  # a to try
+
+    # make sure it hasn't been used:
+    while a in used_as:
+        a = randint(1, p - 1)  # try another
+    used_as.add(a)  # add this a to our set
+
+    gi = ZZ(g^a)  # our power of g
+
+    # we might need the valuations more than one:
+    #  - to check if gi is B-smooth, and
+    #  - if B-smooth, to get the row of the matrix
+    # if gives the powers of each prime in list_l in the factorization of gi
+    valuations = [valuation(gi, l) for l in list_l]
+
+    if gi == prod(l^val for l, val in zip(list_l, valuations)):  # is gi B-smooth?
+        # if so
+        va.append(a)
+        coef_matrix.append([val % (p - 1) for val in valuations])
+```
+
+Now `coef_matrix` should be the list of rows for our matrix:
+
+```{code-cell} ipython3
+coef_matrix
+```
+
+And `va` should be the list that gives the necessary vector:
+
+```{code-cell} ipython3
+va
+```
+
+We can check if it worked.  Let's compute the list of the discrete logs (which is what this matrix and vector would allow us to compute) directly using Sage:
+
+```{code-cell} ipython3
+list_dl = [discrete_log(F(l), g) for l in list_l]
+list_dl
+```
+
+If our work is correct, multiplying the matrix given by `coef_matrix` by the vector of discrete logs, it would give our vector `va`:
+
+```{code-cell} ipython3
+MM = matrix(Zmod(p - 1), coef_matrix)
+xx = vector(Zmod(p - 1), list_dl)
+aa = vector(Zmod(p - 1), va)
+
+MM * xx == aa
+```
+
+It works!
+
++++
+
 :::{admonition} Homework
 :class: note
 

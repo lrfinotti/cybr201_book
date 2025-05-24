@@ -170,7 +170,8 @@ N0 = N = g.multiplicative_order()
 Then, we solve a discrete log with a base of order $q$ (prime).  We will use Sage's own `discrete_log` function for this computation:
 
 ```{code-cell} ipython3
-y = discrete_log(h^(N/q), g^(N/q))
+power = N // q  # compute it only once!
+y = discrete_log(h^power, g^power)
 y
 ```
 
@@ -178,9 +179,9 @@ Now, we update the values:
 
 ```{code-cell} ipython3
 x += y * (N0 // N)
-h = g^(-y) * h
+h *= g^(-y)
 g = g^q
-N = N / q
+N = N // q
 ```
 
 Then, if the value of `N` is not one, we will repeat:
@@ -192,7 +193,8 @@ N
 So, repeat: first we compute a new discrete log (with base of order $q$):
 
 ```{code-cell} ipython3
-y = discrete_log(h^(N/q), g^(N/q))
+power = N // q
+y = discrete_log(h^power, g^power)
 y
 ```
 
@@ -200,9 +202,9 @@ And update the variables:
 
 ```{code-cell} ipython3
 x += y * (N0 // N)
-h = g^(-y) * h
+h *= g^(-y)
 g = g^q
-N = N / q
+N = N // q
 ```
 
 Check `N`:
@@ -214,7 +216,8 @@ N
 It's not one, so we repeat again:
 
 ```{code-cell} ipython3
-y = discrete_log(h^(N/q), g^(N/q))
+power = N // q
+y = discrete_log(h^power, g^power)
 y
 ```
 
@@ -222,9 +225,9 @@ Update the variables:
 
 ```{code-cell} ipython3
 x += y * (N0 // N)
-h = g^(-y) * h
+h *= g^(-y)
 g = g^q
-N = N / q
+N = N // q
 ```
 
 Check `N` again:
@@ -470,10 +473,11 @@ Now, let's take some $h \in \mathbb{F}_p^{\times}$:
 h = Mod(117619616680834488747814058359345855076997576088312309, p)
 ```
 
-Now, we need to find $x$ such that $g^x = h$, following the algorithm.  First, let's initialize a list to have the solutions for the discrete logs corresponding to each power of a prime:
+Now, we need to find $x$ such that $g^x = h$, following the algorithm.  First, let's initialize a lists to have the solutions for the discrete logs corresponding to each power of a prime and the corresponding moduli:
 
 ```{code-cell} ipython3
 y = []
+m = []
 ```
 
 Now, we select the first prime and corresponding power:
@@ -495,7 +499,8 @@ Now, we solve a discrete log (with a base that has order `q^e`), using {prf:ref}
 
 ```{code-cell} ipython3
 y.append(discrete_log(hh, gg))  # add discrete log to the list
-y
+m.append(q^e)  # add the modulus to the list
+y, m
 ```
 
 Then, we move to the next prime and power:
@@ -512,7 +517,8 @@ NN = N // q^e
 gg = g^NN
 hh = h^NN
 y.append(discrete_log(hh, gg))
-y
+m.append(q^e)
+y, m
 ```
 
 And, last prime (and power):
@@ -529,13 +535,14 @@ NN = N // q^e
 gg = g^NN
 hh = h^NN
 y.append(discrete_log(hh, gg))
-y
+m.append(q^e)
+y, m
 ```
 
-Now we are done, since we ran out of primes.  So, `y` contains the left-sides of the congruences for the CRT, while the powers of the primes are the moduli.  We solve it using Sage's CRT function:
+Now we are done, since we ran out of primes.  So, `y` contains the left-sides of the congruences for the CRT, and `m` contains the corresponding moduli.  We solve it using Sage's CRT function:
 
 ```{code-cell} ipython3
-x = crt(y, [q^e for q, e in N_factorization])
+x = crt(y, m)
 x
 ```
 
@@ -551,4 +558,4 @@ It worked!
 
 ## Further Improvements?
 
-There is a method for solving the DLP that is even more efficient, called [index calculus](sec-index-calc), which we will learn later.
+There is a method for solving the DLP that is even more efficient, called [index calculus](#sec-index-calc), which we will learn later.

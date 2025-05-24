@@ -190,7 +190,7 @@ If you have a symmetric cryptosystem, you are faced with the problem of sharing 
 
 1) A trusted party publishes:
     - a large prime $p$ and
-    - an element $g$ of $\mathbb{F}^{\times}$ of large *prime* order $q$.  (The order $q$ is also public.)
+    - an element $g$ of $\mathbb{F}_p^{\times}$ of large *prime* order $q$.  (The order $q$ is also public.)
 2) Alice chooses a *secret* integer $a$, and Bob chooses a *secret* integer $b$.
 3) Alice computes $A = g^a$ and *publicly* sends the result $A$ to Bob.  (So, $A$ is known, but not the exponent $a$ to produce it.)  Similarly, Bob computes $B = g^b$ and *publicly* sends the result $B$ to Alice.
 4) Alice computes $B^a$ and Bob computes $A^b$.  These values are equal and that is their **shared key**.
@@ -209,7 +209,7 @@ The numbers involved are very large in general, so one would have to compute ver
 
 ### Finding $q$ and $g$
 
-How would one find the $g$, with large order $q$ in $\mathbb{F}^{\times}$?  Let's first think about its order, which we called $q$.  We want it to be as large as possible.  As we've seen in {prf:ref}`a previous proposition <pr-power_one>`, we know that $|g| = q \mid \varphi(p)=p-1$.  Since $p$ is odd, being a prime different from $2$, the largest that $q$ could be is if $p-1 = 2q$.  So, to find the *pair* $p$ and $q$, we look for a $p$ of the desired size, and check if $(p-1)/2$ is also prime.  If so, $q = (p-1)/2$ works.
+How would one find the $g$, with large order $q$ in $\mathbb{F}_p^{\times}$?  Let's first think about its order, which we called $q$.  We want it to be as large as possible.  As we've seen in {prf:ref}`a previous proposition <pr-power_one>`, we know that $|g| = q \mid \varphi(p)=p-1$.  Since $p$ is odd, being a prime different from $2$, the largest that $q$ could be is if $p-1 = 2q$.  So, to find the *pair* $p$ and $q$, we look for a $p$ of the desired size, and check if $(p-1)/2$ is also prime.  If so, $q = (p-1)/2$ works.
 
 We can do that relatively easy with Sage for primes of reasonable size:
 
@@ -221,7 +221,7 @@ lower_bound = 2^63
 upper_bound = 2^64 - 1
 
 while True:
-    p = next_prime(randint(lower_bound, upper_bound))
+    p = random_prime(upper_bound, lbound=lower_bound)
     q = (p - 1) // 2
     if is_prime(q):
         break
@@ -229,9 +229,15 @@ while True:
 print(f"We can take {p = } and {q = }.")
 ```
 
-Now, how do we find $g$, and element of $\mathbb{F}^{\times}$ of order $q$?
+Here is some details about the system used for this computation:
 
-If we take a random element of $a$ of $\mathbb{F}^{\times}$, we know that $|a| \mid p-1 = 2q$.  Since $q$ is prime, the only possible orders for $a$ are $1$ (and only the element $1$ of $\mathbb{F}^{\times}$ has order $1$), $2$ (and one can show that the only $-1 = p - 1$ has order $2$ in $\mathbb{F}^{\times}$), $q$, or $2q$.
+```{code-cell} ipython3
+!inxi --system --cpu --memory
+```
+
+Now, how do we find $g$, and element of $\mathbb{F}_p^{\times}$ of order $q$?
+
+If we take a random element of $a$ of $\mathbb{F}_p^{\times}$, we know that $|a| \mid p-1 = 2q$.  Since $q$ is prime, the only possible orders for $a$ are $1$ (and only the element $1$ of $\mathbb{F}_p^{\times}$ has order $1$), $2$ (and one can show that the only $-1 = p - 1$ has order $2$ in $\mathbb{F}_p^{\times}$), $q$, or $2q$.
 
 Now, we can compute $a^2$.  If we get $1$, then $a$ is either $1$ or $p-1$, and we try a different random $a$.  But if $a^2 \neq 1$, then, either $|a| = q$ or $|a|=2q$.
 
@@ -257,7 +263,7 @@ More generally, when we do not necessarily have that $q = (p-1)/2$, but simply a
 :label: find_g
 
 
-Given primes $p$ and $q$, with $q$ dividing $p-1$, and a random element $a \in \mathbb{F}^{\times}$, then the probability that $a^{\frac{p-1}{q}}$ has order $q$ is $(q-1)/q$.  (If $q$ is large, this probability is quite high!)
+Given primes $p$ and $q$, with $q$ dividing $p-1$, and a random element $a \in \mathbb{F}_p^{\times}$, then the probability that $a^{\frac{p-1}{q}}$ has order $q$ is $(q-1)/q$.  (If $q$ is large, this probability is quite high!)
 :::
 
 :::{admonition} Homework
@@ -282,7 +288,7 @@ while True:
 print(f"We have {p = }, and {q = }.")
 ```
 
-We also need some element $g$ in $\mathbb{F}^{\times}$ of order $q$.
+We also need some element $g$ in $\mathbb{F}_p^{\times}$ of order $q$.
 
 ```{code-cell} ipython3
 g = Mod(randint(2, p-2), p)^2
@@ -323,7 +329,7 @@ B = g^b
 B
 ```
 
-+++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "671"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "105619"}, "metadata": {}}}]}
++++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "28308"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "175354"}, "metadata": {}}}]}
 
 So, now Alice sends Bob $A$, i.e., {eval}`A`, and Bob sends Alice $B$, i.e., {eval}`B`, while keeping $a$ and $b$ for themselves.
 
@@ -353,7 +359,7 @@ How could Eve find the shared key $g^{ab}$ without knowing $a$ and $b$?  In othe
 :label: def-DH
 
 
-We call the *Diffie-Hellman Problem* the problem of being able to break the Diffie-Hellman key exchange, namely: given a prime $p$, $g \in \mathbb{F}^{\times}$, and $A=g^a$ and $B=g^b$ (without knowing $a$ and $b$ themselves), find $g^{ab}$.
+We call the *Diffie-Hellman Problem* the problem of being able to break the Diffie-Hellman key exchange, namely: given a prime $p$, $g \in \mathbb{F}_p^{\times}$, and $A=g^a$ and $B=g^b$ (without knowing $a$ and $b$ themselves), find $g^{ab}$.
 :::
 
 
@@ -365,11 +371,11 @@ It is not known if the converse is true, namely, if one can solve the Diffie-Hel
 
 ### Security Considerations
 
-Is the Diffie-Hellman Key Exchange secure in general?  If $p$ (from $\mathbb{F}^{\times}$) and $q = |g|$ are large enough, and $a$ and $b$ are *randomly generated* number between $2$ and $q-1$ (and therefore likely quite large as well), it is *believed* to be secure, because the discrete log and Diffie-Hellman problems are *believed* to be difficult to solve.
+Is the Diffie-Hellman Key Exchange secure in general?  If $p$ (from $\mathbb{F}_p^{\times}$) and $q = |g|$ are large enough, and $a$ and $b$ are *randomly generated* number between $2$ and $q-1$ (and therefore likely quite large as well), it is *believed* to be secure, because the discrete log and Diffie-Hellman problems are *believed* to be difficult to solve.
 
 :::{note}
 
-In general we want $p$ to have at least $2048$ bits, i.e., we want $p \geq 2^{2047}$ (noting that $2^{2047}$ has $617$ *digits*), and if possible have the prime $q$ to be simply $(p-1)/2$, the largest possible order of an element in $\mathbb{F}^{\times}$.  This would mean that $q$ would be a $2047$-bit prime.
+In general we want $p$ to have at least $2048$ bits, i.e., we want $p \geq 2^{2047}$ (noting that $2^{2047}$ has $617$ *digits*), and if possible have the prime $q$ to be simply $(p-1)/2$, the largest possible order of an element in $\mathbb{F}_p^{\times}$.  This would mean that $q$ would be a $2047$-bit prime.
 :::
 
 Choosing $a$ and $b$ randomly is also strongly encouraged, as to avoid numbers that are easier to guess, like birth dates, phone numbers, addresses, etc.
@@ -412,9 +418,9 @@ We will now describe the cryptosystem, but observe that, for now, we shall assum
 
 ### Steps for ElGamal Encryption
 
-1) **Set up:** Choose and publish large prime $p$ and element $g \in \mathbb{F}_p$ of large prime order.
-2) **Key Creation:** Alice chooses a *private* key $a \in \{2, 3, \ldots, p-2\}$ and publishes $A = g^a$ (in $\mathbb{F}_p$).
-3) **Encryption:** To encrypt the message $m$ (a *number* between $1$ and $p-1$), Bob chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use) $k$, computes $c_1 = g^k$, and $c_2=mA^k$ (both in $\mathbb{F}_p$), and sends the pair $(c_1, c_2)$ to Alice.  (This pair is the encrypted message.)
+1) **Set up:** Choose and publish large prime $p$ and element $g \in \mathbb{F}_p^{\times}$ of large prime order.
+2) **Key Creation:** Alice chooses a *private* key $a \in \{2, 3, \ldots, p-2\}$ and publishes $A = g^a$ (in $\mathbb{F}_p^{\times}$).
+3) **Encryption:** To encrypt the message $m$ (a *number* between $1$ and $p-1$), Bob chooses a *random* *ephemeral* key (i.e., a random key to be discarded after a single use) $k$ in $\mathbb{F}_p^{\times}$, computes $c_1 = g^k$, and $c_2=mA^k$ (both in $\mathbb{F}_p^{\times}$), and sends the pair $(c_1, c_2)$ to Alice.  (This pair is the encrypted message.)
 4) **Decryption:** To decrypt $(c_1, c_2)$ sent by Bob, Alice, using her private key $a$, computes $(c_1^a)^{-1} \cdot c_2$ (in $\mathbb{F}_p$).  This last expression is equal to the message $m$.
 
 

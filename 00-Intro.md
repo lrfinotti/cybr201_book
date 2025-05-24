@@ -1,15 +1,16 @@
 ---
 jupytext:
   formats: ipynb,sage:percent,md:myst
+  encoding: '# -*- coding: utf-8 -*-'
   text_representation:
     extension: .md
     format_name: myst
     format_version: 0.13
     jupytext_version: 1.17.1
 kernelspec:
-  name: sage-10.5
   display_name: SageMath 10.5
   language: sage
+  name: sage-10.5
 ---
 
 # About this Book
@@ -111,11 +112,35 @@ Hopefully the homework give the reader practice with coding, with a particular c
 
 +++
 
+## Source Notebooks
+
+The source Jupyter notebooks from each chapter used to create this book can be downloaded directly from the official site https://luisfinotti.org/pcimc/.  Just click on the Download icon on the top of the page and choose `.ipynb`.
+
+**Important:** To be able to run this properly, a [Sage](https://www.sagemath.org/) kernel *must* be used.  And, for the notebook to be displayed correctly, the [JupyterLab MyST Extension](https://github.com/jupyter-book/jupyterlab-myst) must be installed in the system.
+
++++
+
+## Corrections
+
+Please send any typos, corrections (mathematical or grammatical), problems, and suggestions to luis@luisfinotti.org.
+
++++ {"jp-MarkdownHeadingCollapsed": true}
+
+## About the Author
+
+[Luís Finotti](https://luisfinotti.org/) received his B.Sci. and M.Sci. in Mathematics from the [Universidade de São Paulo](https://www.usp.br/) in Brazil, and his Ph.D. in 2001 from the [University of Texas at Austin](https://www.utexas.edu/), studying with [Felipe Voloch](https://www.math.canterbury.ac.nz/~f.voloch/) and specializing in [Number Theory](https://en.wikipedia.org/wiki/Number_theory).
+
+He had post-doctoral appointments at the [University of California Santa Barbara](https://www.ucsb.edu/) and the [Ohio State University](https://www.osu.edu/).  He has been at the [University of Tennesse Knoxville](https://www.utk.edu/) since 2006.
+
+His research interests include liftings of [algebraic curves](https://en.wikipedia.org/wiki/Algebraic_curve) and [varieties](https://en.wikipedia.org/wiki/Algebraic_variety), specially [elliptic](https://en.wikipedia.org/wiki/Elliptic_curve) and [hyperelliptic](https://en.wikipedia.org/wiki/Hyperelliptic_curve) curves, [Witt vectors](https://en.wikipedia.org/wiki/Witt_vector), [local](https://en.wikipedia.org/wiki/Local_field) and [$p$-adic](https://en.wikipedia.org/wiki/P-adic_number) fields, and related computational problems and applications.
+
++++
+
 ## Acknowledgments
 
 The book [An Introduction to Mathematical Cryptography](https://link.springer.com/chapter/10.1007/978-1-4939-1711-2_7), by Jeffrey Hoffstein, Jill Pipher, and Joseph H. Silverman, was the main resource for this book, along with class notes from the author on a course based in that book.
 
-This book was produced using [Jupyter notebooks](https://jupyter.org/) and [Jupyter Book](https://jupyterbook.org/en/stable/intro.html).  The computations were done with [Sage](https://www.sagemath.org/).
+This book was produced using [Jupyter notebooks](https://jupyter.org/) and [Jupyter Book](https://jupyterbook.org/en/stable/intro.html).  [MyST Markdown](https://mystmd.org/) (and [LaTeX](https://www.latex-project.org/)) were used to type and render the text.  The computations were done with [Sage](https://www.sagemath.org/).
 
 This book was written during a semester in which the [College of Emerging and Collaborative Studies](https://cecs.utk.edu/) at the [University of Tennessee](https://www.utk.edu/) reduced the author's teaching load, allowing the writing of this book.  The teaching reduction was given so the author could develop the new course [CYBR 201 - Introduction to Cryptography and Data Protection](https://catalog.utk.edu/content.php?filter%5B27%5D=CYBR&filter%5B29%5D=201&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D=1&cur_cat_oid=54&expand=&navoid=11523&search_database=Filter#), and although writing the book was not a requirement, the extra time allowed the author to do it.  Therefore, the author would like to thank the [University of Tennessee](https://www.utk.edu/), the [College of Emerging and Collaborative Studies](https://cecs.utk.edu/) , and UT's [Math Department](https://math.utk.edu/) for their support.
 

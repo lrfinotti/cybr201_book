@@ -520,6 +520,57 @@ It also knows that the elements, like their $1$'s, are different:
 Mod(1, 3) == Mod(1, 4)
 ```
 
+### $\mathbb{Z}/p\mathbb{Z}$ and $\mathbb{F}_p$ in Sage
+
++++
+
+For *prime* moduli $p$, we can also use either `FiniteField(p)` or `GF(p)` (for [Galois Field](https://en.wikipedia.org/wiki/Finite_field)) to create the *field* $\mathbb{F}_p$.  For instance, for $\mathbb{F}_{11}$:
+
+```{code-cell} ipython3
+F = FiniteField(11)
+F
+```
+
+```{code-cell} ipython3
+FF = GF(11)
+FF
+```
+
+Note that `FiniteField` and `GF` give exactly the same result/object.
+
+```{code-cell} ipython3
+FF == F
+```
+
+But, although mathematically $\mathbb{F}_{11}$ and $\mathbb{Z}/11\mathbb{Z}$ are the same, in Sage they have some technical differences:
+
+```{code-cell} ipython3
+Zmod(11) == FiniteField(11)
+```
+
+```{code-cell} ipython3
+Zmod(11)
+```
+
+It mostly won't make a difference for us here, but `Zmod(11)` and `FiniteField(11)` have some different methods.  In practice, either one be used most of the time.
+
+Note that using `Mod(a, p)`, we get that the result is in both `Zmod(p)` and `FiniteField(p)`.
+
+```{code-cell} ipython3
+Mod(2, 11) in FiniteField(11)
+```
+
+```{code-cell} ipython3
+Mod(2, 11) in Zmod(11)
+```
+
+:::{warning}
+
+As observed above, $\mathbb{Z}/m\mathbb{Z}$ is a field if and only if the modulus $m$ is prime.  So, although we can create `FiniteField(4)` (or $\mathbb{F}_4$), it is *not the same* as `Zmod(4)` (or $\mathbb{Z}/4\mathbb{Z}$).  The difference in this case goes beyond simple technicalities in the implementations of `FiniteField(4)` and `Zmod(4)` in Sage.  They are really distinct and incompatible objects.
+:::
+
++++
+
 ## Multiplication by $\mathbb{Z}$
 
 +++
@@ -643,7 +694,15 @@ Mod(32, 101)^84938493
 In computations, you should *always* first convert an integer to $\mathbb{Z}/m\mathbb{Z}$ and then compute the power, *never the other way around*!
 :::
 
-We will see some reasons for the that below, but here is an illustration:
+We will see some reasons for the that below, but here is an illustration.
+
+First, some information about the computer running these computations:
+
+```{code-cell} ipython3
+!inxi --system --cpu --memory
+```
+
+Now, let's compare the times:
 
 ```{code-cell} ipython3
 %%time
