@@ -49,6 +49,12 @@ millennia
 
 That is more than $2$ followed by $596$ zeros!  It is certainly not feasible.
 
+:::{admonition} Homework
+:class: note
+
+You will write an implementation of the brute force method in your [homework](#sec-hw4).
+:::
+
 +++
 
 (sec-bsgs)=
@@ -307,5 +313,5 @@ else:
 :::{admonition} Homework
 :class: note
 
-In your homework you will write a discrete log function that takes some $g$ and $h$ as arguments and finds $x$ such that $h = g^x$, if it exists, and returns $-1$ if it doesn't.  Most of the work is actually done above, you just have to adapt it to a function.
+In your [homework](#sec-hw4) you will write a discrete log function that takes some $g$ and $h$ as arguments and finds $x$ such that $h = g^x$, if it exists, and returns $-1$ if it doesn't.  Most of the work is actually done above, you just have to adapt it to a function.
 :::

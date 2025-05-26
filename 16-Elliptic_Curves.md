@@ -559,7 +559,7 @@ Let $P$ and $Q$ be points on an elliptic curve with equation $y^2 = x^3 + ax + b
 :::{admonition} Homework
 :class: note
 
-You will implement this algorithm in your homework.
+You will implement this algorithm in your [homework](#sec-hw10).
 :::
 
 ### Notation
@@ -1127,7 +1127,7 @@ For the *average* case, we have about:
 :::{admonition} Homework
 :class: note
 
-In your homework you will write a function in Sage that takes an integer and returns the ternary expansion, i.e., you will implement {prf:ref}`al:ternary`.
+In your [homework](#sec-hw10) you will write a function in Sage that takes an integer and returns the ternary expansion, i.e., you will implement {prf:ref}`al:ternary`.
 :::
 
 +++
@@ -1389,7 +1389,7 @@ It works!
 :::{admonition} Homework
 :class: note
 
-You will implement the encryption/decryption process in your homework.
+You will implement the encryption/decryption process in your [homework](#sec-hw10).
 :::
 
 
@@ -1498,6 +1498,12 @@ Fq(ZZ((v1 * G + v2 * V)[0])) == s1
 ```
 
 It works!
+
+:::{admonition} Homework
+:class: note
+
+You will implement the ECDSA in your [homework](#sec-hw10).
+:::
 
 +++
 

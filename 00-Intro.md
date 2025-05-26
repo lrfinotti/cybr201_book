@@ -17,6 +17,13 @@ kernelspec:
 
 +++
 
+## Table of Contents
+
+```{tableofcontents}
+```
+
++++
+
 ## Introduction
 
 This book is an introduction to the main mathematical and computational ideas in cryptography.  It is heavily based on selected sections of [An Introduction to Mathematical Cryptography](https://link.springer.com/chapter/10.1007/978-1-4939-1711-2_7), by Jeffrey Hoffstein, Jill Pipher, and Joseph H. Silverman, which is an excellent introduction to mathematical cryptography.  In fact, we strongly recommend the more mathematically inclined readers to use that book in addition to (or perhaps even instead of) this present one.  This book does not go nearly as deep in the math, but focus more in computations and applications.  For example, we might just give computational evidence that some mathematical statement is true, rather than giving an actual proof.  We do prove the easier statements, though, and although these could be skipped by the reader with less interest in the mathematics, we urge them to at least try read them, even if only superficially enough to have a general idea of why the statement is true.
@@ -117,6 +124,8 @@ Hopefully the homework give the reader practice with coding, with a particular c
 The source Jupyter notebooks from each chapter used to create this book can be downloaded directly from the official site https://luisfinotti.org/pcimc/.  Just click on the Download icon on the top of the page and choose `.ipynb`.
 
 **Important:** To be able to run this properly, a [Sage](https://www.sagemath.org/) kernel *must* be used.  And, for the notebook to be displayed correctly, the [JupyterLab MyST Extension](https://github.com/jupyter-book/jupyterlab-myst) must be installed in the system.
+
+Unfortunately, the links to different notebooks will not work.
 
 +++
 

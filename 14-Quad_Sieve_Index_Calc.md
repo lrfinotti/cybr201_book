@@ -509,7 +509,7 @@ So, we've factored $1073$ as $29 \cdot 37$.
 :::{admonition} Homework
 :class: note
 
-You will implement the algorithm in your homework.
+You will implement the algorithm in your [homework](#sec-hw8).
 :::
 
 +++
@@ -669,7 +669,7 @@ g^disc_log == h
 :::{admonition} Homework
 :class: note
 
-You will implement this algorithm in your homework.
+You will implement this algorithm in your [homework](#sec-hw9).
 :::
 
 +++
@@ -817,7 +817,7 @@ It works!
 :::{admonition} Homework
 :class: note
 
-In your homework you will write the code to obtain the *matrix of coefficients* of the system above.  This basically means a list containing the rows of the system (which is itself another list).  But you will not implement the solution of the system.
+In your [homework](#sec-hw9) you will write the code to obtain the *matrix of coefficients* of the system above.  This basically means a list containing the rows of the system (which is itself another list).  But you will not implement the solution of the system.
 
 :::
 

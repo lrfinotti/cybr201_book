@@ -995,7 +995,7 @@ We've done it!
 
 +++
 
-So, as we can see, it is not that hard to break the Caesar Cipher.  But, if the text is short, and it avoids articles ("the" and "a") and prepositions ("of", "from", "to", etc.) whenever doing so does not make the text unintelligible, it could still be rather safe, as the statistical analysis would not gives us much and brute force attach is not viable.
+So, as we can see, it is not that hard to break the Caesar Cipher.  But, if the text is short, and it avoids articles ("the" and "a") and prepositions ("of", "from", "to", etc.) whenever doing so does not make the text unintelligible, it could still be rather safe, as the statistical analysis would not gives us much and brute force atttack is not viable.
 
 Another idea is to insert a reasonable amount of random letters around the actual text.  One would likely still be able to discern the actual message.
 

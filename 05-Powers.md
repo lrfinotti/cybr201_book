@@ -306,7 +306,7 @@ Therefore $r$ is a power smaller than $n=|a|$ that gives $1$.  But since, by def
 :::{admonition} Homework
 :class: note
 
-In your homework you will write a function that takes a unit of $\mathbb{Z}/m\mathbb{Z}$ and computes its order.  One could do it by sheer "brute force", meaning testing if $a^1=1$, if not test if $a^2=1$, if not test if $a^3=1$, etc., until we find the first power that does result in $1$.  (This power is the order.)
+In your [homework](#sec-hw3) you will write a function that takes a unit of $\mathbb{Z}/m\mathbb{Z}$ and computes its order.  One could do it by sheer "brute force", meaning testing if $a^1=1$, if not test if $a^2=1$, if not test if $a^3=1$, etc., until we find the first power that does result in $1$.  (This power is the order.)
 :::
 
 For instance, let's find the order of $3$ in $\mathbb{Z}/11\mathbb{Z}$:
@@ -693,7 +693,7 @@ So, indeed, the digits from left to right were $550 = 1{,}046_8$.
 :::{admonition} Homework
 :class: note
 
-Again, you will implement this algorithm in your homework.
+Again, you will implement this algorithm in your [homework](#sec-hw2).
 :::
 
 But, as usual, Sage can do it for us using the method `.digits`:
@@ -931,5 +931,5 @@ Note that we only had $11$ products (instead of $155$!) and at each step we kept
 :::{admonition} Homework
 :class: note
 
-As you might expect, you will implement this algorithm in your homework.  Hopefully the steps above give you an idea on how to use a loop (and some if clauses) to automate the process.
+As you might expect, you will implement this algorithm in your [homework](#sec-hw2).  Hopefully the steps above give you an idea on how to use a loop (and some if clauses) to automate the process.
 :::

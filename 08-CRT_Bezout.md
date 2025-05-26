@@ -322,7 +322,7 @@ This solution, namely $x \equiv 183 \pmod{210}$, now should satisfy the original
 :::{admonition} Homework
 :class: note
 
-You will implement this [algorithm to find solutions in the CRT](#crt-alg) as an exercise in your homework.
+You will implement this [algorithm to find solutions in the CRT](#crt-alg) as an exercise in your [homework](#sec-hw5).
 :::
 
 But, of course, Sage can solve the system of congruences in the CRT using the function `crt`.  We give it a list of the left-sides of the congruences (i.e., $a_1, a_2, \ldots, a_k$) and a list of the moduli (i.e., $m_1, m_2, \ldots, m_k$).  So, our previous example can be done with:
@@ -809,5 +809,5 @@ Remember that the Euclidean Algorithm, and therefore the Extended Euclidean Algo
 :::{admonition} Homework
 :class: note
 
-You will implement this {prf:ref}`Generalized Extended Euclidean Algorithm <al-geea>` in your homework.
+You will implement this {prf:ref}`Generalized Extended Euclidean Algorithm <al-geea>` in your [homework](#sec-hw5).
 :::

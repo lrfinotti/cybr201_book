@@ -141,7 +141,7 @@ Since the result is equal to $D$, the signature is valid.
 :::{admonition} Homework
 :class: note
 
-You will implement this process in your homework.
+You will implement this process in your [homework](#sec-hw9).
 :::
 
 +++
@@ -181,6 +181,12 @@ A^{S_1} \cdot S_1^{S_2}
 Again, the security is based in the *Discrete Log Problem*: if Eve can compute $\log_g(A) = a$, she can fake Samantha's signature.  And, at least so far, this is the only known approach to falsify Samantha's signature when using this method.
 
 But, similar to ElGamal's encryption, the problem with this method is that the key is large: the document has size about $p$, while the signature has size about $p + (p-1)$.
+
+:::{admonition} Homework
+:class: note
+
+As you'd expect, you will implement this digital signature method in your [homework](#sec-hw9).
+:::
 
 +++
 
@@ -355,3 +361,13 @@ Mod(ZZ(g^ZZ(V1) * A^ZZ(V2)), q) == S1  # this should fail!
 ```
 
 Indeed, it fails!
+
+:::{admonition} Homework
+:class: note
+
+You will implement the DSA in your [homework](#sec-hw9).
+:::
+
+```{code-cell} ipython3
+
+```

@@ -598,7 +598,7 @@ Also note that we do not deal with negatives, since we always reduce modulo the 
 :::{admonition} Homework
 :class: note
 
-You will implement this algorithm in your homework.
+You will implement this algorithm in your [homework](#sec-hw8).
 :::
 
 +++
@@ -1042,7 +1042,7 @@ Mod(b, p^4)^2 == Mod(a, p^4)
 :::{admonition} Homework
 :class: note
 
-You will implement this algorithm in your Homework.
+You will implement this algorithm in your [homework](#sec-hw8).
 :::
 
 +++

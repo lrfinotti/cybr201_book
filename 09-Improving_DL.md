@@ -278,7 +278,7 @@ Therefore, a straight use of Shank's algorithm in our example above would use $q
 :::{admonition} Homework
 :class: note
 
-You will implement this algorithm in your homework.
+You will implement this algorithm in your [homework](#sec-hw5).
 :::
 
 +++
@@ -420,7 +420,7 @@ Note that using Pohlig-Hellman's algorithm, we still use Shank's Baby-Step/Giant
 :::{admonition} Homework
 :class: note
 
-You will implement Pohlig-Hellman's algorithm in your homework.
+You will implement Pohlig-Hellman's algorithm in your [homework](#sec-hw5).
 :::
 
 +++

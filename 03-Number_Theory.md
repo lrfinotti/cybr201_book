@@ -859,7 +859,7 @@ gcd(1027, 349)
 :::{admonition} Homework
 :class: note
 
-In your homework you will automate this process, i.e., implement the Euclidean Algorithm as a function.
+In your [homework](#sec-hw1) you will automate this process, i.e., implement the Euclidean Algorithm as a function.
 :::
 
 +++
@@ -1340,7 +1340,7 @@ To compute the GCD of `a` and `b` and `u` and `v` such that `gcd(a, b) = a * u +
 :::{admonition} Homework
 :class: note
 
-You will implement this algorithm in your homework.
+You will implement this algorithm in your [homework](#sec-hw1).
 :::
 
 +++
@@ -1629,7 +1629,7 @@ Of course, it is the same solution we found before.  (We just started at a diffe
 :::{admonition} Homework
 :class: note
 
-In your homework, you will automate this process: you will write a function that given a particular solution $(u_0, v_0)$, it finds the one with the least positive $u$.
+In your [homework](#sec-hw1), you will automate this process: you will write a function that given a particular solution $(u_0, v_0)$, it finds the one with the least positive $u$.
 :::
 
 You can do it as above: have two cases, depending on whether $u_0$ is positive or negative.  But there is a clever way to find this smallest positive $u$ directly using *long division*!  Can you find it?
@@ -1703,6 +1703,13 @@ For example,
 Hence, prime numbers are the *(indivisible) building blocks* for integers.
 
 It is not too hard to prove this theorem, but we will skip for the sake of brevity.  Instead, we will illustrate it with direct computations, e.g., writing a function to compute the factorization of a given integer.
+
+:::{admonition} Homework
+:class: note
+
+You will write a function to compute the prime decomposition of an integer in your [homework](#sec-hw2).
+:::
+
 
 Although you will write your own function for prime factorization in your homework, of course, Sage has its own:
 

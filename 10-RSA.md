@@ -272,7 +272,7 @@ As we will see in a [later chapter](#ch-factorization), it is crucial to choose 
 :::{admonition} Homework
 :class: note
 
-In your homework you will write functions to generate keys, and to encrypt and decrypt messages with the RSA cryptosystem.
+In your [homework](#sec-hw6) you will write functions to generate keys, and to encrypt and decrypt messages with the RSA cryptosystem.
 :::
 
 :::{note}

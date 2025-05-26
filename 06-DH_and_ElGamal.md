@@ -269,7 +269,7 @@ Given primes $p$ and $q$, with $q$ dividing $p-1$, and a random element $a \in \
 :::{admonition} Homework
 :class: note
 
-In your homework you will implement this general method of finding $g$ of order $q$ and check the statement about the probability above.
+In your [homework](#sec-hw3) you will implement this general method of finding $g$ of order $q$ and check the statement about the probability above.
 :::
 
 +++
@@ -516,7 +516,7 @@ c1, c2 = encrypted_message  # Alice reads c1 and c2 from encrypted message recei
 
 :::{admonition} Homework
 :class: note
-As usual, you will implement these steps more generally in your homework.
+As usual, you will implement these steps more generally in your [homework](#sec-hw4).
 :::
 
 

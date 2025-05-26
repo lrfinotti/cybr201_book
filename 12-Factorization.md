@@ -138,7 +138,7 @@ The downside of this approach is that increases the chances that both $p-1$ and 
 :::{admonition} Homework
 :class: note
 
-You will implement this algorithm in your homework.
+You will implement this algorithm in your [homework](#sec-hw7).
 :::
 
 +++
@@ -862,7 +862,7 @@ What we do is to loop over the solutions in `K[1:]`.  At each iteration we find 
 :::{admonition} Homework
 :class: note
 
-You will implement this *Elimination* process in your Homework.
+You will implement this *Elimination* process in your [homework](#sec-hw7).
 :::
 
 +++

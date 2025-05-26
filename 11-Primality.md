@@ -97,7 +97,7 @@ A *composite* integer $n > 2$ is a *Carmichael number* if $a^n = a$ in $\mathbb{
 :::{admonition} Homework
 :class: note
 
-In your homework you will write a function to test if a number is either composite of a Carmichael number using {prf:ref}`al-flt`.
+In your [homework](#sec-hw6) you will write a function to test if a number is either composite of a Carmichael number using {prf:ref}`al-flt`.
 :::
 
 :::{note}
@@ -295,7 +295,7 @@ Still not equal.  But now we have $i = k - 1 = 3$, so we can stop here.  (There 
 :::{admonition} Homework
 :class: note
 
-As usual, you will implement this algorithm in your homework.
+As usual, you will implement this algorithm in your [homework](#sec-hw6).
 :::
 
 +++
@@ -314,7 +314,7 @@ If $n$ is an odd, composite number, at least three quarters of $a \in \{2, 3, \l
 :::{admonition} Homework
 :class: note
 
-The proportion of Miller-Rabin witnesses is often even larger than $3/4$, in fact most of the times it is larger than $7/8$.  In your homework you will write code to test if some $a$ is a Miller-Rabin is a witness for the compositeness of $n$ and check what sort of proportions we get in practice.
+The proportion of Miller-Rabin witnesses is often even larger than $3/4$, in fact most of the times it is larger than $7/8$.  In your [homework](#sec-hw6) you will write code to test if some $a$ is a Miller-Rabin is a witness for the compositeness of $n$ and check what sort of proportions we get in practice.
 :::
 
 
@@ -339,7 +339,7 @@ Note that this method of repeating the Miller-Rabin test for different random po
 :::{admonition} Homework
 :class: note
 
-You will implement this test in your homework.
+You will implement this test in your h[homework](#sec-hw6).
 :::
 
 +++
@@ -511,5 +511,5 @@ This is a very reasonable improvement.  Can we do better if we add more primes t
 :::{admonition} Homework
 :class: note
 
-You will implement this idea to get random primes in an interval in your homework.
+You will implement this idea to get random primes in an interval in your [homework](#sec-hw7).
 :::
