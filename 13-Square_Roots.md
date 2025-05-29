@@ -21,7 +21,7 @@ We will soon come back to factorization and computation of discrete logs, but fi
 
 
 (sec:sqrt_mod_p)=
-## Squares Module Odd Primes
+## Squares Modulo Odd Primes
 
 First, we need to recall some definitions and results from the [chapter on powers](#ch-powers).  Recall *Fermat's Little Theorem*:
 
@@ -102,14 +102,30 @@ a^{(p-1)/2} = \left( b^2 \right)^{(p-1)/2} = b^{p-1} = 1.
 ```
 Hence, if $a$ is a square, then $a^{(p-1)/2} = 1$.
 
-Now, let $g$ be a primitive root of $\mathbb{F}_p$.  If $a = g^k$, where $k$ is *even* (and so $k/2$ is an integer), then $a$ is a square, namely $a = \left( g^{k/2} \right)^2$.  So, if $a$ is *not* a square, then $k$ must be *odd*.  This means that $\gcd(k \cdot (p-1)/2, p-1) = (p-1)/2$: first, it is clear that $(p-1)/2$ is a common divisor.  So the GCD is at least $(p-1)/2$ and divides $p-1$, which means that is either $(p-1)/2$ or $p-1 = 2 \cdot (p-1)/2$.  But $k$ being odd, we have that $p-1 = 2 \cdot (p-1)/2$ does not divide $k \cdot (p-1)/2$, so indeed,
+Now, let $g$ be a primitive root of $\mathbb{F}_p$.  If $a = g^k$, where $k$ is *even* (and so $k/2$ is an integer), then $a$ is a square, namely $a = \left( g^{k/2} \right)^2$.  So, if $a$ is *not* a square, then $k$ must be *odd*.  
+
+So, let $k = 2m + 1$, for some integer $m$.  Since $(p-1)/2 \mid (p-1)$ and remembering that for any integer $n$ we have $\gcd(a, b) = \gcd(a - nb, b)$ (as used for the Euclidean Algorithm), we have:
 ```{math}
-\gcd(k \cdot (p-1)/2, p-1) = (p-1)/2.
+\begin{align*}
+\gcd \left(k \cdot \frac{p-1}{2}, p-1 \right)
+&= \gcd\left((2m + 1) \cdot \frac{p-1}{2}, p-1 \right) \\[3ex]
+&= \gcd\left(m \cdot (p-1) + \frac{p-1}{2}, p-1 \right) \\[3ex]
+&= \gcd\left(m \cdot (p-1) + \frac{p-1}{2} - m(p-1), p-1 \right)\\[3ex]
+&= \gcd\left(\frac{p-1}{2}, p-1 \right) \\[3ex]
+&= \frac{p-1}{2}.
+\end{align*}
 ```
 
 Then, by {prf:ref}`pr-order_power-2`, we have
 ```{math}
-|a^{(p-1)/2}| = | g^{k \cdot (p-1)/2} | = \frac{|g|}{\gcd(k \cdot (p-1)/2, |g|)} = \frac{p-1}{\gcd(k \cdot (p-1)/2,  p-1)} = \frac{p-1}{(p-1)/2} = 2.
+\begin{align*}
+|a^{(p-1)/2}| 
+&= | g^{k \cdot (p-1)/2} | \\[3ex]
+&= \frac{|g|}{\gcd \left(k \cdot \frac{p-1}{2}, |g| \right))} \\[3ex]
+&= \frac{p-1}{\gcd \left(k \cdot \frac{p-1}{2}, p-1 \right)} \\[3ex]
+&= \frac{p-1}{(p-1)/2} \\[3ex]
+&= 2.
+\end{align*}
 ```
 Since the order is not $1$, it means that $a^{(p-1)/2} \neq 1$, and hence it must be $-1$.
 :::
@@ -303,13 +319,13 @@ We have:
 
 ```{math}
 \begin{align}
-\left(\frac{-250192}{91139}\right) &= \left(\frac{-67914}{91139}\right) & &\text{(reduce the top module the bottom)}\\
+\left(\frac{-250192}{91139}\right) &= \left(\frac{-67914}{91139}\right) & &\text{(reduce the top modulo the bottom)}\\
 &= \left(\frac{-1}{91139}\right) \cdot \left(\frac{67914}{91139}\right) & &\text{(multiplicativity of the Legendre symbol)} \\
 &= (-1) \cdot \left(\frac{2 \cdot 3^2 \cdot 7^3 \cdot 11}{91139}\right) && \text{(as $91139 \equiv 4 \pmod{4}$)} \\
 &= (-1) \cdot \left(\frac{2}{91339}\right) \cdot \left(\frac{3}{91139}\right)^2 \cdot  \left(\frac{7}{91139}\right)^3 \cdot \left(\frac{11}{91139}\right)  & &\text{(multiplicativity of the Legendre symbol)} \\
 &= (-1) \cdot (-1) \cdot 1 \cdot \left(\frac{7}{91139}\right) \cdot \left(\frac{11}{91139}\right)  & &\text{(as $91139 \equiv 3 \pmod{8}$ and $(\pm 1)^2 = 1$)} \\
 &= -\left(\frac{91139}{7}\right) \cdot -\left(\frac{91139}{11}\right)  & &\text{(as $7, 11, 91139 \equiv 3 \pmod{4}$)} \\
-&= \left(\frac{6}{7}\right) \cdot \left(\frac{4}{11}\right)  & &\text{(reduce top module bottom)} \\
+&= \left(\frac{6}{7}\right) \cdot \left(\frac{4}{11}\right)  & &\text{(reduce top modulo bottom)} \\
 &= \left(\frac{-1}{7}\right) \cdot \left(\frac{2^2}{11}\right) \\
 &= (-1) \cdot \left(\frac{2}{11}\right)^2 \\
 &= (-1) \cdot 1 = \boxed{-1},
@@ -371,7 +387,7 @@ but $2$ is not a square modulo $15$:
 Mod(2, 15).is_square()
 ```
 
-On the other hand, if the Jacobi symbol $\left(\frac{a}{b}\right) = -1$, it is the case that $a$ is *not* a square modulo $b$.  And, as we shall soon see, the Jacobi symbol is still quite useful to determine if some integer is a square module a *prime*.  But first, we need some basic properties:
+On the other hand, if the Jacobi symbol $\left(\frac{a}{b}\right) = -1$, it is the case that $a$ is *not* a square modulo $b$.  And, as we shall soon see, the Jacobi symbol is still quite useful to determine if some integer is a square modulo a *prime*.  But first, we need some basic properties:
 
 :::{prf:proposition} Basic Properties of the Jacobi Symbol
 :label: pr-js-prop
@@ -603,7 +619,7 @@ You will implement this algorithm in your [homework](#sec-hw8).
 
 +++
 
-## Square Roots Module Odd Primes
+## Square Roots Modulo Odd Primes
 
 +++
 
@@ -883,7 +899,7 @@ r^2 == a
 
 Now we know how to find if $a$ has a square root in $\mathbb{Z}/p\mathbb{Z}$ and how to compute it if it does.  How about in $\mathbb{Z}/p^n\mathbb{Z}$ for some $n > 1$?  We can easily do it using [Hensel's Lemma](https://en.wikipedia.org/wiki/Hensel%27s_lemma).  In fact we need only a more particular version of this powerful result, which we state below:
 
-:::{prf:theorem} Square Roots Module $\mathbb{Z}/p^n\mathbb{Z}$ for $n>1$ and $p$ Odd Prime
+:::{prf:theorem} Square Roots Modulo $\mathbb{Z}/p^n\mathbb{Z}$ for $n>1$ and $p$ Odd Prime
 :label: th-hl-sqrt-odd
 
 Let $p$ be an odd prime, $a$ an integer not divisible by $p$, and suppose that there is some integer $b_k$ such that $b_k^2 \equiv a \pmod{p^k}$ for some $k \geq 1$, i.e., $b_k$ is a square root of $a$ modulo $p^k$.  Then let
@@ -907,7 +923,7 @@ We know that if $a$ has a square root modulo $p$, and $a \not\equiv 0 \pmod{p}$,
 
 Suppose that $b$ is a square root of $a$ modulo $p^2$, i.e., $p^2 \mid (b^2 - a)$.  Then, clearly $p \mid (b^2 - a)$, i.e., $b$ is also a square root modulo $p$.  Therefore, either $b \equiv b_1 \pmod{p}$ or $b \equiv -b_1 \pmod{p}$.  The latter part of the theorem tells us that $b$ then is congruent to the square root obtained by the procedure if gives starting with the corresponding root modulo $p$.  Therefore, there are only two roots modulo $p^2$: $b_2$, obtained from $b_1$ using the theorem, and the one obtained from the theorem from $-b_1$.  It is not hard to see that this latter one must simply be $-b_2$.
 
-Hence, if we iterate this process, we can see that if $a$ has a square root modulo $p$, is has *exactly* two square roots module $p^k$ *for any $k \geq 1$*.  The following proposition summarizes this discussion:
+Hence, if we iterate this process, we can see that if $a$ has a square root modulo $p$, is has *exactly* two square roots modulo $p^k$ *for any $k \geq 1$*.  The following proposition summarizes this discussion:
 
 :::{prf:proposition}
 
@@ -1047,7 +1063,7 @@ You will implement this algorithm in your [homework](#sec-hw8).
 
 +++
 
-## Square Roots Module Powers of $2$
+## Square Roots Modulo Powers of $2$
 
 {prf:ref}`th-hl-sqrt-odd` does not apply when $p=2$.  In fact, the case when $p=2$ is more complicated.  But before we give the version of the theorem for $p=2$, let's first investigate when we have square roots modulo $2^n$ and how many square roots we have.
 
@@ -1057,13 +1073,13 @@ You will implement this algorithm in your [homework](#sec-hw8).
 
 Let $a$ be an *odd* integer and $k \geq 3$.
 
-1) If $a \not\equiv 1 \pmod{3}$, then there are no square roots of $a$ modulo $2^k$ (i.e., $a$ is not a square in $\mathbb{Z}/2^k\mathbb{Z}$).
-2) If $a \equiv 1 \pmod{3}$, then there are *exactly* four square roots of $a$ modulo $2^k$ (in particular, $a$ is a square in $\mathbb{Z}/2^k\mathbb{Z}$).
+1) If $a \not\equiv 1 \pmod{8}$, then there are no square roots of $a$ modulo $2^k$ (i.e., $a$ is not a square in $\mathbb{Z}/2^k\mathbb{Z}$).
+2) If $a \equiv 1 \pmod{8}$, then there are *exactly* four square roots of $a$ modulo $2^k$ (in particular, $a$ is a square in $\mathbb{Z}/2^k\mathbb{Z}$).
 :::
 
 :::{prf:proof}
 
-For the first item, we have that if $b$ is square root module $2^k$, then it is also a square root modulo $8$ since $k \geq 3$.  And we can just check by hand that $1$ is the only odd that is a square modulo $8$:
+For the first item, we have that if $b$ is square root modulo $2^k$, then it is also a square root modulo $8$ since $k \geq 3$.  And we can just check by hand that $1$ is the only odd that is a square modulo $8$:
 ```{math}
 1^2 \equiv 3^3 \equiv 5^2 \equiv 7^2 \equiv 1 \pmod{8}.
 ```
@@ -1140,7 +1156,7 @@ b, \qquad -b, \qquad b + 2^{k-1}, \qquad -b + 2^{k-1}.
 
 Here is the equivalent version of {prf:ref}`th-hl-sqrt-odd`:
 
-:::{prf:theorem} Square Roots Module $\mathbb{Z}/2^n\mathbb{Z}$ for $n\geq3$
+:::{prf:theorem} Square Roots Modulo $\mathbb{Z}/2^n\mathbb{Z}$ for $n\geq3$
 :label: th-hl-sqrt-2
 
 
@@ -1159,7 +1175,7 @@ Moreover, if $b^2 \equiv a \pmod{p^{k+1}}$ and $b \equiv b_k \pmod{p^{k-1}}$, th
 
 :::{caution}
 
-Note that the second part is weaker than for $p$ odd: as we have $b \equiv b_{k+1} \pmod{2^{\color{red} k}}$ and not module $2^{k+1}$.
+Note that the second part is weaker than for $p$ odd: as we have $b \equiv b_{k+1} \pmod{2^{\color{red} k}}$ and not modulo $2^{k+1}$.
 :::
 
 :::{prf:proof}
@@ -1199,7 +1215,7 @@ b = b_k + t \cdot 2^{k-1} \equiv b_k + c_k 2^{k-1} = b_k + \Delta_k = b_{k+1} \p
 
 Let's find a square root of $a=33$ modulo $2^7$.  Firstly, we might ask if such square root exist.  But, since $33 \equiv 1 \pmod{8}$, by {prf:ref}`pr-n-roots-power-2`, the square root exists.
 
-The first step is to find a root modulo $8$, and $1$, $3$, $5$, and $7$ all are.  In fact, different ones *might* give different square roots modulo $2^6$ with the process from {prf:ref}`th-hl-sqrt-2`.  Let's use $b_3 = 3$ here in this example.  (In principle we could *always* use $1$.  But any choice between $1$, $3$, $5$, or $7$ always works.)  We then have:
+The first step is to find a root modulo $8$, and $1$, $3$, $5$, and $7$ all are.  In fact, different ones *might* give different square roots modulo $2^7$ with the process from {prf:ref}`th-hl-sqrt-2`.  Let's use $b_3 = 3$ here in this example.  (In principle we could *always* use $1$.  But any choice between $1$, $3$, $5$, or $7$ always works.)  We then have:
 ```{math}
 \begin{align*}
 c_3 &= \frac{33 - 3^2}{2^3} = \frac{24}{8} = 3 \equiv 1 \pmod{2} \\

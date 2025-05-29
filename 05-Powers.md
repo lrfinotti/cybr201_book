@@ -49,11 +49,11 @@ The following [arithmetic function](https://en.wikipedia.org/wiki/Arithmetic_fun
 :::{prf:definition} The Euler $\varphi$-Function
 :label: def-euler_phi
 
- Given a positive integer $m$, we defined the $\varphi(m)$ as $|(\mathbb{Z}/m\mathbb{Z})^{\times}|$, i.e., the number of elements of $(\mathbb{Z}/m\mathbb{Z})^{\times}$, in other words
+ Given a positive integer $m$, we define the $\varphi(m)$ as $|(\mathbb{Z}/m\mathbb{Z})^{\times}|$, i.e., the number of elements of $(\mathbb{Z}/m\mathbb{Z})^{\times}$, in other words
 ```{math}
 \varphi(m) = |\{a \in \{1, 2, \ldots, m-1\} \; : \; \gcd(a, m) = 1 \}|.
 ```
-We also define $\varphi(1)$ as $1$.  This function is called the *Euler $\varphi$ function*.
+We also define $\varphi(1)$ as $1$.  This function is called the *Euler $\varphi$-function*.
 :::
 
 :::{prf:example}
@@ -68,7 +68,7 @@ We also define $\varphi(1)$ as $1$.  This function is called the *Euler $\varphi
 If $p$ is prime, then $\varphi(p) = p-1$, as all integers between $1$ and $p-1$ are relatively prime to $p$.
 :::
 
-As we will later see, this function will be important for the RSA Cryptosystem.
+As we will later see, this function will be important for the [RSA Cryptosystem](#sec-rsa).
 
 One might ask if there is another way to compute $\varphi(m)$, besides just checking for integers relatively prime to $m$, which can be slow if $m$ is large.
 
@@ -84,7 +84,7 @@ m = p_1^{e_1} \cdot p_2^{e_2} \cdots p_k^{e_k}
 ```
 be its prime decomposition.  Then
 ```{math}
-\varphi(m) = [(p_1 - 1) \cdot p^{e_1 -1}] \cdot [(p_2 - 1) \cdot p_2^{e_2 - 1}] \cdots [(p_k - 1) \cdot p_k^{e_k - 1}].
+\varphi(m) = \left( (p_1 - 1) \cdot p^{e_1 -1} \right) \cdot \left((p_2 - 1) \cdot p_2^{e_2 - 1}\right) \cdots \left((p_k - 1) \cdot p_k^{e_k - 1}\right).
 ```
 :::
 
@@ -94,7 +94,7 @@ be its prime decomposition.  Then
 
 1) Since $5$ is prime, then $\varphi(5) = (5 - 1) \cdot 5^{1-1}  = 4$.
 2) More generally, for any prime $p$ we have that $\varphi(p) = p-1$.
-3) Since $24 = 2^3 \cdot 3$, we have $\varphi(24) = [(2-1) \cdot 2^{3-1}] \cdot [(3-1) \cdot 3^{1-1} = 4 \cdot 2 = 8$.
+3) Since $24 = 2^3 \cdot 3$, we have $\varphi(24) = \left( (2-1) \cdot 2^{3-1} \right) \cdot \left( (3-1) \cdot 3^{1-1} \right) = 4 \cdot 2 = 8$.
 :::
 
 Let's check that this formula works using Sage's `euler_phi` implementation of $\varphi$.  First, let's create a function that uses the prime factorization for the computation:
@@ -137,7 +137,7 @@ The problem with is this method, as we shall see, is that the prime factorizatio
 
 +++
 
-Remember that we cannot reduce powers in computations in $\mathbb{Z}/m\mathbb{Z}$.  As we've seen, in $\mathbb{Z}/4\mathbb{Z}$ we have that $4 = 0$, but
+Remember that we cannot reduce *powers* modulo $m$ in computations in $\mathbb{Z}/m\mathbb{Z}$.  As we've seen, in $\mathbb{Z}/4\mathbb{Z}$ we have that $4 = 0$, but
 ```{math}
 2^0 = 1 \not \equiv 0 \equiv 2^4 \pmod{4}.
 ```
@@ -155,7 +155,7 @@ Let's see some examples: we have that in $\mathbb{Z}/7\mathbb{Z}$ that $3^6 = 1$
 Mod(3, 7)^6
 ```
 
-Then, it should be the case that for any exponent $r$ we should have that $2^r$ is the same, in $\mathbb{Z}/7\mathbb{Z}$, as $2^s$ where $s$ is the residue of $r$ module $6$ (and not 7!).  Let's test it:
+Then, it should be the case that for any exponent $r$ we should have that $2^r$ is the same, in $\mathbb{Z}/7\mathbb{Z}$, as $2^s$ where $s$ is the residue of $r$ modulo $6$ (and not 7!).  Let's test it:
 
 ```{code-cell} ipython3
 number_tries = 1000
@@ -163,7 +163,7 @@ max_exp = 3000
 
 for _ in range(number_tries):
     r = randint(7, max_exp)
-    s = r % 6  # residue module 6
+    s = r % 6  # residue modulo 6
     if Mod(3, 7)^r != Mod(3, 7)^s:
         print(f"Failed for {r = } and {s = }.")
         break
@@ -171,7 +171,7 @@ else:
     print("It seems to work!")
 ```
 
-This is not hard to see why this is true in general.  Suppose $a^k = 1$ in $\mathbb{Z}/m\mathbb{Z}$ and and $r \equiv s \pmod{k}$.  This means that $s = r + nk$ for some integer $n$.  Then, using properties of exponents:
+This is not hard to see why this is true in general.  Suppose $a^k = 1$ in $\mathbb{Z}/m\mathbb{Z}$ and $r \equiv s \pmod{k}$.  This means that $s = r + nk$ for some integer $n$.  Then, using properties of exponents:
 ```{math}
 a^s = a^{r + nk} = a^r \cdot a^{nk} = a^r \cdot (a^k)^s = a^r \cdot 1^s = a^r.
 ```
@@ -221,7 +221,7 @@ This follows from Euler's Theorem since, when $p$ is prime, we have that  $\varp
 
 Let's apply these ideas in an example.
 
-:::{prf:example} title
+:::{prf:example}
 :nonumber:
 
 What is the remainder of $100324^{657483384}$ when divided by $15$?
@@ -282,7 +282,7 @@ We have three different meanings to the $| \cdot |$ symbol, depending on context
 
 1) If $x$ is a real number, then $|x|$ is the *absolute value* of $x$.
 2) If $S$ is a set, then $|S|$ is the *number of elements* of $S$.
-3) If $a \in \mathbb{Z}/m\mathbb{Z}$, then $|a|$ is the *order* of $m$ in $\mathbb{Z}/m\mathbb{Z}$ (as defined above).
+3) If $a \in (\mathbb{Z}/m\mathbb{Z})^{\times}$, then $|a|$ is the *order* of $m$ in $(\mathbb{Z}/m\mathbb{Z})^{\times}$ (as defined above).
 :::
 
 We have:
@@ -356,7 +356,7 @@ Mod(3, 11).order()
 
 ### Orders of Powers
 
-Suppose we know the order $|a|$ for some unit $a$.  It is often useful to know orders of powers of $a$.  (This will be useful, in particular, when we deal with {prf:ref}`primitive roots <def-prim>`.
+Suppose we know the order $|a|$ for some unit $a$.  It is often useful to know orders of powers of $a$.  (This will be useful, in particular, when we deal with {prf:ref}`primitive roots <def-prim>`.)
 
 :::{prf:proposition} Order of a Power
 :label: pr-order_power
@@ -572,7 +572,7 @@ Now, let's say that, for some reason, we want to only use $8$ digits: $\{0, 1, 2
 
 The problem is that then, our number $9$ would be represented as $10$, since when counting it would go:
 ```{math}
-1, 2, 3, 4, 5, 6, 7, {\color{red} 10}, 11, 12, 13, 14, 15, 16, 17, {\color{red} 20}, 21 \ldots
+0, 1, 2, 3, 4, 5, 6, 7, {\color{red} 10}, 11, 12, 13, 14, 15, 16, 17, {\color{red} 20}, 21 \ldots
 ```
 
 To make this a little less confusing, let's use a subscript of $8$, as in $10_8$, when we mean that we are using eight digits, on *in base $8$*.  (This representation is also called *octal*.)  So, that is to say that
@@ -716,6 +716,16 @@ We can specify the digits using the optional argument `digits`:
 41943.digits(base=16, digits="0123456789ABCDEF")
 ```
 
+For base $2$, we can also use the `.bits` method:
+
+```{code-cell} ipython3
+41943.bits()
+```
+
+```{code-cell} ipython3
+41943.digits(base=2)
+```
+
 (fast_powering)=
 ## Fast Powering
 
@@ -744,7 +754,7 @@ To compute $g^N$, where $g$ is in $\mathbb{Z}/m\mathbb{Z}$:
 
 1) Write $N$ in base $2$, i.e.,
    ```{math}
-   N = N_0 + N_1 \cdot 2 + N_2 \cdot 2^2 + \cdots N_r 2^r
+   N = N_0 + N_1 \cdot 2 + N_2 \cdot 2^2 + \cdots N_r \cdot 2^r
    ```
    with $N_i \in \{0, 1\}$.  (Note that $r = \lfloor \log_2(N) \rfloor$, where $\lfloor x \rfloor$ is just rounding down $x$ to the largest integer less than or equal to $x$, the so called [*floor function*](https://en.wikipedia.org/wiki/Floor_and_ceiling_functions).)
 2) Compute the powers:
@@ -762,7 +772,7 @@ To compute $g^N$, where $g$ is in $\mathbb{Z}/m\mathbb{Z}$:
 3) Now, using {prf:ref}`properties of powers <pr-exp>`, we have
 ```{math}
 \begin{align*}
-    g^N &= g^{N_0 + N_1 \cdot 2 + N_2 \cdot 2^2 + \cdots N_r 2^r} \\
+    g^N &= g^{N_0 + N_1 \cdot 2 + N_2 \cdot 2^2 + \cdots N_r \cdot 2^r} \\
     &= g^{N_0} \cdot (g^2)^{N_1} \cdot (g^{2^2})^{N_2} \cdots (g^{2^r})^{N_r} \\
     &= a_0^{N_0} \cdot a_1^{N_1} \cdot a_2^{N_2} \cdots a_r^{N_r}.
    \end{align*}
@@ -926,7 +936,7 @@ We can check with Sage:
 Mod(11, 1237)^156
 ```
 
-Note that we only had $11$ products (instead of $155$!) and at each step we kept the numbers we are multiplying relatively small since we reduced the result modulo $1237$ at each step!
+Note that we only had $11$ products (instead of $155$!) and we kept the numbers we are multiplying relatively small since we reduced the result modulo $1237$ at each step!
 
 :::{admonition} Homework
 :class: note

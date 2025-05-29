@@ -100,95 +100,6 @@ An important feature of elliptic curves that make them very "useful" is that we 
 4) This line will intercept the curve on a second point.  This point is our $P + Q$.
 
 ```{code-cell} ipython3
-# widget
-
-@interact
-def _(
-    x1=input_box(-0.5, type=float, label="$x_1$"),  # x-coord. of first point
-    sign1=selector([-1, 1], default=1, label="sign of $y_1$"),  # sign of y1
-    x2=input_box(1.3, type=float, label="$x_2$"),  # x-coord. of second point
-    sign2=selector([-1, 1], default=-1, label="sign of $y_2$"),  # sign of y2
-):
-    # points (get y-coord)
-    P = E2.base_extend(RR).lift_x(RR(x1), all=True)[0]
-    Q = E2.base_extend(RR).lift_x(RR(x2), all=True)[0]
-
-    # adjust y-coord signs
-    if sign1 * P[1] < 0:
-        P = -P
-    if sign2 * Q[1] < 0:
-        Q = -Q
-
-    # get affine coordinates
-    P = P.xy()
-    Q = Q.xy()
-
-    # get R, the third intersection point
-    m = (Q[1] - P[1]) / (Q[0] - P[0])
-    c = P[1] - m * P[0]
-    x3 = m ^ 2 - P[0] - Q[0]
-    y3 = m * x3 + c
-    R = (x3, m * x3 + c)
-
-    # sum P + Q
-    S = (x3, -y3)
-
-    # boundaries for the plot
-    # numerical values from plot(E2).get_axes_range()
-    xmin = min(-1,0, P[0], Q[0], R[0])
-    xmax = max(1.64, P[0], Q[0], R[0])
-    ymin = min(-1.67, P[1], Q[1], R[1], S[1])
-    ymax = max(1.67, P[1], Q[1], R[1], S[1])
-
-    # start plotting
-    p = plot(E2, xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax)  # elliptic curve
-
-    # add P and Q and their labels
-    p += point(P, color="black", size=40)
-    p += text("$P$", P, vertical_alignment="bottom", color="black", fontsize=17)
-
-    p += point(Q, color="black", size=40)
-    p += text("$Q$", Q, vertical_alignment="bottom", color="black", fontsize=17)
-
-    # line through P and Q
-    p += plot(
-        m * x + c,
-        (x, xmin, xmax),
-        color="black",
-        linestyle="dashed",
-    )
-
-    # Add R and its label
-    p += point(R, color="green", size=40)
-    p += text(
-        "$R$",
-        R,
-        vertical_alignment="bottom",
-        horizontal_alignment="right",
-        color="green",
-        fontsize=17,
-    )
-
-    # vertical line through  R
-    p += line(
-        [(x3, ymin), (x3, ymax)], color="green", linestyle="dashed"
-    )
-
-    # add P + Q and its label
-    p += text(
-        "$P + Q$",
-        S,
-        vertical_alignment="bottom",
-        horizontal_alignment="right",
-        color="red",
-        fontsize=17,
-    )
-    p += point(S, color="red", size=40)
-
-    p.show(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax)
-```
-
-```{code-cell} ipython3
 # static
 
 x1 = -0.5  # x-coord of P
@@ -405,7 +316,7 @@ p += plot(m * (x - P[0]) + P[1], (x, -1, 0), color="red")
 show(p)
 ```
 
-The [tangent line](https://en.wikipedia.org/wiki/Tangent) to $P$, represented in solid red above, is the [limit](https://en.wikipedia.org/wiki/Limit_(mathematics)) of the secant linesthrough $P$ and a second distinct point (the dashed lines above), when this second point gets closer and closer to $P$.
+The [tangent line](https://en.wikipedia.org/wiki/Tangent) to $P$, represented in solid red above, is the [limit](https://en.wikipedia.org/wiki/Limit_(mathematics)) of the secant lines through $P$ and a second distinct point (the dashed lines above), when this second point gets closer and closer to $P$.
 
 +++
 
@@ -590,6 +501,10 @@ E /\mathbb{R} : y^2 = x^3 - 1,
 ```
 and it makes sense to ask for $E(\mathbb{Q})$ or $E(\mathbb{C})$ (besides the natural $E(\mathbb{R})$).
 
+:::{important}
+
+The point at infinity $\mathcal{O}$ is in $E(F)$ for *any* field $F$.
+:::
 
 As a simple example, if
 ```{math}
@@ -606,7 +521,7 @@ for x, y in zip(F3, F3):
 res
 ```
 
-So, $E(\mathbb{F}_3) = \{ (1, 1), (2, 2) \}$.
+So, $E(\mathbb{F}_3) = \{ (1, 1), (2, 2), \mathcal{O} \}$.
 
 +++
 
@@ -649,7 +564,7 @@ We have that $(1, 1)$ is not on $E$:
 (Mod(1, 11), Mod(1, 11)) in E
 ```
 
-But we can actually make these points on the curve:
+But we can actually make the previous pairs satisfying the equation of the curve actual *points* on the curve:
 
 ```{code-cell} ipython3
 P = E((x1, y1))
@@ -705,7 +620,7 @@ O = E(0)
 O
 ```
 
-Note that the way that $\mathcal{O}$ is *always* represented in Sage is `(0 : 1 : 0)`.  It is the only case where you will the last number being $0$ (instead of the usual $1$).
+Note that the way that $\mathcal{O}$ is *always* represented in Sage is `(0 : 1 : 0)`.  It is the only case where you will have the last number equal to $0$ (instead of the usual $1$).
 
 Since $\mathcal{O}$ has no (affine) coordinates, the method `xy` gives an error.  If you try:
 
@@ -975,7 +890,7 @@ So, our question now is *how hard is the ECDLP*, meaning, how hard is it to comp
 As with many problems of this sort, we cannot be quite sure, but so far this has been a difficult problem, as the addition of points on elliptic curves are somewhat complicated.  But as usual, we have no guarantee that someone may not come up with an ingenious idea that would allow us to easily compute these logs *tomorrow*!
 
 
-But, so far, the best methods are collision methods, such as [Shank's Babystep-Giantstep](#sec-bsgs) (which can be easily adapted for elliptic curves).  As observed before, a great advantage is that the [index calculus](#sec-index-calc) does not work with elliptic curves.  In practice, to solve the ECDLP for $E/\mathbb{F}_p$, the best known methods take about $\sqrt{p}$ steps, which makes it infeasible to solve it in practice for very large $p$.
+But, so far, the best methods are collision methods, such as [Shank's Baby-Step/Giant-Step](#sec-bsgs) (which can be easily adapted for elliptic curves).  As observed before, a great advantage is that the [index calculus](#sec-index-calc) does not work with elliptic curves.  In practice, to solve the ECDLP for $E/\mathbb{F}_p$, the best known methods take about $\sqrt{p}$ steps, which makes it infeasible to solve it in practice for very large $p$.
 
 As usual, there are specific cases in which the computations become simpler and should be avoided!  Among those are elliptic curves with $|E(\mathbb{F}_p)|$ equal to either $p$ or $p+1$ or curves over finite fields with $2^m$ with $m$ composite.  (Note we have not seen here finite fields with order $2^m$ and $m > 1$, since the only ones we've introduced here have a *prime* number of elements.)
 
@@ -1564,3 +1479,9 @@ Mod(8, p).sqrt()
 ```
 
 But the point taken has huge coordinates.  See Section 2.4 of [SEC 2: Recommended Elliptic Curve Domain Parameters](https://www.secg.org/sec2-v2.pdf) (by the SECG) for its coordinates.
+
++++
+
+## Quantum Computers
+
+As with our previous methods, the Elliptic Curve Cryptography and Digital Signatures are not [quantum-safe](https://en.wikipedia.org/wiki/Post-quantum_cryptography), since quantum computers can efficiently compute discrete logs for elliptic curves.

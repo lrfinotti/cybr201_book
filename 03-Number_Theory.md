@@ -221,14 +221,14 @@ help(divmod)
 So, to make sure our code is OK, let's test our function against Sage's:
 
 ```{code-cell} ipython3
-count = 1_000  # number of tests
+number_of_tests = 1_000
 max_int = 1_000_000
-for i in range(count):
+for _ in range(number_of_tests):
     a = randint(-max_int, max_int)
     b = randint(1, max_int)  # it cannot be zero!
-    mine = long_div(a, b)  # my result
-    sages = divmod(a, b)  # Sage's
-    if mine != sages:  # check for problems and print data!
+    result = long_div(a, b)  # my result
+    expected = divmod(a, b)  # Sage's
+    if result != expected:  # check for problems and print data!
         print(f"Failed for {a = } and {b = }.")
         print(f"Sage's result: {sages}.")
         print(f"My result:     {mine}")
@@ -244,19 +244,23 @@ Note that `for`-loops in Python/Sage can have an `else` statement.  It runs when
 
 +++
 
-We say then that $b$ divides $a$ if the remainder of the long division of $a$ by $b$ is zero.  Another way to say it is:  $b$ divides $a$ if there is an integer $q$ such that $a = bq$.
+:::{prf:definition} Divisibility
 
-:::{prf:definition} Notation
+We say that $b$ *divides* $a$ if the remainder of the long division of $a$ by $b$ is zero, or, equivalently, if there is an integer $q$ such that $a = bq$.
 
-We often write $b \mid a$ for "$b$ divides $a$".
-
-Note that $b / a$ is a *number*, meaning $b$ *divided* by $a$.  On the other hand $b \mid a$ is a *boolean* (i.e. `True` or `False`).
-
-Note that instead of "$b$ divides $a$", we can also say:
+If "$b$ divides $a$", we can also say:
 * $b$ is a *factor* of $a$, or
 * $a$ is a *multiple* of $b$.
 
 (They all mean the same thing.)
+
+**Notation:** We write $b \mid a$ for "$b$ divides $a$".
+:::
+
+
+:::{attention}
+
+Note that $b / a$ is a *number*, meaning $b$ *divided* by $a$.  On the other hand $b \mid a$ is a *boolean* (i.e. `True` or `False`), meaning $b$ divides $a$.
 :::
 
 If we only want to test for divisibility, we can simply use `a % b` in Sage/Python.  If it is zero, then `b` does divide `a`, and if not zero, then `b` does not divide `a`.
@@ -523,7 +527,7 @@ So, the list of primes less than or equal to $101$ is: $2$, $3$, $5$, $7$, $11$,
 prime_range(102)
 ```
 
-Note that our interest was only whether or not $101$ was prime, we could stop any point if it was crossed out.
+Note that if our interest is only whether or not a number is prime (and not finding all primes up to that number), we can stop if it is crossed out, as then we know that it is *not* prime.
 
 +++
 
@@ -719,7 +723,7 @@ for i in range(number_of_tests):
     # a, b as two random integers from 1 to maxn
     a = randint(1, maxn)
     b = randint(1, maxn)
-    if gcd(a, b) != gcd(a, b-a):
+    if gcd(a, b) != gcd(a, b - a):
         print(f"Failed for {a = } and {b = }!")
         break  # get out of the loop!
 else:  # no break
@@ -896,7 +900,7 @@ where, again, $b$ is the smallest between $a$ and $b$.
 
 ```{note}
 
-Remember that $\log_2$ denotes the logarithm (or simply log) base $2$.  More genenrally if $b$ is a positive real number different from $1$, the log base $b$ of $x$, denoted by $\log_b(x)$ is simply the power of $b$ that gives $x$.  For instance, $\log_3(9) = 2$, since $2$ is the power of the base, i.e., $3$, that gives the argument, i.e., $9$: $3^2 = 9$.  Simliarly:
+Remember that $\log_2$ denotes the logarithm (or simply log) base $2$.  More genenally if $b$ is a positive real number different from $1$, the log base $b$ of $x$, denoted by $\log_b(x)$ is simply the power of $b$ that gives $x$.  For instance, $\log_3(9) = 2$, since $2$ is the power of the base, i.e., $3$, that gives the argument, i.e., $9$: $3^2 = 9$.  Similarly:
   - $\log_2(16) = 4$, since $2^4 = 16$ and 
   - $\log_5(1/25) = -2$, since $5^{-2} = 1/25$.
 ```

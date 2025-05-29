@@ -41,7 +41,7 @@ Now suppose we have some elements $a, g \in \mathbb{Z}/m\mathbb{Z}$.  One might 
 
 For real numbers we know that if the base $b$ of the log is positive and different from $1$, and $a$ is positive, then $\log_b(a)$ exists, meaning, there is indeed some *unique* power of $b$ that gives $a$.  This questions is a bit harder to answer for logs in $\mathbb{Z}/m\mathbb{Z}$.  For instance, in $\mathbb{Z}/8\mathbb{Z}$, no power of $2$ can give you $3$.  There are few ways to check that this is indeed true, but let's do it computationally with Sage.
 
-To do so, we can simply start compyting the power $2^0$, $2^1$, $2^2$, etc., in $\mathbb{Z}/8\mathbb{Z}$. First, how many times do we have to compute these powers?  In other words, is there a way to know when we can stop computing these and be sure that no positive integer power will *ever* give us $3$?
+To do so, we can simply start computing the powers $2^0$, $2^1$, $2^2$, etc., in $\mathbb{Z}/8\mathbb{Z}$. First, how many times do we have to compute these powers?  In other words, is there a way to know when we can stop computing these and be sure that no positive integer power will *ever* give us $3$?
 
 If we get a repetition, then the values of the powers will start repeating themselves (in the same order). After all, if $2^k = 2^l$, then 
 ```{math}
@@ -65,7 +65,7 @@ Mod(2, 8)^3
 Mod(2, 8)^4
 ```
 
-Ah, since we got $0$ again, we know that from now on you we will only get zeros, as we can stop.  No power of $2$ will ever give us $3$ in $\mathbb{Z}/8\mathbb{Z}$.  The powers can only give us $1$ (power $0$), $2$ (power $1$), $4$ (power $2$), and $0$ (any power $3$ or larger).  So, in this case we say that $\log_2(3)$ (in $\mathbb{Z}/8\mathbb{Z}$) *does not exist*.
+Ah, since we got $0$ again, we know that from now on you we will only get zeros, and we can stop.  No power of $2$ will ever give us $3$ in $\mathbb{Z}/8\mathbb{Z}$.  The powers can only give us $1$ (power $0$), $2$ (power $1$), $4$ (power $2$), and $0$ (any power $3$ or larger).  So, in this case we say that $\log_2(3)$ (in $\mathbb{Z}/8\mathbb{Z}$) *does not exist*.
 
 As another example, we can see, still in $\mathbb{Z}/8\mathbb{Z}$, that $\log_3(5)$ does not exist, i.e., there is no power of $3$ that gives $5$:
 
@@ -87,7 +87,7 @@ But wait!  We also have that $3^2 = 1$.  In fact, any positive *even* integer po
 
 +++
 
-We can a log in $\mathbb{Z}/m\mathbb{Z}$ a *discrete log*, as the result is a subset of the *integers*, not the real numbers.  The integers are called [*discrete*](https://en.wikipedia.org/wiki/Discrete_mathematics_) because its separated from each other by gaps in the real line.  Conversely, the real numbers are [*continuous*](https://en.wikipedia.org/wiki/List_of_continuity-related_mathematical_topics), since there are not gaps between real numbers (in the real line) that is not filled by real numbers.
+We call a log in $\mathbb{Z}/m\mathbb{Z}$ a *discrete log*, as the result is a subset of the *integers*, not the real numbers.  The integers are called [*discrete*](https://en.wikipedia.org/wiki/Discrete_mathematics_) because its separated from each other by gaps in the real line.  Conversely, the real numbers are [*continuous*](https://en.wikipedia.org/wiki/List_of_continuity-related_mathematical_topics), since there are not gaps between real numbers (in the real line) that is not filled by real numbers.
 
 More generally, a discrete log is any kind of log (meaning, situations where we are asking for powers) where the results are integers.  We will mostly work for discrete logs in $\mathbb{Z}/m\mathbb{Z}$, although later we will talk about discrete logs in elliptic curves.
 
@@ -112,13 +112,13 @@ The discrete log has similar properties to the regular log:
 
 +++
 
-Again, when trying to compute a discrete log, we are not sure in principle, if it exists or not.  But, there is one case when are sure that it does.  If $g$ is a primitive root of $\mathbb{Z}/m\mathbb{Z}$ and $a$ is a *unit*, then we know that $\log_g(a)$ exists, since every unit is a power of $g$.
+Again, when trying to compute a discrete log, we are not sure in principle, if it exists or not.  But, there is one case when are sure that it does.  If $g$ is a *primitive root* of $\mathbb{Z}/p\mathbb{Z}$, where $p$ is prime, and $a$ is a *unit*, then we know that $\log_g(a)$ exists, since every unit is a power of $g$.
 
-Moreover, in this case, the question of how we properly define the discrete log, since multiple powers of $g$ can give $a$, is to think of the exponent, and so the values of the discrete log, in $\mathbb{Z}/\varphi(m)\mathbb{Z}$.  This works, since, as we've seen before, we have that $|g| = \varphi(m)$ and hence we can consider the exponents of $g$ modulo $m$.  (More generally, if $g$ is not primitive root, we consider exponents, and so the values of the discrete log, in $\mathbb{Z}/|g|\mathbb{Z}$.)
+Moreover, in this case, the question of how we properly define the discrete log, since multiple powers of $g$ can give $a$, is to think of the exponent, and so the values of the discrete log, in $\mathbb{Z}/(p-1)\mathbb{Z}$.  This works, since, as we've seen before, we have that $|g| = \varphi(p) = p-1$ and hence we can consider the exponents of $g$ modulo $p-1$.  (More generally, if $g$ is not primitive root, we consider exponents, and so the values of the discrete log, in $\mathbb{Z}/|g|\mathbb{Z}$.)
 
 +++
 
-Note that with the usual log (with real numbers), we have numerical methods that allow us to compute these logs fairly quickly.  But discrete log, although similar in concept, is very different.  If you look at consecutive powers of a single primitive root $g$ in $\mathbb{Z}/m\mathbb{Z}$, they seem to just bounce randomly, making it difficult to predict the value, and hence solve difficult to compute discrete logs.
+Note that with the usual log (with real numbers), we have numerical methods that allow us to compute these logs fairly quickly.  But discrete log, although similar in concept, is very different.  If you look at consecutive powers of a single primitive root $g$ in $\mathbb{Z}/p\mathbb{Z}$, they seem to just bounce randomly, making it difficult to predict the value, and hence difficult to compute discrete logs.
 
 For instance, in $\mathbb{Z}/31\mathbb{Z}$, we have that $17$ is a primitive root.  Here are the powers of $17$, in order:
 
@@ -150,7 +150,7 @@ Therefore, at this point the only method we see to compute the discrete log is *
 :::{prf:definition} The Discrete Log Problem (DLP)
 :label: def-dlp
 
-We call the (computationally intensive) problem of computing a discrete log $\log_g(a)$, i.e., finding a power $x$ (in $\mathbb{Z}/|a|\mathbb{Z}$) such that $g^x = a$ in $\mathbb{Z}/m\mathbb{Z}$, the *discrete log problem (DLP)*.
+We call the (computationally intensive) problem of computing a discrete log $\log_g(a)$, i.e., finding a power $x$ (in $\mathbb{Z}/|g|\mathbb{Z}$) such that $g^x = a$ in $\mathbb{Z}/m\mathbb{Z}$, the *discrete log problem (DLP)*.
 :::
 
 +++
@@ -169,7 +169,7 @@ Alice then uses a *decoding key* $d$ (which will depend on the encoding key $e$)
 
 In our example of the Caesar Cipher, the encryption key $e$ was the table that would permute the letters of the alphabet, and the encryption function would use the table $e$ to replace the letters.  The decoding key $d$ was the inverse table of $e$, and the decoding function would use this reversed table to replace the letters based on this new table $d$.
 
-+++
++++ {"jp-MarkdownHeadingCollapsed": true}
 
 ## Symmetric versus Asymmetric Cryptosystems
 
@@ -177,7 +177,7 @@ In our Caesar Cipher example, as mentioned before, knowledge of the encryption t
 
 But again, this raises the problem of how will Alice and Bob exchange the encryption/decryption key.  A better method would be to have an *asymmetric cryptosystem*, i.e., one in which Alice can provide *publicly* an encoding key to Bob (or anyone else who might want to send her a message), but keep secret her decoding key, with the obvious assumption that is hard to obtain the decoding key from the publicly available decoding key.  In this situation the encoding key is called the *public-key* and the decoding key is called the *private key*.  For this reason, these asymmetric cryptosystems are also called [*public-key cryptosystems*](https://en.wikipedia.org/wiki/Public-key_cryptography).
 
-Of course, the real question is how can we create such a system.  Most of the naive methods one can come up with will be symmetric.  But before we do that, let's see if we can find a safe way to exchange a secret key for a symmetric cryptosystem.
+Of course, the real question is how to create such a system.  Most of the naive methods one can come up with will be symmetric.  But before we do that, let's see if we can find a safe way to exchange a secret key for a symmetric cryptosystem.
 
 +++
 
@@ -195,7 +195,7 @@ If you have a symmetric cryptosystem, you are faced with the problem of sharing 
 3) Alice computes $A = g^a$ and *publicly* sends the result $A$ to Bob.  (So, $A$ is known, but not the exponent $a$ to produce it.)  Similarly, Bob computes $B = g^b$ and *publicly* sends the result $B$ to Alice.
 4) Alice computes $B^a$ and Bob computes $A^b$.  These values are equal and that is their **shared key**.
 
-Note that $A^b = (g^a)^b = g^{ab}$ and $B^a = (g^b)^a = g^{ba} = g^{ab}$, and that's why they now posses a common secret key.
+Note that $A^b = (g^a)^b = g^{ab}$ and $B^a = (g^b)^a = g^{ba} = g^{ab}$, and that's why $A^b = B^a$.  This element of $\mathbb{F}_p^{\times}$ is their shared key.
 
 Eve, Alice and Bob's enemy, will know $p$, $g$, $q$, $A$, and $B$, since these are all public, but will not know $a$ and $b$.  Only Alice knows $a$ and only Bob knows $b$.  Now Alice and Bob can, somehow, use their shared key to produce they key for a symmetric cryptosystem.
 
@@ -204,6 +204,8 @@ Eve, Alice and Bob's enemy, will know $p$, $g$, $q$, $A$, and $B$, since these a
 
 The numbers involved are very large in general, so one would have to compute very large powers of $g$.  So, you can see how the [Fast Powering Algorithm](#fast_powering).
 :::
+
+We will discuss the security of this method [below](#sec:find_shared_key).
 
 +++
 
@@ -329,7 +331,7 @@ B = g^b
 B
 ```
 
-+++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "28308"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "175354"}, "metadata": {}}}]}
++++ {"user_expressions": [{"expression": "A", "result": {"status": "ok", "data": {"text/plain": "125918"}, "metadata": {}}}, {"expression": "B", "result": {"status": "ok", "data": {"text/plain": "175817"}, "metadata": {}}}]}
 
 So, now Alice sends Bob $A$, i.e., {eval}`A`, and Bob sends Alice $B$, i.e., {eval}`B`, while keeping $a$ and $b$ for themselves.
 
@@ -351,6 +353,7 @@ As you can see, it is the same number, the same as $g^{ab}$:
 g^(a * b)
 ```
 
+(sec:find_shared_key)=
 ### Finding the Shared Key
 
 How could Eve find the shared key $g^{ab}$ without knowing $a$ and $b$?  In other words, how can she solve the *Diffie-Hellman Problem*:
@@ -409,10 +412,10 @@ The Diffie-Hellman key exchange allows us to have a shared key with each one can
 
 :::{note}
 
-The ElGamal cryptosystem was not the first public-key cryptosystem.  The [RSA Cryptosystem](https://en.wikipedia.org/wiki/RSA_cryptosystem) was introduce in 1977, one year after the introduction of the Diffie-Hellman key exchange, but, unlike ElGamal, it does not use it.  We will introduce the RSA cryptosystem in the next chapter.
+The ElGamal cryptosystem was not the first public-key cryptosystem.  The [RSA Cryptosystem](https://en.wikipedia.org/wiki/RSA_cryptosystem) was introduce in 1977, one year after the introduction of the Diffie-Hellman key exchange, but, unlike ElGamal, it does not use it.  We will introduce the RSA cryptosystem in [a later chapter](#sec-rsa).
 :::
 
-We will now describe the cryptosystem, but observe that, for now, we shall assume that the message to be exchanged between Bob and Alice is a *number*, but we shall soon discuss how we can apply this method can be used for text as well.
+We will now describe the cryptosystem, but observe that, for now, we will assume that the message to be exchanged between Bob and Alice is a *number*.  We describe how to deal with text [below](#sec:converting_text).
 
 +++
 
@@ -478,7 +481,7 @@ Now, suppose that Bob wants to send Alice the last four digits of his Social Sec
 
 :::{note}
 
-Note that the size of $p$, in principle, restricts the size of numbers that Bob can send Alice, as it needs to be between $0$ and $p-1$.  But we will see how to deal with this restriction later.
+Note that the size of $p$, in principle, restricts the size of numbers that Bob can send Alice, as it needs to be between $0$ and $p-1$.  But we will see how to deal with this restriction [later](#sec:large_numbers).
 :::
 
 ```{code-cell} ipython3
@@ -524,6 +527,8 @@ As usual, you will implement these steps more generally in your [homework](#sec-
 
 Again, as for the Diffie-Hellman key exchange, we need the order of $g$ to be prime, and again, the best possible scenario is when $|g| = (p-1)/2$ and prime.
 
+The fact that $g$ has *prime* order is essential, as there are [faster methods](#sec-pohlig-hellman) to compute discrete logs when it is not.
+
 Also note that in the encryption process, Bob should use an ephemeral private key $k$, meaning that he should randomly generate a new key for each message.  This increases security as if somehow Eve knows that some message $m$ was encrypted and $(c_1, c_2)$ was the encrypted message, then she can decrypt any other encrypted message.  Say that Bob encrypts another message $m'$ using $k$ again, and resulting on the encrypted message $(c_1', c_2')$, then Eve can find the new secret message $m'$ by computing $m \cdot c_2'/c_2$, since:
 ```{math}
 \begin{align*}
@@ -533,6 +538,28 @@ Also note that in the encryption process, Bob should use an ephemeral private ke
   &= m'.
 \end{align*}
 ```
+
++++
+
+(sec:quantum_comp)=
+## A Note on Quantum Computers
+
+It is important to note that there are theoretical methods, based on [Shor's Algorithm](https://en.wikipedia.org/wiki/Shor%27s_algorithm), to efficiently compute discrete log with [quantum computers](https://en.wikipedia.org/wiki/Quantum_computing).  This would effectively make ElGamal cryptosystem unsafe!
+
+Although there have been some progress in the area and some "small" quantum computers already exist, they still have very limited capability.  There is debate on how feasible it is to scale these to more capable computers, with a wild range of estimates for how long it will take for these to become a threat to cryptosystems currently in use.  As an anecdote (with no value for a scientific debate), the author has been hearing the quantum computers will be fast enough to break the current cryptosystems "in the next five years" for almost twenty years.  Maybe that is now true (or maybe even sooner!), but maybe some will keep repeating that statements for the next twenty years.
+
+It should be noted that the threat is not simply because these quantum computers would much faster than our current ones, but that their architecture allows *some problems* to be solved a lot more efficiently, and the discrete log problem would be one those.
+
+Therefore there is current research on [quantum cryptography](https://en.wikipedia.org/wiki/Quantum_cryptography) and [post-quantum (or quantum-safe) cryptography](https://en.wikipedia.org/wiki/Post-quantum_cryptography), i.e., the search for new cryptosystems that could remain safe after quantum computers become powerful enough to threat the current methods.  For example, one current candidate for quantum-safe methods is [lattice based cryptography](https://en.wikipedia.org/wiki/Lattice-based_cryptography).
+
+The problem with these new methods is that most of them are based in newer mathematical and computational problems, which have not stood the test of several years of mathematicians and computer scientists trying to solve them, making their security less certain.  Moreover, the switch to new encryption methods would be very costly to industry and governments, so these new methods are not currently being implemented in scale.
+
+:::{important}
+
+None of the encryption methods discussed in this book is quantum-safe!
+:::
+
+Even then, we believe that the ideas introduced here work as good introduction to the ideas of cryptography in general, independent of the particular methods.
 
 +++
 
@@ -774,6 +801,7 @@ string2number("Luis is the best professor ever!", small=False)
 number2string(7139509106217299707736390611080077508851787183905427399303772142284, small=False)
 ```
 
+(sec:large_numbers)=
 ## Encrypting Large Numbers
 
 In the ElGamal cryptosystem, and others we will soon learn, the numbers to be encrypted are in $\mathbb{Z}/m\mathbb{Z}$ for some modulus $m$.  A problem arises when we try to convert a number larger than this $m$, as we cannot distinguish in $\mathbb{Z}/m\mathbb{Z}$ a number $n$ from $n + km$ for any integer $k$.

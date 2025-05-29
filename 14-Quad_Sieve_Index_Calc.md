@@ -207,9 +207,9 @@ b_smooth_sieve(100, 5)
 (sec-relation_building)=
 ### Relation Building
 
-The method above works for consecutive numbers.  But in our application, we need to find $a$'s, with $q > \sqrt{N}$,  such that the reduction module $N$ of $a^2$ are $B$-smooth.  Hence, we need to adapt our previous method.
+The method above works for consecutive numbers.  But in our application, we need to find $a$'s, with $q > \sqrt{N}$,  such that the reduction modulo $N$ of $a^2$ are $B$-smooth.  Hence, we need to adapt our previous method.
 
-We define the function $F(t) = t^2 - N$ (so $t$ is a variable and $N = pq$ the number we are trying to factor).  Then, if $\sqrt{N} < a < \sqrt{2N}$, we have that $0 < F(a) < N$, and hence $F(a)$ is its own reduction module $N$ and congruent to $a^2$ modulo $N$, i.e., $F(a)$ is the corresponding $c$.  Note that we had to restrict the size of $a$, but it helps avoid reducing $a^2$ module $N$: no long division, we just subtract $N$.
+We define the function $F(t) = t^2 - N$ (so $t$ is a variable and $N = pq$ the number we are trying to factor).  Then, if $\sqrt{N} < a < \sqrt{2N}$, we have that $0 < F(a) < N$, and hence $F(a)$ is its own reduction modulo $N$ and congruent to $a^2$ modulo $N$, i.e., $F(a)$ is the corresponding $c$.  Note that we had to restrict the size of $a$, but it helps avoid reducing $a^2$ modulo $N$: no long division, we just subtract $N$.
 
 Therefore, we go through the list starting at $a = \lfloor \sqrt{N} \rfloor + 1$ up to some upper bound $b < \sqrt{2N}$ and find the $B$-smooth numbers in the list $F(a), F(a+1), F(a+2) , \ldots, F(b)$.  Note that since $N$ is very large, we have that $\sqrt{2N} - \sqrt{N}$ (about the largest length for our list) is about $0.41 \sqrt{N}$ and still quite larger, which should be enough to find a sufficient number of $B$-smooth numbers for the difference of squares algorithm.
 
@@ -256,7 +256,7 @@ We obtain these lists as follows:
    2) set `list_c` with entries as $a^2 - N$ for $a$'s in `list_a`
    3) create a copy of `list_c`, say `sieve_list`.
 2) Loop over primes $p$ less than or equal to the given $B$:
-   1) If $N$ is not a square modulo $p$, break out of this loop (and go to the next prime).
+   1) If $N$ is not a square modulo $p$, skip the rest of this loop (and go to the next prime).
    2) Set $n \leftarrow 1$.
    3) Until we manually break out, do:
       1) Compute all square roots of $N$ modulo $p^n$.
@@ -296,7 +296,7 @@ def F(t):
 [F(x) for x in range(a, b + 1)]
 ```
 
-In the tables below, the first row will always be the elements in the original list (the $a_i$'s), and below are the corresponding squares module $N$.
+In the tables below, the first row will always be the elements in the original list (the $a_i$'s), and below are the corresponding squares modulo $N$.
 
 +++
 
@@ -727,11 +727,9 @@ g = F.primitive_element()
 
 Let's take $h = 200$ (in $\mathbb{F}_{331}$).
 
-+++
-
+```{code-cell} ipython3
 h = F(200)
-
-+++
+```
 
 First, let's create a list of primes less than $B = 30$:
 
@@ -846,5 +844,5 @@ Step 1 might be difficult!  So, with ElGamal we want $p-1$ to not have small pri
 
 :::{note}
 
-One can generalize the discrete log and ElGamal cryptosystem by replacing $\mathbb{F}_p^{\times}$ with an arbitrary [group](https://en.wikipedia.org/wiki/Group_(mathematics)).  (We will do this in a [later chapter](#sec-ec_crypto).)  While our previous methods for computing the discrete log (e.g., [*Shanks Babystep-Giantstep*](#sec-bsgs), [*Pohlig-Hellman*](#sec-pohlig-hellman)) generalize for arbitrary groups, this index calculus algorithm (introduced here) does *not*.  Since it is the faster than the previous methods, to make ElGamal more secure, one can use different groups instead of $\mathbb{F}_p^{\times}$.
+One can generalize the discrete log and ElGamal cryptosystem by replacing $\mathbb{F}_p^{\times}$ with an arbitrary [group](https://en.wikipedia.org/wiki/Group_(mathematics)).  (We will do this in a [later chapter](#sec-ec_crypto).)  While our previous methods for computing the discrete log (e.g., [*Shanks Baby-Step/Giant-Step*](#sec-bsgs), [*Pohlig-Hellman*](#sec-pohlig-hellman)) generalize for arbitrary groups, this index calculus algorithm (introduced here) does *not*.  Since it is the faster than the previous methods, to make ElGamal more secure, one can use different groups instead of $\mathbb{F}_p^{\times}$.
 :::

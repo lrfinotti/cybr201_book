@@ -339,7 +339,7 @@ Note that this method of repeating the Miller-Rabin test for different random po
 :::{admonition} Homework
 :class: note
 
-You will implement this test in your h[homework](#sec-hw6).
+You will implement this test in your [homework](#sec-hw6).
 :::
 
 +++
@@ -358,6 +358,7 @@ If the GRH is true, then every composite, odd $n$ has a Miller-Rabin witness $a$
 
 This tells us that to *prove* that $n$ is composite, we only need to check $a \in \{2, 3, \ldots, \lfloor 2 (\log(n))^2 \rfloor \}$.  These the involve at most $\lfloor 2 (\log(n))^2 \rfloor - 1$ applications of the test.  For instance, if your number is about $10^{12}$ (one trillion), then we would need $1{,}526$ Miller-Rabin witness tests.  This is much slower than the probabilistic test, but it is deterministic.
 
+But, this is considerably more efficient than our previous deterministic method, as we go from about $n/4$ tests to only about $2 (\log_2(n))^2$.  In the example of $n$ is a prime close to $10^{12}$, we go from about $250000000000$ tests down to about $1526$ tests!
 
 
 ## Distribution of Primes

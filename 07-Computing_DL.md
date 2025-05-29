@@ -16,7 +16,7 @@ kernelspec:
 
 +++
 
-Since the security of the Diffie-Hellman key exchange and the ElGamal public-key cryptosystem can be broken by efficiently computing the discrete log, here we discuss a more efficient method for this computation.  (In later sections, we describe methods that are even more efficient in *special cases*.)
+Since the security of the Diffie-Hellman key exchange and the ElGamal public-key cryptosystem can be broken by efficiently computing the discrete log, here we discuss a more efficient method for this computation.  (In later sections, we describe [methods that are even more efficient in *special cases*](#sec-index-calc).)
 
 In this chapter we then shall use the following notation:
 
@@ -58,7 +58,7 @@ You will write an implementation of the brute force method in your [homework](#s
 +++
 
 (sec-bsgs)=
-## Shank's Babystep-Giantstep Algorithm
+## Shank's Baby-Step/Giant-Step Algorithm
 
 In 1971, [Daniel Shanks](https://en.wikipedia.org/wiki/Daniel_Shanks) devised a *collision* (or *meet-in-the-middle*) algorithm to compute discrete logs, usually called [Baby-Step/Giant-Step](https://en.wikipedia.org/wiki/Baby-step_giant-step), that is a lot more efficient than the brute force method.
 
@@ -238,7 +238,7 @@ if x in powers:
 ```
 But searching in lists is relatively slow.  Searching in a [set](https://docs.python.org/3/tutorial/datastructures.html#sets) is *much* faster, since they are [hashed](https://en.wikipedia.org/wiki/Hash_table).  In this case, though, a set is not ideal, since we also need the *exponent* that gives us the resulting power, i.e., the $i$ in $g^i$.
 
-An alternative to keep track of both the exponent and the resulting power, is to use a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) as in
+An alternative to keep track of both the exponent and the resulting power is to use a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries) as in
 ```python
 powers = {0: Mod(1, p)}
 for i in range(1, n + 1):

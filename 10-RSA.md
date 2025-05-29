@@ -43,7 +43,7 @@ m = p_1^{e_1} \cdot p_2^{e_2} \cdots p_k^{e_k}
 ```
 be its prime decomposition.  Then
 ```{math}
-\varphi(m) = [(p_1 - 1) \cdot p^{e_1 -1}] \cdot [(p_2 - 1) \cdot p_2^{e_2 - 1}] \cdots [(p_k - 1) \cdot p_k^{e_k - 1}].
+\varphi(m) = \left( (p_1 - 1) \cdot p^{e_1 -1} \right) \cdot \left((p_2 - 1) \cdot p_2^{e_2 - 1}\right) \cdots \left((p_k - 1) \cdot p_k^{e_k - 1}\right).
 ```
 :::
 
@@ -97,7 +97,7 @@ Note that if $p$ and $q$ are odd, then $p-1$ and $q-1$ are even and hence $2 \mi
 
 +++
 
-## Roots Module $N = pq$
+## Roots Modulo $N = pq$
 
 The security of ElGamal's cryptosystem is based on the difficulty of solving the discrete log problem.  The security of our next cryptosystem will depend on the difficulty of taking roots modulo $N = pq$, where $p$ and $q$ are distinct large primes.
 
@@ -117,7 +117,7 @@ Let $p$ be prime, $c \in \mathbb{Z}/p\mathbb{Z}$, and $e$ a positive integer wit
 ```{math}
 x^e = c \quad \text{if and only if} \quad x = c^d.
 ```
-(So, $x$ is an $e$-th root of $c$ in $\mathbb{Z}/p\mathbb{Z}$.)
+(So, $c^d$ is the *only* $e$-th root of $c$ in $\mathbb{Z}/p\mathbb{Z}$.)
 :::
 
 :::{prf:proof}
@@ -148,7 +148,7 @@ Let $p$ and $q$ be distinct primes, $N=pq$, $c \in \mathbb{Z}/N\mathbb{Z}$, and 
 ```{math}
 x^e = c \quad \text{if and only if} \quad x = c^d.
 ```
-(So, $x$ is an $e$-th root of $c$ in $\mathbb{Z}/N\mathbb{Z}$.)
+(So, $c^d$ is the *only* $e$-th root of $c$ in $\mathbb{Z}/N\mathbb{Z}$.)
 :::
 
 
@@ -284,6 +284,11 @@ The RSA is still currently used, but has been mostly superseded by [elliptic cur
 
 ## Implementation and Security Issues
 
+
+### Quantum Computers
+
+As [observed earlier](#sec:quantum_comp), the RSA is not [quantum-safe](https://en.wikipedia.org/wiki/Post-quantum_cryptography), since quantum computers, using [Shor's algorithm](https://en.wikipedia.org/wiki/Shor%27s_algorithm), can quickly factor very large numbers (*much* more efficiently than our current computers).
+
 ### Man in the Middle
 
 Solving the math problem that define cryptosystems are usually unfeasible to attackers.  Thus, they have to find other ways to break the security of the communication.
@@ -337,4 +342,4 @@ recovering the secrete message $m$.
 
 This situation is not too far fetched: imagine that Alice is an online retailer and Bob had the send his credit card number twice, for different transactions, and Alice had to change the encryption scheme for some reason (e.g., security concerns with the former encrypting exponent) in between transactions.
 
-The bottom line is that if Alice needs to change the encryption method, *she should change the modulus $N$, and not only the encrypting exponent*.
+The bottom line is that if Alice needs to change the encryption method, *she should change the modulus $N$, and not only the encrypting/decoding exponents*.

@@ -42,7 +42,7 @@ So, it is easy to check if number are congruent: it is just a question about div
 ```{math}
 -21 \not\equiv 50 \pmod{11}.
 ```
-3) Is $2{,}694{,}540$ congruent to $412{,}004{,}939$ module $3{,}544$?  Well, this is hard to do by hand, but easy with Sage:
+3) Is $2{,}694{,}540$ congruent to $412{,}004{,}939$ modulo $3{,}544$?  Well, this is hard to do by hand, but easy with Sage:
 
 ```{code-cell} ipython3
 a, b, m =  2694540, 412004939, 3544
@@ -129,6 +129,7 @@ So, "$\equiv$" is *similar* to "$=$" in computations.  In congruences with sums,
 +++
 
 :::{prf:example}
+
 What is the remainder of
 ```{math}
 5647438438 \cdot 85948594584 - 7548376839
@@ -372,7 +373,7 @@ where *congruences become equalities*!  We call this set $\mathbb{Z} / m\mathbb{
 ***These elements are not integers any more!***  They have different properties!  We will discuss that in more detail below, but it is very important to observe that from the start.
 :::
 
-To differentiate these elements from the actual integers, often times authors use an bar over the numbers for the elements of this set, as in
+To differentiate these elements from the actual integers, often times authors use a bar over the numbers for the elements of this set, as in
 ```{math}
 \mathbb{Z} / m\mathbb{Z} = \{\bar{0}, \bar{1}, \bar{2}, \ldots, \overline{m-1}\}
 ```
@@ -405,7 +406,7 @@ in $\mathbb{Z}/5\mathbb{Z} = \{0, 1, 2, 3, 4\}$, we have:
 So, one can say that $6 \in \mathbb{Z}/5\mathbb{Z}$, but in this new set, we have that $6 = 1$ (since $6 \equiv 1 \pmod{5}$).
 
 
-In this set, by our {prf:ref}`th-ar_prop_congr` (that allows us to replace elements by elements congruent to it in congruences), we can *add*, *subtract*, and *multiply* elements.  But, again, with congruences becoming equality.  For instance, still in $\mathbb{Z}/5\mathbb{Z}$, we have:
+In this set, by our {prf:ref}`th-ar_prop_congr` (that allows us to replace an number by another one congruent to it in congruences), we can *add*, *subtract*, and *multiply* elements.  But, again, with congruences becoming equality.  For instance, still in $\mathbb{Z}/5\mathbb{Z}$, we have:
 
 ```{math}
 \begin{align*}
@@ -552,7 +553,7 @@ Zmod(11) == FiniteField(11)
 Zmod(11)
 ```
 
-It mostly won't make a difference for us here, but `Zmod(11)` and `FiniteField(11)` have some different methods.  In practice, either one be used most of the time.
+It mostly won't make a difference for us here, but `Zmod(11)` and `FiniteField(11)` have some different methods.  In practice, either one can be used most of the time.
 
 Note that using `Mod(a, p)`, we get that the result is in both `Zmod(p)` and `FiniteField(p)`.
 
@@ -620,7 +621,7 @@ Indeed, if $-3 \in \mathbb{Z}$ and $5 \in \mathbb{Z}/7\mathbb{Z}$, then:
 
 :::{note}
 
-In the end, multiplying $a$ and $b$ when $a \in \mathbb{Z}$ and $b \in \mathbb{Z}/m\mathbb{Z}$ is the same as multiplying both elements as if they were in $\mathbb{Z}/mZ$.
+In the end, multiplying $a$ and $b$ when $a \in \mathbb{Z}$ and $b \in \mathbb{Z}/m\mathbb{Z}$ is the same as multiplying both elements as if they were in $\mathbb{Z}/m\mathbb{Z}$.
 :::
 
 So, we don't have to worry about it:

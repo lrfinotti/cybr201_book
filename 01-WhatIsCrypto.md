@@ -698,7 +698,7 @@ def analyze_bigram(text: str, num: int = 20) -> None:
 analyze_bigram(tale_text_enc)
 ```
 
-This reinforces our guesses for "F" and "Y", but casts doubts on "D".  On the other hand, it hints "A" is "h".  Let's try these three values:
+This reinforces our guesses for "F" (from "he"), "Y" (from "th"), and "D" (from "an").  It also hints "A" is "h" and "R" is "n".  Let's try these values:
 
 ```{code-cell} ipython3
 # possible decryption dictionary -- start with no translation
@@ -706,8 +706,10 @@ test_dec_dict = {chr(x): chr(x) for x in range(65, 91)}
 
 # try the corresponding letters above
 test_dec_dict["Y"] = "t"
-test_dec_dict["A"] = "h"
+test_dec_dict["D"] = "a"
 test_dec_dict["F"] = "e"
+test_dec_dict["A"] = "h"
+test_dec_dict["R"] = "n"
 
 # partial decryption
 part_dec = decrypt(tale_text_enc, test_dec_dict)
@@ -725,7 +727,7 @@ Let's look at the most common three letter words:
 [word for word in common_words if len(word) == 3]
 ```
 
-So, maybe "DRE" is "and", which would confirm the initial guess that "D" was "a".  Let's check if the frequencies of "R" and "E" are close to those of "n" and "d", respectively:
+This suggests that "DRE" is "and".  Let's check if the frequencies of "E" is close to those of "d":
 
 ```{code-cell} ipython3
 analyze_letter(part_dec)
@@ -734,9 +736,7 @@ analyze_letter(part_dec)
 It seems close enough!  Let's give it a try:
 
 ```{code-cell} ipython3
-# add new translations to decrypting dictionary
-test_dec_dict["D"] = "a"
-test_dec_dict["R"] = "n"
+# add new translation to decrypting dictionary
 test_dec_dict["E"] = "d"
 
 part_dec = decrypt(tale_text_enc, test_dec_dict)
@@ -861,9 +861,9 @@ analyze_letter(part_dec)
 analyze_bigram(part_dec)
 ```
 
-The frequency as a letter looks good, but and "es" appears among bigrams, although "st" does not.
+The frequency as a letter looks good, but although "es" appears among bigrams, "st" does not.
 
-Also note that from frequency and from "on" being a frequent bigram, there is a good change that "Z" is "o".
+Also note that from frequency and from "on" being a frequent bigram, there is a good chance that "Z" is "o".
 
 Moreover, if "Z" is "o", then from the bigrams, "ZC" is probably "of", since the most common bigrams starting with "o" are "on" and "of".
 
@@ -1042,7 +1042,7 @@ Note that if the number of letters in the original message is odd, one can attac
 
 Another possible relatively safe application of the Caesar Cipher would for large numbers, on which we can permute the digits.  This might not work as well, when we have some expectation for some digits (such as in credit cards) and there are only $10! = 3{,}628{,}800$ possible permutations.  But, if the number is "random enough" (unlike credit cards), there is no statistical analysis attack.  (And one cannot continue to guess after deciphering a digit or pair of digits.)  But one should certainly permute at least two digits, giving $\dbinom{10}{2}! = 45!$ (a very large number) possible permutations.  Or, one can write the digits in base $16$ (i.e. [hexadecimal numbers](https://en.wikipedia.org/wiki/Hexadecimal)) to get $16! = 20{,}922{,}789{,}888{,}000$ possible permutations of single digits.
 
-As we will see, text can be made into a single (very large) number, and so one could actually use this idea for encrypting text.
+As we will see, [text can be made into a single (very large) number](#sec:converting_text), and so one could actually use this idea for encrypting text.
 
 +++
 

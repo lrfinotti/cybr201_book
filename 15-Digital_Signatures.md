@@ -229,7 +229,7 @@ Here are some remarks about this method:
 3) Since $q \mid (p-1)$, we have that $q \nmid p$.  This means that reducing an integer modulo $q$ is *not* the same as reducing it modulo $p$ and then reducing it modulo $q$.  So, it is essential that we work in $\mathbb{F}_p$ before reducing elements modulo $q$, as in the second step of the verification or computation of $S_1$.
 4) Although $q$ is much smaller than $p$ in practice, the discrete log problem is still in $\mathbb{F}_p^{\times}$, so still hard for large $p$.
 5) Note that the signature is still about twice the size of the document (i.e., $2q$ versus $q$), but since the security is bases on $p$, it is a lot safer for the given size!
-6) As observed before, one can make it harder to break it by using a different group instead of $\mathbb{F}_p^{\times}$, since then one cannot use the index calculus to compute $\log_g(A)$.  We will soon [do this](#sec-ec_DSA), by using [*elliptic curves*](#sec-ec).  In that case, the best attack is a collision algorithm, such as Shank's Babystep-Giantstep, which is less efficient than the index calculus, making it safer.
+6) As observed before, one can make it harder to break it by using a different group instead of $\mathbb{F}_p^{\times}$, since then one cannot use the index calculus to compute $\log_g(A)$.  We will soon [do this](#sec-ec_DSA), by using [*elliptic curves*](#sec-ec).  In that case, the best attack is a collision algorithm, such as Shank's Baby-Step/Giant-Step, which is less efficient than the index calculus, making it safer.
 
 :::{caution}
 

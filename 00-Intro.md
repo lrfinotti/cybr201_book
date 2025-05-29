@@ -58,7 +58,7 @@ The main goal it to cover the following applications:
 
 We will also discuss the main methods of attack to these, by discussing efficient methods for factorization and computing [discrete logs](#sec-dl), such as:
 
-1) [Collision (Shank's  Babystep-Giantstep Algorithm)](#sec-bsgs) (for computing discrete logs),
+1) [Collision (Shank's  Baby-Step/Giant-Step Algorithm)](#sec-bsgs) (for computing discrete logs),
 2) the [Pohlig-Hellman Algorithm](#sec-pohlig-hellman) (for computing discrete logs),
 3) [Index Calculus](#sec-index-calc) (for computing discrete logs in $\mathbb{F}_p^{\times}$),
 4) [Pollard's $p-1$ factorization algorithm](#sec-pollards_p-1),

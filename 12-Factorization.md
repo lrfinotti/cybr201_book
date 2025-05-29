@@ -95,10 +95,10 @@ a^L = a^{(p-1)i} = \left( a^{p-1} \right)^i \equiv 1^i = 1 \pmod{p}
 ```
 and
 ```{math}
-a^L = a^{(q-1)j + k} = \left( a^{q-1} \right)^j \cdot a^k \equiv 1^j \cdot a^k = a^k \pmod{p}.
+a^L = a^{(q-1)j + k} = \left( a^{q-1} \right)^j \cdot a^k \equiv 1^j \cdot a^k = a^k \pmod{q}.
 ```
 
-For a randomly chosen $a$ relatively prime to $pq$, we have that the probability that $a^k \not\equiv 1 \pmod{q}$ is high, and in this case we have that $p \mid a^L - 1$ and $q \nmid a^L - 1$, so $\gcd(a^L - 1, N) = \gcd(a^L, pq) = p$.  Using the Euclidean algorithm we can quickly compute this GCD and find $p$.  Dividing $N$ by $p$ we find $q$ and have factored $N$.
+For a randomly chosen $a$ relatively prime to $pq$, we have that the probability that $a^k \not\equiv 1 \pmod{q}$ is high, and in this case we have that $p \mid a^L - 1$ and $q \nmid a^L - 1$, so $\gcd(a^L - 1, N) = \gcd(a^L - 1, pq) = p$.  Using the Euclidean algorithm we can quickly compute this GCD and find $p$.  Dividing $N$ by $p$ we find $q$ and have factored $N$.
 
 So, the question is really how do we find this $L$ (with the properties above)?  Here is Pollard's observation: if $p - 1$ is a product of *small primes only*, then $p-1$ divides $n!$ for some $n$ "not too large".  Then, if $\gcd(a, p) = 1$, we have that
 ```{math}
@@ -183,7 +183,7 @@ a = b = 2
 
 Now, comes the loop.  Here, we will not explicitly choose $B$, but just see how many iterations we need until we find a factor.
 
-We start with $j=2$, and set $b$ to the residue of $b^2$ module $N$.
+We start with $j=2$, and set $b$ to the residue of $b^2$ modulo $N$.
 
 ```{code-cell} ipython3
 j = 2
@@ -501,7 +501,7 @@ The worst case is when $N=pq$, with $p$ and $q$ distinct prime factors (so, $N$ 
 ```{math}
 (a-b)(a+b) = a^2 - b^2 = kN = kpq,
 ```
-so $p \mid (a-b)$ or $p \mid (a+b)$ (and possibly dividing both), *with (about) the same probability* and similarly for $q$.  So, there is about a $50\%$ chance that, in this case, $p \mid (a-b)$ and $q \nmid (a-b)$.  And note that if that is the case, then $q \mid (a+b)$, and quite likely $q \nmid (a+b)$, since for the latter to happen, we would need that $p \mid k$, and $k$ should not be that large.  So, we do not need to compute both $\gcd(N, a+b)$ and $\gcd(N, a-b)$: quite likely one gives us a factor if and only if the other does as well.  Since $a-b$ is smaller, we use it instead.
+so $p \mid (a-b)$ or $p \mid (a+b)$ (and possibly dividing both), *with (about) the same probability* and similarly for $q$.  So, there is about a $50\%$ chance that, in this case, $p \mid (a-b)$ and $q \nmid (a-b)$.  And note that if that is the case, then $q \mid (a+b)$, and quite likely $p \nmid (a+b)$, since for the latter to happen, we would need that $p \mid k$, and $k$ should not be that large.  So, we do not need to compute both $\gcd(N, a+b)$ and $\gcd(N, a-b)$: quite likely one gives us a factor if and only if the other does as well.  Since $a-b$ is smaller, we use it instead.
 
 Note that this $50\%$ change of finding a factor when [](#eq-diff_sqrs) is satisfied is quite good, which means we would likely not need to check many pairs $(a, b)$.
 

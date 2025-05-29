@@ -87,7 +87,7 @@ This set contains four problems:
 1) *Random $k$-bit Prime:* Given a positive integer $k$, find a *random* $k$-bit prime.
 2) *Naive Discrete Log:* Given $g$ and $h$ in $\mathbb{F}_p^{\times}$, find, if possible, the [discrete log](#sec-dl) $\log_g(h)$ by "brute force".
 3) *ElGamal Cryptosystem:* Write functions to encrypt and decrypt messages using the [ElGamal Cryptosystem](#sec-elgamal).
-4) *Babystep-Giantstep Algorithm:* Implement the {prf:ref}`Babystep-Giantstep Algorithm <al-bs_gs>` for computations of discrete logs.
+4) *Baby-Step/Giant-Step Algorithm:* Implement the {prf:ref}`Baby-Step/Giant-Step Algorithm <al-bs_gs>` for computations of discrete logs.
 
 +++
 

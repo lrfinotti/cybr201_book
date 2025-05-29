@@ -531,7 +531,7 @@ This will copy the list, if `input_list` is already a list, and convert the obje
 
 ```{code-cell} ipython3
 def find_list_minimum(input_list):
-    new_list = list(input_list)  # note the .copy()!
+    new_list = list(input_list)  # note the "list"!
     new_list.sort()  # sort list
     return new_list[0]  # return first element
 ```
@@ -578,7 +578,6 @@ d = r_1a_1 + r_2a_2 + \cdots + r_ka_k.
 :::
 
 :::{prf:proof} Proof of the Generalized Bezout's Lemma
-:nonumber:
 
 The idea is to reduce the number of integers inside the GCD until we get only two and can use the Extended Euclidean Algorithm.  The key result is that
 ```{math}
@@ -619,7 +618,7 @@ So, we can take $r_1 = u_1$, $r_2 = v_1v_2$, $r_3 = v_1v_2u_3$, and $r_4 = v_1 v
 
 +++
 
-### Algorithm ###
+### Algorithm
 
 To actually compute the $r_1$, $r_2$, etc., above, one can follow the idea of the proof.  The key part is to keep track of the list of coefficients we get in each step.
 
